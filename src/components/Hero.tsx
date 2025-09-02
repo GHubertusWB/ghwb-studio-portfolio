@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import { ArrowDown, Sparkles, Mouse } from 'lucide-react'
 import MainLogo from './MainLogo'
 import { useTheme } from '@/contexts/ThemeContext'
+import CursorFollower from './CursorFollower'
+import CustomCursor from './CustomCursor'
 
 const Hero = () => {
   const { theme } = useTheme()
@@ -15,7 +17,10 @@ const Hero = () => {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <>
+      <CustomCursor />
+      <CursorFollower />
+      <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background gradient - theme aware */}
       <div className={`absolute inset-0 ${
         theme === 'light' 
@@ -126,6 +131,7 @@ const Hero = () => {
         </motion.button>
       </div>
     </section>
+    </>
   )
 }
 
