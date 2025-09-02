@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowDown, Sparkles } from 'lucide-react'
+import { ArrowDown, Sparkles, Mouse } from 'lucide-react'
 import MainLogo from './MainLogo'
 import { useTheme } from '@/contexts/ThemeContext'
 
@@ -75,13 +75,8 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 1.6 }}
           className="mt-16"
         >
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed theme-transition">
             UX/UI Design • Fotografie • Kunst
-          </p>
-          <p className="text-sm md:text-base text-muted-foreground/80 mt-4 max-w-3xl mx-auto">
-            Von der ersten Idee bis zur finalen Umsetzung – ich erschaffe 
-            digitale Erlebnisse, fange Momente ein und verbinde das Klassische 
-            mit dem Modernen durch innovative AR-Technologien.
           </p>
         </motion.div>
 
@@ -99,12 +94,6 @@ const Hero = () => {
           >
             <Sparkles className="w-4 h-4 mr-2" />
             Meine Services
-            <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              initial={{ x: '-100%' }}
-              animate={{ x: '100%' }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
-            />
           </motion.a>
           
           <motion.a
@@ -116,26 +105,26 @@ const Hero = () => {
             Kontakt
           </motion.a>
         </motion.div>
-      </div>
 
-      {/* Scroll indicator */}
-      <motion.button
-        onClick={scrollToNext}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 2.5 }}
-        whileHover={{ scale: 1.1 }}
-      >
-        <motion.div
-          className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+        {/* Scroll indicator - positioned at the bottom */}
+        <motion.button
+          onClick={scrollToNext}
+          className="mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 2.5 }}
+          whileHover={{ scale: 1.1 }}
         >
-          <span className="text-sm mb-2">Scroll</span>
-          <ArrowDown className="w-5 h-5" />
-        </motion.div>
-      </motion.button>
+          <motion.div
+            className="flex flex-col items-center text-muted-foreground hover:text-foreground theme-transition"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <Mouse className="w-5 h-5 mb-1" />
+            <ArrowDown className="w-3 h-3" />
+          </motion.div>
+        </motion.button>
+      </div>
     </section>
   )
 }

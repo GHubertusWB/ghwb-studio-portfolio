@@ -9,34 +9,34 @@ const FloatingClouds = () => {
       id: 1,
       src: '/images/portfolio/4.png',
       x: 10, // Left side
-      y: 20,
+      y: 35, // 35% from top - responsive to container height
       size: 3.0,
-      duration: 25, // Horizontal float duration
+      duration: 12, // Faster horizontal float duration
       delay: 0,
       opacity: 0.8,
-      floatDistance: 15 // Movement across screen
+      floatDistance: 25 // Increased movement across screen
     },
     {
       id: 2,
       src: '/images/portfolio/7.png',
       x: 50, // Center
-      y: 40,
+      y: 50, // 50% from top - perfectly centered vertically
       size: 2.2,
-      duration: 30,
+      duration: 15,
       delay: 0.5,
       opacity: 0.9,
-      floatDistance: 20 // Movement across screen
+      floatDistance: 30 // Increased movement across screen
     },
     {
       id: 3,
       src: '/images/portfolio/8.png',
-      x: 80, // Right side
-      y: 60,
+      x: 30, // Right side
+      y: 45, // 65% from top - responsive to container height
       size: 3.8,
-      duration: 35,
+      duration: 18,
       delay: 1,
       opacity: 1,
-      floatDistance: 10 // Smaller movement on right
+      floatDistance: 20 // Increased movement
     }
   ];
 
@@ -48,15 +48,19 @@ const FloatingClouds = () => {
         <motion.div
           key={cloud.id}
           className="absolute"
+          style={{
+            left: `${cloud.x}%`,
+            top: `${cloud.y}%`,
+            filter: 'blur(0.5px)', // Subtle blur for softer look
+          }}
           initial={{
             x: '-30%', // Start closer to screen, not fully outside
-            y: `${cloud.y}%`,
             opacity: 0,
             scale: 0.8
           }}
           animate={{
-            x: [`${cloud.x}%`, `${Math.min(90, cloud.x + cloud.floatDistance)}%`, `${cloud.x}%`],
-            y: `${cloud.y}%`,
+            x: [`-10%`, `${cloud.floatDistance}%`, `-10%`],
+            y: ['0%', '-2%', '2%', '0%'], // Added subtle vertical floating
             opacity: cloud.opacity,
             scale: cloud.size
           }}
@@ -65,12 +69,13 @@ const FloatingClouds = () => {
               duration: cloud.duration,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: cloud.delay + 3 // Start floating after initial animation
+              delay: cloud.delay + 2 // Reduced initial delay
             },
             y: {
-              duration: 2,
-              ease: "easeOut",
-              delay: cloud.delay
+              duration: cloud.duration * 0.7, // Slightly faster vertical movement
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: cloud.delay + 1
             },
             opacity: {
               duration: 2,
@@ -82,9 +87,6 @@ const FloatingClouds = () => {
               ease: "easeOut",
               delay: cloud.delay
             }
-          }}
-          style={{
-            filter: 'blur(0.5px)', // Subtle blur for softer look
           }}
         >
           <Image

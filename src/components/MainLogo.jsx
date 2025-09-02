@@ -14,7 +14,7 @@ const MainLogo = () => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative flex flex-col items-center justify-center h-screen w-screen px-12"
+      className="relative flex flex-col items-center justify-center h-96 w-full px-12"
     >
       {/* Starfield only in dark mode */}
       {theme === 'dark' && <StarField />}
