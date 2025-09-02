@@ -7,7 +7,7 @@ import { useTheme } from '@/contexts/ThemeContext'
 
 const CursorFollower = () => {
   const { theme } = useTheme()
-  const [animationData, setAnimationData] = useState(null)
+  const [lightAnimationData, setLightAnimationData] = useState(null)
   const [isInHero, setIsInHero] = useState(false)
   const heroRef = useRef<HTMLElement | null>(null)
 
@@ -21,17 +21,18 @@ const CursorFollower = () => {
 
   // Load Lottie animation
   useEffect(() => {
-    const loadAnimation = async () => {
+    const loadAnimations = async () => {
       try {
-        const response = await fetch('/cursor-follow.json')
-        const animData = await response.json()
-        setAnimationData(animData)
+        // Load light mode animation
+        const lightResponse = await fetch('/cursor-follow.json')
+        const lightAnimData = await lightResponse.json()
+        setLightAnimationData(lightAnimData)
       } catch (error) {
         console.error('Error loading Lottie animation:', error)
       }
     }
 
-    loadAnimation()
+    loadAnimations()
   }, [])
 
   // Track mouse movement and hero section bounds
@@ -63,7 +64,8 @@ const CursorFollower = () => {
 
   return (
     <>
-      {theme === 'light' && animationData && (
+      {/* Light Mode Animation only */}
+      {theme === 'light' && lightAnimationData && (
         <motion.div
           className="fixed pointer-events-none z-40"
           style={{
@@ -90,7 +92,7 @@ const CursorFollower = () => {
         >
           <div className="w-160 h-160">
             <Lottie
-              animationData={animationData}
+              animationData={lightAnimationData}
               loop={true}
               autoplay={true}
               style={{

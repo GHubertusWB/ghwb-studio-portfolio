@@ -80,7 +80,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 1.6 }}
           className="mt-16"
         >
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed theme-transition">
+          <p className="text-base md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed theme-transition mt-24">
             UX/UI Design • Fotografie • Kunst
           </p>
         </motion.div>
@@ -89,7 +89,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 2 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12"
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4"
         >
           <motion.a
             href="#services"
