@@ -6,6 +6,7 @@ import MainLogo from './MainLogo'
 import { useTheme } from '@/contexts/ThemeContext'
 import CursorFollower from './CursorFollower'
 import CustomCursor from './CustomCursor'
+import SpaceshipHUD from './SpaceshipHUD'
 
 const Hero = () => {
   const { theme } = useTheme()
@@ -63,6 +64,9 @@ const Hero = () => {
           )
         })}
       </div>
+
+      {/* Spaceship HUD - behind the logo */}
+      <SpaceshipHUD />
 
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4 w-full">
         <motion.div
