@@ -28,42 +28,6 @@ const Hero = () => {
           ? 'bg-gradient-to-b from-sky-200 to-white' 
           : 'bg-gradient-to-br from-background via-background to-muted/20'
       }`} />
-      
-      {/* Animated background elements */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => {
-          // Fixed positions and delays to avoid hydration mismatch
-          const positions = [
-            { left: 15, top: 25 }, { left: 85, top: 15 }, { left: 45, top: 75 }, { left: 70, top: 45 },
-            { left: 25, top: 85 }, { left: 90, top: 65 }, { left: 10, top: 55 }, { left: 55, top: 20 },
-            { left: 75, top: 80 }, { left: 30, top: 35 }, { left: 65, top: 90 }, { left: 20, top: 10 },
-            { left: 80, top: 30 }, { left: 40, top: 60 }, { left: 95, top: 50 }, { left: 5, top: 70 },
-            { left: 50, top: 40 }, { left: 35, top: 95 }, { left: 85, top: 5 }, { left: 60, top: 85 }
-          ];
-          const durations = [3, 4, 3.5, 4.5, 3.2, 3.8, 4.2, 3.6, 4.8, 3.4, 4.1, 3.9, 3.3, 4.3, 3.7, 4.6, 3.1, 4.4, 3.8, 4.2];
-          const delays = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5, 1.7, 1.9];
-          
-          return (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-foreground/20 rounded-full"
-              style={{
-                left: `${positions[i].left}%`,
-                top: `${positions[i].top}%`,
-              }}
-              animate={{
-                opacity: [0, 0.5, 0],
-                scale: [0, 1, 0],
-              }}
-              transition={{
-                duration: durations[i],
-                repeat: Infinity,
-                delay: delays[i],
-              }}
-            />
-          )
-        })}
-      </div>
 
       {/* Spaceship HUD - behind the logo */}
       <SpaceshipHUD />

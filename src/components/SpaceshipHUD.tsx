@@ -30,7 +30,7 @@ const SpaceshipHUD = () => {
       <motion.div
         className="relative"
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: theme === 'dark' ? 0.4 : 0.15, scale: 1 }}
+        animate={{ opacity: theme === 'dark' ? 0.4 : 0, scale: 1 }}
         transition={{ duration: 2, delay: 1 }}
       >
         <svg
@@ -43,10 +43,8 @@ const SpaceshipHUD = () => {
           }}
         >
           {/* Main circular HUD */}
-          <motion.circle
-            cx="960"
-            cy="540"
-            r="400"
+          <motion.path
+            d="M 520 540 A 440 440 0 1 1 1400 540"
             fill="none"
             stroke="white"
             strokeWidth="1.5"
@@ -57,10 +55,8 @@ const SpaceshipHUD = () => {
           />
           
           {/* Inner circle */}
-          <motion.circle
-            cx="960"
-            cy="540"
-            r="350"
+          <motion.path
+            d="M 560 540 A 400 400 0 1 1 1360 540"
             fill="none"
             stroke="white"
             strokeWidth="1"
@@ -278,20 +274,10 @@ const SpaceshipHUD = () => {
             stroke="white"
             strokeWidth="1"
             strokeDasharray="2,20"
-            strokeOpacity="0.3"
+            strokeOpacity="0.7"
             animate={{ rotate: 360 }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
             style={{ transformOrigin: "960px 540px" }}
-          />
-          
-          {/* Pulsing center dot */}
-          <motion.circle
-            cx="960"
-            cy="540"
-            r="3"
-            fill="white"
-            animate={{ scale: [1, 1.5, 1], opacity: [0.8, 0.3, 0.8] }}
-            transition={{ duration: 2, repeat: Infinity }}
           />
           
           {/* Scan lines */}

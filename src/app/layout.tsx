@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono, Playfair_Display, Poppins } from "next/font/goog
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation";
+import StarField from "@/components/StarField";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -62,6 +63,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
+          <StarField />
           <Navigation />
           <main className="min-h-screen">
             {children}

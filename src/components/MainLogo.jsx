@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { useTheme } from '@/contexts/ThemeContext'
 import Image from 'next/image'
-import StarField from './StarField'
 import FloatingClouds from './FloatingClouds'
 
 const MainLogo = () => {
@@ -16,9 +15,6 @@ const MainLogo = () => {
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="relative flex flex-col items-center justify-center h-96 w-full px-12"
     >
-      {/* Starfield only in dark mode */}
-      {theme === 'dark' && <StarField />}
-      
       {/* Floating clouds in light mode */}
       {theme === 'light' && <FloatingClouds />}
       {/* Main Logo Image */}
