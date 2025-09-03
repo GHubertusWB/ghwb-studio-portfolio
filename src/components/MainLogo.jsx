@@ -13,7 +13,8 @@ const MainLogo = () => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative flex flex-col items-center justify-center h-96 w-full px-12"
+      className="relative flex flex-col items-center w-full px-12 gap-4 z-40"
+      style={{ height: 'auto' }}
     >
       {/* Floating clouds in light mode */}
       {theme === 'light' && <FloatingClouds />}
@@ -21,7 +22,8 @@ const MainLogo = () => {
       <motion.div
         whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative mb-16 z-30"
+        className="relative z-30"
+        style={{ height: '200px', width: '160px' }}
       >
         {theme === 'dark' ? (
           <div className="relative">
@@ -138,12 +140,12 @@ const MainLogo = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="text-center space-y-4 relative z-30"
+        className="flex flex-col items-center space-y-2 relative z-30 w-full"
       >
-        <h1 className="text-5xl font-poppins font-bold text-foreground text-center" style={{letterSpacing: '0.45em'}}>
+        <h1 className="text-6xl font-poppins font-bold text-foreground tracking-[0.25em] text-center -mr-[0.25em]">
           GHWB
         </h1>
-        <h1 className="text-5xl font-poppins font-thin text-foreground text-center" style={{letterSpacing: '0.3em'}}>
+        <h1 className="text-5xl font-poppins font-thin text-foreground tracking-[0.3em] text-center -mr-[0.4em]">
           STUDIO
         </h1>
       </motion.div>

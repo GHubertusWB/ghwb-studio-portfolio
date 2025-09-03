@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 const SpaceshipHUD = () => {
   const { theme } = useTheme()
   const [currentTime, setCurrentTime] = useState('')
+  const [animationKey, setAnimationKey] = useState(0)
 
   useEffect(() => {
     const updateTime = () => {
@@ -24,14 +25,20 @@ const SpaceshipHUD = () => {
 
     return () => clearInterval(interval)
   }, [])
+
+  // Trigger animation on theme change
+  useEffect(() => {
+    setAnimationKey(prev => prev + 1)
+  }, [theme])
   
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <motion.div
+        key={animationKey}
         className="relative"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: theme === 'dark' ? 0.4 : 0, scale: 1 }}
-        transition={{ duration: 2, delay: 1 }}
+        transition={{ duration: 2, delay: animationKey === 0 ? 1 : 0 }}
       >
         <svg
           width="100vw"
@@ -44,6 +51,7 @@ const SpaceshipHUD = () => {
         >
           {/* Main circular HUD */}
           <motion.path
+            key={`main-${animationKey}`}
             d="M 520 540 A 440 440 0 1 1 1400 540"
             fill="none"
             stroke="white"
@@ -51,11 +59,12 @@ const SpaceshipHUD = () => {
             strokeDasharray="5,10"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
-            transition={{ duration: 3, delay: 1.5 }}
+            transition={{ duration: 3, delay: animationKey === 0 ? 1.5 : 0.5 }}
           />
           
           {/* Inner circle */}
           <motion.path
+            key={`inner-${animationKey}`}
             d="M 560 540 A 400 400 0 1 1 1360 540"
             fill="none"
             stroke="white"
@@ -63,14 +72,15 @@ const SpaceshipHUD = () => {
             strokeOpacity="0.6"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
-            transition={{ duration: 2.5, delay: 2 }}
+            transition={{ duration: 2.5, delay: animationKey === 0 ? 2 : 0.8 }}
           />
           
           {/* Corner brackets */}
           <motion.g
+            key={`brackets-${animationKey}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 2.5 }}
+            transition={{ duration: 1, delay: animationKey === 0 ? 2.5 : 1.2 }}
           >
             {/* Top left */}
             <path
@@ -104,9 +114,10 @@ const SpaceshipHUD = () => {
           
           {/* Crosshairs */}
           <motion.g
+            key={`crosshairs-${animationKey}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.8 }}
-            transition={{ duration: 1, delay: 3 }}
+            transition={{ duration: 1, delay: animationKey === 0 ? 3 : 1.5 }}
           >
             <line
               x1="960"
@@ -144,9 +155,10 @@ const SpaceshipHUD = () => {
           
           {/* Side lines */}
           <motion.g
+            key={`sidelines-${animationKey}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.8 }}
-            transition={{ duration: 1, delay: 3 }}
+            transition={{ duration: 1, delay: animationKey === 0 ? 3 : 1.5 }}
           >
             <line
               x1="540"
@@ -168,9 +180,10 @@ const SpaceshipHUD = () => {
           
           {/* Side panels */}
           <motion.g
+            key={`sidepanels-${animationKey}`}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 0.6, x: 0 }}
-            transition={{ duration: 1, delay: 3.5 }}
+            transition={{ duration: 1, delay: animationKey === 0 ? 3.5 : 2 }}
           >
             {/* Left side data */}
             <rect
@@ -216,9 +229,10 @@ const SpaceshipHUD = () => {
           </motion.g>
           
           <motion.g
+            key={`rightpanel-${animationKey}`}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 0.6, x: 0 }}
-            transition={{ duration: 1, delay: 3.5 }}
+            transition={{ duration: 1, delay: animationKey === 0 ? 3.5 : 2 }}
           >
             {/* Right side data */}
             <rect

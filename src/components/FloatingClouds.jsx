@@ -47,7 +47,7 @@ const FloatingClouds = () => {
       {clouds.map((cloud) => (
         <motion.div
           key={cloud.id}
-          className="absolute"
+          className="absolute z-10"
           style={{
             left: `${cloud.x}%`,
             top: `${cloud.y}%`,

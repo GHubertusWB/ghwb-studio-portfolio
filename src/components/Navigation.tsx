@@ -46,12 +46,14 @@ const Navigation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link href="/" className="text-xl font-bold tracking-wider">
+            <Link href="/" className="text-xl tracking-wider">
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400 }}
+                className="flex items-center"
               >
-                GHWB STUDIO
+                <span className="font-bold">GHWB</span>
+                <span className="font-medium ml-2">STUDIO</span>
               </motion.span>
             </Link>
 
