@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation";
 import StarField from "@/components/StarField";
+import CustomCursor from "@/components/CustomCursor";
+import CursorFollower from "@/components/CursorFollower";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -63,6 +65,8 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
+          <CustomCursor />
+          <CursorFollower />
           <StarField />
           <Navigation />
           <main className="min-h-screen">

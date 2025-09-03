@@ -4,8 +4,6 @@ import { motion } from 'framer-motion'
 import { ArrowDown, Sparkles, Mouse } from 'lucide-react'
 import MainLogo from './MainLogo'
 import { useTheme } from '@/contexts/ThemeContext'
-import CursorFollower from './CursorFollower'
-import CustomCursor from './CustomCursor'
 import SpaceshipHUD from './SpaceshipHUD'
 
 const Hero = () => {
@@ -19,8 +17,6 @@ const Hero = () => {
 
   return (
     <>
-      <CustomCursor />
-      <CursorFollower />
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background gradient - theme aware */}
       <div className={`absolute inset-0 ${
