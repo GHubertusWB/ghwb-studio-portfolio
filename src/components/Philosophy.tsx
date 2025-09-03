@@ -17,30 +17,30 @@ const Philosophy = () => {
   const principles = [
     {
       number: "01",
-      title: "KLARHEIT",
-      subtitle: "SYSTEM.CLARITY.PROTOCOL", 
-      description: "Signal optimization through\nminimal interface design.",
-      keywords: ["MINIMAL", "CLEAN", "FOCUSED"],
+      title: "NUTZERZENTRIERUNG",
+      subtitle: "USER-FIRST.PROTOCOL",
+      description: "Entscheidungen basieren auf echten Bedürfnissen. Nutzer:innen und ihre Kontexte stehen von Anfang an im Mittelpunkt jedes Prozesses.",
+      keywords: ["USER-CENTRIC", "KONTEXT", "BEDÜRFNISSE"],
       color: "#00FFE0",
       bgColor: "rgba(0, 255, 224, 0.1)",
       pattern: "grid"
     },
     {
       number: "02",
-      title: "FUNKTION",
-      subtitle: "CORE.FUNCTION.PROTOCOL",
-      description: "Mission-critical design\nfor optimal performance.",
-      keywords: ["UTILITY", "LOGIC", "SYSTEM"],
+      title: "KLARHEIT & REDUKTION",
+      subtitle: "CLARITY.MINIMALISM.PROTOCOL",
+      description: "Weniger Rauschen, mehr Wirkung. Interfaces sind klar, reduziert und sofort verständlich – für maximale Usability und Barrierefreiheit.",
+      keywords: ["KLARHEIT", "REDUKTION", "BARRIEREFREIHEIT"],
       color: "#FF6B35",
       bgColor: "rgba(255, 107, 53, 0.1)",
       pattern: "lines"
     },
     {
       number: "03",
-      title: "DETAILS",
-      subtitle: "PRECISION.MICRO.PROTOCOL",
-      description: "Nano-level optimization\nfor maximum efficiency.",
-      keywords: ["CRAFT", "PRECISION", "CARE"],
+      title: "DETAIL & VERANTWORTUNG",
+      subtitle: "DETAILS.END2END.PROTOCOL",
+      description: "Von Requirements bis Release: Liebe zum Detail, Mikrointeraktionen und Konsistenz prägen den gesamten Entwicklungsprozess.",
+      keywords: ["DETAILS", "END-TO-END", "KONSISTENZ"],
       color: "#FFE135",
       bgColor: "rgba(255, 225, 53, 0.1)",
       pattern: "dots"
@@ -264,10 +264,10 @@ const Philosophy = () => {
               transition={{ duration: 1, delay: 0.6 }}
               viewport={{ once: true, amount: 0.5 }}
             >
-              Philosophy
+              Design Philosophie
             </motion.h2>
             <motion.p 
-              className="text-lg text-white/60 max-w-2xl mx-auto" 
+              className="text-lg text-white max-w-2xl mx-auto" 
               style={{
                 transition: 'color 0.3s ease-in-out'
               }}
@@ -276,8 +276,8 @@ const Philosophy = () => {
               transition={{ duration: 1, delay: 0.8 }}
               viewport={{ once: true, amount: 0.5 }}
             >
-              Three core principles that guide every design decision
-            </motion.p>
+              Ich gestalte nicht für mich, sondern für die Menschen, die es nutzen. Mein Anspruch sind klare, reduzierte Interfaces, die überraschen – und trotzdem sofort verständlich, nutzbar und barrierefrei sind.
+              </motion.p>
           </motion.div>
         </div>
       </motion.div>
@@ -312,7 +312,7 @@ const Philosophy = () => {
         className="w-full max-w-6xl mx-auto px-8 pt-20"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, delay: 1.4 }}
+        transition={{ duration: 3.2, delay: 1.4 }}
         viewport={{ once: true, amount: 0.5 }}
       >
         
