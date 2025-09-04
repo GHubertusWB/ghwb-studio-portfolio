@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from '@/contexts/ThemeContext'
-import ArtPageLightSimple from './components/ArtPageLightSimple'
+import ArtPageLightSimpleNew from '@/components/art/ArtPageLightSimpleNew'
 // import ArtPageDark from './components/ArtPageDark'
 
 // Temporary simple component for dark mode
@@ -14,6 +14,6 @@ export default function ArtPage() {
   if (theme === 'dark') {
     return <ArtPageDark />
   } else {
-    return <ArtPageLightSimple />
+    return <ArtPageLightSimpleNew />
   }
 }

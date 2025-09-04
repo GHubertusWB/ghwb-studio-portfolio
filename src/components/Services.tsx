@@ -63,14 +63,10 @@ const Services = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6" style={{
-            transition: 'color 0.3s ease-in-out'
-          }}>
+          <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
             Meine Services
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto" style={{
-            transition: 'color 0.3s ease-in-out'
-          }}>
+          <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
             Drei kreative Disziplinen, unendliche Möglichkeiten
           </p>
         </motion.div>
@@ -93,9 +89,6 @@ const Services = () => {
                 <Link href={service.href}>
                   <motion.div
                     className="relative p-8 rounded-2xl bg-background border border-border/50 hover:border-border duration-300 h-full"
-                    style={{
-                      transition: 'background-color 0.3s ease-in-out, border-color 0.3s ease-in-out'
-                    }}
                     whileHover={{ y: -5, scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
@@ -106,34 +99,22 @@ const Services = () => {
                     <div className="relative z-10">
                       <motion.div
                         className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6"
-                        style={{
-                          transition: 'background-color 0.3s ease-in-out, color 0.3s ease-in-out'
-                        }}
                         whileHover={{ scale: 1.1, rotate: 5 }}
                         transition={{ type: "spring", stiffness: 400 }}
                       >
-                        <Icon className="w-8 h-8 text-foreground" style={{
-                          transition: 'color 0.3s ease-in-out'
-                        }} />
+                        <Icon className="w-8 h-8" />
                       </motion.div>
 
-                      <h3 className="text-2xl font-semibold mb-4 group-hover:text-foreground" style={{
-                        transition: 'color 0.3s ease-in-out'
-                      }}>
+                      <h3 className="text-2xl font-semibold text-foreground leading-tight mb-4 md:text-xl">
                         {service.title}
                       </h3>
 
-                      <p className="text-muted-foreground mb-6 leading-relaxed" style={{
-                        transition: 'color 0.3s ease-in-out'
-                      }}>
+                      <p className="text-base text-muted-foreground leading-7 mb-6">
                         {service.description}
                       </p>
 
                       <motion.div
-                        className="inline-flex items-center text-foreground font-medium"
-                        style={{
-                          transition: 'color 0.3s ease-in-out'
-                        }}
+                        className="text-primary hover:text-secondary transition-colors underline underline-offset-2"
                         whileHover={{ x: 5 }}
                         transition={{ type: "spring", stiffness: 400 }}
                       >
@@ -147,11 +128,10 @@ const Services = () => {
                       {[...Array(3)].map((_, i) => (
                         <motion.div
                           key={i}
-                          className="absolute w-1 h-1 bg-foreground rounded-full"
+                          className="absolute w-1 h-1 rounded-full bg-foreground"
                           style={{
                             top: i * 10,
                             right: i * 8,
-                            transition: 'background-color 0.3s ease-in-out'
                           }}
                           animate={{
                             opacity: [0, 1, 0],
@@ -182,10 +162,7 @@ const Services = () => {
         >
           <Link href="/about">
             <motion.button
-              className="inline-flex items-center px-8 py-4 bg-foreground text-background rounded-full font-medium hover:bg-foreground/90"
-              style={{
-                transition: 'background-color 0.3s ease-in-out, color 0.3s ease-in-out'
-              }}
+              className="inline-flex items-center px-8 py-4 rounded-full text-label text-primary bg-foreground text-background hover:bg-foreground/90"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

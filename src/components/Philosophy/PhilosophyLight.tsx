@@ -44,7 +44,7 @@ const PhilosophyLight = () => {
   return (
     <section 
       ref={containerRef}
-      className="min-h-screen py-20 bg-white text-black relative overflow-hidden flex items-center"
+      className="min-h-screen py-20 bg-white relative overflow-hidden flex items-center"
     >
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,11 +57,11 @@ const PhilosophyLight = () => {
           viewport={{ once: true, amount: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6">
+          <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl mb-6">
             Design Philosophie
           </h2>
           <motion.p 
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -162,7 +162,7 @@ const PhilosophyLight = () => {
                     
                     {/* Number - Bauhaus Typography */}
                     <motion.div 
-                      className="text-sm font-mono font-bold tracking-widest"
+                      className="text-meta text-secondary"
                       style={{
                         color: activeIndex === index ? principle.color : bauhausColors.text
                       }}
@@ -176,7 +176,7 @@ const PhilosophyLight = () => {
                     
                     {/* Title */}
                     <motion.div 
-                      className="text-xs font-bold uppercase tracking-wider leading-tight"
+                      className="text-meta text-secondary leading-tight"
                       style={{
                         color: activeIndex === index ? bauhausColors.primary : bauhausColors.text,
                         fontWeight: activeIndex === index ? '700' : '600'
@@ -332,7 +332,7 @@ const PhilosophyLight = () => {
                 
                 {/* Title - Bauhaus Typography */}
                 <motion.h1 
-                  className="text-3xl md:text-4xl font-bold tracking-tight mb-8 uppercase"
+                  className="text-3xl font-semibold text-foreground leading-snug tracking-tight md:text-2xl mb-8 uppercase"
                   style={{
                     color: bauhausColors.primary,
                     fontFamily: 'system-ui, -apple-system, sans-serif',
@@ -385,7 +385,7 @@ const PhilosophyLight = () => {
             
             {/* Bauhaus Header */}
             <motion.div 
-              className="text-xs font-mono font-bold tracking-[0.2em] mb-8"
+              className="text-meta text-secondary mb-8"
               style={{ color: bauhausColors.text }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -426,7 +426,7 @@ const PhilosophyLight = () => {
                         transition={{ delay: i * 0.15, duration: 0.3 }}
                       />
                       <span 
-                        className="text-sm font-semibold uppercase tracking-wider"
+                        className="text-label text-primary-small"
                         style={{ color: bauhausColors.primary }}
                       >
                         {keyword}
@@ -498,7 +498,7 @@ const PhilosophyLight = () => {
                 
                 {/* Bauhaus Number Indicator */}
                 <motion.div 
-                  className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-mono font-bold"
+                  className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-meta text-secondary"
                   style={{
                     color: activeIndex === index ? principle.color : bauhausColors.text,
                     opacity: activeIndex === index ? 1 : 0.5

@@ -46,7 +46,10 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 1.6 }}
           className="mt-[8vh] md:mt-[10vh] lg:mt-[12vh]"
         >
-          <p className="text-base md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed theme-transition">
+          <h1 className="text-6xl font-semibold text-foreground leading-tight tracking-tight mb-4 sr-only md:text-4xl">
+            GHWB Studio - UX/UI Design, Fotografie und Kunst
+          </h1>
+          <p className="text-base text-muted-foreground leading-7 max-w-2xl mx-auto theme-transition">
             UX/UI Design • Fotografie • Kunst
           </p>
         </motion.div>
@@ -78,7 +81,7 @@ const Hero = () => {
           
           <motion.a
             href="#contact"
-            className="inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300"
+            className="inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
             whileHover={{ 
               scale: 1.05, 
               y: -2,
@@ -122,7 +125,7 @@ const Hero = () => {
           whileHover={{ scale: 1.1 }}
         >
           <motion.div
-            className="flex flex-col items-center text-muted-foreground hover:text-foreground theme-transition"
+            className="flex flex-col items-center text-xs text-muted-foreground hover:text-base hover:text-muted-foreground theme-transition"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >

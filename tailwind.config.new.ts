@@ -51,6 +51,9 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+        serif: ["var(--font-playfair-display)", "Playfair Display", "serif"],
+        poppins: ["var(--font-poppins)", "Poppins", "sans-serif"],
       },
       fontSize: {
         // Standard Tailwind Größen (explizit definiert für bessere Kontrolle)
@@ -142,7 +145,54 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }: { addUtilities: any }) {
+      const newUtilities = {
+        // Color utilities für konsistente Farbverwendung
+        '.text-primary': {
+          color: 'var(--foreground)',
+          transition: 'color 0.3s ease-in-out',
+        },
+        '.text-secondary': {
+          color: 'var(--muted-foreground)',
+          transition: 'color 0.3s ease-in-out',
+        },
+        '.text-muted': {
+          color: 'var(--muted-foreground)',
+          transition: 'color 0.3s ease-in-out',
+        },
+        
+        // Background utilities
+        '.bg-primary': {
+          backgroundColor: 'var(--background)',
+          transition: 'background-color 0.3s ease-in-out',
+        },
+        '.bg-secondary': {
+          backgroundColor: 'var(--muted)',
+          transition: 'background-color 0.3s ease-in-out',
+        },
+        
+        // Border utilities
+        '.border-primary': {
+          borderColor: 'var(--border)',
+          transition: 'border-color 0.3s ease-in-out',
+        },
+        
+        // Text width utilities für optimale Lesbarkeit
+        '.text-max-width': {
+          maxWidth: '65ch', // Optimale Lesebreite
+        },
+        '.text-max-width-sm': {
+          maxWidth: '45ch',
+        },
+        '.text-max-width-lg': {
+          maxWidth: '75ch',
+        },
+      }
+
+      addUtilities(newUtilities)
+    },
+  ],
 };
 
 export default config;

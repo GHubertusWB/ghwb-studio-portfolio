@@ -13,7 +13,7 @@ export default function ArtPageDark() {
     medium: "Digital Collage, AI-Generated Elements",
     dimensions: "3840x2160px",
     description: "A meditation on the boundary between natural and artificial landscapes, exploring how technology reshapes our perception of the world around us.",
-    image: "https://picsum.photos/1200/800?random=latest",
+    image: "/images/art1.jpg",
     process: "Created using a combination of traditional photography, digital manipulation, and AI-assisted generation to create otherworldly landscapes."
   }
 
@@ -47,7 +47,7 @@ export default function ArtPageDark() {
       category: "Digital Art",
       medium: "Procreate, Photoshop",
       year: "2024",
-      image: "https://picsum.photos/600/800?random=1",
+      image: "/images/art1.jpg",
       gridSize: "normal" // 1x1
     },
     {
@@ -56,7 +56,7 @@ export default function ArtPageDark() {
       category: "Abstract",
       medium: "Mixed Media",
       year: "2023",
-      image: "https://picsum.photos/800/600?random=2",
+      image: "/images/art1.jpg",
       gridSize: "wide" // 2x1
     },
     {
@@ -65,7 +65,7 @@ export default function ArtPageDark() {
       category: "Photography", 
       medium: "Digital Photography",
       year: "2024",
-      image: "https://picsum.photos/700/900?random=3",
+      image: "/images/art1.jpg",
       gridSize: "tall" // 1x2
     },
     {
@@ -74,7 +74,7 @@ export default function ArtPageDark() {
       category: "Generative",
       medium: "Code, Processing",
       year: "2024", 
-      image: "https://picsum.photos/900/600?random=4",
+      image: "/images/art1.jpg",
       gridSize: "normal"
     },
     {
@@ -83,7 +83,7 @@ export default function ArtPageDark() {
       category: "Sculpture",
       medium: "Steel, Glass",
       year: "2023",
-      image: "https://picsum.photos/600/700?random=5",
+      image: "/images/art1.jpg",
       gridSize: "wide"
     },
     {
@@ -92,7 +92,7 @@ export default function ArtPageDark() {
       category: "Animation",
       medium: "After Effects, Cinema 4D",
       year: "2024",
-      image: "https://picsum.photos/800/800?random=6",
+      image: "/images/art1.jpg",
       gridSize: "normal"
     },
     {
@@ -101,7 +101,7 @@ export default function ArtPageDark() {
       category: "Abstract",
       medium: "Oil on Canvas",
       year: "2023",
-      image: "https://picsum.photos/600/900?random=7",
+      image: "/images/art1.jpg",
       gridSize: "tall"
     },
     {
@@ -110,7 +110,7 @@ export default function ArtPageDark() {
       category: "Photography",
       medium: "Digital Photography",
       year: "2024",
-      image: "https://picsum.photos/700/500?random=8",
+      image: "/images/art1.jpg",
       gridSize: "normal"
     }
   ]

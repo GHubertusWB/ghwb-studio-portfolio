@@ -88,10 +88,10 @@ E-Mail: ${formData.email}`
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-4">
             <Mail className="w-8 h-8 text-foreground" />
           </div>
-          <h3 className="text-2xl font-semibold mb-2 text-foreground">
+          <h3 className="text-2xl font-semibold text-foreground leading-tight md:text-xl mb-2">
             Kontakt aufnehmen
           </h3>
-          <p className="text-muted-foreground">
+          <p className="text-base text-muted-foreground leading-7">
             Erzählen Sie mir von Ihrem Projekt
           </p>
         </motion.div>
@@ -104,7 +104,7 @@ E-Mail: ${formData.email}`
             transition={{ duration: 0.3 }}
             className="flex items-center justify-center mb-6"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-full text-sm font-medium text-foreground">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-full text-label text-primary text-foreground">
               <span>Betreff: {initialSubjectTag}</span>
               {onSubjectTagRemove && (
                 <button
@@ -195,7 +195,7 @@ E-Mail: ${formData.email}`
             <motion.button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-foreground text-background rounded-full font-medium hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-foreground text-background rounded-full text-label text-primary hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400 }}
@@ -248,12 +248,12 @@ E-Mail: ${formData.email}`
           viewport={{ once: true }}
           className="mt-8 pt-6 border-t border-border/50 text-center"
         >
-          <p className="text-sm text-muted-foreground mb-2">
+          <p className="text-xs text-muted-foreground text-secondary mb-2">
             Oder kontaktieren Sie mich direkt:
           </p>
           <a
             href="mailto:hello@ghwb.studio"
-            className="text-foreground font-medium hover:underline transition-colors"
+            className="text-primary hover:text-secondary transition-colors underline underline-offset-2"
           >
             hello@ghwb.studio
           </a>

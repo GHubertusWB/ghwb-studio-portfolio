@@ -88,16 +88,16 @@ const AboutPage = () => {
           >
             <Link 
               href="/"
-              className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors mb-8"
+              className="inline-flex items-center text-foreground/70 hover:text-foreground transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Zurück zur Startseite
             </Link>
 
-            <h1 className="text-4xl md:text-6xl font-light tracking-tight mb-6">
+            <h1 className="text-6xl font-semibold text-foreground leading-tight tracking-tight md:text-4xl mb-6">
               Über mich
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-muted-foreground leading-7 max-w-3xl mx-auto">
               Hallo, ich bin ein leidenschaftlicher Kreativer, der die Grenzen zwischen 
               traditioneller Kunst, moderner Technologie und menschenzentriertem Design verwischt.
             </p>
@@ -111,7 +111,7 @@ const AboutPage = () => {
             className="flex justify-center mb-16"
           >
             <div className="w-64 h-64 rounded-full bg-gradient-to-br from-muted via-muted/70 to-background border-4 border-border/20 flex items-center justify-center">
-              <Coffee className="w-16 h-16 text-muted-foreground/50" />
+              <Coffee className="w-16 h-16 text-foreground/30" />
             </div>
           </motion.div>
         </div>
@@ -127,11 +127,11 @@ const AboutPage = () => {
             viewport={{ once: true }}
             className="prose prose-lg max-w-none"
           >
-            <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-8 text-center">
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl mb-8 text-center">
               Meine Geschichte
             </h2>
             
-            <div className="space-y-6 text-muted-foreground leading-relaxed text-center">
+            <div className="space-y-6 text-foreground/70 leading-relaxed text-center">
               <p>
                 Schon früh entdeckte ich meine Leidenschaft für visuelle Kommunikation. 
                 Was als Hobby mit Pinsel und Farbe begann, entwickelte sich zu einer 
@@ -171,10 +171,10 @@ const AboutPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-6">
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl mb-6">
               Meine Werte
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
               Was meine Arbeit und mein Denken prägt
             </p>
           </motion.div>
@@ -194,8 +194,8 @@ const AboutPage = () => {
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6">
                     <Icon className="w-8 h-8 text-foreground" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-4">{value.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                  <h3 className="text-2xl font-semibold text-foreground leading-tight md:text-xl mb-4">{value.title}</h3>
+                  <p className="text-foreground/70 leading-relaxed">{value.description}</p>
                 </motion.div>
               )
             })}
@@ -213,10 +213,10 @@ const AboutPage = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-6">
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl mb-6">
               Fertigkeiten
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-foreground/70">
               Eine Übersicht meiner kreativen und technischen Kompetenzen
             </p>
           </motion.div>
@@ -255,10 +255,10 @@ const AboutPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-6">
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl mb-6">
               Meine Reise
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-foreground/70">
               Die wichtigsten Meilensteine meiner kreativen Entwicklung
             </p>
           </motion.div>
@@ -279,8 +279,8 @@ const AboutPage = () => {
                   <div className="inline-block px-4 py-2 bg-foreground text-background rounded-full text-sm font-bold mb-4">
                     {milestone.year}
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{milestone.title}</h3>
-                  <p className="text-muted-foreground">{milestone.description}</p>
+                  <h3 className="text-2xl font-semibold text-foreground leading-tight md:text-xl mb-2">{milestone.title}</h3>
+                  <p className="text-foreground/70">{milestone.description}</p>
                 </div>
                 <div className="hidden md:block w-4 h-4 rounded-full bg-foreground flex-shrink-0" />
                 <div className="flex-1" />
@@ -299,10 +299,10 @@ const AboutPage = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-6">
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl mb-6">
               Lassen Sie uns zusammenarbeiten
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-foreground/70 mb-8 max-w-2xl mx-auto">
               Haben Sie ein spannendes Projekt im Kopf? Ich freue mich darauf, 
               mit Ihnen kreative Lösungen zu entwickeln, die begeistern und bewegen.
             </p>
