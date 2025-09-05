@@ -10,7 +10,7 @@ const StarField = () => {
   if (theme !== 'dark') return null
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0">
+    <div className="fixed inset-0 pointer-events-none z-10">
       {[...Array(150)].map((_, i) => {
         // Completely random distribution with seeded randomness for consistency
         const seed1 = Math.sin(i * 12.9898) * 43758.5453

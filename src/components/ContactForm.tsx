@@ -77,25 +77,6 @@ E-Mail: ${formData.email}`
       className="w-full max-w-2xl mx-auto"
     >
       <div className="relative p-8 rounded-2xl bg-background border border-border/50">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="text-center mb-8"
-        >
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-4">
-            <Mail className="w-8 h-8 text-foreground" />
-          </div>
-          <h3 className="text-2xl font-semibold text-foreground leading-tight md:text-xl mb-2">
-            Kontakt aufnehmen
-          </h3>
-          <p className="text-base text-muted-foreground leading-7">
-            Erzählen Sie mir von Ihrem Projekt
-          </p>
-        </motion.div>
-
         {/* Subject Tag */}
         {initialSubjectTag && (
           <motion.div
@@ -194,25 +175,41 @@ E-Mail: ${formData.email}`
           >
             <motion.button
               type="submit"
-              disabled={isSubmitting}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-foreground text-background rounded-full text-label text-primary hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400 }}
+              disabled={isSubmitting || !formData.email.trim()}
+              className="inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                background: !formData.email.trim() 
+                  ? 'rgba(255, 255, 255, 0.1)' 
+                  : 'rgba(6, 182, 212, 0.25)',
+                backdropFilter: 'blur(10px)',
+                border: !formData.email.trim() 
+                  ? '1px solid rgba(255, 255, 255, 0.2)' 
+                  : '1px solid rgba(6, 182, 212, 0.4)',
+                boxShadow: !formData.email.trim() 
+                  ? 'none' 
+                  : '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
+                color: 'white'
+              }}
+              whileHover={!isSubmitting && formData.email.trim() ? { 
+                scale: 1.05, 
+                y: -2,
+                boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)'
+              } : {}}
+              whileTap={!isSubmitting && formData.email.trim() ? { scale: 0.95 } : {}}
             >
               {isSubmitting ? (
                 <>
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="w-5 h-5 border-2 border-background border-t-transparent rounded-full"
+                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
                   />
-                  Wird gesendet...
+                  WIRD GESENDET...
                 </>
               ) : (
                 <>
-                  <Send className="w-5 h-5" />
-                  Nachricht senden
+                  <Send className="w-5 h-5 mr-2" />
+                  {!formData.email.trim() ? 'E-MAIL ERFORDERLICH' : 'NACHRICHT.SENDEN'}
                 </>
               )}
             </motion.button>

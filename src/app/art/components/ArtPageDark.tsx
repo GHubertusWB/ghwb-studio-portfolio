@@ -1,850 +1,1016 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles, Briefcase, Users, Palette } from 'lucide-react'
+import ContactForm from '@/components/ContactForm'
 
-export default function ArtPageDark() {
-  const [selectedCategory, setSelectedCategory] = useState('All')
+// TypeScript Interfaces (same as light version)
+interface Artwork {
+  title: string;
+  medium: string;
+  year: string;
+  description: string;
+  dimensions: string;
+}
 
-  const latestWork = {
-    title: "Synthetic Horizon",
-    year: "2024",
-    medium: "Digital Collage, AI-Generated Elements",
-    dimensions: "3840x2160px",
-    description: "A meditation on the boundary between natural and artificial landscapes, exploring how technology reshapes our perception of the world around us.",
-    image: "/images/art1.jpg",
-    process: "Created using a combination of traditional photography, digital manipulation, and AI-assisted generation to create otherworldly landscapes."
+interface ProcessStep {
+  step: string;
+  title: string;
+  description: string;
+}
+
+interface PortfolioWork {
+  id: number;
+  title: string;
+  category: string;
+  medium: string;
+  year: string;
+  image: string;
+  gridSpan: string;
+  description: string;
+  tags: string[];
+}
+
+interface CollaborationCard {
+  title: string;
+  description: string;
+  partner: string;
+}
+
+/**
+ * ArtPageDark Component (Page)
+ * 
+ * Dark mode art portfolio page with HUD design elements.
+ * Uses the same content as the light version but with spaceship HUD aesthetic.
+ * 
+ * @returns {JSX.Element} The complete dark art page component
+ */
+
+export default function ArtPageDark(): React.JSX.Element {
+  const [selectedSubjectTags, setSelectedSubjectTags] = useState<string[]>([])
+  const [currentTime, setCurrentTime] = useState('')
+  
+  // Refs for scroll animations
+  const portfolioRef = useRef<HTMLElement>(null)
+  const contactRef = useRef<HTMLElement>(null)
+
+  // Real-time clock for HUD elements
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date()
+      setCurrentTime(now.toLocaleTimeString('de-DE', { 
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }))
+    }
+
+    updateTime()
+    const interval = setInterval(updateTime, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Intersection Observer for performance-optimized animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view')
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    )
+
+    // Observe sections
+    const sections = [portfolioRef, contactRef]
+    sections.forEach(ref => {
+      if (ref.current) {
+        observer.observe(ref.current)
+        
+        // Also observe child elements
+        const children = ref.current.querySelectorAll('.hud-animate, .hud-portfolio-item')
+        children.forEach((child: Element) => observer.observe(child))
+      }
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  const scrollToContactForm = (): void => {
+    const contactElement = document.getElementById('contact-form')
+    if (contactElement) {
+      contactElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
   }
 
-  const processSteps = [
+  const handleCardClick = (subject: string): void => {
+    setSelectedSubjectTags(prev => {
+      if (prev.includes(subject)) {
+        // Entferne das Tag wenn bereits ausgewählt
+        return prev.filter(tag => tag !== subject)
+      } else {
+        // Füge das Tag hinzu wenn noch nicht ausgewählt
+        return [...prev, subject]
+      }
+    })
+    scrollToContactForm()
+  }
+
+  // Same content as light version
+  const artwork: Artwork = {
+    title: "Teilen - AR Canvas Serie",
+    medium: "Augmented Reality & Canvas",
+    year: "2024",
+    description: "Harmonie in der Gesellschaft wird schnell verdrängt, wenn es um stark diskutierte Themen geht. Die Serie 'Teilen' kritisiert dieses Verhalten und zeigt auf, dass eine bewusste Betrachtung beider Seiten erst das Gesamtbild erkennen gibt.",
+    dimensions: "Variable Dimensionen"
+  }
+
+  const processSteps: ProcessStep[] = [
     {
       step: "01",
-      title: "Konzeption",
-      description: "Entwicklung der ursprünglichen Idee durch Skizzen, Recherche und visuelle Referenzen"
+      title: "Konzeption & Vision",
+      description: "Entwicklung der kreativen Vision und technischen Machbarkeitsstudie"
     },
     {
       step: "02", 
-      title: "Experimentieren",
-      description: "Testing verschiedener Medien und Techniken, um die beste Ausdrucksform zu finden"
+      title: "Iteration & Verfeinerung",
+      description: "Experimentelle Phase mit verschiedenen Ansätzen und Techniken"
     },
     {
       step: "03",
-      title: "Ausführung",
-      description: "Präzise Umsetzung mit Fokus auf Details und technische Perfektion"
+      title: "Umsetzung & Realisierung", 
+      description: "Finale Ausarbeitung und technische Implementierung"
     },
     {
       step: "04",
-      title: "Reflexion",
-      description: "Bewertung des Ergebnisses und Dokumentation der Learnings für zukünftige Projekte"
+      title: "Präsentation & Installation",
+      description: "Aufbau und kuratorische Betreuung der finalen Installation"
     }
   ]
 
-  const galleryWorks = [
+  const portfolioWorks: PortfolioWork[] = [
     {
       id: 1,
-      title: "Digital Landscape",
-      category: "Digital Art",
-      medium: "Procreate, Photoshop",
+      title: "AR Canvas - Gesellschaftskritik",
+      category: "Augmented Reality",
+      medium: "Mixed Media & AR",
       year: "2024",
       image: "/images/art1.jpg",
-      gridSize: "normal" // 1x1
+      gridSpan: "col-span-1 row-span-1",
+      description: "Eine kritische Auseinandersetzung mit gesellschaftlichen Normen durch erweiterte Realität.",
+      tags: ["AR", "Gesellschaftskritik", "Mixed Media"]
     },
     {
       id: 2,
-      title: "Geometric Abstractions", 
-      category: "Abstract",
-      medium: "Mixed Media",
-      year: "2023",
-      image: "/images/art1.jpg",
-      gridSize: "wide" // 2x1
+      title: "Teilen - Dualität", 
+      category: "Interactive Art",
+      medium: "Canvas & Digital",
+      year: "2024", 
+      image: "/images/art2.jpg",
+      gridSpan: "col-span-2 row-span-1",
+      description: "Interaktive Installation über die Dualität des Teilens in der modernen Gesellschaft.",
+      tags: ["Interaktiv", "Dualität", "Digital"]
     },
     {
       id: 3,
-      title: "Urban Fragments",
-      category: "Photography", 
-      medium: "Digital Photography",
+      title: "Bewusste Betrachtung",
+      category: "Augmented Reality", 
+      medium: "AR Installation",
       year: "2024",
-      image: "/images/art1.jpg",
-      gridSize: "tall" // 1x2
+      image: "/images/art3.jpg",
+      gridSpan: "col-span-1 row-span-2",
+      description: "AR-Installation die zur bewussten Wahrnehmung unserer Umgebung einlädt.",
+      tags: ["AR", "Bewusstsein", "Installation"]
     },
     {
       id: 4,
-      title: "Algorithmic Patterns",
-      category: "Generative",
-      medium: "Code, Processing",
-      year: "2024", 
-      image: "/images/art1.jpg",
-      gridSize: "normal"
+      title: "Gesellschaftliche Harmonie",
+      category: "Mixed Media",
+      medium: "Canvas & Technology", 
+      year: "2024",
+      image: "/images/art4.jpg", 
+      gridSpan: "col-span-1 row-span-1",
+      description: "Technologie und traditionelle Medien im Dialog über gesellschaftliche Harmonie.",
+      tags: ["Harmonie", "Technologie", "Canvas"]
     },
     {
       id: 5,
-      title: "Material Studies",
-      category: "Sculpture",
-      medium: "Steel, Glass",
-      year: "2023",
-      image: "/images/art1.jpg",
-      gridSize: "wide"
+      title: "Diskurs und Dialog",
+      category: "Contemporary Art",
+      medium: "Interactive Installation",
+      year: "2024",
+      image: "/images/art5.jpg",
+      gridSpan: "col-span-2 row-span-2",
+      description: "Interaktive Installation die den Dialog zwischen Betrachter und Werk ermöglicht.",
+      tags: ["Dialog", "Interaktiv", "Contemporary"]
     },
     {
       id: 6,
-      title: "Motion Studies",
-      category: "Animation",
-      medium: "After Effects, Cinema 4D",
+      title: "Komplexität der Wahrheit",
+      category: "Digital Art",
+      medium: "AR & Canvas", 
       year: "2024",
-      image: "/images/art1.jpg",
-      gridSize: "normal"
+      image: "/images/art6.jpg",
+      gridSpan: "col-span-1 row-span-1",
+      description: "Eine vielschichtige Betrachtung der Wahrheit in unserer digitalen Zeit.",
+      tags: ["Wahrheit", "Komplexität", "Digital"]
     },
     {
       id: 7,
-      title: "Abstract Composition",
-      category: "Abstract",
-      medium: "Oil on Canvas",
-      year: "2023",
-      image: "/images/art1.jpg",
-      gridSize: "tall"
+      title: "Perspektive und Verstehen",
+      category: "Mixed Media",
+      medium: "Contemporary Art", 
+      year: "2024",
+      image: "/images/art7.jpg",
+      gridSpan: "col-span-2 row-span-1",
+      description: "Verschiedene Perspektiven auf ein Thema durch zeitgenössische Kunst.",
+      tags: ["Perspektive", "Verstehen", "Contemporary"]
     },
     {
       id: 8,
-      title: "Light Studies",
-      category: "Photography",
-      medium: "Digital Photography",
+      title: "Soziale Reflexion",
+      category: "Installation",
+      medium: "Mixed Media", 
       year: "2024",
-      image: "/images/art1.jpg",
-      gridSize: "normal"
+      image: "/images/art8.jpg",
+      gridSpan: "col-span-1 row-span-1",
+      description: "Installation die zur Reflexion über soziale Strukturen anregt.",
+      tags: ["Sozial", "Reflexion", "Installation"]
+    },
+    {
+      id: 9,
+      title: "Erweiterte Realität",
+      category: "Augmented Reality",
+      medium: "AR Installation", 
+      year: "2024",
+      image: "/images/art9.jpg",
+      gridSpan: "col-span-1 row-span-1",
+      description: "AR-Erlebnis das die Grenzen zwischen real und digital verwischt.",
+      tags: ["AR", "Realität", "Immersiv"]
     }
   ]
 
-  const filteredWorks = galleryWorks
+  const collaborations: CollaborationCard[] = [
+    {
+      title: "Digital Art Festival",
+      partner: "Kunstmuseum Dresden",
+      description: "Kollaborative Installation zum Thema digitale Transformation in der zeitgenössischen Kunst."
+    },
+    {
+      title: "AR Workshop Series",
+      partner: "Goethe Institut",
+      description: "Bildungsprogramm zur Einführung von Augmented Reality in kreative Prozesse."
+    },
+    {
+      title: "Sustainable Art Initiative",
+      partner: "Greenpeace Deutschland",
+      description: "Gemeinsame Projekte zu Umweltbewusstsein und nachhaltiger Kunstproduktion."
+    },
+    {
+      title: "Tech Meets Art",
+      partner: "Berlin Art Week",
+      description: "Interdisziplinäre Ausstellung zwischen Technologie und traditioneller Kunst."
+    },
+    {
+      title: "Community Canvas",
+      partner: "Lokale Kunstvereine",
+      description: "Partizipative Kunstprojekte mit Bürgerbeteiligung in verschiedenen Stadtteilen."
+    },
+    {
+      title: "Future Visions",
+      partner: "TU Berlin",
+      description: "Forschungskooperation zu neuen Technologien in der Kunstpraxis."
+    }
+  ]
 
   return (
-    <div className="min-h-screen bg-background transition-colors duration-300 relative">
-      {/* Spaceship HUD Background Elements */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-20">
-        {/* Diagonal Scan Lines */}
-        <div className="absolute inset-0">
-          <div 
-            className="w-full h-full opacity-10"
-            style={{
-              backgroundImage: `repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 224, 0.1) 2px,
-                rgba(0, 255, 224, 0.1) 4px
-              )`,
-              backgroundSize: '20px 20px'
-            }}
-          />
-        </div>
-        
-        {/* Corner HUD Frames */}
-        <div className="absolute top-4 left-4 w-20 h-20 border-t-2 border-l-2 border-cyan-400/30"></div>
-        <div className="absolute top-4 right-4 w-20 h-20 border-t-2 border-r-2 border-cyan-400/30"></div>
-        <div className="absolute bottom-4 left-4 w-20 h-20 border-b-2 border-l-2 border-cyan-400/30"></div>
-        <div className="absolute bottom-4 right-4 w-20 h-20 border-b-2 border-r-2 border-cyan-400/30"></div>
-        
-        {/* Side Status Bars */}
-        <div className="absolute left-8 top-1/2 -translate-y-1/2 h-40 w-1 bg-gradient-to-b from-transparent via-cyan-400/40 to-transparent"></div>
-        <div className="absolute right-8 top-1/3 h-32 w-1 bg-gradient-to-b from-transparent via-cyan-400/30 to-transparent"></div>
-        
-        {/* Floating Data Points */}
-        <div className="absolute top-1/4 left-1/4">
-          <div className="w-2 h-2 bg-cyan-400/50 rounded-full animate-pulse"></div>
-        </div>
-        <div className="absolute top-2/3 right-1/3">
-          <div className="w-1 h-1 bg-cyan-400/70 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-        </div>
-        <div className="absolute bottom-1/3 left-2/3">
-          <div className="w-1.5 h-1.5 bg-cyan-400/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
-        
-        {/* Circuit Lines */}
-        <div className="absolute top-1/2 left-0 w-24 h-px bg-gradient-to-r from-transparent to-cyan-400/30"></div>
-        <div className="absolute top-1/3 right-0 w-32 h-px bg-gradient-to-l from-transparent to-cyan-400/25"></div>
-        <div className="absolute bottom-1/4 left-1/2 w-px h-16 bg-gradient-to-b from-cyan-400/30 to-transparent"></div>
-      </div>
-
-      {/* 1. INTRO */}
+    <div className="min-h-screen text-white relative overflow-hidden" style={{ 
+      background: 'linear-gradient(to bottom right, var(--background), var(--background), rgba(42, 47, 54, 0.2))'
+    }}>
+      {/* 1. HERO SECTION - WITH REDESIGNED HUD SYSTEM */}
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.2 }}
-        className="pt-32 pb-32 px-6 relative z-10"
+        transition={{ duration: 2 }}
+        className="min-h-screen flex items-center justify-center relative"
+        style={{ zIndex: 20 }} // Ensure it's above stars and HUD
       >
-        <div className="max-w-6xl mx-auto">
+        {/* SPACESHIP HUD Design - Only for Hero Section (Based on Homepage) */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 15 }}>
           <motion.div
-            initial={{ y: 80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 1 }}
-            className="space-y-12"
+            className="relative w-full h-full"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.4, scale: 1 }}
+            transition={{ duration: 2, delay: 1 }}
           >
-            <div className="space-y-6">
-              <h1 className="text-[clamp(4rem,10vw,12rem)] font-light tracking-tight leading-[0.8] text-white">
-                <span className="block">VISUAL</span>
-                <motion.span 
-                  className="block bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                  style={{
-                    textShadow: '0 0 30px rgba(0, 255, 224, 0.3)'
-                  }}
-                >
-                  KUNST
-                </motion.span>
-              </h1>
-              <motion.div 
+            <svg
+              width="100vw"
+              height="100vh"
+              viewBox="0 0 1920 1080"
+              className="drop-shadow-lg"
+              style={{
+                filter: `drop-shadow(0 0 20px white)`,
+              }}
+            >
+              {/* Main circular HUD */}
+              <motion.path
+                d="M 520 540 A 440 440 0 1 1 1400 540"
+                fill="none"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeDasharray="5,10"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 3, delay: 1.5 }}
+              />
+              
+              {/* Inner circle */}
+              <motion.path
+                d="M 560 540 A 400 400 0 1 1 1360 540"
+                fill="none"
+                stroke="white"
+                strokeWidth="1"
+                strokeOpacity="0.6"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 2.5, delay: 2 }}
+              />
+              
+              {/* Corner brackets */}
+              <motion.g
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 0.8 }}
-                className="max-w-3xl space-y-6"
+                transition={{ duration: 1, delay: 2.5 }}
               >
-                <p className="text-2xl font-light leading-relaxed text-gray-300">
-                  Interdisziplinäre Arbeiten an der Schnittstelle zwischen traditionellen und digitalen Medien
-                </p>
-                <p className="text-lg leading-relaxed text-gray-400">
-                  Meine künstlerische Praxis erforscht die Grenzen zwischen physischen und virtuellen Räumen, 
-                  analog und digital, Konzept und Ausführung.
-                </p>
-              </motion.div>
-            </div>
+                {/* Top left */}
+                <path
+                  d="M50 50 L50 20 L80 20"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                {/* Top right */}
+                <path
+                  d="M1870 50 L1870 20 L1840 20"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                {/* Bottom left */}
+                <path
+                  d="M50 1030 L50 1060 L80 1060"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                {/* Bottom right */}
+                <path
+                  d="M1870 1030 L1870 1060 L1840 1060"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+              </motion.g>
+              
+              {/* Crosshairs */}
+              <motion.g
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+                transition={{ duration: 1, delay: 3 }}
+              >
+                <line
+                  x1="960"
+                  y1="440"
+                  x2="960"
+                  y2="410"
+                  stroke="white"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="960"
+                  y1="640"
+                  x2="960"
+                  y2="670"
+                  stroke="white"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="660"
+                  y1="540"
+                  x2="630"
+                  y2="540"
+                  stroke="white"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="1260"
+                  y1="540"
+                  x2="1290"
+                  y2="540"
+                  stroke="white"
+                  strokeWidth="1"
+                />
+              </motion.g>
+              
+              {/* Side lines */}
+              <motion.g
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+                transition={{ duration: 1, delay: 3 }}
+              >
+                <line
+                  x1="540"
+                  y1="540"
+                  x2="400"
+                  y2="540"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+                <line
+                  x1="1380"
+                  y1="540"
+                  x2="1520"
+                  y2="540"
+                  stroke="white"
+                  strokeWidth="2"
+                />
+              </motion.g>
+              
+              {/* Moving Elements */}
+              <motion.g
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.6 }}
+                transition={{ duration: 1, delay: 3.5 }}
+              >
+                {/* Moving dots on circles */}
+                <motion.circle
+                  cx="960"
+                  cy="540"
+                  r="3"
+                  fill="cyan"
+                  animate={{ 
+                    x: [0, 400, 0, -400, 0],
+                    y: [0, 200, 0, -200, 0]
+                  }}
+                  transition={{ 
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+                
+                {/* Moving lines */}
+                <motion.line
+                  x1="100"
+                  y1="100"
+                  x2="150"
+                  y2="100"
+                  stroke="white"
+                  strokeWidth="1"
+                  strokeOpacity="0.6"
+                  animate={{ 
+                    x1: [100, 1770, 100],
+                    x2: [150, 1820, 150]
+                  }}
+                  transition={{ 
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+                
+                <motion.line
+                  x1="100"
+                  y1="980"
+                  x2="150"
+                  y2="980"
+                  stroke="white"
+                  strokeWidth="1"
+                  strokeOpacity="0.6"
+                  animate={{ 
+                    x1: [1820, 100, 1820],
+                    x2: [1770, 150, 1770]
+                  }}
+                  transition={{ 
+                    duration: 7,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+                
+                {/* Pulsing corner dots */}
+                <motion.circle
+                  cx="100"
+                  cy="100"
+                  r="2"
+                  fill="cyan"
+                  animate={{ 
+                    opacity: [0.3, 1, 0.3],
+                    scale: [1, 1.5, 1]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                <motion.circle
+                  cx="1820"
+                  cy="100"
+                  r="2"
+                  fill="cyan"
+                  animate={{ 
+                    opacity: [1, 0.3, 1],
+                    scale: [1.5, 1, 1.5]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                <motion.circle
+                  cx="100"
+                  cy="980"
+                  r="2"
+                  fill="cyan"
+                  animate={{ 
+                    opacity: [0.3, 1, 0.3],
+                    scale: [1, 1.5, 1]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1
+                  }}
+                />
+                
+                <motion.circle
+                  cx="1820"
+                  cy="980"
+                  r="2"
+                  fill="cyan"
+                  animate={{ 
+                    opacity: [1, 0.3, 1],
+                    scale: [1.5, 1, 1.5]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1
+                  }}
+                />
+              </motion.g>
+              
+              {/* Rotating outer ring */}
+              <motion.circle
+                cx="960"
+                cy="540"
+                r="480"
+                fill="none"
+                stroke="white"
+                strokeWidth="1"
+                strokeDasharray="2,20"
+                strokeOpacity="0.7"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                style={{ transformOrigin: "960px 540px" }}
+              />
+              
+              {/* Scan lines */}
+              <motion.g
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.2 }}
+                transition={{ duration: 1, delay: 4 }}
+              >
+                <line
+                  x1="0"
+                  y1="200"
+                  x2="1920"
+                  y2="200"
+                  stroke="white"
+                  strokeWidth="0.5"
+                  strokeOpacity="0.2"
+                />
+                <line
+                  x1="0"
+                  y1="880"
+                  x2="1920"
+                  y2="880"
+                  stroke="white"
+                  strokeWidth="0.5"
+                  strokeOpacity="0.2"
+                />
+              </motion.g>
+
+              {/* Additional Art-specific elements */}
+              <motion.g
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.3 }}
+                transition={{ duration: 1, delay: 4.5 }}
+              >
+                {/* Art portfolio indicators */}
+                <circle cx="200" cy="300" r="3" fill="cyan" opacity="0.6">
+                  <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="1720" cy="300" r="3" fill="cyan" opacity="0.6">
+                  <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="200" cy="780" r="3" fill="cyan" opacity="0.6">
+                  <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="1720" cy="780" r="3" fill="cyan" opacity="0.6">
+                  <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+                </circle>
+              </motion.g>
+            </svg>
+          </motion.div>
+        </div>
+
+        <div className="relative text-center px-6 max-w-6xl" style={{ zIndex: 25 }}>
+          {/* Back Button - Styled like homepage buttons */}
+          <motion.button
+            onClick={() => window.history.back()}
+            className="inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5"
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            SYSTEM.EXIT
+          </motion.button>
+
+          {/* Main Content - Simplified frame to match homepage aesthetic */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.8 }}
+          >
+            <motion.h1 
+              className="text-5xl md:text-8xl font-light tracking-tight mb-8 relative text-white"
+              style={{ 
+                textShadow: '0 0 30px rgba(255, 255, 255, 0.4)'
+              }}
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+            >
+              <span className="text-cyan-400/80 text-lg block mb-2 tracking-widest font-mono">GHWB.ART.SYSTEM:</span>
+              KUNST & KREATIVITÄT
+            </motion.h1>
+
+            <motion.p 
+              className="text-xl md:text-2xl text-white/80 mb-12 leading-relaxed max-w-3xl mx-auto relative"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.4 }}
+            >
+              Digitale Kunst trifft auf traditionelle Ästhetik. Eine Exploration der Grenzen zwischen Technologie und menschlicher Kreativität.
+            </motion.p>
+
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center relative"
+            >
+              <motion.button 
+                className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                PORTFOLIO.EXPLORE
+              </motion.button>
+              <motion.button 
+                onClick={() => handleCardClick('Zusammenarbeit')} 
+                className="inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono"
+                style={{
+                  background: 'rgba(6, 182, 212, 0.25)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(6, 182, 212, 0.4)',
+                  boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)'
+                }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -2,
+                  boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)'
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                COLLABORATE.START
+              </motion.button>
+            </motion.div>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* 2. PROZESS */}
-      <motion.section 
-        initial={{ opacity: 0, y: 60 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-        className="py-32 px-6 bg-muted/30 relative z-10"
-      >
-        <div className="max-w-6xl mx-auto">
+      {/* 2. FEATURED ARTWORK - SIMPLE VERTICAL STYLE */}
+      <section className="py-32 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto">
           <motion.div
-            initial={{ y: 40, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="space-y-16"
+            className="text-center space-y-8"
           >
-            <div className="text-center space-y-6">
-              <h2 className="text-6xl font-light text-white" style={{ textShadow: '0 0 30px rgba(0, 255, 224, 0.3)' }}>PROZESS</h2>
-              <p className="text-xl max-w-3xl mx-auto text-gray-400">
-                Jedes Werk entsteht durch einen systematischen, aber experimentellen Ansatz
+            {/* Status Badge */}
+            <div className="inline-flex items-center px-4 py-2 border border-white/20 text-white/80 text-sm font-mono">
+              <div className="w-2 h-2 bg-white/60 rounded-full mr-2 animate-pulse"></div>
+              Featured Work
+            </div>
+
+            {/* Simple Image Frame */}
+            <div className="relative max-w-2xl mx-auto">
+              <div className="relative border border-white/20 p-6">
+                <div className="w-full h-80 bg-gradient-to-br from-white/5 to-white/2 flex items-center justify-center">
+                  <span className="text-white/60 font-mono text-lg">[{artwork.title}]</span>
+                </div>
+                
+                {/* Simple Corner Elements */}
+                <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-white/40"></div>
+                <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-white/40"></div>
+                <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-white/40"></div>
+                <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-white/40"></div>
+              </div>
+            </div>
+
+            {/* Title and Description */}
+            <div className="space-y-6">
+              <h2 className="text-3xl md:text-5xl font-light tracking-tight text-white font-mono">
+                {artwork.title}
+              </h2>
+
+              <p className="text-lg text-white/70 leading-relaxed max-w-3xl mx-auto">
+                {artwork.description}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-              {processSteps.map((step, index) => (
-                <motion.div
-                  key={step.step}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.15, duration: 0.6 }}
-                  viewport={{ once: true }}
-                  className="space-y-4 group relative"
-                >
-                  {/* HUD Status Indicator */}
-                  <div className="absolute -left-4 top-2 w-1 h-8 bg-cyan-400/60 shadow-lg shadow-cyan-400/30"></div>
-                  
-                  <div className="text-8xl font-light text-gray-700 group-hover:text-white transition-colors duration-500" style={{ textShadow: '0 0 20px rgba(0, 255, 224, 0.5)' }}>
-                    {step.step}
-                  </div>
-                  <h3 className="text-2xl font-light text-white">{step.title}</h3>
-                  <p className="leading-relaxed text-gray-400">
-                    {step.description}
-                  </p>
-                </motion.div>
-              ))}
+            {/* Artwork Details - Horizontal */}
+            <div className="flex flex-wrap justify-center gap-8 text-sm border border-white/10 p-6 max-w-2xl mx-auto">
+              <div className="text-center">
+                <div className="text-white/50 mb-1 font-mono text-xs">MEDIUM</div>
+                <div className="font-medium text-white">{artwork.medium}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-white/50 mb-1 font-mono text-xs">JAHR</div>
+                <div className="font-medium text-white">{artwork.year}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-white/50 mb-1 font-mono text-xs">DIMENSIONEN</div>
+                <div className="font-medium text-white">{artwork.dimensions}</div>
+              </div>
             </div>
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* 3. NEUESTES WERK */}
-      <motion.section 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-        className="py-32 px-6 bg-background relative z-10"
+      {/* 3. PORTFOLIO GRID - CLEAN STYLE */}
+      <section 
+        ref={portfolioRef}
+        className="py-32 px-6 relative z-10"
       >
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ y: 60, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-16"
-          >
-            <div className="text-center space-y-6">
-              <h2 className="text-6xl font-light text-white" style={{ textShadow: '0 0 30px rgba(0, 255, 224, 0.3)' }}>NEUESTES WERK</h2>
-              <p className="text-xl text-gray-400">Aktuell in Arbeit</p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <motion.div
-                initial={{ x: -60, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                viewport={{ once: true }}
-                className="space-y-8"
-              >
-                <div className="space-y-4">
-                  <h3 className="text-4xl font-light text-white">{latestWork.title}</h3>
-                  <div className="flex gap-6 text-sm text-gray-500">
-                    <span>{latestWork.year}</span>
-                    <span>{latestWork.dimensions}</span>
-                  </div>
-                  <p className="text-gray-400">{latestWork.medium}</p>
-                </div>
-                
-                <p className="text-lg leading-relaxed text-gray-300">
-                  {latestWork.description}
-                </p>
-                
-                <div className="space-y-4">
-                  <h4 className="text-lg font-medium text-white">Entstehungsprozess</h4>
-                  <p className="leading-relaxed text-gray-400">
-                    {latestWork.process}
-                  </p>
-                </div>
-
-                <motion.button
-                  whileHover={{ x: 10 }}
-                  className="flex items-center gap-3 font-medium group text-white border-b border-cyan-400/50 pb-1 hover:border-cyan-400 transition-colors"
-                >
-                  Mehr erfahren
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                </motion.button>
-              </motion.div>
-
-              <motion.div
-                initial={{ x: 60, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                viewport={{ once: true }}
-                className="relative"
-              >
-                <motion.div
-                  className="relative border border-cyan-400/30 p-2 shadow-lg shadow-cyan-400/20"
-                  whileHover={{ 
-                    borderColor: 'rgba(6, 182, 212, 0.6)',
-                    boxShadow: '0 0 30px rgba(6, 182, 212, 0.4)'
-                  }}
-                >
-                  <motion.img
-                    src={latestWork.image}
-                    alt={latestWork.title}
-                    className="w-full aspect-[4/5] object-cover"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                  />
-                  {/* HUD Corner Elements */}
-                  <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-cyan-400"></div>
-                  <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-cyan-400"></div>
-                  <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-cyan-400"></div>
-                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-cyan-400"></div>
-                </motion.div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* 4. GALERIE */}
-      <motion.section 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-        className="py-32 px-6 relative overflow-hidden z-10 bg-transparent"
-      >
-        {/* HUD Grid Background */}
-        <div className="absolute inset-0 overflow-hidden opacity-10">
           <motion.div 
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 0.1 }}
-            transition={{ duration: 2 }}
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            style={{
-              backgroundImage: `
-                linear-gradient(rgba(0, 255, 224, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 224, 0.1) 1px, transparent 1px)
-              `,
-              backgroundSize: '50px 50px'
-            }}
-          />
-        </div>
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <motion.div
-            initial={{ y: 40, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-16"
           >
-            <div className="text-center space-y-6">
-              <motion.h2 
-                className="text-6xl font-light text-white"
-                style={{ textShadow: '0 0 30px rgba(0, 255, 224, 0.3)' }}
-              >
-                GALERIE
-              </motion.h2>
-              <p className="text-xl text-cyan-200/80">Auswahl meiner Arbeiten</p>
-            </div>
-
-            <motion.div
-              className="grid grid-cols-4 gap-4 auto-rows-[200px]"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 1 }}
-              viewport={{ once: true }}
-            >
-              {filteredWorks.map((work, index) => {
-                const getGridClass = (size: string) => {
-                  switch(size) {
-                    case 'wide': return 'col-span-2 row-span-1'
-                    case 'tall': return 'col-span-1 row-span-2'
-                    default: return 'col-span-1 row-span-1'
-                  }
-                }
-
-                return (
-                  <motion.div
-                    key={work.id}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.1, duration: 0.6 }}
-                    viewport={{ once: true }}
-                    className={`group relative overflow-hidden transition-all duration-500 ${getGridClass(work.gridSize)}`}
-                    style={{
-                      background: 'rgba(6, 182, 212, 0.05)',
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(6, 182, 212, 0.2)'
-                    }}
-                    whileHover={{ 
-                      scale: 1.02,
-                      boxShadow: '0 10px 30px rgba(6, 182, 212, 0.3)',
-                      borderColor: 'rgba(6, 182, 212, 0.5)'
-                    }}
-                  >
-                    <motion.img
-                      src={work.image}
-                      alt={work.title}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                    />
-                    
-                    {/* Scan Line Effect */}
-                    <motion.div
-                      className="absolute left-0 top-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100"
-                      animate={{
-                        y: ['0%', '100%', '0%']
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    />
-
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="absolute inset-0 backdrop-blur-sm flex items-center justify-center p-6 bg-black/80"
-                    >
-                      <div className="text-center space-y-3">
-                        <h3 className="text-xl font-light text-white">{work.title}</h3>
-                        <div className="text-sm space-y-1 text-cyan-200/80">
-                          <p>{work.category}</p>
-                          <p>{work.medium}</p>
-                          <p className="font-mono text-cyan-400/60">{work.year}</p>
-                        </div>
-                        
-                        <div className="flex items-center justify-center gap-2 pt-2">
-                          <div className="w-1 h-1 rounded-full animate-pulse bg-cyan-400"></div>
-                          <span className="text-xs font-mono text-cyan-400/60">ACTIVE</span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                )
-              })}
-            </motion.div>
+            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6 text-white" style={{ fontFamily: 'monospace', textShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}>
+              PORTFOLIO ARBEITEN
+            </h2>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+              Eine Auswahl meiner aktuellen Kunstwerke und Projekte.
+            </p>
           </motion.div>
-        </div>
-      </motion.section>
 
-      {/* 5. ANFRAGEN - SPACESHIP HUD STYLE */}
-      <motion.section 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-        className="py-32 px-6 relative overflow-hidden z-10"
-        style={{
-          background: 'linear-gradient(135deg, rgba(10, 10, 20, 0.95) 0%, rgba(20, 20, 40, 0.9) 100%)'
-        }}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {portfolioWorks.map((work, index) => (
+              <motion.div
+                key={index}
+                className="group relative"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="border border-white/20 hover:border-white/40 transition-all group-hover:bg-white/5 overflow-hidden">
+                  <div className="aspect-square bg-gradient-to-br from-white/5 to-white/2 flex items-center justify-center relative">
+                    <span className="text-sm text-white/60 font-mono">[{work.title}]</span>
+                    
+                    {/* Simple Corner Elements */}
+                    <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-white/40"></div>
+                    <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-white/40"></div>
+                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-white/40"></div>
+                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-white/40"></div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-white/90 transition-colors">
+                      {work.title}
+                    </h3>
+                    
+                    <p className="text-white/70 mb-4 text-sm">
+                      {work.description}
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      {work.tags.map((tag, tagIndex) => (
+                        <span
+                          key={tagIndex}
+                          className="px-2 py-1 text-xs border border-white/20 text-white/70 font-mono"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. CONTACT FORM - CLEAN STYLE */}
+      <section
+        id="contact-form"
+        ref={contactRef}
+        className="py-32 px-6 relative z-10"
       >
-        {/* Advanced HUD Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            className="absolute inset-0"
-            animate={{
-              background: [
-                'radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.03) 0%, transparent 50%)',
-                'radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 50%)',
-                'radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.03) 0%, transparent 50%)'
-              ]
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          
-          {/* Floating Particles */}
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 rounded-full bg-cyan-400/20"
-              initial={{
-                x: `${Math.random() * 100}%`,
-                y: `${Math.random() * 100}%`,
-                opacity: 0
-              }}
-              animate={{
-                y: [0, -100],
-                opacity: [0, 0.5, 0]
-              }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                delay: Math.random() * 2
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div
-            initial={{ y: 40, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+        <div className="max-w-4xl mx-auto">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="space-y-20"
           >
-            {/* Header */}
-            <div className="text-center space-y-8">
-              <motion.h2 
-                className="text-7xl font-light text-white"
-                style={{ textShadow: '0 0 30px rgba(0, 255, 224, 0.3)' }}
-                initial={{ scale: 0.9 }}
-                whileInView={{ scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.8, type: "spring", stiffness: 100 }}
-                viewport={{ once: true }}
-              >
-                SYSTEM INTERFACE
-              </motion.h2>
-              <motion.p 
-                className="text-2xl font-light max-w-3xl mx-auto text-cyan-200/80"
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                Initialisiere Kommunikationsprotokoll für kreative Kollaboration
-              </motion.p>
-            </div>
+            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6 text-white" style={{ fontFamily: 'monospace', textShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}>
+              KONTAKT
+            </h2>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+              Lassen Sie uns über Ihre Ideen und Projekte sprechen
+            </p>
+          </motion.div>
 
-            {/* HUD Interface Cards */}
+          {/* Contact Type Cards */}
+          <motion.div 
+            className="mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            {/* Cards Title */}
+            <h3 className="text-lg text-white/80 mb-4 font-mono">Betreff</h3>
+            
+            {/* Cards Grid */}
+            <div className="grid md:grid-cols-3 gap-4">
+            {/* Auftragsarbeiten Card */}
             <motion.div
-              className="grid lg:grid-cols-3 gap-8"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 1 }}
-              viewport={{ once: true }}
-            >
-              {/* Mission 01 */}
-              <motion.div
-                className="group relative p-8 border border-cyan-400/30 backdrop-blur-sm transition-all duration-700 cursor-pointer overflow-hidden"
-                style={{
-                  background: 'rgba(6, 182, 212, 0.05)',
-                  boxShadow: '0 0 20px rgba(6, 182, 212, 0.1)'
-                }}
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                viewport={{ once: true }}
-                whileHover={{ 
-                  y: -8,
-                  scale: 1.02,
-                  boxShadow: '0 20px 40px rgba(6, 182, 212, 0.2)',
-                  borderColor: 'rgba(6, 182, 212, 0.6)'
-                }}
-              >
-                {/* HUD Corner Elements */}
-                <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-cyan-400/40"></div>
-                <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-cyan-400/40"></div>
-                <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-cyan-400/40"></div>
-                <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-cyan-400/40"></div>
-                
-                <div className="space-y-6">
-                  {/* Status Header */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                    <span className="text-xs font-mono text-cyan-400/60">MISSION 01</span>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-light text-white">AUFTRAGSWERKE</h3>
-                    <p className="text-lg leading-relaxed text-gray-300">
-                      Individuelle Kunstwerke nach Ihren Spezifikationen und Parametern
-                    </p>
-                    
-                    <div className="space-y-3 pt-4">
-                      {['Persönliche Konzeptentwicklung', 'Verschiedene Medien & Techniken', 'Individuelle Größen & Formate'].map((feature, idx) => (
-                        <motion.div
-                          key={feature}
-                          className="flex items-center gap-3 text-sm text-cyan-200/80"
-                          initial={{ x: -10, opacity: 0 }}
-                          whileInView={{ x: 0, opacity: 1 }}
-                          transition={{ delay: 1 + idx * 0.1, duration: 0.5 }}
-                          viewport={{ once: true }}
-                        >
-                          <motion.div 
-                            className="w-1.5 h-1.5 rounded-full bg-cyan-400"
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: idx * 0.3 }}
-                          />
-                          <span className="font-mono text-xs">{feature}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Interface Button */}
-                <motion.div
-                  className="absolute bottom-4 right-4 w-8 h-8 bg-cyan-400/20 border border-cyan-400/40 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-black transition-all duration-300"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ delay: 1.2, type: "spring", stiffness: 200 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.2 }}
-                >
-                  <ArrowRight size={14} />
-                </motion.div>
-              </motion.div>
-
-              {/* Mission 02 */}
-              <motion.div
-                className="group relative p-8 border border-cyan-400/30 backdrop-blur-sm transition-all duration-700 cursor-pointer overflow-hidden"
-                style={{
-                  background: 'rgba(6, 182, 212, 0.05)',
-                  boxShadow: '0 0 20px rgba(6, 182, 212, 0.1)'
-                }}
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ delay: 1, duration: 0.8 }}
-                viewport={{ once: true }}
-                whileHover={{ 
-                  y: -8,
-                  scale: 1.02,
-                  boxShadow: '0 20px 40px rgba(6, 182, 212, 0.2)',
-                  borderColor: 'rgba(6, 182, 212, 0.6)'
-                }}
-              >
-                <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-cyan-400/40"></div>
-                <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-cyan-400/40"></div>
-                <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-cyan-400/40"></div>
-                <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-cyan-400/40"></div>
-                
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                    <span className="text-xs font-mono text-cyan-400/60">MISSION 02</span>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-light text-white">KOLLABORATIONEN</h3>
-                    <p className="text-lg leading-relaxed text-gray-300">
-                      Interdisziplinäre Partnerships für innovative Projekte und Expeditionen
-                    </p>
-                    
-                    <div className="space-y-3 pt-4">
-                      {['Interdisziplinäre Projekte', 'Galerie-Kooperationen', 'Gemeinsame Ausstellungen'].map((feature, idx) => (
-                        <motion.div
-                          key={feature}
-                          className="flex items-center gap-3 text-sm text-cyan-200/80"
-                          initial={{ x: -10, opacity: 0 }}
-                          whileInView={{ x: 0, opacity: 1 }}
-                          transition={{ delay: 1.2 + idx * 0.1, duration: 0.5 }}
-                          viewport={{ once: true }}
-                        >
-                          <motion.div 
-                            className="w-1.5 h-1.5 rounded-full bg-cyan-400"
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: idx * 0.3 + 0.5 }}
-                          />
-                          <span className="font-mono text-xs">{feature}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <motion.div
-                  className="absolute bottom-4 right-4 w-8 h-8 bg-cyan-400/20 border border-cyan-400/40 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-black transition-all duration-300"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ delay: 1.4, type: "spring", stiffness: 200 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.2 }}
-                >
-                  <ArrowRight size={14} />
-                </motion.div>
-              </motion.div>
-
-              {/* Mission 03 */}
-              <motion.div
-                className="group relative p-8 border border-cyan-400/30 backdrop-blur-sm transition-all duration-700 cursor-pointer overflow-hidden"
-                style={{
-                  background: 'rgba(6, 182, 212, 0.05)',
-                  boxShadow: '0 0 20px rgba(6, 182, 212, 0.1)'
-                }}
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ delay: 1.2, duration: 0.8 }}
-                viewport={{ once: true }}
-                whileHover={{ 
-                  y: -8,
-                  scale: 1.02,
-                  boxShadow: '0 20px 40px rgba(6, 182, 212, 0.2)',
-                  borderColor: 'rgba(6, 182, 212, 0.6)'
-                }}
-              >
-                <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-cyan-400/40"></div>
-                <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-cyan-400/40"></div>
-                <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-cyan-400/40"></div>
-                <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-cyan-400/40"></div>
-                
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                    <span className="text-xs font-mono text-cyan-400/60">MISSION 03</span>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-light text-white">BERATUNG & TRAINING</h3>
-                    <p className="text-lg leading-relaxed text-gray-300">
-                      Expertise-Transfer und Wissens-Upload für Ihre kreativen Systeme
-                    </p>
-                    
-                    <div className="space-y-3 pt-4">
-                      {['Künstlerische Beratung', 'Technik-Workshops', 'Kreative Prozesse'].map((feature, idx) => (
-                        <motion.div
-                          key={feature}
-                          className="flex items-center gap-3 text-sm text-cyan-200/80"
-                          initial={{ x: -10, opacity: 0 }}
-                          whileInView={{ x: 0, opacity: 1 }}
-                          transition={{ delay: 1.4 + idx * 0.1, duration: 0.5 }}
-                          viewport={{ once: true }}
-                        >
-                          <motion.div 
-                            className="w-1.5 h-1.5 rounded-full bg-cyan-400"
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: idx * 0.3 + 1 }}
-                          />
-                          <span className="font-mono text-xs">{feature}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <motion.div
-                  className="absolute bottom-4 right-4 w-8 h-8 bg-cyan-400/20 border border-cyan-400/40 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-400 group-hover:text-black transition-all duration-300"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ delay: 1.6, type: "spring", stiffness: 200 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.2 }}
-                >
-                  <ArrowRight size={14} />
-                </motion.div>
-              </motion.div>
-            </motion.div>
-
-            {/* Communication Terminal */}
-            <motion.div
-              className="text-center p-12 border border-cyan-400/30 relative overflow-hidden backdrop-blur-sm"
+              className={`group relative cursor-pointer transition-all duration-300 ${
+                selectedSubjectTags.includes('Auftragsarbeiten') 
+                  ? 'border-cyan-400/60 bg-cyan-400/10' 
+                  : 'border-white/20 hover:border-white/40 hover:bg-white/5 hover:shadow-lg hover:shadow-white/10'
+              }`}
               style={{
-                background: 'rgba(6, 182, 212, 0.05)',
-                boxShadow: '0 0 30px rgba(6, 182, 212, 0.2)'
+                border: '1px solid',
+                padding: '16px'
               }}
-              initial={{ y: 40, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1.8, duration: 0.8 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.01 }}
+              onClick={() => handleCardClick('Auftragsarbeiten')}
+              whileTap={{ scale: 0.98 }}
             >
-              {/* Terminal Frame */}
-              <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-cyan-400/40"></div>
-              <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-cyan-400/40"></div>
-              <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-cyan-400/40"></div>
-              <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-cyan-400/40"></div>
+              {/* Status Indicator */}
+              <div className={`absolute top-4 right-4 w-2 h-2 rounded-full ${
+                selectedSubjectTags.includes('Auftragsarbeiten') ? 'bg-cyan-400' : 'bg-white/60'
+              } animate-pulse`}></div>
               
-              {/* Scanning Line */}
-              <motion.div
-                className="absolute left-0 top-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
-                animate={{ y: [0, 200, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              />
-              
-              <div className="relative z-10 space-y-6">
-                <motion.h3
-                  className="text-3xl font-light text-white"
-                  style={{ textShadow: '0 0 20px rgba(0, 255, 224, 0.5)' }}
-                  animate={{ scale: [1, 1.02, 1] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  KOMMUNIKATIONSKANAL AKTIVIEREN
-                </motion.h3>
-                <p className="text-xl text-cyan-200/80 font-mono">
-                  Bereit für Datenübertragung - Verbindung herstellen
-                </p>
-                <motion.div
-                  className="inline-flex items-center gap-4 px-8 py-4 bg-cyan-400/10 border-2 border-cyan-400/30 text-cyan-400 font-mono cursor-pointer hover:bg-cyan-400 hover:text-black hover:border-cyan-400 transition-all duration-300"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                >
-                  <motion.div
-                    className="w-3 h-3 bg-current animate-pulse"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
-                  <span className="text-xl">hello@ghwb.studio</span>
-                  <ArrowRight size={20} />
-                </motion.div>
-                
-                {/* Status Line */}
-                <div className="text-xs font-mono text-cyan-400/60 pt-2">
-                  STATUS: READY FOR TRANSMISSION
-                </div>
+              <div className="w-10 h-10 mb-3 border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
+                <Briefcase className="w-5 h-5 text-white" />
               </div>
+              
+              <h3 className="text-lg font-semibold mb-1 text-white group-hover:text-white/90 transition-colors">
+                Auftragsarbeiten
+              </h3>
+              
+              <p className="text-white/70 leading-relaxed text-xs">
+                Individuelle Kunstwerke nach Ihren Vorstellungen und Anforderungen.
+              </p>
             </motion.div>
+
+            {/* Kollaborationen Card */}
+            <motion.div
+              className={`group relative cursor-pointer transition-all duration-300 ${
+                selectedSubjectTags.includes('Kollaborationen') 
+                  ? 'border-cyan-400/60 bg-cyan-400/10' 
+                  : 'border-white/20 hover:border-white/40 hover:bg-white/5 hover:shadow-lg hover:shadow-white/10'
+              }`}
+              style={{
+                border: '1px solid',
+                padding: '16px'
+              }}
+              onClick={() => handleCardClick('Kollaborationen')}
+              whileTap={{ scale: 0.98 }}
+            >
+              {/* Status Indicator */}
+              <div className={`absolute top-4 right-4 w-2 h-2 rounded-full ${
+                selectedSubjectTags.includes('Kollaborationen') ? 'bg-cyan-400' : 'bg-white/60'
+              } animate-pulse`}></div>
+              
+              <div className="w-10 h-10 mb-3 border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
+                <Users className="w-5 h-5 text-white" />
+              </div>
+              
+              <h3 className="text-lg font-semibold mb-1 text-white group-hover:text-white/90 transition-colors">
+                Kollaborationen
+              </h3>
+              
+              <p className="text-white/70 leading-relaxed text-xs">
+                Gemeinsame Projekte und kreative Partnerschaften mit anderen Künstlern.
+              </p>
+            </motion.div>
+
+            {/* Einzelwerke Card */}
+            <motion.div
+              className={`group relative cursor-pointer transition-all duration-300 ${
+                selectedSubjectTags.includes('Einzelwerke') 
+                  ? 'border-cyan-400/60 bg-cyan-400/10' 
+                  : 'border-white/20 hover:border-white/40 hover:bg-white/5 hover:shadow-lg hover:shadow-white/10'
+              }`}
+              style={{
+                border: '1px solid',
+                padding: '16px'
+              }}
+              onClick={() => handleCardClick('Einzelwerke')}
+              whileTap={{ scale: 0.98 }}
+            >
+              {/* Status Indicator */}
+              <div className={`absolute top-4 right-4 w-2 h-2 rounded-full ${
+                selectedSubjectTags.includes('Einzelwerke') ? 'bg-cyan-400' : 'bg-white/60'
+              } animate-pulse`}></div>
+              
+              <div className="w-10 h-10 mb-3 border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
+                <Palette className="w-5 h-5 text-white" />
+              </div>
+              
+              <h3 className="text-lg font-semibold mb-1 text-white group-hover:text-white/90 transition-colors">
+                Einzelwerke
+              </h3>
+              
+              <p className="text-white/70 leading-relaxed text-xs">
+                Verfügbare Kunstwerke aus der aktuellen Portfolio-Sammlung.
+              </p>
+            </motion.div>
+          </div>
+        </motion.div>
+
+          <motion.div 
+            className="border border-white/20 p-8 relative"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            {/* Simple Corner Elements */}
+            <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-white/40"></div>
+            <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-white/40"></div>
+            <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-white/40"></div>
+            <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-white/40"></div>
+            
+            <ContactForm initialSubjectTag={selectedSubjectTags.join(', ')} />
           </motion.div>
         </div>
-      </motion.section>
+      </section>
     </div>
   )
 }
