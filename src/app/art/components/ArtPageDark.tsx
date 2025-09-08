@@ -151,10 +151,10 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Augmented Reality",
       medium: "Mixed Media & AR",
       year: "2024",
-      image: "/images/art1.jpg",
-      gridSpan: "col-span-1 row-span-1",
-      description: "Eine kritische Auseinandersetzung mit gesellschaftlichen Normen durch erweiterte Realität.",
-      tags: ["AR", "Gesellschaftskritik", "Mixed Media"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/5afb8e8c-63bb-49a1-84a3-3409e85b788e/l382,t0,w981,h1107/image-768x867.jpg",
+      gridSpan: "col-span-1 row-span-1", // Portrait format (768x867)
+      description: "",
+      tags: []
     },
     {
       id: 2,
@@ -162,10 +162,10 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Interactive Art",
       medium: "Canvas & Digital",
       year: "2024", 
-      image: "/images/art2.jpg",
-      gridSpan: "col-span-2 row-span-1",
-      description: "Interaktive Installation über die Dualität des Teilens in der modernen Gesellschaft.",
-      tags: ["Interaktiv", "Dualität", "Digital"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/6d78959b-2167-421b-b3cd-a9dc2264d797/l392,t111,w972,h1097/image-768x867.jpg",
+      gridSpan: "col-span-1 row-span-1", // Portrait format (768x867)
+      description: "",
+      tags: []
     },
     {
       id: 3,
@@ -173,10 +173,10 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Augmented Reality", 
       medium: "AR Installation",
       year: "2024",
-      image: "/images/art3.jpg",
-      gridSpan: "col-span-1 row-span-2",
-      description: "AR-Installation die zur bewussten Wahrnehmung unserer Umgebung einlädt.",
-      tags: ["AR", "Bewusstsein", "Installation"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/75ee7181-f11c-4cf4-951f-075fdbb2b83a/l665,t99,w641,h723/image.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format
+      description: "",
+      tags: []
     },
     {
       id: 4,
@@ -184,10 +184,10 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Mixed Media",
       medium: "Canvas & Technology", 
       year: "2024",
-      image: "/images/art4.jpg", 
-      gridSpan: "col-span-1 row-span-1",
-      description: "Technologie und traditionelle Medien im Dialog über gesellschaftliche Harmonie.",
-      tags: ["Harmonie", "Technologie", "Canvas"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9ae24fe6-98c2-4252-9261-70559e2ddb41/l32,t0,w1935,h1014/image-768x402.png", 
+      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x402)
+      description: "",
+      tags: []
     },
     {
       id: 5,
@@ -195,10 +195,10 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Contemporary Art",
       medium: "Interactive Installation",
       year: "2024",
-      image: "/images/art5.jpg",
-      gridSpan: "col-span-2 row-span-2",
-      description: "Interaktive Installation die den Dialog zwischen Betrachter und Werk ermöglicht.",
-      tags: ["Dialog", "Interaktiv", "Contemporary"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/413fcc5d-2b47-49d6-932d-fb7a1f442c71/l495,t0,w1009,h1083/image-768x824.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
+      description: "",
+      tags: []
     },
     {
       id: 6,
@@ -206,10 +206,10 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Digital Art",
       medium: "AR & Canvas", 
       year: "2024",
-      image: "/images/art6.jpg",
-      gridSpan: "col-span-1 row-span-1",
-      description: "Eine vielschichtige Betrachtung der Wahrheit in unserer digitalen Zeit.",
-      tags: ["Wahrheit", "Komplexität", "Digital"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9ab5a29e-e2cb-4d26-b746-1e8b380ae787/l0,t2,w1040,h648/image-768x479.jpg",
+      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x479)
+      description: "",
+      tags: []
     },
     {
       id: 7,
@@ -217,10 +217,10 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Mixed Media",
       medium: "Contemporary Art", 
       year: "2024",
-      image: "/images/art7.jpg",
-      gridSpan: "col-span-2 row-span-1",
-      description: "Verschiedene Perspektiven auf ein Thema durch zeitgenössische Kunst.",
-      tags: ["Perspektive", "Verstehen", "Contemporary"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/c943e5f8-e370-4061-ac57-f565b2689ecd/l195,t0,w1313,h2000/image-768x1170.jpg",
+      gridSpan: "col-span-1 row-span-2", // Tall portrait format (768x1170)
+      description: "",
+      tags: []
     },
     {
       id: 8,
@@ -228,10 +228,10 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Installation",
       medium: "Mixed Media", 
       year: "2024",
-      image: "/images/art8.jpg",
-      gridSpan: "col-span-1 row-span-1",
-      description: "Installation die zur Reflexion über soziale Strukturen anregt.",
-      tags: ["Sozial", "Reflexion", "Installation"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/1c360936-fc13-45c0-8b21-30d9ef81d799/l0,t214,w1465,h1573/image-768x825.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x825)
+      description: "",
+      tags: []
     },
     {
       id: 9,
@@ -239,10 +239,65 @@ export default function ArtPageDark(): React.JSX.Element {
       category: "Augmented Reality",
       medium: "AR Installation", 
       year: "2024",
-      image: "/images/art9.jpg",
-      gridSpan: "col-span-1 row-span-1",
-      description: "AR-Erlebnis das die Grenzen zwischen real und digital verwischt.",
-      tags: ["AR", "Realität", "Immersiv"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/55a22e21-a366-490a-aaef-2a3d124add8c/l552,t235,w657,h705/image.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format
+      description: "",
+      tags: []
+    },
+    {
+      id: 10,
+      title: "Digitale Transformation",
+      category: "Digital Art",
+      medium: "Mixed Media", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9f368468-250f-41cb-b774-ad530786e264/l322,t678,w929,h788/image-768x651.jpg",
+      gridSpan: "col-span-1 row-span-1", // Landscape format (768x651)
+      description: "",
+      tags: []
+    },
+    {
+      id: 11,
+      title: "Zukunftsvision",
+      category: "Contemporary Art",
+      medium: "Installation", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/5ae47c9c-420a-4e5f-a29e-6dd4a2534f6c/l69,t0,w1863,h2000/image-768x824.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
+      description: "",
+      tags: []
+    },
+    {
+      id: 12,
+      title: "Technologie & Mensch",
+      category: "Mixed Media",
+      medium: "AR & Canvas", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/75833409-63c1-48b4-846b-ec85fc772b14/l0,t379,w1436,h1542/image-768x825.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x825)
+      description: "",
+      tags: []
+    },
+    {
+      id: 13,
+      title: "Virtuelle Welten",
+      category: "Digital Art",
+      medium: "VR Installation", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/c99a89a5-5199-44ac-862d-a2c8af5552ee/l0,t195,w1500,h1610/image-768x824.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
+      description: "",
+      tags: []
+    },
+    {
+      id: 14,
+      title: "Grenzen überwinden",
+      category: "Interactive Art",
+      medium: "Mixed Reality", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/bb6c044e-bcfc-415a-84dd-0808484c51a2/l0,t195,w2000,h1697/image-768x652.jpg",
+      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x652)
+      description: "",
+      tags: []
     }
   ]
 
@@ -476,9 +531,9 @@ export default function ArtPageDark(): React.JSX.Element {
                 />
                 
                 <motion.line
-                  x1="100"
+                  x1="1820"
                   y1="980"
-                  x2="150"
+                  x2="1770"
                   y2="980"
                   stroke="white"
                   strokeWidth="1"
@@ -717,73 +772,120 @@ export default function ArtPageDark(): React.JSX.Element {
         </div>
       </motion.section>
 
-      {/* 2. FEATURED ARTWORK - SIMPLE VERTICAL STYLE */}
+      {/* 2. FEATURED ARTWORK - ADVANCED INTERACTIVE STYLE */}
       <section className="py-32 px-6 relative z-10">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center space-y-8"
+            className="grid lg:grid-cols-2 gap-16 items-center"
           >
-            {/* Status Badge */}
-            <div className="inline-flex items-center px-4 py-2 border border-white/20 text-white/80 text-sm font-mono">
-              <div className="w-2 h-2 bg-white/60 rounded-full mr-2 animate-pulse"></div>
-              Featured Work
-            </div>
+            {/* Left Side - Enhanced Image Display */}
+            <div className="relative">
+              {/* Status Header */}
+              <motion.div 
+                className="flex items-center mb-8"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+                <span className="text-cyan-400 font-mono text-sm tracking-wider">FEATURED.ARTWORK</span>
+              </motion.div>
 
-            {/* Simple Image Frame */}
-            <div className="relative max-w-2xl mx-auto">
-              <div className="relative border border-white/20 p-6">
-                <div className="w-full h-80 bg-gradient-to-br from-white/5 to-white/2 flex items-center justify-center">
-                  <span className="text-white/60 font-mono text-lg">[{artwork.title}]</span>
+              {/* Minimalist Image Display */}
+              <motion.div 
+                className="relative"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                <div className="relative border border-white/20 p-6">
+                  {/* Main Artwork Display */}
+                  <div className="relative w-full h-96 bg-gradient-to-br from-white/5 to-white/2 flex items-center justify-center">
+                    <span className="text-white/80 font-mono text-xl">[{artwork.title}]</span>
+                  </div>
+                  
+                  {/* Simple Corner Elements */}
+                  <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-cyan-400/40" />
+                  <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-cyan-400/40" />
+                  <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-cyan-400/40" />
+                  <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-cyan-400/40" />
                 </div>
-                
-                {/* Simple Corner Elements */}
-                <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-white/40"></div>
-                <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-white/40"></div>
-                <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-white/40"></div>
-                <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-white/40"></div>
-              </div>
+              </motion.div>
             </div>
 
-            {/* Title and Description */}
-            <div className="space-y-6">
-              <h2 className="text-3xl md:text-5xl font-light tracking-tight text-white font-mono">
-                {artwork.title}
-              </h2>
+            {/* Right Side - Enhanced Content */}
+            <div className="space-y-8">
+              {/* Title Section */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-4xl md:text-6xl font-light tracking-tight text-white mb-4 leading-tight">
+                  <span className="text-cyan-400/80 text-lg block mb-2 tracking-widest font-mono">AUSGEWÄHLTE.ARBEIT:</span>
+                  {artwork.title}
+                </h2>
+              </motion.div>
 
-              <p className="text-lg text-white/70 leading-relaxed max-w-3xl mx-auto">
+              {/* Description */}
+              <motion.p 
+                className="text-lg text-white/80 leading-relaxed"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                viewport={{ once: true }}
+              >
                 {artwork.description}
-              </p>
-            </div>
+              </motion.p>
 
-            {/* Artwork Details - Horizontal */}
-            <div className="flex flex-wrap justify-center gap-8 text-sm border border-white/10 p-6 max-w-2xl mx-auto">
-              <div className="text-center">
-                <div className="text-white/50 mb-1 font-mono text-xs">MEDIUM</div>
-                <div className="font-medium text-white">{artwork.medium}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-white/50 mb-1 font-mono text-xs">JAHR</div>
-                <div className="font-medium text-white">{artwork.year}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-white/50 mb-1 font-mono text-xs">DIMENSIONEN</div>
-                <div className="font-medium text-white">{artwork.dimensions}</div>
-              </div>
+              {/* Technical Specifications */}
+              <motion.div 
+                className="grid grid-cols-2 gap-6 border border-white/10 p-6"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1 }}
+                viewport={{ once: true }}
+              >
+                <div>
+                  <div className="text-cyan-400/80 mb-2 font-mono text-xs tracking-wider">MEDIUM.TYPE</div>
+                  <div className="font-medium text-white text-sm">{artwork.medium}</div>
+                </div>
+                <div>
+                  <div className="text-cyan-400/80 mb-2 font-mono text-xs tracking-wider">CREATION.YEAR</div>
+                  <div className="font-medium text-white text-sm">{artwork.year}</div>
+                </div>
+                <div>
+                  <div className="text-cyan-400/80 mb-2 font-mono text-xs tracking-wider">DIMENSIONS</div>
+                  <div className="font-medium text-white text-sm">{artwork.dimensions}</div>
+                </div>
+                <div>
+                  <div className="text-cyan-400/80 mb-2 font-mono text-xs tracking-wider">STATUS</div>
+                  <div className="font-medium text-white text-sm flex items-center">
+                    <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                    ACTIVE
+                  </div>
+                </div>
+              </motion.div>
+
+
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* 3. PORTFOLIO GRID - CLEAN STYLE */}
+      {/* 3. PORTFOLIO GRID - MASONRY LAYOUT */}
       <section 
         ref={portfolioRef}
         className="py-32 px-6 relative z-10"
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-none mx-auto"> {/* Full width container */}
           <motion.div 
             className="text-center mb-20"
             initial={{ opacity: 0, y: 30 }}
@@ -799,46 +901,48 @@ export default function ArtPageDark(): React.JSX.Element {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Masonry Grid Layout */}
+          <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4 px-6">
             {portfolioWorks.map((work, index) => (
               <motion.div
-                key={index}
-                className="group relative"
+                key={work.id}
+                className={`group relative overflow-hidden ${work.gridSpan}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <div className="border border-white/20 hover:border-white/40 transition-all group-hover:bg-white/5 overflow-hidden">
-                  <div className="aspect-square bg-gradient-to-br from-white/5 to-white/2 flex items-center justify-center relative">
-                    <span className="text-sm text-white/60 font-mono">[{work.title}]</span>
+                <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 hover:border-cyan-400/40 transition-all duration-300 group-hover:bg-white/10 relative overflow-hidden">
+                  {/* Image placeholder with title overlay */}
+                  <div className="w-full h-full flex items-center justify-center relative">
+                    <img 
+                      src={work.image} 
+                      alt={work.title}
+                      className="w-full h-full object-cover absolute inset-0"
+                      style={{ filter: 'brightness(0.8) contrast(1.1)' }}
+                    />
                     
-                    {/* Simple Corner Elements */}
-                    <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-white/40"></div>
-                    <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-white/40"></div>
-                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-white/40"></div>
-                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-white/40"></div>
-                  </div>
-                  
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-white/90 transition-colors">
-                      {work.title}
-                    </h3>
-                    
-                    <p className="text-white/70 mb-4 text-sm">
-                      {work.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {work.tags.map((tag, tagIndex) => (
-                        <span
-                          key={tagIndex}
-                          className="px-2 py-1 text-xs border border-white/20 text-white/70 font-mono"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                    {/* Overlay with title - shows on hover */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                      <span className="text-white font-mono text-center px-4">
+                        {work.title}
+                      </span>
                     </div>
+                    
+                    {/* Subtle background pattern */}
+                    <div 
+                      className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity z-5"
+                      style={{
+                        backgroundImage: 'linear-gradient(45deg, transparent 40%, rgba(6, 182, 212, 0.3) 50%, transparent 60%)',
+                        backgroundSize: '20px 20px'
+                      }}
+                    />
+                    
+                    {/* Corner elements */}
+                    <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                    <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
                   </div>
                 </div>
               </motion.div>
