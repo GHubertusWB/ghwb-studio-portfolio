@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles, Briefcase, Users, Palette } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
 import ContactForm from '@/components/ContactForm'
 
 // TypeScript Interfaces (same as light version)
@@ -48,7 +48,6 @@ interface CollaborationCard {
  */
 
 export default function ArtPageDark(): React.JSX.Element {
-  const [selectedSubjectTags, setSelectedSubjectTags] = useState<string[]>([])
   const [currentTime, setCurrentTime] = useState('')
   
   // Refs for scroll animations
@@ -111,19 +110,6 @@ export default function ArtPageDark(): React.JSX.Element {
         block: 'start'
       })
     }
-  }
-
-  const handleCardClick = (subject: string): void => {
-    setSelectedSubjectTags(prev => {
-      if (prev.includes(subject)) {
-        // Entferne das Tag wenn bereits ausgewählt
-        return prev.filter(tag => tag !== subject)
-      } else {
-        // Füge das Tag hinzu wenn noch nicht ausgewählt
-        return [...prev, subject]
-      }
-    })
-    scrollToContactForm()
   }
 
   // Same content as light version
@@ -709,7 +695,7 @@ export default function ArtPageDark(): React.JSX.Element {
                 PORTFOLIO.EXPLORE
               </motion.button>
               <motion.button 
-                onClick={() => handleCardClick('Zusammenarbeit')} 
+                onClick={scrollToContactForm} 
                 className="inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono"
                 style={{
                   background: 'rgba(6, 182, 212, 0.25)',
@@ -885,129 +871,13 @@ export default function ArtPageDark(): React.JSX.Element {
 
           {/* Contact Type Cards */}
           <motion.div 
-            className="mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="relative"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            {/* Cards Title */}
-            <h3 className="text-lg text-white/80 mb-4 font-mono">Betreff</h3>
-            
-            {/* Cards Grid */}
-            <div className="grid md:grid-cols-3 gap-4">
-            {/* Auftragsarbeiten Card */}
-            <motion.div
-              className={`group relative cursor-pointer transition-all duration-300 ${
-                selectedSubjectTags.includes('Auftragsarbeiten') 
-                  ? 'border-cyan-400/60 bg-cyan-400/10' 
-                  : 'border-white/20 hover:border-white/40 hover:bg-white/5 hover:shadow-lg hover:shadow-white/10'
-              }`}
-              style={{
-                border: '1px solid',
-                padding: '16px'
-              }}
-              onClick={() => handleCardClick('Auftragsarbeiten')}
-              whileTap={{ scale: 0.98 }}
-            >
-              {/* Status Indicator */}
-              <div className={`absolute top-4 right-4 w-2 h-2 rounded-full ${
-                selectedSubjectTags.includes('Auftragsarbeiten') ? 'bg-cyan-400' : 'bg-white/60'
-              } animate-pulse`}></div>
-              
-              <div className="w-10 h-10 mb-3 border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-                <Briefcase className="w-5 h-5 text-white" />
-              </div>
-              
-              <h3 className="text-lg font-semibold mb-1 text-white group-hover:text-white/90 transition-colors">
-                Auftragsarbeiten
-              </h3>
-              
-              <p className="text-white/70 leading-relaxed text-xs">
-                Individuelle Kunstwerke nach Ihren Vorstellungen und Anforderungen.
-              </p>
-            </motion.div>
-
-            {/* Kollaborationen Card */}
-            <motion.div
-              className={`group relative cursor-pointer transition-all duration-300 ${
-                selectedSubjectTags.includes('Kollaborationen') 
-                  ? 'border-cyan-400/60 bg-cyan-400/10' 
-                  : 'border-white/20 hover:border-white/40 hover:bg-white/5 hover:shadow-lg hover:shadow-white/10'
-              }`}
-              style={{
-                border: '1px solid',
-                padding: '16px'
-              }}
-              onClick={() => handleCardClick('Kollaborationen')}
-              whileTap={{ scale: 0.98 }}
-            >
-              {/* Status Indicator */}
-              <div className={`absolute top-4 right-4 w-2 h-2 rounded-full ${
-                selectedSubjectTags.includes('Kollaborationen') ? 'bg-cyan-400' : 'bg-white/60'
-              } animate-pulse`}></div>
-              
-              <div className="w-10 h-10 mb-3 border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-                <Users className="w-5 h-5 text-white" />
-              </div>
-              
-              <h3 className="text-lg font-semibold mb-1 text-white group-hover:text-white/90 transition-colors">
-                Kollaborationen
-              </h3>
-              
-              <p className="text-white/70 leading-relaxed text-xs">
-                Gemeinsame Projekte und kreative Partnerschaften mit anderen Künstlern.
-              </p>
-            </motion.div>
-
-            {/* Einzelwerke Card */}
-            <motion.div
-              className={`group relative cursor-pointer transition-all duration-300 ${
-                selectedSubjectTags.includes('Einzelwerke') 
-                  ? 'border-cyan-400/60 bg-cyan-400/10' 
-                  : 'border-white/20 hover:border-white/40 hover:bg-white/5 hover:shadow-lg hover:shadow-white/10'
-              }`}
-              style={{
-                border: '1px solid',
-                padding: '16px'
-              }}
-              onClick={() => handleCardClick('Einzelwerke')}
-              whileTap={{ scale: 0.98 }}
-            >
-              {/* Status Indicator */}
-              <div className={`absolute top-4 right-4 w-2 h-2 rounded-full ${
-                selectedSubjectTags.includes('Einzelwerke') ? 'bg-cyan-400' : 'bg-white/60'
-              } animate-pulse`}></div>
-              
-              <div className="w-10 h-10 mb-3 border border-white/30 flex items-center justify-center group-hover:border-white/60 transition-colors">
-                <Palette className="w-5 h-5 text-white" />
-              </div>
-              
-              <h3 className="text-lg font-semibold mb-1 text-white group-hover:text-white/90 transition-colors">
-                Einzelwerke
-              </h3>
-              
-              <p className="text-white/70 leading-relaxed text-xs">
-                Verfügbare Kunstwerke aus der aktuellen Portfolio-Sammlung.
-              </p>
-            </motion.div>
-          </div>
-        </motion.div>
-
-          <motion.div 
-            className="border border-white/20 p-8 relative"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            {/* Simple Corner Elements */}
-            <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-white/40"></div>
-            <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-white/40"></div>
-            <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-white/40"></div>
-            <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-white/40"></div>
-            
-            <ContactForm initialSubjectTag={selectedSubjectTags.join(', ')} />
+            <ContactForm />
           </motion.div>
         </div>
       </section>

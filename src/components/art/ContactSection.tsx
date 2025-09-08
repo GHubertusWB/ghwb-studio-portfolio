@@ -3,11 +3,7 @@
 import { motion } from 'framer-motion'
 import ContactForm from '@/components/ContactForm'
 
-interface ContactSectionProps {
-  selectedSubjectTag?: string
-}
-
-export default function ContactSection({ selectedSubjectTag }: ContactSectionProps) {
+export default function ContactSection() {
   return (
     <motion.section
       id="contact-form"
@@ -24,7 +20,7 @@ export default function ContactSection({ selectedSubjectTag }: ContactSectionPro
           transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <ContactForm initialSubjectTag={selectedSubjectTag} />
+          <ContactForm />
         </motion.div>
       </div>
     </motion.section>

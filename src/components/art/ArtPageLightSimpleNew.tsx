@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import ArtHero from '@/components/art/ArtHero'
 import ProcessSection from '@/components/art/ProcessSection'
@@ -28,8 +27,6 @@ const FeaturedArtwork = dynamic(() => import('@/components/art/FeaturedArtwork')
 })
 
 export default function ArtPageLightSimpleNew() {
-  const [selectedSubjectTag, setSelectedSubjectTag] = useState<string | undefined>(undefined)
-
   const scrollToContactForm = () => {
     const contactElement = document.getElementById('contact-form')
     if (contactElement) {
@@ -41,7 +38,6 @@ export default function ArtPageLightSimpleNew() {
   }
 
   const handleCardClick = (subject: string) => {
-    setSelectedSubjectTag(subject)
     scrollToContactForm()
   }
 
@@ -168,7 +164,7 @@ export default function ArtPageLightSimpleNew() {
       <ProcessSection steps={processSteps} />
       <PortfolioGrid works={portfolioWorks} />
       <CollaborationSection onCardClick={handleCardClick} />
-      <ContactSection selectedSubjectTag={selectedSubjectTag} />
+      <ContactSection />
     </div>
   )
 }

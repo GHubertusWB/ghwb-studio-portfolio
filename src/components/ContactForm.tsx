@@ -1,15 +1,25 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useRef } from 'react'
-import { Mail, User, MessageSquare, Send, X } from 'lucide-react'
+import { useState } from 'react'
+import { 
+  BriefcaseIcon, 
+  UsersIcon, 
+  PaintBrushIcon, 
+  UserIcon, 
+  EnvelopeIcon, 
+  ChatBubbleLeftRightIcon 
+} from '@heroicons/react/24/outline'
+import Input from './ui/Input'
+import Textarea from './ui/Textarea'
+import SubjectCard from './ui/SubjectCard'
 
 interface ContactFormProps {
-  initialSubjectTag?: string
-  onSubjectTagRemove?: () => void
+  // Keine Props benötigt
 }
 
-export default function ContactForm({ initialSubjectTag, onSubjectTagRemove }: ContactFormProps) {
+export default function ContactForm(): React.JSX.Element {
+  const [selectedSubjectTags, setSelectedSubjectTags] = useState<string[]>([])
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,17 +36,25 @@ export default function ContactForm({ initialSubjectTag, onSubjectTagRemove }: C
     }))
   }
 
+  const handleCardClick = (subject: string): void => {
+    setSelectedSubjectTags(prev => {
+      if (prev.includes(subject)) {
+        return prev.filter(tag => tag !== subject)
+      } else {
+        return [...prev, subject]
+      }
+    })
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
     try {
-      // Simuliere API Call (hier würdest du deine echte API aufrufen)
       await new Promise(resolve => setTimeout(resolve, 2000))
       
-      // Erstelle mailto Link mit den Formulardaten
-      const subject = initialSubjectTag 
-        ? `Anfrage: ${initialSubjectTag} - ${formData.name}`
+      const subject = selectedSubjectTags.length > 0 
+        ? `Anfrage: ${selectedSubjectTags.join(', ')} - ${formData.name}`
         : `Kontaktanfrage - ${formData.name}`
       
       const body = `Hallo,
@@ -52,13 +70,10 @@ E-Mail: ${formData.email}`
 
       setSubmitStatus('success')
       
-      // Reset form after success
       setTimeout(() => {
         setFormData({ name: '', email: '', message: '' })
+        setSelectedSubjectTags([])
         setSubmitStatus('idle')
-        if (onSubjectTagRemove) {
-          onSubjectTagRemove()
-        }
       }, 3000)
       
     } catch (error) {
@@ -68,6 +83,27 @@ E-Mail: ${formData.email}`
     }
   }
 
+  const subjectCards = [
+    {
+      id: 'Auftragsarbeiten',
+      title: 'Auftragsarbeiten',
+      description: 'Individuelle Kunstwerke nach Ihren Vorstellungen und Anforderungen.',
+      icon: <BriefcaseIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+    },
+    {
+      id: 'Kollaborationen',
+      title: 'Kollaborationen',
+      description: 'Gemeinsame Projekte und kreative Partnerschaften mit anderen Künstlern.',
+      icon: <UsersIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+    },
+    {
+      id: 'Einzelwerke',
+      title: 'Einzelwerke',
+      description: 'Verfügbare Kunstwerke aus der aktuellen Portfolio-Sammlung.',
+      icon: <PaintBrushIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+    }
+  ]
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -76,94 +112,81 @@ E-Mail: ${formData.email}`
       viewport={{ once: true }}
       className="w-full max-w-2xl mx-auto"
     >
-      <div className="relative p-8 rounded-2xl bg-background border border-border/50">
-        {/* Subject Tag */}
-        {initialSubjectTag && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center justify-center mb-6"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-full text-label text-primary text-foreground">
-              <span>Betreff: {initialSubjectTag}</span>
-              {onSubjectTagRemove && (
-                <button
-                  onClick={onSubjectTagRemove}
-                  className="p-1 hover:bg-background rounded-full transition-colors"
-                  aria-label="Tag entfernen"
-                >
-                  <X className="w-3 h-3" />
-                </button>
-              )}
-            </div>
-          </motion.div>
-        )}
+      <div 
+        className="relative p-8 border border-gray-200 dark:border-white/20 bg-white dark:bg-white/[0.02] backdrop-blur-sm"
+        style={{
+          backdropFilter: 'blur(10px)'
+        }}
+      >
+        {/* Simple Corner Elements */}
+        <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-gray-300 dark:border-white/40"></div>
+        <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-gray-300 dark:border-white/40"></div>
+        <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-gray-300 dark:border-white/40"></div>
+        <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-gray-300 dark:border-white/40"></div>
+
+        {/* Subject Cards */}
+        <motion.div 
+          className="mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-sm font-medium text-gray-800 dark:text-white/80 mb-2 font-mono">BETREFF</h3>
+          
+          <div className="grid md:grid-cols-3 gap-4 mb-6">
+            {subjectCards.map((card, index) => (
+              <SubjectCard
+                key={card.id}
+                title={card.title}
+                description={card.description}
+                icon={card.icon}
+                isSelected={selectedSubjectTags.includes(card.id)}
+                onClick={() => handleCardClick(card.id)}
+                delay={0.1 + index * 0.1}
+              />
+            ))}
+          </div>
+        </motion.div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name Field */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative">
-              <User className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                placeholder="Ihr Name"
-                className="w-full pl-10 pr-4 py-3 border border-border/50 rounded-xl bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border transition-colors"
-              />
-            </div>
-          </motion.div>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            label="Name"
+            icon={<UserIcon className="w-4 h-4" />}
+            value={formData.name}
+            onChange={handleInputChange}
+            placeholder="Ihr Name"
+            required
+          />
 
-          {/* Email Field */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative">
-              <Mail className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                placeholder="Ihre E-Mail Adresse"
-                className="w-full pl-10 pr-4 py-3 border border-border/50 rounded-xl bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border transition-colors"
-              />
-            </div>
-          </motion.div>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            label="E-Mail"
+            icon={<EnvelopeIcon className="w-4 h-4" />}
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder="Ihre E-Mail Adresse"
+            isRequired
+            required
+          />
 
-          {/* Message Field */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative">
-              <MessageSquare className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-                rows={4}
-                placeholder="Beschreiben Sie Ihr Projekt..."
-                className="w-full pl-10 pr-4 py-3 border border-border/50 rounded-xl bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-border transition-colors resize-none"
-              />
-            </div>
-          </motion.div>
+          <Textarea
+            id="message"
+            name="message"
+            label="Nachricht"
+            icon={<ChatBubbleLeftRightIcon className="w-4 h-4" />}
+            value={formData.message}
+            onChange={handleInputChange}
+            placeholder="Beschreiben Sie Ihr Projekt..."
+            rows={4}
+            required
+          />
 
           {/* Submit Button */}
           <motion.div
@@ -176,18 +199,12 @@ E-Mail: ${formData.email}`
             <motion.button
               type="submit"
               disabled={isSubmitting || !formData.email.trim()}
-              className="inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-8 py-3 rounded-full font-mono transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
-                background: !formData.email.trim() 
-                  ? 'rgba(255, 255, 255, 0.1)' 
-                  : 'rgba(6, 182, 212, 0.25)',
+                background: 'rgba(6, 182, 212, 0.25)',
                 backdropFilter: 'blur(10px)',
-                border: !formData.email.trim() 
-                  ? '1px solid rgba(255, 255, 255, 0.2)' 
-                  : '1px solid rgba(6, 182, 212, 0.4)',
-                boxShadow: !formData.email.trim() 
-                  ? 'none' 
-                  : '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
+                border: '1px solid rgba(6, 182, 212, 0.4)',
+                boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
                 color: 'white'
               }}
               whileHover={!isSubmitting && formData.email.trim() ? { 
@@ -195,7 +212,15 @@ E-Mail: ${formData.email}`
                 y: -2,
                 boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)'
               } : {}}
-              whileTap={!isSubmitting && formData.email.trim() ? { scale: 0.95 } : {}}
+              whileTap={!isSubmitting && formData.email.trim() ? { 
+                scale: 0.95,
+                boxShadow: [
+                  '0 0 40px rgba(6, 182, 212, 0.8), 0 0 80px rgba(6, 182, 212, 0.5), 0 0 120px rgba(6, 182, 212, 0.3)',
+                  '0 0 10px rgba(6, 182, 212, 0.3), 0 0 20px rgba(6, 182, 212, 0.2), 0 0 30px rgba(6, 182, 212, 0.1)',
+                  '0 0 40px rgba(6, 182, 212, 0.8), 0 0 80px rgba(6, 182, 212, 0.5), 0 0 120px rgba(6, 182, 212, 0.3)'
+                ],
+                transition: { duration: 0.1, repeat: 2, repeatType: "reverse" }
+              } : {}}
             >
               {isSubmitting ? (
                 <>
@@ -208,8 +233,8 @@ E-Mail: ${formData.email}`
                 </>
               ) : (
                 <>
-                  <Send className="w-5 h-5 mr-2" />
-                  {!formData.email.trim() ? 'E-MAIL ERFORDERLICH' : 'NACHRICHT.SENDEN'}
+                  <EnvelopeIcon className="w-4 h-4 mr-2" />
+                  ANFRAGE ABSENDEN
                 </>
               )}
             </motion.button>
@@ -220,7 +245,9 @@ E-Mail: ${formData.email}`
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center p-4 bg-green-50 border border-green-200 rounded-xl text-green-700"
+              className="text-center p-4 border-2 
+                border-green-600 bg-green-50 text-green-800 rounded-none
+                dark:border-green-400 dark:bg-green-400/10 dark:text-green-400"
             >
               ✅ Vielen Dank! Ihr E-Mail-Client öffnet sich mit Ihrer Nachricht.
             </motion.div>
@@ -230,7 +257,9 @@ E-Mail: ${formData.email}`
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center p-4 bg-red-50 border border-red-200 rounded-xl text-red-700"
+              className="text-center p-4 border-2
+                border-red-600 bg-red-50 text-red-800 rounded-none
+                dark:border-red-400 dark:bg-red-400/10 dark:text-red-400"
             >
               ❌ Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.
             </motion.div>
@@ -243,14 +272,14 @@ E-Mail: ${formData.email}`
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
           viewport={{ once: true }}
-          className="mt-8 pt-6 border-t border-border/50 text-center"
+          className="mt-8 pt-6 border-t border-gray-300 text-center dark:border-white/20"
         >
-          <p className="text-xs text-muted-foreground text-secondary mb-2">
+          <p className="text-xs mb-2 text-gray-600 dark:text-white/60">
             Oder kontaktieren Sie mich direkt:
           </p>
           <a
             href="mailto:hello@ghwb.studio"
-            className="text-primary hover:text-secondary transition-colors underline underline-offset-2"
+            className="transition-colors underline underline-offset-2 text-gray-800 hover:text-black dark:text-white/80 dark:hover:text-white"
           >
             hello@ghwb.studio
           </a>
