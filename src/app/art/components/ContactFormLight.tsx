@@ -1,6 +1,7 @@
 'use client'
-
-import { motion } from 'framer-motion'
+interface ContactFormLightProps {
+  // Props can be added here when needed
+}import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { 
   BriefcaseIcon, 

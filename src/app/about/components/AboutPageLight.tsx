@@ -290,7 +290,7 @@ export default function AboutPageLight() {
             >
               Der Übergang von der Landschaftsarchitektur zum digitalen Design war fließend – 
               in beiden Bereichen geht es um die Gestaltung von Räumen und Erfahrungen. 
-              Nur dass meine "Landschaften" heute digital sind und auf Bildschirmen zum Leben erwachen.
+              Nur dass meine &ldquo;Landschaften&rdquo; heute digital sind und auf Bildschirmen zum Leben erwachen.
             </motion.p>
             
             <motion.p

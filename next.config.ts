@@ -1,20 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
   images: {
-    unoptimized: true
+    unoptimized: false
   },
-  // Für statischen Export
-  distDir: 'out',
-  // ESLint während Build ignorieren für Deployment
+  // Vercel optimiert automatisch für Deployment
+  experimental: {
+    optimizePackageImports: ['framer-motion', 'lucide-react']
+  },
   eslint: {
+    // Allow production build on Vercel with ESLint warnings
     ignoreDuringBuilds: true,
-  },
-  // TypeScript Fehler während Build ignorieren für Deployment
-  typescript: {
-    ignoreBuildErrors: true,
   }
 };
 
