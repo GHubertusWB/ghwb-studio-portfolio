@@ -2,61 +2,49 @@
 
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Camera, User, Heart, Sparkles, Eye } from 'lucide-react'
 import ContactForm from '@/components/ContactForm'
 import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
 
-// TypeScript Interfaces (same as light version)
-interface Artwork {
+// TypeScript Interfaces
+interface Service {
+  id: number;
   title: string;
-  medium: string;
-  year: string;
+  category: string;
   description: string;
-  dimensions: string;
-}
-
-interface ProcessStep {
-  step: string;
-  title: string;
-  description: string;
+  approach: string;
+  image: string;
+  gridSpan: string;
 }
 
 interface PortfolioWork {
   id: number;
   title: string;
   category: string;
-  medium: string;
-  year: string;
+  description: string;
   image: string;
   gridSpan: string;
-  description: string;
-  tags: string[];
-}
-
-interface CollaborationCard {
-  title: string;
-  description: string;
-  partner: string;
 }
 
 /**
- * ArtPageDark Component (Page)
+ * PhotographyPageDark Component (Page)
  * 
- * Dark mode art portfolio page with HUD design elements.
- * Uses the same content as the light version but with spaceship HUD aesthetic.
+ * Dark mode photography portfolio page with HUD design elements.
+ * Focuses on portrait and pet photography services.
  * 
- * @returns {JSX.Element} The complete dark art page component
+ * @returns {JSX.Element} The complete dark photography page component
  */
 
-export default function ArtPageDark(): React.JSX.Element {
+export default function PhotographyPageDark(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
   
   // Refs for scroll animations
+  const servicesRef = useRef<HTMLElement>(null)
   const portfolioRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
 
-  // Real-time clock for HUD elements
+  // Real-time clock for HUD
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
@@ -90,7 +78,7 @@ export default function ArtPageDark(): React.JSX.Element {
     )
 
     // Observe sections
-    const sections = [portfolioRef, contactRef]
+    const sections = [servicesRef, portfolioRef, contactRef]
     sections.forEach(ref => {
       if (ref.current) {
         observer.observe(ref.current)
@@ -114,225 +102,77 @@ export default function ArtPageDark(): React.JSX.Element {
     }
   }
 
-  // Same content as light version
-  const artwork: Artwork = {
-    title: "Teilen - AR Canvas Serie",
-    medium: "Augmented Reality & Canvas",
-    year: "2024",
-    description: "Harmonie in der Gesellschaft wird schnell verdrängt, wenn es um stark diskutierte Themen geht. Die Serie 'Teilen' kritisiert dieses Verhalten und zeigt auf, dass eine bewusste Betrachtung beider Seiten erst das Gesamtbild erkennen gibt.",
-    dimensions: "Variable Dimensionen"
-  }
-
-  const processSteps: ProcessStep[] = [
-    {
-      step: "01",
-      title: "Konzeption & Vision",
-      description: "Entwicklung der kreativen Vision und technischen Machbarkeitsstudie"
-    },
-    {
-      step: "02", 
-      title: "Iteration & Verfeinerung",
-      description: "Experimentelle Phase mit verschiedenen Ansätzen und Techniken"
-    },
-    {
-      step: "03",
-      title: "Umsetzung & Realisierung", 
-      description: "Finale Ausarbeitung und technische Implementierung"
-    },
-    {
-      step: "04",
-      title: "Präsentation & Installation",
-      description: "Aufbau und kuratorische Betreuung der finalen Installation"
-    }
-  ]
-
-  const portfolioWorks: PortfolioWork[] = [
+  // Photography Services Data
+  const services: Service[] = [
     {
       id: 1,
-      title: "AR Canvas - Gesellschaftskritik",
-      category: "Augmented Reality",
-      medium: "Mixed Media & AR",
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/5afb8e8c-63bb-49a1-84a3-3409e85b788e/l382,t0,w981,h1107/image-768x867.jpg",
-      gridSpan: "col-span-1 row-span-1", // Portrait format (768x867)
-      description: "",
-      tags: []
+      title: "Porträtfotografie",
+      category: "Portrait",
+      description: "Individuelle Porträts, die Persönlichkeit und Charakter zum Ausdruck bringen",
+      approach: "Natürliche Beleuchtung, authentische Momente",
+      image: "/api/placeholder/600/400",
+      gridSpan: "col-span-1 row-span-1"
     },
     {
       id: 2,
-      title: "Teilen - Dualität", 
-      category: "Interactive Art",
-      medium: "Canvas & Digital",
-      year: "2024", 
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/6d78959b-2167-421b-b3cd-a9dc2264d797/l392,t111,w972,h1097/image-768x867.jpg",
-      gridSpan: "col-span-1 row-span-1", // Portrait format (768x867)
-      description: "",
-      tags: []
-    },
-    {
-      id: 3,
-      title: "Bewusste Betrachtung",
-      category: "Augmented Reality", 
-      medium: "AR Installation",
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/75ee7181-f11c-4cf4-951f-075fdbb2b83a/l665,t99,w641,h723/image.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format
-      description: "",
-      tags: []
-    },
-    {
-      id: 4,
-      title: "Gesellschaftliche Harmonie",
-      category: "Mixed Media",
-      medium: "Canvas & Technology", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9ae24fe6-98c2-4252-9261-70559e2ddb41/l32,t0,w1935,h1014/image-768x402.png", 
-      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x402)
-      description: "",
-      tags: []
-    },
-    {
-      id: 5,
-      title: "Diskurs und Dialog",
-      category: "Contemporary Art",
-      medium: "Interactive Installation",
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/413fcc5d-2b47-49d6-932d-fb7a1f442c71/l495,t0,w1009,h1083/image-768x824.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
-      description: "",
-      tags: []
-    },
-    {
-      id: 6,
-      title: "Komplexität der Wahrheit",
-      category: "Digital Art",
-      medium: "AR & Canvas", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9ab5a29e-e2cb-4d26-b746-1e8b380ae787/l0,t2,w1040,h648/image-768x479.jpg",
-      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x479)
-      description: "",
-      tags: []
-    },
-    {
-      id: 7,
-      title: "Perspektive und Verstehen",
-      category: "Mixed Media",
-      medium: "Contemporary Art", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/c943e5f8-e370-4061-ac57-f565b2689ecd/l195,t0,w1313,h2000/image-768x1170.jpg",
-      gridSpan: "col-span-1 row-span-2", // Tall portrait format (768x1170)
-      description: "",
-      tags: []
-    },
-    {
-      id: 8,
-      title: "Soziale Reflexion",
-      category: "Installation",
-      medium: "Mixed Media", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/1c360936-fc13-45c0-8b21-30d9ef81d799/l0,t214,w1465,h1573/image-768x825.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x825)
-      description: "",
-      tags: []
-    },
-    {
-      id: 9,
-      title: "Erweiterte Realität",
-      category: "Augmented Reality",
-      medium: "AR Installation", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/55a22e21-a366-490a-aaef-2a3d124add8c/l552,t235,w657,h705/image.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format
-      description: "",
-      tags: []
-    },
-    {
-      id: 10,
-      title: "Digitale Transformation",
-      category: "Digital Art",
-      medium: "Mixed Media", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9f368468-250f-41cb-b774-ad530786e264/l322,t678,w929,h788/image-768x651.jpg",
-      gridSpan: "col-span-1 row-span-1", // Landscape format (768x651)
-      description: "",
-      tags: []
-    },
-    {
-      id: 11,
-      title: "Zukunftsvision",
-      category: "Contemporary Art",
-      medium: "Installation", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/5ae47c9c-420a-4e5f-a29e-6dd4a2534f6c/l69,t0,w1863,h2000/image-768x824.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
-      description: "",
-      tags: []
-    },
-    {
-      id: 12,
-      title: "Technologie & Mensch",
-      category: "Mixed Media",
-      medium: "AR & Canvas", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/75833409-63c1-48b4-846b-ec85fc772b14/l0,t379,w1436,h1542/image-768x825.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x825)
-      description: "",
-      tags: []
-    },
-    {
-      id: 13,
-      title: "Virtuelle Welten",
-      category: "Digital Art",
-      medium: "VR Installation", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/c99a89a5-5199-44ac-862d-a2c8af5552ee/l0,t195,w1500,h1610/image-768x824.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
-      description: "",
-      tags: []
-    },
-    {
-      id: 14,
-      title: "Grenzen überwinden",
-      category: "Interactive Art",
-      medium: "Mixed Reality", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/bb6c044e-bcfc-415a-84dd-0808484c51a2/l0,t195,w2000,h1697/image-768x652.jpg",
-      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x652)
-      description: "",
-      tags: []
+      title: "Haustierfotografie", 
+      category: "Pets",
+      description: "Liebevolle Aufnahmen Ihrer vierbeinigen Familienmitglieder",
+      approach: "Geduldiger Umgang, natürliche Umgebung",
+      image: "/api/placeholder/600/400",
+      gridSpan: "col-span-1 row-span-1"
     }
   ]
 
-  const collaborations: CollaborationCard[] = [
+  // Portfolio Data
+  const portfolio: PortfolioWork[] = [
     {
-      title: "Digital Art Festival",
-      partner: "Kunstmuseum Dresden",
-      description: "Kollaborative Installation zum Thema digitale Transformation in der zeitgenössischen Kunst."
+      id: 1,
+      title: "Business Porträts",
+      category: "Portrait",
+      description: "Professionelle Unternehmensporträts",
+      image: "/api/placeholder/500/600",
+      gridSpan: "col-span-1 row-span-1"
     },
     {
-      title: "AR Workshop Series",
-      partner: "Goethe Institut",
-      description: "Bildungsprogramm zur Einführung von Augmented Reality in kreative Prozesse."
+      id: 2,
+      title: "Familienhaustiere",
+      category: "Pets",
+      description: "Spielerische Momente mit den Liebsten",
+      image: "/api/placeholder/700/400",
+      gridSpan: "col-span-2 row-span-1"
     },
     {
-      title: "Sustainable Art Initiative",
-      partner: "Greenpeace Deutschland",
-      description: "Gemeinsame Projekte zu Umweltbewusstsein und nachhaltiger Kunstproduktion."
+      id: 3,
+      title: "Künstlerporträts",
+      category: "Portrait",
+      description: "Kreative Menschen in ihrem Element",
+      image: "/api/placeholder/500/500",
+      gridSpan: "col-span-1 row-span-1"
     },
     {
-      title: "Tech Meets Art",
-      partner: "Berlin Art Week",
-      description: "Interdisziplinäre Ausstellung zwischen Technologie und traditioneller Kunst."
+      id: 4,
+      title: "Outdoor Shooting",
+      category: "Portrait",
+      description: "Natürliche Umgebung, authentische Stimmung",
+      image: "/api/placeholder/600/800",
+      gridSpan: "col-span-1 row-span-2"
     },
     {
-      title: "Community Canvas",
-      partner: "Lokale Kunstvereine",
-      description: "Partizipative Kunstprojekte mit Bürgerbeteiligung in verschiedenen Stadtteilen."
+      id: 5,
+      title: "Paar Shooting",
+      category: "Portrait",
+      description: "Intime Momente zwischen zwei Menschen",
+      image: "/api/placeholder/500/500",
+      gridSpan: "col-span-1 row-span-1"
     },
     {
-      title: "Future Visions",
-      partner: "TU Berlin",
-      description: "Forschungskooperation zu neuen Technologien in der Kunstpraxis."
+      id: 6,
+      title: "Mensch & Tier",
+      category: "Portrait",
+      description: "Die besondere Verbindung",
+      image: "/api/placeholder/700/400",
+      gridSpan: "col-span-2 row-span-1"
     }
   ]
 
@@ -661,13 +501,13 @@ export default function ArtPageDark(): React.JSX.Element {
                 />
               </motion.g>
 
-              {/* Additional Art-specific elements */}
+              {/* Additional Photography-specific elements */}
               <motion.g
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.3 }}
                 transition={{ duration: 1, delay: 4.5 }}
               >
-                {/* Art portfolio indicators */}
+                {/* Photography focus indicators */}
                 <circle cx="200" cy="300" r="3" fill="cyan" opacity="0.6">
                   <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
                 </circle>
@@ -721,8 +561,8 @@ export default function ArtPageDark(): React.JSX.Element {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
             >
-              <span className="text-cyan-400/80 text-lg block mb-2 tracking-widest font-mono">GHWB.ART.SYSTEM:</span>
-              KUNST & KREATIVITÄT
+              <span className="text-cyan-400/80 text-lg block mb-2 tracking-widest font-mono">GHWB.PHOTOGRAPHY.SYSTEM:</span>
+              FOTOGRAFIE
             </motion.h1>
 
             <motion.p 
@@ -731,7 +571,7 @@ export default function ArtPageDark(): React.JSX.Element {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.4 }}
             >
-              Digitale Kunst trifft auf traditionelle Ästhetik. Eine Exploration der Grenzen zwischen Technologie und menschlicher Kreativität.
+              Authentische Momente eingefangen. Spezialisiert auf Porträt- und Haustierfotografie, die Emotionen und Persönlichkeiten zum Leben erweckt.
             </motion.p>
 
             <motion.div
@@ -752,7 +592,7 @@ export default function ArtPageDark(): React.JSX.Element {
                 whileTap={{ scale: 0.95 }}
               >
                 <Sparkles className="w-4 h-4 mr-2" />
-                PORTFOLIO.EXPLORE
+                SERVICES.EXPLORE
               </motion.button>
               <motion.button 
                 onClick={scrollToContactForm} 
@@ -771,193 +611,110 @@ export default function ArtPageDark(): React.JSX.Element {
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                COLLABORATE.START
+                BOOKING.START
               </motion.button>
             </motion.div>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* 2. FEATURED ARTWORK - ADVANCED INTERACTIVE STYLE */}
-      <section className="py-32 px-6 relative z-10">
+      {/* 2. SERVICES SECTION */}
+      <section ref={servicesRef} className="py-32 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="grid lg:grid-cols-2 gap-16 items-center"
+            className="text-center mb-16"
           >
-            {/* Left Side - Enhanced Image Display */}
-            <div className="relative">
-              {/* Status Header */}
-              <motion.div 
-                className="flex items-center mb-8"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-                <span className="text-cyan-400 font-mono text-sm tracking-wider">FEATURED.ARTWORK</span>
-              </motion.div>
-
-              {/* Minimalist Image Display */}
-              <motion.div 
-                className="relative"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.4 }}
-                viewport={{ once: true }}
-              >
-                <div className="relative border border-white/20 p-6">
-                  {/* Main Artwork Display */}
-                  <div className="relative w-full h-96 bg-gradient-to-br from-white/5 to-white/2 overflow-hidden">
-                    <img 
-                      src="https://www.sirhub.online/wp-content/uploads/go-x/u/5afb8e8c-63bb-49a1-84a3-3409e85b788e/l382,t0,w981,h1107/image-768x867.jpg"
-                      alt={artwork.title}
-                      className="w-full h-full object-cover"
-                      style={{ filter: 'brightness(0.9) contrast(1.1)' }}
-                    />
-                    {/* Subtle overlay to maintain readability */}
-                    <div className="absolute inset-0 bg-black/20" />
-                  </div>
-                  
-                  {/* Simple Corner Elements */}
-                  <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-cyan-400/40" />
-                  <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-cyan-400/40" />
-                  <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-cyan-400/40" />
-                  <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-cyan-400/40" />
-                </div>
-              </motion.div>
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              PHOTOGRAPHY.SERVICES
             </div>
-
-            {/* Right Side - Enhanced Content */}
-            <div className="space-y-8">
-              {/* Title Section */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <h2 className="text-4xl md:text-6xl font-light tracking-tight text-white mb-4 leading-tight">
-                  <span className="text-cyan-400/80 text-lg block mb-2 tracking-widest font-mono">AUSGEWÄHLTE.ARBEIT:</span>
-                  {artwork.title}
-                </h2>
-              </motion.div>
-
-              {/* Description */}
-              <motion.p 
-                className="text-lg text-white/80 leading-relaxed"
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                viewport={{ once: true }}
-              >
-                {artwork.description}
-              </motion.p>
-
-              {/* Technical Specifications */}
-              <motion.div 
-                className="grid grid-cols-2 gap-6 border border-white/10 p-6"
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                viewport={{ once: true }}
-              >
-                <div>
-                  <div className="text-cyan-400/80 mb-2 font-mono text-xs tracking-wider">MEDIUM.TYPE</div>
-                  <div className="font-medium text-white text-sm">{artwork.medium}</div>
-                </div>
-                <div>
-                  <div className="text-cyan-400/80 mb-2 font-mono text-xs tracking-wider">CREATION.YEAR</div>
-                  <div className="font-medium text-white text-sm">{artwork.year}</div>
-                </div>
-                <div>
-                  <div className="text-cyan-400/80 mb-2 font-mono text-xs tracking-wider">DIMENSIONS</div>
-                  <div className="font-medium text-white text-sm">{artwork.dimensions}</div>
-                </div>
-                <div>
-                  <div className="text-cyan-400/80 mb-2 font-mono text-xs tracking-wider">STATUS</div>
-                  <div className="font-medium text-white text-sm flex items-center">
-                    <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                    ACTIVE
-                  </div>
-                </div>
-              </motion.div>
-
-
-            </div>
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Spezialisierte Fotografie
+            </h2>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+              Fokus auf Porträt- und Haustierfotografie mit authentischem Ansatz
+            </p>
           </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {services.map((service, index) => (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+                className="p-8 rounded-2xl border border-white/20 hover:border-cyan-400/40 transition-all duration-300"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)'
+                }}
+              >
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400/20 mb-6">
+                  {service.category === 'Portrait' ? (
+                    <User className="w-6 h-6 text-cyan-400" />
+                  ) : (
+                    <Heart className="w-6 h-6 text-cyan-400" />
+                  )}
+                </div>
+                <h3 className="text-xl font-semibold mb-4 text-white">{service.title}</h3>
+                <p className="text-white/70 leading-relaxed mb-4">{service.description}</p>
+                <p className="text-cyan-400 text-sm font-mono">{service.approach}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 3. PORTFOLIO GRID - MASONRY LAYOUT */}
-      <section 
-        ref={portfolioRef}
-        className="py-32 px-6 relative z-10"
-      >
-        <div className="max-w-none mx-auto"> {/* Full width container */}
-          <motion.div 
-            className="text-center mb-20"
+      {/* 3. PORTFOLIO GRID */}
+      <section ref={portfolioRef} className="py-20 px-6 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6 text-white" style={{ fontFamily: 'monospace', textShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}>
-              PORTFOLIO ARBEITEN
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              PORTFOLIO.SHOWCASE
+            </div>
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Ausgewählte Arbeiten
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Eine Auswahl meiner aktuellen Kunstwerke und Projekte.
+              Eine Auswahl authentischer Fotografie-Projekte
             </p>
           </motion.div>
 
-          {/* Masonry Grid Layout */}
-          <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4 px-6">
-            {portfolioWorks.map((work, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {portfolio.map((item, index) => (
               <motion.div
-                key={work.id}
-                className={`card cursor-button group relative overflow-hidden ${work.gridSpan}`}
-                style={{ cursor: 'none' }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                key={item.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                whileHover={{ y: -10 }}
+                className={`group cursor-pointer ${item.gridSpan}`}
               >
-                <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 hover:border-cyan-400/40 transition-all duration-300 group-hover:bg-white/10 relative overflow-hidden">
-                  {/* Image placeholder with title overlay */}
-                  <div className="w-full h-full flex items-center justify-center relative">
-                    <img 
-                      src={work.image} 
-                      alt={work.title}
-                      className="w-full h-full object-cover absolute inset-0"
-                      style={{ filter: 'brightness(0.8) contrast(1.1)' }}
-                    />
-                    
-                    {/* Overlay with title - shows on hover */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                      <span className="text-white font-mono text-center px-4">
-                        {work.title}
-                      </span>
-                    </div>
-                    
-                    {/* Subtle background pattern */}
-                    <div 
-                      className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity z-5"
-                      style={{
-                        backgroundImage: 'linear-gradient(45deg, transparent 40%, rgba(6, 182, 212, 0.3) 50%, transparent 60%)',
-                        backgroundSize: '20px 20px'
-                      }}
-                    />
-                    
-                    {/* Corner elements */}
-                    <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                <div className="overflow-hidden rounded-2xl bg-white/5 mb-6 aspect-[4/3]">
+                  <div className="w-full h-full bg-gradient-to-br from-white/10 via-white/5 to-transparent flex items-center justify-center">
+                    <Camera className="w-12 h-12 text-white/30" />
                   </div>
+                </div>
+                <div className="space-y-3">
+                  <span className="text-sm font-medium text-cyan-400 font-mono">{item.category}</span>
+                  <h3 className="text-xl font-semibold group-hover:text-white/80 transition-colors text-white">
+                    {item.title}
+                  </h3>
+                  <p className="text-white/70 leading-relaxed">{item.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -965,39 +722,83 @@ export default function ArtPageDark(): React.JSX.Element {
         </div>
       </section>
 
-      {/* 4. CONTACT FORM - CLEAN STYLE */}
-      <section
-        id="contact-form"
-        ref={contactRef}
-        className="py-32 px-6 relative z-10"
-      >
-        <div className="max-w-4xl mx-auto">
-          <motion.div 
-            className="text-center mb-16"
+      {/* 4. APPROACH SECTION */}
+      <section className="py-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6 text-white" style={{ fontFamily: 'monospace', textShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}>
-              KONTAKT
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              APPROACH.PHILOSOPHY
+            </div>
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Mein fotografischer Ansatz
+            </h2>
+            <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
+              Authentizität steht im Mittelpunkt. Jede Aufnahme soll die wahre Persönlichkeit 
+              und natürliche Emotionen einfangen – ohne Künstlichkeit, mit viel Geduld und Verständnis.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+              {[
+                { icon: Eye, title: "Authentische Momente", desc: "Echte Emotionen statt gestellte Posen" },
+                { icon: Heart, title: "Persönlicher Ansatz", desc: "Individuell auf Sie abgestimmt" },
+                { icon: Camera, title: "Technische Perfektion", desc: "Modernste Ausrüstung, jahrelange Erfahrung" }
+              ].map((item, index) => {
+                const Icon = item.icon
+                return (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: index * 0.2 }}
+                    viewport={{ once: true }}
+                    className="text-center"
+                  >
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-white/20 mb-6" style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      backdropFilter: 'blur(10px)'
+                    }}>
+                      <Icon className="w-8 h-8 text-cyan-400" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-4 text-white">{item.title}</h3>
+                    <p className="text-white/70 leading-relaxed">{item.desc}</p>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 5. CONTACT SECTION */}
+      <section ref={contactRef} id="contact-form" className="py-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              CONTACT.BOOKING
+            </div>
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Lassen Sie uns Ihre Geschichte erzählen
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Lassen Sie uns über Ihre Ideen und Projekte sprechen
+              Bereit für ein authentisches Foto-Shooting? Kontaktieren Sie mich für 
+              Porträt- oder Haustierfotografie.
             </p>
           </motion.div>
 
-          {/* Contact Type Cards */}
-          <motion.div 
-            className="relative"
-            style={{ cursor: 'none' }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <ContactForm />
-          </motion.div>
+          <ContactForm />
         </div>
       </section>
 

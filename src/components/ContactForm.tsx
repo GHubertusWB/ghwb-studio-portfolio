@@ -115,7 +115,8 @@ E-Mail: ${formData.email}`
       <div 
         className="relative p-8 border border-gray-200 dark:border-white/20 bg-white dark:bg-white/[0.02] backdrop-blur-sm"
         style={{
-          backdropFilter: 'blur(10px)'
+          backdropFilter: 'blur(10px)',
+          cursor: 'none'
         }}
       >
         {/* Simple Corner Elements */}
@@ -132,7 +133,7 @@ E-Mail: ${formData.email}`
           transition={{ duration: 0.6, delay: 0.1 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-sm font-medium text-gray-800 dark:text-white/80 mb-2 font-mono">BETREFF</h3>
+          <h3 className="text-sm font-medium text-gray-800 dark:text-white/80 mb-2">Betreff</h3>
           
           <div className="grid md:grid-cols-3 gap-4 mb-6">
             {subjectCards.map((card, index) => (
@@ -199,13 +200,13 @@ E-Mail: ${formData.email}`
             <motion.button
               type="submit"
               disabled={isSubmitting || !formData.email.trim()}
-              className="inline-flex items-center px-8 py-3 rounded-full font-mono transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="cursor-button inline-flex items-center px-8 py-3 rounded-full font-mono transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-white"
               style={{
                 background: 'rgba(6, 182, 212, 0.25)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(6, 182, 212, 0.4)',
                 boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
-                color: 'white'
+                cursor: 'none'
               }}
               whileHover={!isSubmitting && formData.email.trim() ? { 
                 scale: 1.05, 

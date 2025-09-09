@@ -2,11 +2,13 @@
 
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
-import { ArrowRight, ArrowLeft, Palette, Layers, Heart } from 'lucide-react'
-import ContactForm from '@/components/ContactForm'
+import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
+import ContactFormLight from './ContactFormLight'
+import CustomCursor from '@/components/CustomCursor'
+import FloatingCloudsArt from './FloatingCloudsArt'
+import Footer from '@/components/Footer'
 
-// TypeScript Interfaces
+// TypeScript Interfaces (same as dark version)
 interface Artwork {
   title: string;
   medium: string;
@@ -40,26 +42,37 @@ interface CollaborationCard {
 }
 
 /**
- * ArtPageLightSimple Component (Page)
+ * ArtPageLight Component (Page)
  * 
- * Main art portfolio page featuring artwork showcase, creative process,
- * portfolio grid, and collaboration sections. Uses motion animations
- * and responsive design patterns.
+ * Light mode art portfolio page with minimalist Bauhaus design.
+ * Uses the same content as the dark version but with clean, geometric styling.
  * 
- * @example
- * <ArtPageLightSimple />
- * 
- * @returns {JSX.Element} The complete art page component
+ * @returns {JSX.Element} The complete light art page component
  */
 
-export default function ArtPageLightSimple(): React.JSX.Element {
-  const [selectedSubjectTag, setSelectedSubjectTag] = useState<string | undefined>(undefined)
+export default function ArtPageLight(): React.JSX.Element {
+  const [currentTime, setCurrentTime] = useState('')
   
   // Refs for scroll animations
-  const processRef = useRef<HTMLElement>(null)
   const portfolioRef = useRef<HTMLElement>(null)
-  const collaborationRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
+
+  // Real-time clock for consistency
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date()
+      setCurrentTime(now.toLocaleTimeString('de-DE', { 
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }))
+    }
+
+    updateTime()
+    const interval = setInterval(updateTime, 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   // Intersection Observer for performance-optimized animations
   useEffect(() => {
@@ -78,14 +91,14 @@ export default function ArtPageLightSimple(): React.JSX.Element {
     )
 
     // Observe sections
-    const sections = [processRef, portfolioRef, collaborationRef, contactRef]
+    const sections = [portfolioRef, contactRef]
     sections.forEach(ref => {
       if (ref.current) {
         observer.observe(ref.current)
         
         // Also observe child elements
-        const children = ref.current.querySelectorAll('.scroll-animate, .process-step, .portfolio-item, .collaboration-card')
-        children.forEach(child => observer.observe(child))
+        const children = ref.current.querySelectorAll('.bauhaus-animate, .bauhaus-portfolio-item')
+        children.forEach((child: Element) => observer.observe(child))
       }
     })
 
@@ -102,11 +115,7 @@ export default function ArtPageLightSimple(): React.JSX.Element {
     }
   }
 
-  const handleCardClick = (subject: string): void => {
-    setSelectedSubjectTag(subject)
-    scrollToContactForm()
-  }
-
+  // Same content as dark version
   const artwork: Artwork = {
     title: "Teilen - AR Canvas Serie",
     medium: "Augmented Reality & Canvas",
@@ -145,10 +154,10 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Augmented Reality",
       medium: "Mixed Media & AR",
       year: "2024",
-      image: "/images/art1.jpg",
-      gridSpan: "col-span-1 row-span-1",
-      description: "Eine kritische Auseinandersetzung mit gesellschaftlichen Normen durch erweiterte Realität.",
-      tags: ["AR", "Gesellschaftskritik", "Mixed Media"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/5afb8e8c-63bb-49a1-84a3-3409e85b788e/l382,t0,w981,h1107/image-768x867.jpg",
+      gridSpan: "col-span-1 row-span-1", // Portrait format (768x867)
+      description: "",
+      tags: []
     },
     {
       id: 2,
@@ -156,10 +165,10 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Interactive Art",
       medium: "Canvas & Digital",
       year: "2024", 
-      image: "/images/art2.jpg",
-      gridSpan: "col-span-2 row-span-1",
-      description: "Interaktive Installation über die Dualität des Teilens in der modernen Gesellschaft.",
-      tags: ["Interaktiv", "Dualität", "Digital"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/6d78959b-2167-421b-b3cd-a9dc2264d797/l392,t111,w972,h1097/image-768x867.jpg",
+      gridSpan: "col-span-1 row-span-1", // Portrait format (768x867)
+      description: "",
+      tags: []
     },
     {
       id: 3,
@@ -167,10 +176,10 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Augmented Reality", 
       medium: "AR Installation",
       year: "2024",
-      image: "/images/art3.jpg",
-      gridSpan: "col-span-1 row-span-2",
-      description: "AR-Installation die zur bewussten Wahrnehmung unserer Umgebung einlädt.",
-      tags: ["AR", "Bewusstsein", "Installation"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/75ee7181-f11c-4cf4-951f-075fdbb2b83a/l665,t99,w641,h723/image.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format
+      description: "",
+      tags: []
     },
     {
       id: 4,
@@ -178,10 +187,10 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Mixed Media",
       medium: "Canvas & Technology", 
       year: "2024",
-      image: "/images/art4.jpg", 
-      gridSpan: "col-span-1 row-span-1",
-      description: "Technologie und traditionelle Medien im Dialog über gesellschaftliche Harmonie.",
-      tags: ["Harmonie", "Technologie", "Canvas"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9ae24fe6-98c2-4252-9261-70559e2ddb41/l32,t0,w1935,h1014/image-768x402.png", 
+      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x402)
+      description: "",
+      tags: []
     },
     {
       id: 5,
@@ -189,10 +198,10 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Contemporary Art",
       medium: "Interactive Installation",
       year: "2024",
-      image: "/images/art5.jpg",
-      gridSpan: "col-span-2 row-span-2",
-      description: "Interaktive Installation die den Dialog zwischen Betrachter und Werk ermöglicht.",
-      tags: ["Dialog", "Interaktiv", "Contemporary"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/413fcc5d-2b47-49d6-932d-fb7a1f442c71/l495,t0,w1009,h1083/image-768x824.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
+      description: "",
+      tags: []
     },
     {
       id: 6,
@@ -200,10 +209,10 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Digital Art",
       medium: "AR & Canvas", 
       year: "2024",
-      image: "/images/art6.jpg",
-      gridSpan: "col-span-1 row-span-1",
-      description: "Eine vielschichtige Betrachtung der Wahrheit in unserer digitalen Zeit.",
-      tags: ["Wahrheit", "Komplexität", "Digital"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9ab5a29e-e2cb-4d26-b746-1e8b380ae787/l0,t2,w1040,h648/image-768x479.jpg",
+      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x479)
+      description: "",
+      tags: []
     },
     {
       id: 7,
@@ -211,10 +220,10 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Mixed Media",
       medium: "Contemporary Art", 
       year: "2024",
-      image: "/images/art7.jpg",
-      gridSpan: "col-span-2 row-span-1",
-      description: "Verschiedene Perspektiven auf ein Thema durch zeitgenössische Kunst.",
-      tags: ["Perspektive", "Verstehen", "Contemporary"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/c943e5f8-e370-4061-ac57-f565b2689ecd/l195,t0,w1313,h2000/image-768x1170.jpg",
+      gridSpan: "col-span-1 row-span-2", // Tall portrait format (768x1170)
+      description: "",
+      tags: []
     },
     {
       id: 8,
@@ -222,10 +231,10 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Installation",
       medium: "Mixed Media", 
       year: "2024",
-      image: "/images/art8.jpg",
-      gridSpan: "col-span-1 row-span-1",
-      description: "Installation die zur Reflexion über soziale Strukturen anregt.",
-      tags: ["Sozial", "Reflexion", "Installation"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/1c360936-fc13-45c0-8b21-30d9ef81d799/l0,t214,w1465,h1573/image-768x825.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x825)
+      description: "",
+      tags: []
     },
     {
       id: 9,
@@ -233,10 +242,65 @@ export default function ArtPageLightSimple(): React.JSX.Element {
       category: "Augmented Reality",
       medium: "AR Installation", 
       year: "2024",
-      image: "/images/art9.jpg",
-      gridSpan: "col-span-1 row-span-1",
-      description: "AR-Erlebnis das die Grenzen zwischen real und digital verwischt.",
-      tags: ["AR", "Realität", "Immersiv"]
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/55a22e21-a366-490a-aaef-2a3d124add8c/l552,t235,w657,h705/image.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format
+      description: "",
+      tags: []
+    },
+    {
+      id: 10,
+      title: "Digitale Transformation",
+      category: "Digital Art",
+      medium: "Mixed Media", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9f368468-250f-41cb-b774-ad530786e264/l322,t678,w929,h788/image-768x651.jpg",
+      gridSpan: "col-span-1 row-span-1", // Landscape format (768x651)
+      description: "",
+      tags: []
+    },
+    {
+      id: 11,
+      title: "Zukunftsvision",
+      category: "Contemporary Art",
+      medium: "Installation", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/5ae47c9c-420a-4e5f-a29e-6dd4a2534f6c/l69,t0,w1863,h2000/image-768x824.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
+      description: "",
+      tags: []
+    },
+    {
+      id: 12,
+      title: "Technologie & Mensch",
+      category: "Mixed Media",
+      medium: "AR & Canvas", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/75833409-63c1-48b4-846b-ec85fc772b14/l0,t379,w1436,h1542/image-768x825.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x825)
+      description: "",
+      tags: []
+    },
+    {
+      id: 13,
+      title: "Virtuelle Welten",
+      category: "Digital Art",
+      medium: "VR Installation", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/c99a89a5-5199-44ac-862d-a2c8af5552ee/l0,t195,w1500,h1610/image-768x824.jpg",
+      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
+      description: "",
+      tags: []
+    },
+    {
+      id: 14,
+      title: "Grenzen überwinden",
+      category: "Interactive Art",
+      medium: "Mixed Reality", 
+      year: "2024",
+      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/bb6c044e-bcfc-415a-84dd-0808484c51a2/l0,t195,w2000,h1697/image-768x652.jpg",
+      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x652)
+      description: "",
+      tags: []
     }
   ]
 
@@ -274,301 +338,380 @@ export default function ArtPageLightSimple(): React.JSX.Element {
   ]
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative">
-      {/* 1. HERO SECTION - BAUHAUS MINIMAL */}
+    <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
+      <CustomCursor />
+      
+      {/* 1. HERO SECTION - STARTSEITE LIGHT MODE STYLING */}
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-gray-50 to-gray-100 relative overflow-hidden"
+        transition={{ duration: 2 }}
+        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        style={{ zIndex: 20 }}
       >
-        {/* Bauhaus geometric background elements */}
-        <div className="absolute inset-0 overflow-hidden opacity-20">
-          <div className="absolute top-20 left-20 w-32 h-32 border-4 border-primary rotate-45"></div>
-          <div className="absolute bottom-32 right-32 w-24 h-24 bg-accent rounded-full"></div>
-          <div className="absolute top-1/2 left-10 w-0 h-0 border-l-16 border-r-16 border-b-28 border-l-transparent border-r-transparent border-b-secondary"></div>
-        </div>
+        {/* Background gradient - matching startpage */}
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-white" />
 
-        <div className="relative z-10 text-center px-6 max-w-4xl">
-          {/* Back Button */}
-          <motion.button
-            onClick={() => window.history.back()}
-            className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors mb-8"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Zurück
-          </motion.button>
+        {/* Floating Clouds - spezielle Konfiguration für Art Page */}
+        <FloatingCloudsArt />
 
-          <motion.h1 
-            className="text-4xl md:text-7xl font-light tracking-tight mb-6"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            Kunst & Kreativität
-          </motion.h1>
-
-          <motion.p 
-            className="text-xl md:text-2xl text-muted-foreground mb-12 leading-relaxed max-w-2xl mx-auto"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-          >
-            Digitale Kunst trifft auf traditionelle Ästhetik. Eine Exploration der Grenzen zwischen Technologie und menschlicher Kreativität.
-          </motion.p>
-
+        {/* Subtle geometric background elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 15 }}>
           <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="relative w-full h-full"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.06, scale: 1 }}
+            transition={{ duration: 3, delay: 1 }}
           >
-            <button className="px-8 py-3 bg-foreground text-background rounded-full font-medium hover:bg-foreground/90 transition-colors">
-              Portfolio entdecken
-            </button>
-            <button onClick={() => handleCardClick('Zusammenarbeit')} className="px-8 py-3 border-2 border-foreground text-foreground rounded-full font-medium hover:bg-foreground hover:text-background transition-all">
-              Zusammenarbeiten
-            </button>
-          </motion.div>
-        </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-foreground rounded-full flex justify-center"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-1 h-3 bg-foreground rounded-full mt-2"
+            {/* Minimale geometrische Formen */}
+            <motion.div 
+              className="absolute top-20 left-20 w-32 h-32 border-2 border-gray-300"
+              style={{ transform: 'rotate(45deg)' }}
+              initial={{ rotate: 0, scale: 0 }}
+              animate={{ rotate: 45, scale: 1 }}
+              transition={{ duration: 2, delay: 1.5 }}
+            />
+            
+            <motion.div 
+              className="absolute bottom-32 right-32 w-24 h-24 bg-gray-200 rounded-full"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.5, delay: 2 }}
+            />
+            
+            <motion.div 
+              className="absolute top-32 right-20 w-40 h-1 bg-gray-200"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.5, delay: 1.8 }}
+            />
+            <motion.div 
+              className="absolute bottom-40 left-32 w-1 h-40 bg-gray-200"
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: 1.5, delay: 2.2 }}
             />
           </motion.div>
-        </motion.div>
+        </div>
+
+        <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 30 }}>
+          {/* Back Button - Startseite Button Styling */}
+          <motion.button
+            onClick={() => window.history.back()}
+            className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg mb-16"
+            style={{
+              background: 'rgba(0, 0, 0, 0.05)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(0, 0, 0, 0.1)',
+              cursor: 'none'
+            }}
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            <span className="tracking-wide">Zurück</span>
+          </motion.button>
+
+          {/* Main Content - Startseite Typography */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+          >
+            {/* Subtitle - matching startpage */}
+            <motion.p 
+              className="text-base text-muted-foreground leading-7 mb-6"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+            >
+              UX/UI Design • Fotografie • Kunst
+            </motion.p>
+
+            {/* Main Title - startpage style */}
+            <motion.h1 
+              className="text-6xl font-semibold text-foreground leading-tight tracking-tight mb-4"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 1.4 }}
+            >
+              <span className="block">KUNST &</span>
+              <span className="block">KREATIVITÄT</span>
+            </motion.h1>
+
+            {/* Description - startpage style */}
+            <motion.p 
+              className="text-base text-muted-foreground leading-7 max-w-2xl mx-auto mb-16"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+            >
+              Digitale Kunst trifft auf traditionelle Ästhetik.<br/>
+              Eine Exploration der Grenzen zwischen Technologie und menschlicher Kreativität.
+            </motion.p>
+
+            {/* CTA Buttons - exakt wie auf der Startseite */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 1.8 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            >
+              <motion.button 
+                className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(0, 0, 0, 0.1)',
+                  cursor: 'none'
+                }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                Portfolio entdecken
+              </motion.button>
+              
+              <motion.button 
+                onClick={scrollToContactForm} 
+                className="cursor-button inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
+                style={{
+                  background: 'rgba(6, 182, 212, 0.15)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(6, 182, 212, 0.3)',
+                  boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                  cursor: 'none'
+                }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -2,
+                  boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15), 0 8px 12px -4px rgba(0, 0, 0, 0.1)'
+                }}
+                whileTap={{ 
+                  scale: 0.95,
+                  boxShadow: '0 5px 15px -2px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.05)',
+                  transition: { duration: 0.1, repeat: 2, repeatType: "reverse" }
+                }}
+              >
+                Zusammenarbeiten
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        </div>
       </motion.section>
 
-      {/* 2. FEATURED ARTWORK */}
-      <section className="py-32 px-6 bg-white">
+      {/* 2. FEATURED ARTWORK - STARTSEITE LIGHT MODE STYLING */}
+      <section className="py-32 px-6 relative z-10 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <Image 
-                src="/images/featured-art.jpg"
-                alt={artwork.title}
-                width={800}
-                height={600}
-                className="relative z-10 w-full h-96 object-cover rounded-lg shadow-2xl"
-                priority
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkbHBsf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-              />
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-16 items-center"
+          >
+            {/* Left Side - Minimalist Image Display */}
+            <div className="relative">
+              {/* Category Tag - subtil wie auf der Startseite */}
+              <motion.div 
+                className="flex items-center mb-8"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
+                <span className="text-muted-foreground text-sm">Ausgewählte Arbeit</span>
+              </motion.div>
+
+              {/* Clean Image Display - startseite style */}
+              <motion.div 
+                className="relative"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                <div className="relative border border-border p-6 bg-white shadow-lg rounded-lg">
+                  {/* Main Artwork Display */}
+                  <div className="relative w-full aspect-[4/5] bg-muted/30 overflow-hidden rounded">
+                    <img 
+                      src="https://www.sirhub.online/wp-content/uploads/go-x/u/5afb8e8c-63bb-49a1-84a3-3409e85b788e/l382,t0,w981,h1107/image-768x867.jpg"
+                      alt={artwork.title}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Subtle overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
+                  </div>
+                </div>
+              </motion.div>
             </div>
 
+            {/* Right Side - Clean Content */}
             <div className="space-y-8">
-              <div>
-                <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-                  Featured Work
-                </div>
-
-                <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6">
+              {/* Title Section - startseite typography */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-4 md:text-3xl">
                   {artwork.title}
                 </h2>
+              </motion.div>
 
-                <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                  {artwork.description}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6 text-sm">
-                <div>
-                  <div className="text-muted-foreground mb-1">Medium</div>
-                  <div className="font-medium">{artwork.medium}</div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground mb-1">Jahr</div>
-                  <div className="font-medium">{artwork.year}</div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground mb-1">Dimensionen</div>
-                  <div className="font-medium">{artwork.dimensions}</div>
-                </div>
-              </div>
-
-              <button className="inline-flex items-center px-6 py-3 bg-foreground text-background rounded-full font-medium hover:bg-foreground/90 transition-colors">
-                Mehr Details
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. PROCESS - CSS OPTIMIZED */}
-      <section 
-        ref={processRef}
-        className="py-32 px-6 bg-white scroll-animate"
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20 scroll-animate delay-1">
-            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6">
-              Kreativer Prozess
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Von der ersten Idee bis zur finalen Installation – ein strukturierter Arbeitsablauf.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {processSteps.map((step, index) => (
-              <div
-                key={index}
-                className="text-center process-step"
+              {/* Description - startseite style */}
+              <motion.p 
+                className="text-xl text-muted-foreground leading-7"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                viewport={{ once: true }}
               >
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center text-2xl font-bold text-muted-foreground hover:bg-accent transition-colors">
-                  {step.step}
+                {artwork.description}
+              </motion.p>
+
+              {/* Technical Specifications - clean grid */}
+              <motion.div 
+                className="grid grid-cols-2 gap-6 pt-6 border-t border-border"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1 }}
+                viewport={{ once: true }}
+              >
+                <div>
+                  <div className="text-muted-foreground mb-2 text-sm">Medium</div>
+                  <div className="font-medium text-foreground text-sm">{artwork.medium}</div>
                 </div>
-                
-                <h3 className="text-xl font-semibold mb-4 text-foreground">
-                  {step.title}
-                </h3>
-                
-                <p className="text-muted-foreground leading-relaxed">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
+                <div>
+                  <div className="text-muted-foreground mb-2 text-sm">Jahr</div>
+                  <div className="font-medium text-foreground text-sm">{artwork.year}</div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground mb-2 text-sm">Dimensionen</div>
+                  <div className="font-medium text-foreground text-sm">{artwork.dimensions}</div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground mb-2 text-sm">Status</div>
+                  <div className="font-medium text-foreground text-sm flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    Verfügbar
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* 4. PORTFOLIO GRID - CSS OPTIMIZED */}
+      {/* 3. PORTFOLIO GRID - MINIMAL MASONRY LAYOUT */}
       <section 
         ref={portfolioRef}
-        className="py-32 px-6 bg-muted/20 scroll-animate"
+        className="py-32 px-6 relative z-10 bg-white"
       >
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20 scroll-animate delay-1">
-            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6">
+        <div className="max-w-none mx-auto"> {/* Full width container */}
+          <motion.div 
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Portfolio Arbeiten
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
               Eine Auswahl meiner aktuellen Kunstwerke und Projekte.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Masonry Grid Layout */}
+          <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4 px-6">
             {portfolioWorks.map((work, index) => (
-              <div
-                key={index}
-                className="group portfolio-item"
+              <motion.div
+                key={work.id}
+                className={`card cursor-button group relative overflow-hidden ${work.gridSpan}`}
+                style={{ cursor: 'none' }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
               >
-                <div className="aspect-square bg-muted rounded-lg overflow-hidden mb-6 hover:shadow-xl transition-all duration-500">
-                  <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                    <span className="text-sm text-muted-foreground">[{work.title}]</span>
+                <div className="w-full h-full bg-white border border-gray-300 hover:border-gray-900 transition-all duration-300 group-hover:shadow-lg relative overflow-hidden">
+                  {/* Image with title overlay */}
+                  <div className="w-full h-full flex items-center justify-center relative">
+                    <img 
+                      src={work.image} 
+                      alt={work.title}
+                      className="w-full h-full object-cover absolute inset-0"
+                      style={{ filter: 'brightness(0.9) contrast(1.1)' }}
+                    />
+                    
+                    {/* Overlay with title - shows on hover */}
+                    <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                      <span className="text-gray-900 font-mono text-center px-4">
+                        {work.title}
+                      </span>
+                    </div>
+                    
+                    {/* Corner elements */}
+                    <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                    <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
                   </div>
                 </div>
-                
-                <h3 className="text-xl font-semibold mb-2 text-foreground group-hover:text-primary transition-colors">
-                  {work.title}
-                </h3>
-                
-                <p className="text-muted-foreground mb-4">
-                  {work.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-2">
-                  {work.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-3 py-1 text-xs rounded-full bg-accent/10 text-accent-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 5. COLLABORATIONS - CSS OPTIMIZED */}
-      <section 
-        ref={collaborationRef}
-        className="py-32 px-6 bg-white scroll-animate"
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20 scroll-animate delay-1">
-            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6">
-              Kollaborationen
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Gemeinsame Projekte mit anderen Künstlern und Institutionen.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {collaborations.map((collab, index) => (
-              <div
-                key={index}
-                className="collaboration-card group"
-              >
-                <div className="p-6 rounded-lg border border-border hover:border-primary transition-all duration-300 hover:shadow-lg bg-background">
-                  <div className="w-12 h-12 mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-primary font-bold text-xl">
-                      {collab.partner.charAt(0)}
-                    </span>
-                  </div>
-                  
-                  <h3 className="text-xl font-semibold mb-2 text-foreground group-hover:text-primary transition-colors">
-                    {collab.title}
-                  </h3>
-                  
-                  <p className="text-sm text-accent mb-3">
-                    {collab.partner}
-                  </p>
-                  
-                  <p className="text-muted-foreground leading-relaxed">
-                    {collab.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. CONTACT FORM - CSS OPTIMIZED */}
+      {/* 4. CONTACT FORM - STARTSEITE LIGHT MODE STYLING */}
       <section
         id="contact-form"
         ref={contactRef}
-        className="py-32 px-6 bg-gradient-to-b from-white to-gray-50 scroll-animate"
+        className="py-32 px-6 relative z-10 bg-white"
       >
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16 scroll-animate delay-1">
-            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6">
-              Lassen Sie uns sprechen
+          {/* Header Section - startseite style */}
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
+              Kontakt
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Bereit für ein neues kreatives Projekt? Kontaktieren Sie mich für eine unverbindliche Beratung.
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
+              Lassen Sie uns über Ihre Ideen und Projekte sprechen
             </p>
-          </div>
+          </motion.div>
 
-          <div className="scroll-animate delay-2">
-            <ContactForm initialSubjectTag={selectedSubjectTag} />
-          </div>
+          {/* Contact Form Section - clean style */}
+          <motion.div 
+            className="relative"
+            style={{ cursor: 'none' }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            {/* Main form container - Bauhaus style */}
+            <div className="relative">
+              <ContactFormLight />
+            </div>
+          </motion.div>
         </div>
       </section>
+
+      <Footer />
     </div>
   )
 }

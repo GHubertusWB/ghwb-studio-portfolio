@@ -80,7 +80,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             
             focus:outline-none transition-all duration-300 ${className}`}
           style={{
-            borderStyle: 'solid'
+            borderStyle: 'solid',
+            cursor: 'none'
           }}
           onFocus={(e) => {
             e.target.style.borderColor = 'rgb(255, 255, 255)'
