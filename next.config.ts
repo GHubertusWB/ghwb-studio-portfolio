@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     turbo: undefined
   },
   eslint: {
-    // Allow production build on Vercel with ESLint warnings
+    // Komplett ignorieren für Vercel Build
     ignoreDuringBuilds: true,
   },
   typescript: {

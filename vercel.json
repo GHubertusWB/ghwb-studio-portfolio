@@ -8,5 +8,10 @@
     "app/**/*.{js,ts,tsx}": {
       "maxDuration": 30
     }
+  },
+  "build": {
+    "env": {
+      "NEXT_TELEMETRY_DISABLED": "1"
+    }
   }
 }

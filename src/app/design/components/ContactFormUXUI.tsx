@@ -1,7 +1,5 @@
 'use client'
-interface ContactFormUXUIProps {
-  // Props can be added here when needed
-}import { motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { 
   ComputerDesktopIcon, 
