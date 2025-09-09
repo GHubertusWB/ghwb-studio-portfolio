@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import LoadingScreen from '@/components/LoadingScreen'
 import Hero from "@/components/Hero";
-import Philosophy from "@/components/Philosophy";
+import Philosophy from "@/components/Philosophy/index";
 import Services from "@/components/Services";
 import Footer from "@/components/Footer";
 
