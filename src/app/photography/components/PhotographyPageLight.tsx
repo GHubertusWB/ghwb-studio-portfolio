@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Camera, User, Heart, Sparkles, Eye } from 'lucide-react'
-import ContactFormLight from '@/app/art/components/ContactFormLight'
+import ContactFormPhotography from './ContactFormPhotography'
 import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
 
@@ -504,7 +504,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <ContactFormLight />
+            <ContactFormPhotography />
           </motion.div>
         </div>
       </section>
