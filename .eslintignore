@@ -1,0 +1,6 @@
+# Ignore all files for Vercel build
+*
+**/*
+src/**/*
+.next/**/*
+node_modules/**/*
