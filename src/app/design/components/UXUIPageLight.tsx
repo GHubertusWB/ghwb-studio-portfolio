@@ -53,9 +53,6 @@ export default function UXUIPageLight() {
     <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
       <CustomCursor />
       
-      {/* Floating Clouds - spezielle Konfiguration für Art Page */}
-      <FloatingCloudsArt />
-      
       {/* HERO SECTION - EXACTLY LIKE ART PAGE LIGHT */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -64,11 +61,13 @@ export default function UXUIPageLight() {
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
         style={{ zIndex: 20 }}
       >
+        {/* Floating Clouds - mit korrektem z-index */}
+        <FloatingCloudsArt />
         {/* Background gradient - matching startpage */}
         <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-white" />
 
         {/* Subtle geometric background elements */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 15 }}>
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
           <motion.div
             className="relative w-full h-full"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -106,7 +105,7 @@ export default function UXUIPageLight() {
           </motion.div>
         </div>
 
-        <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 30 }}>
+        <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 40 }}>
           {/* Back Button - Startseite Button Styling */}
           <motion.button
             onClick={() => window.history.back()}

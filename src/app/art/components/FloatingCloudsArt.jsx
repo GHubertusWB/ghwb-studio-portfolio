@@ -54,11 +54,11 @@ const FloatingCloudsArt = () => {
   return (
     <>
       {/* Floating clouds for Art Page - different configuration */}
-      <div className="absolute inset-0 pointer-events-none z-10">
+      <div className="absolute inset-0 pointer-events-none z-30">
       {clouds.map((cloud) => (
         <motion.div
           key={cloud.id}
-          className="absolute z-10"
+          className="absolute z-30"
           style={{
             left: `${cloud.x}%`,
             top: `${cloud.y}%`,
