@@ -68,7 +68,7 @@ Mit freundlichen Grüßen,
 ${formData.name}
 E-Mail: ${formData.email}`
 
-      const mailtoLink = `mailto:hello@ghwb.studio?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      const mailtoLink = `mailto:office@ghwbstudio.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
       window.location.href = mailtoLink
 
       setSubmitStatus('success')
@@ -344,11 +344,11 @@ E-Mail: ${formData.email}`
             Direkter Kontakt
           </p>
           <a
-            href="mailto:hello@ghwb.studio"
+            href="mailto:office@ghwbstudio.de"
             className="cursor-button font-mono text-gray-900 hover:text-gray-600 transition-colors border-b-2 border-gray-900 hover:border-gray-600"
             style={{ cursor: 'none' }}
           >
-            hello@ghwb.studio
+            office@ghwbstudio.de
           </a>
         </motion.div>
       </div>

@@ -5,16 +5,46 @@ import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, Monitor, Smartphone, Palette, Users, Zap, Layers, Sparkles, Eye, CheckCircle } from 'lucide-react'
 import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
+import ContactForm from '@/components/ContactForm'
 
 export default function UXUIPageDark() {
   const [currentTime, setCurrentTime] = useState('')
+  
+  // UX/UI Services Data - inspired by photography page structure
+  const services = [
+    {
+      id: 1,
+      title: "Website Design",
+      category: "Web Design",
+      description: "Moderne, benutzerfreundliche Websites die Ihre Marke zum Leben erwecken",
+      approach: "Responsive Design, Performance-Optimierung",
+      icon: Monitor
+    },
+    {
+      id: 2,
+      title: "Barrierefreiheits-Beratung", 
+      category: "Accessibility",
+      description: "WCAG-konforme Lösungen für inklusive digitale Erfahrungen",
+      approach: "Audit, Testing, Implementation",
+      icon: Users
+    },
+    {
+      id: 3,
+      title: "Branding & Design Systems",
+      category: "Branding",
+      description: "Konsistente visuelle Identitäten und skalierbare Designsysteme",
+      approach: "Corporate Identity, Style Guides",
+      icon: Palette
+    }
+  ]
+  
   const skills = [
-    { icon: Monitor, title: 'Webdesign', description: 'Responsive und benutzerfreundliche Websites, die auf allen Geräten perfekt funktionieren.' },
-    { icon: Smartphone, title: 'Mobile Apps', description: 'Intuitive App-Designs für iOS und Android mit Fokus auf User Experience.' },
-    { icon: Palette, title: 'Brand Design', description: 'Einheitliche visuelle Identitäten, die Ihre Marke zum Leben erwecken.' },
-    { icon: Users, title: 'User Research', description: 'Datenbasierte Erkenntnisse für nutzerorientierte Designentscheidungen.' },
-    { icon: Zap, title: 'Prototyping', description: 'Interaktive Prototypen für bessere Kommunikation und Testing.' },
-    { icon: Layers, title: 'Design Systems', description: 'Skalierbare Designsysteme für konsistente Nutzererfahrungen.' }
+    { icon: Monitor, title: 'Enterprise Interface-Systeme', description: 'Komplexe Softwarelösungen für Großunternehmen wie Infineon, Bundesdruckerei und Medizinische Dienste.' },
+    { icon: Smartphone, title: 'Command Dashboard Apps', description: 'KPI-Management-Terminals und Mobile Interfaces für Führungskräfte mit fokussiertem UX Design.' },
+    { icon: Palette, title: 'Corporate Design Systems', description: 'Skalierbare Komponenten-Bibliotheken und Corporate Interface-Protokolle für nachhaltige Markenführung.' },
+    { icon: Users, title: 'Accessibility Command Center', description: 'WCAG-konforme Barrierefreiheits-Integration mit 3+ Jahren Spezialisierung in diesem Sektor.' },
+    { icon: Zap, title: 'Agile Mission Control', description: 'Scrum Product Owner & Master Operations in 21 Mio. Euro Enterprise-Projekten.' },
+    { icon: Layers, title: 'Requirements Engineering', description: 'User Research Terminals, Workshop-Koordination und stakeholder-orientierte Anforderungsanalyse.' }
   ]
   const prozess = [
     { icon: Eye, title: 'Research & Analyse', desc: 'Nutzerbedürfnisse und Ziele verstehen' },
@@ -24,16 +54,46 @@ export default function UXUIPageDark() {
   ]
   const projekte = [
     {
-      title: 'E-Commerce Redesign',
-      category: 'Web Application',
+      title: 'MD-IT GmbH - Medizinische Dienste',
+      category: 'Enterprise Mission',
       image: '/placeholder-project-1.jpg',
-      description: 'UX/UI Überarbeitung eines Shops mit Fokus auf Conversion und Mobile Experience.'
+      description: '21 Mio. Euro Großprojekt: Neue Branchensoftware für 15 Medizinische Dienste mit komplexen Beratungs- und Gutachterdiensten.',
+      details: 'UX/UI Design, Usability Testing, Design System, Scrum Product Owner'
     },
     {
-      title: 'Fitness App',
-      category: 'Mobile App',
+      title: 'Württembergische Versicherung',
+      category: 'Accessibility Protocol',
       image: '/placeholder-project-2.jpg',
-      description: 'Design einer Fitness-App mit personalisierten Workouts und Social Features.'
+      description: 'Barrierefreiheits-Optimierung der Versicherungsplattform nach WCAG-Richtlinien.',
+      details: 'Accessibility Audit, UX Research, Dokumentation, Frontend-Beratung'
+    },
+    {
+      title: 'Infineon - Management Terminal',
+      category: 'Command Interface',
+      image: '/placeholder-project-3.jpg',
+      description: 'KPI-Management App für Führungskräfte zur schnellen Überprüfung wichtiger Unternehmensdaten.',
+      details: 'Requirements Engineering, Wireframing, UI Design, Usability Testing'
+    },
+    {
+      title: 'KION Group - Component Matrix',
+      category: 'Design System',
+      image: '/placeholder-project-4.jpg',
+      description: 'Entwicklung neuer UI-Komponenten für die Website der KION Group.',
+      details: 'Component Design, Style Guide, Frontend-Integration'
+    },
+    {
+      title: 'Bundesdruckerei - Accessibility Hub',
+      category: 'Consulting Mission',
+      image: '/placeholder-project-5.jpg',
+      description: 'Beratung und Unterstützung für digitale Barrierefreiheit im UX/UI Team.',
+      details: 'Knowledge Management, Workshop-Leitung, Marketing-Konzeption'
+    },
+    {
+      title: 'Charly Group - Corporate Interface',
+      category: 'Brand System',
+      image: '/placeholder-project-6.jpg',
+      description: 'Komplette CI und Webauftritt für neugegründete Hotelgruppe mit Atomic Design Prinzip.',
+      details: 'Corporate Identity, Design System, Projektleitung, Scrum Master'
     }
   ]
 
@@ -76,7 +136,7 @@ export default function UXUIPageDark() {
               Digitale Erlebnisse, die begeistern. Von Research bis Prototyping – nutzerzentriert, modern, wirkungsvoll.
             </motion.p>
             <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.6 }} className="flex flex-col sm:flex-row gap-4 justify-center relative">
-              <motion.button className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)', cursor: 'none' }} whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }} onClick={() => { const skills = document.getElementById('skills-section'); if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
+              <motion.button className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)', cursor: 'none' }} whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}                 onClick={() => { const services = document.getElementById('services-section'); if (services) services.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
                 <Sparkles className="w-4 h-4 mr-2" />
                 Meine Skills
               </motion.button>
@@ -88,19 +148,71 @@ export default function UXUIPageDark() {
         </div>
       </motion.section>
 
+      {/* SERVICES SECTION - SAME STYLE AS PHOTOGRAPHY PAGE */}
+      <section id="services-section" className="py-20 px-6 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.8 }} 
+            viewport={{ once: true }} 
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              UXUI.SERVICES
+            </div>
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Spezialisierte UX/UI Services
+            </h2>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+              Fokus auf benutzerfreundliche Designs, Barrierefreiheit und starke Markenidentitäten
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {services.map((service, index) => {
+              const Icon = service.icon
+              return (
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                  className="p-8 rounded-2xl border border-white/20 hover:border-cyan-400/40 transition-all duration-300"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)'
+                  }}
+                >
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400/20 mb-6">
+                    <Icon className="w-6 h-6 text-cyan-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4 text-white">{service.title}</h3>
+                  <p className="text-white/70 leading-relaxed mb-4">{service.description}</p>
+                  <p className="text-cyan-400 text-sm font-mono">{service.approach}</p>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* SKILLS SECTION */}
       <section id="skills-section" className="py-20 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
             <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
               <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-              UXUI.SKILLS
+              UXUI.EXPERTISE
             </div>
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
               Meine UX/UI Expertise
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Von Research bis Prototyping – umfassende UX/UI Services
+              Enterprise-level Design für komplexe digitale Systeme
             </p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -186,24 +298,48 @@ export default function UXUIPageDark() {
         </div>
       </section>
 
-      {/* CONTACT SECTION */}
-      <section id="contact-section" className="py-20 px-6 relative z-10">
+      {/* CONTACT SECTION - HUD SPACESHIP DESIGN WITH FORM */}
+      <section id="contact-section" className="py-32 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
-            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+          {/* Header Section - HUD style */}
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            {/* Category Tag - HUD style */}
+            <motion.div 
+              className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
               <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-              UXUI.KONTAKT
-            </div>
+              UXUI.CONTACT_PROTOCOL
+            </motion.div>
+
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
-              Bereit für Ihr UX/UI Projekt?
+              Ready for UX/UI Mission?
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Lassen Sie uns gemeinsam eine außergewöhnliche Nutzererfahrung schaffen, die Ihre Zielgruppe begeistert.
+              Initiating communication protocol for extraordinary user experience development. 
+              Target: Exceptional interfaces that captivate your user base.
             </p>
           </motion.div>
-          <a href="mailto:hello@ghwb.studio" className="inline-flex items-center px-8 py-4 bg-cyan-400 text-black rounded-full font-medium hover:bg-cyan-300 transition-colors text-lg">
-            Projekt besprechen
-          </a>
+
+          {/* Contact Form Section - same as Photography Dark Mode */}
+          <motion.div 
+            className="relative"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <ContactForm variant="uxui" />
+          </motion.div>
         </div>
       </section>
       <Footer />

@@ -68,7 +68,7 @@ Mit freundlichen Grüßen,
 ${formData.name}
 E-Mail: ${formData.email}`
 
-      const mailtoLink = `mailto:hello@ghwb.studio?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      const mailtoLink = `mailto:office@ghwbstudio.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
       window.location.href = mailtoLink
 
       setSubmitStatus('success')

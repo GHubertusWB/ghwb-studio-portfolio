@@ -51,6 +51,7 @@ interface CollaborationCard {
 
 export default function ArtPageDark(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
+  const [galleryImages, setGalleryImages] = useState<string[]>([])
   
   // Refs for scroll animations
   const portfolioRef = useRef<HTMLElement>(null)
@@ -104,6 +105,13 @@ export default function ArtPageDark(): React.JSX.Element {
     return () => observer.disconnect()
   }, [])
 
+  // Dynamische Galerie-Bilder laden
+  useEffect(() => {
+    fetch('/api/gallery/art')
+      .then(res => res.json())
+      .then(data => setGalleryImages(data.images || []))
+  }, [])
+
   const scrollToContactForm = (): void => {
     const contactElement = document.getElementById('contact-form')
     if (contactElement) {
@@ -143,163 +151,6 @@ export default function ArtPageDark(): React.JSX.Element {
       step: "04",
       title: "Präsentation & Installation",
       description: "Aufbau und kuratorische Betreuung der finalen Installation"
-    }
-  ]
-
-  const portfolioWorks: PortfolioWork[] = [
-    {
-      id: 1,
-      title: "AR Canvas - Gesellschaftskritik",
-      category: "Augmented Reality",
-      medium: "Mixed Media & AR",
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/5afb8e8c-63bb-49a1-84a3-3409e85b788e/l382,t0,w981,h1107/image-768x867.jpg",
-      gridSpan: "col-span-1 row-span-1", // Portrait format (768x867)
-      description: "",
-      tags: []
-    },
-    {
-      id: 2,
-      title: "Teilen - Dualität", 
-      category: "Interactive Art",
-      medium: "Canvas & Digital",
-      year: "2024", 
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/6d78959b-2167-421b-b3cd-a9dc2264d797/l392,t111,w972,h1097/image-768x867.jpg",
-      gridSpan: "col-span-1 row-span-1", // Portrait format (768x867)
-      description: "",
-      tags: []
-    },
-    {
-      id: 3,
-      title: "Bewusste Betrachtung",
-      category: "Augmented Reality", 
-      medium: "AR Installation",
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/75ee7181-f11c-4cf4-951f-075fdbb2b83a/l665,t99,w641,h723/image.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format
-      description: "",
-      tags: []
-    },
-    {
-      id: 4,
-      title: "Gesellschaftliche Harmonie",
-      category: "Mixed Media",
-      medium: "Canvas & Technology", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9ae24fe6-98c2-4252-9261-70559e2ddb41/l32,t0,w1935,h1014/image-768x402.png", 
-      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x402)
-      description: "",
-      tags: []
-    },
-    {
-      id: 5,
-      title: "Diskurs und Dialog",
-      category: "Contemporary Art",
-      medium: "Interactive Installation",
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/413fcc5d-2b47-49d6-932d-fb7a1f442c71/l495,t0,w1009,h1083/image-768x824.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
-      description: "",
-      tags: []
-    },
-    {
-      id: 6,
-      title: "Komplexität der Wahrheit",
-      category: "Digital Art",
-      medium: "AR & Canvas", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9ab5a29e-e2cb-4d26-b746-1e8b380ae787/l0,t2,w1040,h648/image-768x479.jpg",
-      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x479)
-      description: "",
-      tags: []
-    },
-    {
-      id: 7,
-      title: "Perspektive und Verstehen",
-      category: "Mixed Media",
-      medium: "Contemporary Art", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/c943e5f8-e370-4061-ac57-f565b2689ecd/l195,t0,w1313,h2000/image-768x1170.jpg",
-      gridSpan: "col-span-1 row-span-2", // Tall portrait format (768x1170)
-      description: "",
-      tags: []
-    },
-    {
-      id: 8,
-      title: "Soziale Reflexion",
-      category: "Installation",
-      medium: "Mixed Media", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/1c360936-fc13-45c0-8b21-30d9ef81d799/l0,t214,w1465,h1573/image-768x825.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x825)
-      description: "",
-      tags: []
-    },
-    {
-      id: 9,
-      title: "Erweiterte Realität",
-      category: "Augmented Reality",
-      medium: "AR Installation", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/55a22e21-a366-490a-aaef-2a3d124add8c/l552,t235,w657,h705/image.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format
-      description: "",
-      tags: []
-    },
-    {
-      id: 10,
-      title: "Digitale Transformation",
-      category: "Digital Art",
-      medium: "Mixed Media", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/9f368468-250f-41cb-b774-ad530786e264/l322,t678,w929,h788/image-768x651.jpg",
-      gridSpan: "col-span-1 row-span-1", // Landscape format (768x651)
-      description: "",
-      tags: []
-    },
-    {
-      id: 11,
-      title: "Zukunftsvision",
-      category: "Contemporary Art",
-      medium: "Installation", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/5ae47c9c-420a-4e5f-a29e-6dd4a2534f6c/l69,t0,w1863,h2000/image-768x824.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
-      description: "",
-      tags: []
-    },
-    {
-      id: 12,
-      title: "Technologie & Mensch",
-      category: "Mixed Media",
-      medium: "AR & Canvas", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/75833409-63c1-48b4-846b-ec85fc772b14/l0,t379,w1436,h1542/image-768x825.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x825)
-      description: "",
-      tags: []
-    },
-    {
-      id: 13,
-      title: "Virtuelle Welten",
-      category: "Digital Art",
-      medium: "VR Installation", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/c99a89a5-5199-44ac-862d-a2c8af5552ee/l0,t195,w1500,h1610/image-768x824.jpg",
-      gridSpan: "col-span-1 row-span-1", // Square-ish format (768x824)
-      description: "",
-      tags: []
-    },
-    {
-      id: 14,
-      title: "Grenzen überwinden",
-      category: "Interactive Art",
-      medium: "Mixed Reality", 
-      year: "2024",
-      image: "https://www.sirhub.online/wp-content/uploads/go-x/u/bb6c044e-bcfc-415a-84dd-0808484c51a2/l0,t195,w2000,h1697/image-768x652.jpg",
-      gridSpan: "col-span-2 row-span-1", // Wide landscape format (768x652)
-      description: "",
-      tags: []
     }
   ]
 
@@ -916,10 +767,13 @@ export default function ArtPageDark(): React.JSX.Element {
 
           {/* Masonry Grid Layout */}
           <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4 px-6">
-            {portfolioWorks.map((work, index) => (
+            {galleryImages.length === 0 && (
+              <div className="col-span-3 text-center text-white/40 py-20">Noch keine Bilder im Galerie-Ordner.</div>
+            )}
+            {galleryImages.map((src, index) => (
               <motion.div
-                key={work.id}
-                className={`card cursor-button group relative overflow-hidden ${work.gridSpan}`}
+                key={src}
+                className={`card cursor-button group relative overflow-hidden col-span-1 row-span-1`}
                 style={{ cursor: 'none' }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -927,37 +781,19 @@ export default function ArtPageDark(): React.JSX.Element {
                 viewport={{ once: true }}
               >
                 <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 hover:border-cyan-400/40 transition-all duration-300 group-hover:bg-white/10 relative overflow-hidden">
-                  {/* Image placeholder with title overlay */}
-                  <div className="w-full h-full flex items-center justify-center relative">
-                    <img 
-                      src={work.image} 
-                      alt={work.title}
-                      className="w-full h-full object-cover absolute inset-0"
-                      style={{ filter: 'brightness(0.8) contrast(1.1)' }}
-                    />
-                    
-                    {/* Overlay with title - shows on hover */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                      <span className="text-white font-mono text-center px-4">
-                        {work.title}
-                      </span>
-                    </div>
-                    
-                    {/* Subtle background pattern */}
-                    <div 
-                      className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity z-5"
-                      style={{
-                        backgroundImage: 'linear-gradient(45deg, transparent 40%, rgba(6, 182, 212, 0.3) 50%, transparent 60%)',
-                        backgroundSize: '20px 20px'
-                      }}
-                    />
-                    
-                    {/* Corner elements */}
-                    <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  {/* Bild aus Galerie */}
+                  <img src={src} alt="Galeriebild" className="object-cover w-full h-full absolute inset-0" style={{ filter: 'brightness(0.8) contrast(1.1)' }} />
+                  {/* Overlay mit Dateiname als Platzhalter für Metadaten */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                    <span className="text-white font-mono text-center px-4">
+                      {src.split('/').pop()?.split('.')[0]}
+                    </span>
                   </div>
+                  {/* HUD corner elements */}
+                  <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
                 </div>
               </motion.div>
             ))}

@@ -11,8 +11,8 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:hello@ghwb.studio', label: 'E-Mail' }
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/weidenbruechergh/', label: 'LinkedIn' },
+    { icon: Mail, href: 'mailto:office@ghwbstudio.de', label: 'E-Mail' }
   ]
 
   const footerLinks = [
@@ -76,6 +76,8 @@ const Footer = () => {
                 <motion.a
                   key={social.label}
                   href={social.href}
+                  target={social.href.startsWith('http') ? '_blank' : undefined}
+                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="p-3 rounded-full bg-background border border-border/50 hover:border-border transition-colors"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}

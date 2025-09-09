@@ -38,6 +38,7 @@ interface PortfolioWork {
 
 export default function PhotographyPageDark(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
+  const [galleryImages, setGalleryImages] = useState<string[]>([])
   
   // Refs for scroll animations
   const servicesRef = useRef<HTMLElement>(null)
@@ -102,6 +103,13 @@ export default function PhotographyPageDark(): React.JSX.Element {
     }
   }
 
+  // Dynamische Galerie-Bilder laden
+  useEffect(() => {
+    fetch('/api/gallery/photography')
+      .then(res => res.json())
+      .then(data => setGalleryImages(data.images || []))
+  }, [])
+
   // Photography Services Data
   const services: Service[] = [
     {
@@ -121,58 +129,6 @@ export default function PhotographyPageDark(): React.JSX.Element {
       approach: "Geduldiger Umgang, natürliche Umgebung",
       image: "/api/placeholder/600/400",
       gridSpan: "col-span-1 row-span-1"
-    }
-  ]
-
-  // Portfolio Data
-  const portfolio: PortfolioWork[] = [
-    {
-      id: 1,
-      title: "Business Porträts",
-      category: "Portrait",
-      description: "Professionelle Unternehmensporträts",
-      image: "/api/placeholder/500/600",
-      gridSpan: "col-span-1 row-span-1"
-    },
-    {
-      id: 2,
-      title: "Familienhaustiere",
-      category: "Pets",
-      description: "Spielerische Momente mit den Liebsten",
-      image: "/api/placeholder/700/400",
-      gridSpan: "col-span-2 row-span-1"
-    },
-    {
-      id: 3,
-      title: "Künstlerporträts",
-      category: "Portrait",
-      description: "Kreative Menschen in ihrem Element",
-      image: "/api/placeholder/500/500",
-      gridSpan: "col-span-1 row-span-1"
-    },
-    {
-      id: 4,
-      title: "Outdoor Shooting",
-      category: "Portrait",
-      description: "Natürliche Umgebung, authentische Stimmung",
-      image: "/api/placeholder/600/800",
-      gridSpan: "col-span-1 row-span-2"
-    },
-    {
-      id: 5,
-      title: "Paar Shooting",
-      category: "Portrait",
-      description: "Intime Momente zwischen zwei Menschen",
-      image: "/api/placeholder/500/500",
-      gridSpan: "col-span-1 row-span-1"
-    },
-    {
-      id: 6,
-      title: "Mensch & Tier",
-      category: "Portrait",
-      description: "Die besondere Verbindung",
-      image: "/api/placeholder/700/400",
-      gridSpan: "col-span-2 row-span-1"
     }
   ]
 
@@ -672,14 +628,14 @@ export default function PhotographyPageDark(): React.JSX.Element {
       </section>
 
       {/* 3. PORTFOLIO GRID */}
-      <section ref={portfolioRef} className="py-20 px-6 relative z-10">
-        <div className="max-w-7xl mx-auto">
+      <section ref={portfolioRef} className="py-20 relative z-10">
+        <div className="max-w-none mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-16 px-6"
           >
             <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
               <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
@@ -693,28 +649,43 @@ export default function PhotographyPageDark(): React.JSX.Element {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {portfolio.map((item, index) => (
+          {/* Portfolio Grid - Vollbreite bis zum Rand */}
+          <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4">
+            {galleryImages.length === 0 && (
+              <div className="col-span-3 text-center text-white/40 py-20">Noch keine Bilder im Galerie-Ordner.</div>
+            )}
+            {galleryImages.map((src, index) => (
               <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
+                key={src}
+                className={`cursor-pointer group relative overflow-hidden col-span-1 row-span-1`}
+                style={{ cursor: 'none' }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-                className={`group cursor-pointer ${item.gridSpan}`}
               >
-                <div className="overflow-hidden rounded-2xl bg-white/5 mb-6 aspect-[4/3]">
-                  <div className="w-full h-full bg-gradient-to-br from-white/10 via-white/5 to-transparent flex items-center justify-center">
-                    <Camera className="w-12 h-12 text-white/30" />
+                <div className="w-full h-full bg-white/5 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 group-hover:shadow-xl group-hover:shadow-cyan-400/20 relative overflow-hidden backdrop-blur-sm">
+                  {/* Bild aus Galerie */}
+                  <img src={src} alt="Galeriebild" className="object-cover w-full h-full" />
+                  {/* Overlay mit Dateiname als Platzhalter für Metadaten */}
+                  <div className="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                    <div className="text-center px-4">
+                      <div className="font-mono text-xs text-cyan-400 mb-2 tracking-wider uppercase">
+                        {src.split('/').pop()?.split('.')[0]}
+                      </div>
+                      <div className="text-white font-bold text-lg mb-2">
+                        Foto {index + 1}
+                      </div>
+                      <div className="text-white/70 text-sm">
+                        {/* Hier könnten weitere Metadaten stehen */}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="space-y-3">
-                  <span className="text-sm font-medium text-cyan-400 font-mono">{item.category}</span>
-                  <h3 className="text-xl font-semibold group-hover:text-white/80 transition-colors text-white">
-                    {item.title}
-                  </h3>
-                  <p className="text-white/70 leading-relaxed">{item.description}</p>
+                  {/* HUD corner elements */}
+                  <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
                 </div>
               </motion.div>
             ))}
@@ -798,7 +769,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
             </p>
           </motion.div>
 
-          <ContactForm />
+          <ContactForm variant="photography" />
         </div>
       </section>
 

@@ -64,34 +64,39 @@ export default function AboutPageLight() {
 
   const journey = [
     {
-      year: '2018',
-      title: 'Studium Design',
-      description: 'Beginn des Studiums in visueller Kommunikation und UX Design'
+      year: '2012',
+      title: 'TU München - Wissenschaftlicher Mitarbeiter',
+      description: 'EU-Forschungsprojekt: Zählen und Bestimmen von Insekten aus Fallen'
     },
     {
-      year: '2020',
-      title: 'Erste Ausstellung',
-      description: 'Lokale Kunstausstellung mit traditionellen Malereien'
+      year: '2013', 
+      title: 'TU München - Studentischer Mitarbeiter',
+      description: 'Zeichentutor für architektonisches Zeichnen in der Lehre'
     },
     {
-      year: '2021',
-      title: 'Digitale Evolution',
-      description: 'Entdeckung der Möglichkeiten digitaler Kunst und AR-Technologie'
+      year: '2014-2017',
+      title: 'Landschaftsarchitektur',
+      description: 'Praktika bei renommierten Architekturbüros in München, Wien und Zürich'
     },
     {
-      year: '2022',
-      title: 'GHWB Studio',
-      description: 'Gründung des Studios und Fokus auf interdisziplinäre Projekte'
+      year: '2018-2020',
+      title: 'Freelance Landschaftsplanung',
+      description: 'Selbstständige Projekte und Mitarbeit bei verschiedenen Planungsbüros'
     },
     {
-      year: '2023',
-      title: 'AR Integration',
-      description: 'Erste erfolgreiche Projekte mit erweiteter Realität in der Kunst'
+      year: '2020-2022',
+      title: 'UI/UX Designer - adabay GmbH',
+      description: 'Junior bis Senior Designer: Von ersten digitalen Projekten zur Projektleitung'
     },
     {
-      year: '2024',
-      title: 'Heute',
-      description: 'Vollzeit kreativ tätig mit Fokus auf innovative Lösungen'
+      year: '2022-2025',
+      title: 'Senior UX UI Designer - adesso SE',
+      description: 'Führung komplexer Designprojekte und Mentoring von Junior Designern'
+    },
+    {
+      year: '2025',
+      title: 'Creative Director - GHWB Studio',
+      description: 'Gründung des eigenen Studios mit Fokus auf innovative digitale Lösungen'
     }
   ]
 
@@ -271,9 +276,9 @@ export default function AboutPageLight() {
               viewport={{ once: true }}
               className="text-lg"
             >
-              Schon früh entdeckte ich meine Leidenschaft für visuelle Kommunikation. 
-              Was als Hobby mit Pinsel und Farbe begann, entwickelte sich zu einer 
-              tiefen Faszination für die Art, wie Design und Kunst Menschen berühren können.
+              Mein Weg begann in der Wissenschaft an der TU München, wo ich in EU-Forschungsprojekten 
+              analytisches Denken und präzises Arbeiten lernte. Diese Grundlagen prägen bis heute 
+              meine systematische Herangehensweise an komplexe Designherausforderungen.
             </motion.p>
             
             <motion.p
@@ -283,9 +288,9 @@ export default function AboutPageLight() {
               viewport={{ once: true }}
               className="text-lg"
             >
-              Während meines Studiums lernte ich, dass gutes Design mehr ist als nur schöne Oberflächen – 
-              es geht um echte menschliche Bedürfnisse, um Funktionalität und um Emotionen. 
-              Diese Erkenntnis prägt bis heute meine Arbeit als UX/UI Designer.
+              Der Übergang von der Landschaftsarchitektur zum digitalen Design war fließend – 
+              in beiden Bereichen geht es um die Gestaltung von Räumen und Erfahrungen. 
+              Nur dass meine "Landschaften" heute digital sind und auf Bildschirmen zum Leben erwachen.
             </motion.p>
             
             <motion.p
@@ -295,9 +300,9 @@ export default function AboutPageLight() {
               viewport={{ once: true }}
               className="text-lg"
             >
-              Parallel dazu blieb meine Liebe zur Fotografie bestehen. Das Einfangen authentischer 
-              Momente, sei es in Porträts oder Produktaufnahmen, gibt mir die Möglichkeit, 
-              Geschichten zu erzählen und Emotionen festzuhalten.
+              Bei adesso SE konnte ich meine Fähigkeiten in groß angelegten Enterprise-Projekten 
+              verfeinern und lernte, wie Design in komplexen Organisationsstrukturen funktioniert. 
+              Diese Erfahrung ist unbezahlbar für strategisches Designdenken.
             </motion.p>
             
             <motion.p
@@ -307,10 +312,9 @@ export default function AboutPageLight() {
               viewport={{ once: true }}
               className="text-lg"
             >
-              Der spannendste Teil meiner kreativen Reise begann, als ich entdeckte, wie sich 
-              traditionelle Kunstformen mit moderner AR-Technologie verbinden lassen. 
-              Plötzlich konnten meine Gemälde zum Leben erwachen und Betrachter in völlig 
-              neue Welten entführen.
+              Heute verbinde ich bei GHWB Studio all diese Erfahrungen: die analytische Präzision 
+              aus der Wissenschaft, das räumliche Denken der Architektur und die nutzerzentrierte 
+              Gestaltung digitaler Produkte zu ganzheitlichen Lösungen.
             </motion.p>
           </div>
         </div>
@@ -522,7 +526,7 @@ export default function AboutPageLight() {
             </p>
             
             <motion.a
-              href="mailto:hello@ghwb.studio"
+              href="mailto:office@ghwbstudio.de"
               className="inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
               style={{
                 background: 'rgba(6, 182, 212, 0.15)',

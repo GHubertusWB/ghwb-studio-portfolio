@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap, Clock } from 'lucide-react'
+import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap } from 'lucide-react'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import CustomCursor from '@/components/CustomCursor'
@@ -95,181 +95,172 @@ export default function AboutPageDark() {
   ]
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen text-white relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--background), var(--background), rgba(42, 47, 54, 0.2))' }}>
       <CustomCursor />
       
-      {/* Animated HUD Background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <svg className="w-full h-full opacity-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <defs>
-            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="cyan" strokeWidth="0.5"/>
-            </pattern>
-          </defs>
-          <rect width="100" height="100" fill="url(#grid)" />
-        </svg>
-        
-        {/* Corner brackets */}
-        <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-cyan-400 opacity-30" />
-        <div className="absolute top-8 right-8 w-16 h-16 border-r-2 border-t-2 border-cyan-400 opacity-30" />
-        <div className="absolute bottom-8 left-8 w-16 h-16 border-l-2 border-b-2 border-cyan-400 opacity-30" />
-        <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-cyan-400 opacity-30" />
-      </div>
-
-      {/* Status Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-cyan-400/20">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
-            <span className="text-xs font-mono text-cyan-400 tracking-wider">GHWB STUDIO</span>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span className="text-xs font-mono text-cyan-400">{currentTime}</span>
-            <Clock className="w-4 h-4 text-cyan-400" />
-          </div>
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 relative z-10">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+      {/* HERO HUD - identisch wie andere Dark Pages */}
+      <motion.section 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        transition={{ duration: 2 }} 
+        className="min-h-screen flex items-center justify-center relative" 
+        style={{ zIndex: 20 }}
+      >
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 15 }}>
+          {/* HUD SVG wie Art/Photography/UX */}
+          <motion.div 
+            className="relative w-full h-full" 
+            initial={{ opacity: 0, scale: 0.8 }} 
+            animate={{ opacity: 0.4, scale: 1 }} 
+            transition={{ duration: 2, delay: 1 }}
           >
-            <Link 
-              href="/"
-              className="inline-flex items-center text-cyan-400 hover:text-white transition-colors mb-8 font-mono text-sm tracking-wider"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              ZURÜCK ZUR STARTSEITE
-            </Link>
+            <svg width="100vw" height="100vh" viewBox="0 0 1920 1080" className="drop-shadow-lg" style={{ filter: `drop-shadow(0 0 20px white)` }}>
+              <motion.path 
+                d="M 520 540 A 440 440 0 1 1 1400 540" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="1.5" 
+                strokeDasharray="5,10" 
+                initial={{ pathLength: 0 }} 
+                animate={{ pathLength: 1 }} 
+                transition={{ duration: 3, delay: 1.5 }} 
+              />
+              <motion.path 
+                d="M 560 540 A 400 400 0 1 1 1360 540" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="1" 
+                strokeOpacity="0.6" 
+                initial={{ pathLength: 0 }} 
+                animate={{ pathLength: 1 }} 
+                transition={{ duration: 2.5, delay: 2 }} 
+              />
+              <motion.circle 
+                cx="480" 
+                cy="540" 
+                r="3" 
+                fill="white" 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                transition={{ delay: 2.5 }} 
+              />
+              <motion.circle 
+                cx="1440" 
+                cy="540" 
+                r="3" 
+                fill="white" 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                transition={{ delay: 3 }} 
+              />
+              <motion.line 
+                x1="50" 
+                y1="50" 
+                x2="250" 
+                y2="50" 
+                stroke="white" 
+                strokeWidth="1" 
+                strokeOpacity="0.7" 
+                initial={{ pathLength: 0 }} 
+                animate={{ pathLength: 1 }} 
+                transition={{ duration: 2, delay: 2.2 }} 
+              />
+              <motion.line 
+                x1="1670" 
+                y1="1030" 
+                x2="1870" 
+                y2="1030" 
+                stroke="white" 
+                strokeWidth="1" 
+                strokeOpacity="0.7" 
+                initial={{ pathLength: 0 }} 
+                animate={{ pathLength: 1 }} 
+                transition={{ duration: 2, delay: 2.5 }} 
+              />
+            </svg>
+          </motion.div>
+        </div>
 
+        <div className="relative text-center px-6 max-w-6xl" style={{ zIndex: 25 }}>
+          {/* Back Button - exakt wie andere Dark Pages */}
+          <motion.button
+            onClick={() => window.history.back()}
+            className="cursor-button inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5"
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              cursor: 'none'
+            }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            SYSTEM.EXIT
+          </motion.button>
+
+          {/* Main Content - exakt wie andere Dark Pages */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.8 }}
+          >
             <motion.h1 
-              className="text-6xl font-bold tracking-tighter mb-6 bg-gradient-to-r from-white via-cyan-400 to-white bg-clip-text text-transparent"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
+              className="text-5xl md:text-8xl font-light tracking-tight mb-8 relative text-white" 
+              style={{ textShadow: '0 0 30px rgba(255, 255, 255, 0.4)' }}
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
             >
+              <span className="text-cyan-400/80 text-lg block mb-2 tracking-widest font-mono">GHWB.ABOUT.SYSTEM:</span>
               ÜBER MICH
             </motion.h1>
             
-            <motion.div
-              className="relative mb-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+            <motion.p 
+              className="text-xl md:text-2xl text-white/80 mb-12 leading-relaxed max-w-3xl mx-auto relative"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.4 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent h-px" />
-              <p className="text-lg text-gray-300 leading-7 max-w-3xl mx-auto pt-8">
-                Ein leidenschaftlicher Kreativer, der die Grenzen zwischen 
-                traditioneller Kunst, moderner Technologie und menschenzentriertem Design verwischt.
-              </p>
+              Ein leidenschaftlicher Kreativer, der die Grenzen zwischen traditioneller Kunst, moderner Technologie und menschenzentriertem Design verwischt.
+            </motion.p>
+
+            {/* Profile Section mit HUD styling */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+              className="flex justify-center mb-12"
+            >
+              <div className="relative">
+                <div className="w-64 h-64 relative">
+                  {/* HUD frame */}
+                  <div className="absolute inset-0 border-2 border-white/30 rounded-full" />
+                  <div className="absolute inset-2 border border-white/20 rounded-full" />
+                  
+                  {/* Profile placeholder */}
+                  <div className="absolute inset-4 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-full flex items-center justify-center border border-white/10">
+                    <Coffee className="w-16 h-16 text-white/50" />
+                  </div>
+                  
+                  {/* Corner elements - wie andere Dark Pages */}
+                  <div className="absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2 border-white" />
+                  <div className="absolute -top-2 -right-2 w-8 h-8 border-r-2 border-t-2 border-white" />
+                  <div className="absolute -bottom-2 -left-2 w-8 h-8 border-l-2 border-b-2 border-white" />
+                  <div className="absolute -bottom-2 -right-2 w-8 h-8 border-r-2 border-b-2 border-white" />
+                </div>
+              </div>
             </motion.div>
           </motion.div>
-
-          {/* Profile Section with HUD styling */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex justify-center mb-16"
-          >
-            <div className="relative">
-              <div className="w-64 h-64 relative">
-                {/* HUD frame */}
-                <div className="absolute inset-0 border-2 border-cyan-400/30 rounded-full" />
-                <div className="absolute inset-2 border border-cyan-400/20 rounded-full" />
-                
-                {/* Profile placeholder */}
-                <div className="absolute inset-4 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-full flex items-center justify-center border border-cyan-400/10">
-                  <Coffee className="w-16 h-16 text-cyan-400/50" />
-                </div>
-                
-                {/* Corner elements */}
-                <div className="absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2 border-cyan-400" />
-                <div className="absolute -top-2 -right-2 w-8 h-8 border-r-2 border-t-2 border-cyan-400" />
-                <div className="absolute -bottom-2 -left-2 w-8 h-8 border-l-2 border-b-2 border-cyan-400" />
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 border-r-2 border-b-2 border-cyan-400" />
-              </div>
-            </div>
-          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Story Section */}
-      <section className="py-20 relative z-10">
-        <div className="max-w-4xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <div className="flex items-center mb-8">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent to-cyan-400 mr-4" />
-              <h2 className="text-3xl font-bold tracking-tighter text-cyan-400 font-mono">
-                MEINE GESCHICHTE
-              </h2>
-              <div className="w-12 h-px bg-gradient-to-l from-transparent to-cyan-400 ml-4" />
-            </div>
-            
-            <div className="space-y-6 text-gray-300 leading-relaxed">
-              <motion.p
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
-              >
-                Schon früh entdeckte ich meine Leidenschaft für visuelle Kommunikation. 
-                Was als Hobby mit Pinsel und Farbe begann, entwickelte sich zu einer 
-                tiefen Faszination für die Art, wie Design und Kunst Menschen berühren können.
-              </motion.p>
-              
-              <motion.p
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                Während meines Studiums lernte ich, dass gutes Design mehr ist als nur schöne Oberflächen – 
-                es geht um echte menschliche Bedürfnisse, um Funktionalität und um Emotionen. 
-                Diese Erkenntnis prägt bis heute meine Arbeit als UX/UI Designer.
-              </motion.p>
-              
-              <motion.p
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
-              >
-                Parallel dazu blieb meine Liebe zur Fotografie bestehen. Das Einfangen authentischer 
-                Momente, sei es in Porträts oder Produktaufnahmen, gibt mir die Möglichkeit, 
-                Geschichten zu erzählen und Emotionen festzuhalten.
-              </motion.p>
-              
-              <motion.p
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: true }}
-              >
-                Der spannendste Teil meiner kreativen Reise begann, als ich entdeckte, wie sich 
-                traditionelle Kunstformen mit moderner AR-Technologie verbinden lassen. 
-                Plötzlich konnten meine Gemälde zum Leben erwachen und Betrachter in völlig 
-                neue Welten entführen.
-              </motion.p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-20 relative z-10">
-        <div className="max-w-7xl mx-auto px-6">
+      {/* STORY SECTION - exakt wie andere Dark Pages */}
+      <section className="py-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -277,15 +268,87 @@ export default function AboutPageDark() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="flex items-center justify-center mb-8">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent to-cyan-400 mr-4" />
-              <h2 className="text-3xl font-bold tracking-tighter text-cyan-400 font-mono">
-                MEINE WERTE
-              </h2>
-              <div className="w-12 h-px bg-gradient-to-l from-transparent to-cyan-400 ml-4" />
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              ABOUT.STORY
             </div>
-            <p className="text-gray-400 font-mono text-sm tracking-wider">
-              Was meine Arbeit und mein Denken prägt
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Meine Geschichte
+            </h2>
+            <p className="text-xl text-white/70 leading-7 max-w-prose mx-auto">
+              Von den ersten Pinselstrichen bis zur digitalen Innovation
+            </p>
+          </motion.div>
+            
+                    <div className="space-y-6 text-gray-400 leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="text-lg"
+            >
+              System-Genesis: Karrierestart in wissenschaftlichen Forschungseinheiten der TU München. 
+              EU-Missionen zur Datenanalyse und Klassifizierung biologischer Entitäten bildeten 
+              das Fundament für systematische Problemlösung in komplexen Designsystemen.
+            </motion.p>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-lg"
+            >
+              Übergangsprotokoll: Migration von physischen Landschaftsarchitektur-Systemen zu 
+              digitalen Interface-Landschaften. Räumliches Denken wurde zu User Journey Mapping, 
+              Baupläne zu Wireframes und Prototypen.
+            </motion.p>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="text-lg"
+            >
+              Enterprise-Level Operations: Bei adesso SE Koordination großskaliger Design-Systeme 
+              in komplexen Unternehmensstrukturen. Strategische Designführung durch 
+              multidisziplinäre Entwicklungseinheiten.
+            </motion.p>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="text-lg"
+            >
+              GHWB Studio Command Center: Integration aller Systemerfahrungen in ein 
+              hocheffizientes kreatives Interface. Wissenschaftliche Präzision meets 
+              architektonisches Raumverständnis meets Enterprise-Design-Strategie.
+            </motion.p>
+          </div>
+        </div>
+      </section>      {/* VALUES SECTION - exakt wie andere Dark Pages */}
+      <section className="py-20 px-6 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              ABOUT.VALUES
+            </div>
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Meine Werte
+            </h2>
+            <p className="text-xl text-white/70 leading-7 max-w-prose mx-auto">
+              Die Prinzipien, die meine Arbeit und mein Denken prägen
             </p>
           </motion.div>
 
@@ -299,20 +362,22 @@ export default function AboutPageDark() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="relative group"
+                  whileHover={{ y: -5 }}
+                  className="group cursor-button relative"
+                  style={{ cursor: 'none' }}
                 >
-                  <div className="relative p-6 bg-gradient-to-b from-gray-900/50 to-black/50 border border-cyan-400/20 backdrop-blur-sm hover:border-cyan-400/40 transition-all duration-300">
-                    {/* Corner brackets */}
-                    <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative p-6 bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/20 transition-all duration-300 hover:bg-white/10">
+                    {/* Corner brackets - wie andere Dark Pages */}
+                    <div className="absolute top-0 left-0 w-4 h-4 border-l-2 border-t-2 border-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute top-0 right-0 w-4 h-4 border-r-2 border-t-2 border-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute bottom-0 left-0 w-4 h-4 border-l-2 border-b-2 border-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute bottom-0 right-0 w-4 h-4 border-r-2 border-b-2 border-white opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     <div className="text-center">
-                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyan-400/10 border border-cyan-400/20 mb-6 group-hover:bg-cyan-400/20 transition-colors">
-                        <Icon className="w-8 h-8 text-cyan-400" />
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 border border-white/20 mb-6 group-hover:bg-white/20 transition-colors">
+                        <Icon className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-4 font-mono tracking-wider">{value.title}</h3>
+                      <h3 className="text-xl font-bold text-white mb-4">{value.title}</h3>
                       <p className="text-gray-400 text-sm leading-relaxed">{value.description}</p>
                     </div>
                   </div>
@@ -323,24 +388,24 @@ export default function AboutPageDark() {
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section className="py-20 relative z-10">
-        <div className="max-w-4xl mx-auto px-6">
+      {/* SKILLS SECTION - exakt wie andere Dark Pages */}
+      <section className="py-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
-            <div className="flex items-center justify-center mb-8">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent to-cyan-400 mr-4" />
-              <h2 className="text-3xl font-bold tracking-tighter text-cyan-400 font-mono">
-                FERTIGKEITEN
-              </h2>
-              <div className="w-12 h-px bg-gradient-to-l from-transparent to-cyan-400 ml-4" />
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              ABOUT.SKILLS
             </div>
-            <p className="text-gray-400 font-mono text-sm tracking-wider">
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Fertigkeiten
+            </h2>
+            <p className="text-xl text-white/70 leading-7 max-w-prose mx-auto">
               Eine Übersicht meiner kreativen und technischen Kompetenzen
             </p>
           </motion.div>
@@ -360,7 +425,8 @@ export default function AboutPageDark() {
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05, y: -2 }}
-                className="px-6 py-3 bg-gradient-to-r from-gray-900/50 to-black/50 border border-cyan-400/20 text-sm font-mono tracking-wider hover:border-cyan-400/40 hover:bg-cyan-400/5 transition-all duration-300 cursor-default text-gray-300"
+                className="cursor-button px-6 py-3 bg-white/5 border border-white/10 text-sm font-medium hover:border-white/20 hover:bg-white/10 transition-all duration-300 text-gray-300"
+                style={{ cursor: 'none' }}
               >
                 {skill}
               </motion.span>
@@ -369,9 +435,9 @@ export default function AboutPageDark() {
         </div>
       </section>
 
-      {/* Journey Timeline */}
-      <section className="py-20 relative z-10">
-        <div className="max-w-4xl mx-auto px-6">
+      {/* JOURNEY TIMELINE - exakt wie andere Dark Pages */}
+      <section className="py-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -379,14 +445,14 @@ export default function AboutPageDark() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="flex items-center justify-center mb-8">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent to-cyan-400 mr-4" />
-              <h2 className="text-3xl font-bold tracking-tighter text-cyan-400 font-mono">
-                MEINE REISE
-              </h2>
-              <div className="w-12 h-px bg-gradient-to-l from-transparent to-cyan-400 ml-4" />
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              ABOUT.JOURNEY
             </div>
-            <p className="text-gray-400 font-mono text-sm tracking-wider">
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Meine Reise
+            </h2>
+            <p className="text-xl text-white/70 leading-7 max-w-prose mx-auto">
               Die wichtigsten Meilensteine meiner kreativen Entwicklung
             </p>
           </motion.div>
@@ -401,68 +467,79 @@ export default function AboutPageDark() {
                 viewport={{ once: true }}
                 className={`flex items-center gap-8 ${
                   index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-                }`}
+                } md:flex-row`}
               >
                 <div className="flex-1">
-                  <div className="relative p-6 bg-gradient-to-b from-gray-900/50 to-black/50 border border-cyan-400/20 backdrop-blur-sm">
-                    {/* Year badge */}
-                    <div className="inline-block px-4 py-2 bg-cyan-400 text-black font-bold text-sm mb-4 font-mono tracking-wider">
+                  <motion.div 
+                    className="relative p-6 bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/20 transition-all duration-300"
+                    whileHover={{ y: -5 }}
+                  >
+                    {/* Year badge - wie andere Dark Pages */}
+                    <div className="inline-block px-4 py-2 bg-cyan-400 text-black font-bold text-sm mb-4">
                       {milestone.year}
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2 font-mono tracking-wider">{milestone.title}</h3>
+                    <h3 className="text-xl font-bold text-white mb-2">{milestone.title}</h3>
                     <p className="text-gray-400 text-sm">{milestone.description}</p>
                     
-                    {/* Corner accents */}
-                    <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-cyan-400/50" />
-                    <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-cyan-400/50" />
-                  </div>
+                    {/* Corner accents - wie andere Dark Pages */}
+                    <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-white/50" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-white/50" />
+                  </motion.div>
                 </div>
                 
-                {/* Central connector */}
+                {/* Central connector - wie andere Dark Pages */}
                 <div className="hidden md:block w-6 h-6 rounded-full bg-cyan-400 border-4 border-black flex-shrink-0 relative">
                   <div className="absolute inset-0 rounded-full bg-cyan-400 animate-pulse" />
                 </div>
                 
-                <div className="flex-1" />
+                <div className="flex-1 hidden md:block" />
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-20 relative z-10">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      {/* CALL TO ACTION - exakt wie andere Dark Pages */}
+      <section className="py-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative"
+            className="text-center mb-16"
           >
-            <div className="relative p-8 bg-gradient-to-b from-gray-900/30 to-black/30 border border-cyan-400/30 backdrop-blur-sm">
-              {/* Corner brackets */}
-              <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-cyan-400" />
-              <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-cyan-400" />
-              <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-cyan-400" />
-              <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-cyan-400" />
-              
-              <h2 className="text-3xl font-bold text-cyan-400 font-mono tracking-tighter mb-6">
-                LASSEN SIE UNS ZUSAMMENARBEITEN
-              </h2>
-              <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-                Haben Sie ein spannendes Projekt im Kopf? Ich freue mich darauf, 
-                mit Ihnen kreative Lösungen zu entwickeln, die begeistern und bewegen.
-              </p>
-              <motion.a
-                href="mailto:hello@ghwb.studio"
-                className="inline-flex items-center px-8 py-4 bg-cyan-400 text-black font-mono font-bold tracking-wider hover:bg-cyan-300 transition-colors"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                KONTAKT AUFNEHMEN
-              </motion.a>
+            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+              ABOUT.CONTACT
             </div>
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+              Lassen Sie uns zusammenarbeiten
+            </h2>
+            <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
+              Haben Sie ein spannendes Projekt im Kopf? Ich freue mich darauf, 
+              mit Ihnen kreative Lösungen zu entwickeln, die begeistern und bewegen.
+            </p>
+            
+            <motion.a
+              href="mailto:office@ghwbstudio.de"
+              className="cursor-button inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono"
+              style={{
+                background: 'rgba(6, 182, 212, 0.25)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(6, 182, 212, 0.4)',
+                boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
+                cursor: 'none'
+              }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -2,
+                boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)'
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              KONTAKT AUFNEHMEN
+            </motion.a>
           </motion.div>
         </div>
       </section>

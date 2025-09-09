@@ -5,7 +5,10 @@ import { useState } from 'react'
 import { 
   BriefcaseIcon, 
   UsersIcon, 
-  PaintBrushIcon, 
+  PaintBrushIcon,
+  ComputerDesktopIcon,
+  DevicePhoneMobileIcon,
+  PresentationChartLineIcon,
   UserIcon, 
   EnvelopeIcon, 
   ChatBubbleLeftRightIcon 
@@ -15,10 +18,10 @@ import Textarea from './ui/Textarea'
 import SubjectCard from './ui/SubjectCard'
 
 interface ContactFormProps {
-  // Keine Props benötigt
+  variant?: 'art' | 'uxui' | 'photography'
 }
 
-export default function ContactForm(): React.JSX.Element {
+export default function ContactForm({ variant = 'art' }: ContactFormProps): React.JSX.Element {
   const [selectedSubjectTags, setSelectedSubjectTags] = useState<string[]>([])
   const [formData, setFormData] = useState({
     name: '',
@@ -54,8 +57,8 @@ export default function ContactForm(): React.JSX.Element {
       await new Promise(resolve => setTimeout(resolve, 2000))
       
       const subject = selectedSubjectTags.length > 0 
-        ? `Anfrage: ${selectedSubjectTags.join(', ')} - ${formData.name}`
-        : `Kontaktanfrage - ${formData.name}`
+        ? `${variant === 'uxui' ? 'UX/UI' : variant === 'photography' ? 'Fotografie' : ''} Anfrage: ${selectedSubjectTags.join(', ')} - ${formData.name}`
+        : `${variant === 'uxui' ? 'UX/UI' : variant === 'photography' ? 'Fotografie' : ''} Kontaktanfrage - ${formData.name}`
       
       const body = `Hallo,
 
@@ -65,7 +68,7 @@ Mit freundlichen Grüßen,
 ${formData.name}
 E-Mail: ${formData.email}`
 
-      const mailtoLink = `mailto:hello@ghwb.studio?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      const mailtoLink = `mailto:office@ghwbstudio.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
       window.location.href = mailtoLink
 
       setSubmitStatus('success')
@@ -83,26 +86,77 @@ E-Mail: ${formData.email}`
     }
   }
 
-  const subjectCards = [
-    {
-      id: 'Auftragsarbeiten',
-      title: 'Auftragsarbeiten',
-      description: 'Individuelle Kunstwerke nach Ihren Vorstellungen und Anforderungen.',
-      icon: <BriefcaseIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
-    },
-    {
-      id: 'Kollaborationen',
-      title: 'Kollaborationen',
-      description: 'Gemeinsame Projekte und kreative Partnerschaften mit anderen Künstlern.',
-      icon: <UsersIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
-    },
-    {
-      id: 'Einzelwerke',
-      title: 'Einzelwerke',
-      description: 'Verfügbare Kunstwerke aus der aktuellen Portfolio-Sammlung.',
-      icon: <PaintBrushIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+  const getSubjectCards = () => {
+    if (variant === 'uxui') {
+      return [
+        {
+          id: 'Website-Design',
+          title: 'Website-Design',
+          description: 'Responsive Websites und Web-Anwendungen',
+          icon: <ComputerDesktopIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+        },
+        {
+          id: 'App-Design',
+          title: 'App-Design',
+          description: 'Mobile Apps für iOS und Android',
+          icon: <DevicePhoneMobileIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+        },
+        {
+          id: 'UX-Beratung',
+          title: 'UX-Beratung',
+          description: 'User Research und Usability-Optimierung',
+          icon: <PresentationChartLineIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+        }
+      ]
     }
-  ]
+    
+    if (variant === 'photography') {
+      return [
+        {
+          id: 'Portrait-Shooting',
+          title: 'Portrait-Shooting',
+          description: 'Professionelle Portraits und Bewerbungsfotos',
+          icon: <BriefcaseIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+        },
+        {
+          id: 'Tierfotografie',
+          title: 'Tierfotografie',
+          description: 'Liebevolle Aufnahmen Ihrer Haustiere',
+          icon: <UsersIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+        },
+        {
+          id: 'Event-Fotografie',
+          title: 'Event-Fotografie',
+          description: 'Hochzeiten, Familienfeiern und besondere Momente',
+          icon: <PaintBrushIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+        }
+      ]
+    }
+    
+    // Default art variant
+    return [
+      {
+        id: 'Auftragsarbeiten',
+        title: 'Auftragsarbeiten',
+        description: 'Individuelle Kunstwerke nach Ihren Vorstellungen und Anforderungen.',
+        icon: <BriefcaseIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+      },
+      {
+        id: 'Kollaborationen',
+        title: 'Kollaborationen',
+        description: 'Gemeinsame Projekte und kreative Partnerschaften mit anderen Künstlern.',
+        icon: <UsersIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+      },
+      {
+        id: 'Einzelwerke',
+        title: 'Einzelwerke',
+        description: 'Verfügbare Kunstwerke aus der aktuellen Portfolio-Sammlung.',
+        icon: <PaintBrushIcon className="w-5 h-5 text-gray-600 dark:text-white/70" />
+      }
+    ]
+  }
+
+  const subjectCards = getSubjectCards()
 
   return (
     <motion.div
@@ -125,7 +179,8 @@ E-Mail: ${formData.email}`
         <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-gray-300 dark:border-white/40"></div>
         <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-gray-300 dark:border-white/40"></div>
 
-        {/* Subject Cards */}
+        {/* Subject Cards - Hidden for photography variant */}
+        {variant !== 'photography' && (
         <motion.div 
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
@@ -149,6 +204,7 @@ E-Mail: ${formData.email}`
             ))}
           </div>
         </motion.div>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -184,7 +240,11 @@ E-Mail: ${formData.email}`
             icon={<ChatBubbleLeftRightIcon className="w-4 h-4" />}
             value={formData.message}
             onChange={handleInputChange}
-            placeholder="Beschreiben Sie Ihr Projekt..."
+            placeholder={
+              variant === 'uxui' ? 'Beschreiben Sie Ihr UX/UI Projekt oder Ihre Anfrage...' :
+              variant === 'photography' ? 'Beschreiben Sie Ihr Fotografie-Projekt oder Ihre Wünsche...' :
+              'Beschreiben Sie Ihr Projekt...'
+            }
             rows={4}
             required
           />
@@ -279,10 +339,10 @@ E-Mail: ${formData.email}`
             Oder kontaktieren Sie mich direkt:
           </p>
           <a
-            href="mailto:hello@ghwb.studio"
+            href="mailto:office@ghwbstudio.de"
             className="transition-colors underline underline-offset-2 text-gray-800 hover:text-black dark:text-white/80 dark:hover:text-white"
           >
-            hello@ghwb.studio
+            office@ghwbstudio.de
           </a>
         </motion.div>
       </div>

@@ -19,15 +19,6 @@ interface Service {
   gridSpan: string;
 }
 
-interface PortfolioWork {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  gridSpan: string;
-}
-
 /**
  * PhotographyPageLight Component (Page)
  * 
@@ -39,6 +30,7 @@ interface PortfolioWork {
 
 export default function PhotographyPageLight(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
+  const [galleryImages, setGalleryImages] = useState<string[]>([])
   
   // Refs for scroll animations
   const servicesRef = useRef<HTMLElement>(null)
@@ -103,6 +95,13 @@ export default function PhotographyPageLight(): React.JSX.Element {
     }
   }
 
+  // Dynamische Galerie-Bilder laden
+  useEffect(() => {
+    fetch('/api/gallery/photography')
+      .then(res => res.json())
+      .then(data => setGalleryImages(data.images || []))
+  }, [])
+
   // Photography services data (same as dark version)
   const services: Service[] = [
     {
@@ -122,57 +121,6 @@ export default function PhotographyPageLight(): React.JSX.Element {
       approach: "Geduldiger Ansatz • Natürliche Umgebung • Emotionale Verbindung",
       image: "/api/placeholder/500/400",
       gridSpan: "col-span-1 row-span-1"
-    }
-  ]
-
-  const portfolioWorks: PortfolioWork[] = [
-    {
-      id: 1,
-      title: "Business Porträts",
-      category: "Portrait",
-      description: "Professionelle Unternehmensporträts",
-      image: "/api/placeholder/400/500",
-      gridSpan: "col-span-1 row-span-1"
-    },
-    {
-      id: 2,
-      title: "Künstlerporträts",
-      category: "Portrait", 
-      description: "Kreative Menschen in ihrem Element",
-      image: "/api/placeholder/500/600",
-      gridSpan: "col-span-1 row-span-1"
-    },
-    {
-      id: 3,
-      title: "Familienhunde",
-      category: "Haustiere",
-      description: "Spielerische Momente im Park",
-      image: "/api/placeholder/600/400",
-      gridSpan: "col-span-2 row-span-1"
-    },
-    {
-      id: 4,
-      title: "Katzenporträts",
-      category: "Haustiere",
-      description: "Elegante Aufnahmen in natürlicher Umgebung",
-      image: "/api/placeholder/400/600",
-      gridSpan: "col-span-1 row-span-1"
-    },
-    {
-      id: 5,
-      title: "Paar Shooting",
-      category: "Portrait",
-      description: "Intime Momente zwischen zwei Menschen",
-      image: "/api/placeholder/500/500",
-      gridSpan: "col-span-1 row-span-1"
-    },
-    {
-      id: 6,
-      title: "Mensch & Tier",
-      category: "Portrait",
-      description: "Die besondere Verbindung",
-      image: "/api/placeholder/700/400",
-      gridSpan: "col-span-2 row-span-1"
     }
   ]
 
@@ -434,10 +382,13 @@ export default function PhotographyPageLight(): React.JSX.Element {
 
           {/* Portfolio Grid */}
           <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4 px-6">
-            {portfolioWorks.map((work, index) => (
+            {galleryImages.length === 0 && (
+              <div className="col-span-3 text-center text-gray-400 py-20">Noch keine Bilder im Galerie-Ordner.</div>
+            )}
+            {galleryImages.map((src, index) => (
               <motion.div
-                key={work.id}
-                className={`card cursor-button group relative overflow-hidden ${work.gridSpan}`}
+                key={src}
+                className={`card cursor-button group relative overflow-hidden col-span-1 row-span-1`}
                 style={{ cursor: 'none' }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -445,31 +396,27 @@ export default function PhotographyPageLight(): React.JSX.Element {
                 viewport={{ once: true }}
               >
                 <div className="w-full h-full bg-white border border-gray-300 hover:border-gray-900 transition-all duration-300 group-hover:shadow-lg relative overflow-hidden">
-                  {/* Image placeholder with clean overlay */}
-                  <div className="w-full h-full flex items-center justify-center relative bg-gradient-to-br from-gray-100 to-gray-200">
-                    <Camera className="w-12 h-12 text-gray-400" />
-                    
-                    {/* Overlay with content - shows on hover */}
-                    <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                      <div className="text-center px-4">
-                        <div className="font-mono text-xs text-gray-600 mb-2 tracking-wider uppercase">
-                          {work.category}
-                        </div>
-                        <div className="text-gray-900 font-bold text-lg mb-2">
-                          {work.title}
-                        </div>
-                        <div className="text-gray-600 text-sm">
-                          {work.description}
-                        </div>
+                  {/* Bild aus Galerie */}
+                  <img src={src} alt="Galeriebild" className="object-cover w-full h-full" />
+                  {/* Overlay mit Dateiname als Platzhalter für Metadaten */}
+                  <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                    <div className="text-center px-4">
+                      <div className="font-mono text-xs text-gray-600 mb-2 tracking-wider uppercase">
+                        {src.split('/').pop()?.split('.')[0]}
+                      </div>
+                      <div className="text-gray-900 font-bold text-lg mb-2">
+                        Foto {index + 1}
+                      </div>
+                      <div className="text-gray-600 text-sm">
+                        {/* Hier könnten weitere Metadaten stehen */}
                       </div>
                     </div>
-                    
-                    {/* Bauhaus corner elements */}
-                    <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                    <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
                   </div>
+                  {/* Bauhaus corner elements */}
+                  <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                  <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
                 </div>
               </motion.div>
             ))}

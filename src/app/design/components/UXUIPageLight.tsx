@@ -21,12 +21,12 @@ export default function UXUIPageLight() {
   }, [])
 
   const skills = [
-    { icon: Monitor, title: 'Webdesign', description: 'Responsive und benutzerfreundliche Websites, die auf allen Geräten perfekt funktionieren.' },
-    { icon: Smartphone, title: 'Mobile Apps', description: 'Intuitive App-Designs für iOS und Android mit Fokus auf User Experience.' },
-    { icon: Palette, title: 'Brand Design', description: 'Einheitliche visuelle Identitäten, die Ihre Marke zum Leben erwecken.' },
-    { icon: Users, title: 'User Research', description: 'Datenbasierte Erkenntnisse für nutzerorientierte Designentscheidungen.' },
-    { icon: Zap, title: 'Prototyping', description: 'Interaktive Prototypen für bessere Kommunikation und Testing.' },
-    { icon: Layers, title: 'Design Systems', description: 'Skalierbare Designsysteme für konsistente Nutzererfahrungen.' }
+    { icon: Monitor, title: 'Enterprise UX/UI', description: 'Komplexe Softwarelösungen für Großunternehmen wie Infineon, Bundesdruckerei und Medizinische Dienste.' },
+    { icon: Smartphone, title: 'Management Apps', description: 'KPI-Dashboards und Mobile Apps für Führungskräfte mit fokussiertem User Experience Design.' },
+    { icon: Palette, title: 'Design Systems', description: 'Skalierbare Komponenten-Bibliotheken und Corporate Design für nachhaltige Markenführung.' },
+    { icon: Users, title: 'Accessibility Expert', description: 'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung in diesem Bereich.' },
+    { icon: Zap, title: 'Agile Methoden', description: 'Scrum Product Owner & Master Erfahrung in 21 Mio. Euro Großprojekten.' },
+    { icon: Layers, title: 'Requirements Engineering', description: 'User Research, Workshops und stakeholder-orientierte Anforderungsanalyse.' }
   ]
   const prozess = [
     { icon: Eye, title: 'Research & Analyse', desc: 'Nutzerbedürfnisse und Ziele verstehen' },
@@ -36,16 +36,46 @@ export default function UXUIPageLight() {
   ]
   const projekte = [
     {
-      title: 'E-Commerce Redesign',
-      category: 'Web Application',
+      title: 'MD-IT GmbH - Medizinische Dienste',
+      category: 'Enterprise Software',
       image: '/placeholder-project-1.jpg',
-      description: 'UX/UI Überarbeitung eines Shops mit Fokus auf Conversion und Mobile Experience.'
+      description: '21 Mio. Euro Großprojekt: Neue Branchensoftware für 15 Medizinische Dienste mit komplexen Beratungs- und Gutachterdiensten.',
+      details: 'UX/UI Design, Usability Testing, Design System, Scrum Product Owner'
     },
     {
-      title: 'Fitness App',
-      category: 'Mobile App',
+      title: 'Württembergische Versicherung',
+      category: 'Accessibility Design',
       image: '/placeholder-project-2.jpg',
-      description: 'Design einer Fitness-App mit personalisierten Workouts und Social Features.'
+      description: 'Barrierefreiheits-Optimierung der Versicherungsplattform nach WCAG-Richtlinien.',
+      details: 'Accessibility Audit, UX Research, Dokumentation, Frontend-Beratung'
+    },
+    {
+      title: 'Infineon - Management Dashboard',
+      category: 'Mobile App',
+      image: '/placeholder-project-3.jpg',
+      description: 'KPI-Management App für Führungskräfte zur schnellen Überprüfung wichtiger Unternehmensdaten.',
+      details: 'Requirements Engineering, Wireframing, UI Design, Usability Testing'
+    },
+    {
+      title: 'KION Group - Component Library',
+      category: 'Design System',
+      image: '/placeholder-project-4.jpg',
+      description: 'Entwicklung neuer UI-Komponenten für die Website der KION Group.',
+      details: 'Component Design, Style Guide, Frontend-Integration'
+    },
+    {
+      title: 'Bundesdruckerei - Accessibility',
+      category: 'Consulting',
+      image: '/placeholder-project-5.jpg',
+      description: 'Beratung und Unterstützung für digitale Barrierefreiheit im UX/UI Team.',
+      details: 'Knowledge Management, Workshop-Leitung, Marketing-Konzeption'
+    },
+    {
+      title: 'Charly Group - Hotel Website',
+      category: 'Web Design',
+      image: '/placeholder-project-6.jpg',
+      description: 'Komplette CI und Webauftritt für neugegründete Hotelgruppe mit Atomic Design Prinzip.',
+      details: 'Corporate Identity, Design System, Projektleitung, Scrum Master'
     }
   ]
 
@@ -317,6 +347,68 @@ export default function UXUIPageLight() {
         </div>
       </section>
 
+      {/* TOOLS & TECHNOLOGIEN SECTION */}
+      <section className="py-32 px-6 relative z-10 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <motion.div 
+              className="flex items-center justify-center mb-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
+              <span className="text-muted-foreground text-sm">Tools & Expertise</span>
+            </motion.div>
+
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
+              Mein Tech-Stack
+            </h2>
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
+              Über 5 Jahre Erfahrung mit professionellen Design- und Development-Tools
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {[
+              { name: 'Figma', category: 'Design', experience: '5+ Jahre' },
+              { name: 'Adobe Illustrator', category: 'Design', experience: '5+ Jahre' },
+              { name: 'Sketch', category: 'Design', experience: '4+ Jahre' },
+              { name: 'Adobe XD', category: 'Prototyping', experience: '3+ Jahre' },
+              { name: 'Adobe Photoshop', category: 'Design', experience: '5+ Jahre' },
+              { name: 'Miro', category: 'Workshop', experience: '4+ Jahre' },
+              { name: 'Jira', category: 'Projektmanagement', experience: '4+ Jahre' },
+              { name: 'Confluence', category: 'Dokumentation', experience: '4+ Jahre' },
+              { name: 'Zeplin', category: 'Handoff', experience: '3+ Jahre' },
+              { name: 'PowerPoint', category: 'Präsentation', experience: '5+ Jahre' },
+              { name: 'WAVE', category: 'Accessibility', experience: '3+ Jahre' },
+              { name: 'Frontend Dev', category: 'Development', experience: '2+ Jahre' }
+            ].map((tool, index) => (
+              <motion.div
+                key={tool.name}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+                className="bg-white border border-border rounded-lg p-4 text-center hover:border-foreground/20 transition-all duration-300"
+              >
+                <h3 className="font-semibold text-foreground text-sm mb-1">{tool.name}</h3>
+                <p className="text-xs text-muted-foreground mb-1">{tool.category}</p>
+                <p className="text-xs text-muted-foreground/70">{tool.experience}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* PROJEKTE SECTION - MINIMAL GRID LAYOUT */}
       <section className="py-32 px-6 relative z-10 bg-white">
         <div className="max-w-7xl mx-auto">
@@ -347,13 +439,13 @@ export default function UXUIPageLight() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projekte.map((project, index) => (
               <motion.div 
                 key={project.title} 
                 initial={{ opacity: 0, y: 50 }} 
                 whileInView={{ opacity: 1, y: 0 }} 
-                transition={{ duration: 0.8, delay: index * 0.2 }} 
+                transition={{ duration: 0.8, delay: index * 0.1 }} 
                 viewport={{ once: true }} 
                 whileHover={{ y: -10 }} 
                 className="group cursor-pointer relative border border-border bg-white shadow-lg rounded-lg overflow-hidden hover:border-foreground/20 transition-all duration-300"
@@ -365,8 +457,13 @@ export default function UXUIPageLight() {
                 </div>
                 <div className="p-6 space-y-3">
                   <span className="text-sm font-medium text-muted-foreground">{project.category}</span>
-                  <h3 className="text-xl font-semibold group-hover:text-muted-foreground transition-colors text-foreground">{project.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+                  <h3 className="text-lg font-semibold group-hover:text-muted-foreground transition-colors text-foreground">{project.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed text-sm">{project.description}</p>
+                  {project.details && (
+                    <div className="pt-2 border-t border-border">
+                      <p className="text-xs text-muted-foreground/80 font-medium">{project.details}</p>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
