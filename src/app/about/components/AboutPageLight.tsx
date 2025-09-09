@@ -1,0 +1,549 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap } from 'lucide-react'
+import Link from 'next/link'
+import Footer from '@/components/Footer'
+import CustomCursor from '@/components/CustomCursor'
+import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
+import { useState, useEffect } from 'react'
+
+export default function AboutPageLight() {
+  const [currentTime, setCurrentTime] = useState('')
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date()
+      setCurrentTime(now.toLocaleTimeString('de-DE', { 
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }))
+    }
+    updateTime()
+    const interval = setInterval(updateTime, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const skills = [
+    'UX/UI Design',
+    'Fotografie',
+    'Klassische Malerei',
+    'Digitale Kunst',
+    'AR-Entwicklung',
+    'Prototyping',
+    'User Research',
+    'Produktfotografie',
+    'Porträtfotografie',
+    'Mixed Media'
+  ]
+
+  const values = [
+    {
+      icon: Heart,
+      title: 'Leidenschaft',
+      description: 'Jedes Projekt wird mit vollster Hingabe und Liebe zum Detail umgesetzt.'
+    },
+    {
+      icon: Lightbulb,
+      title: 'Innovation',
+      description: 'Ich verbinde traditionelle Methoden mit modernster Technologie für einzigartige Lösungen.'
+    },
+    {
+      icon: Users,
+      title: 'Zusammenarbeit',
+      description: 'Enger Dialog mit Kunden für maßgeschneiderte Ergebnisse, die begeistern.'
+    },
+    {
+      icon: Zap,
+      title: 'Präzision',
+      description: 'Höchste Qualitätsansprüche in jedem Aspekt meiner kreativen Arbeit.'
+    }
+  ]
+
+  const journey = [
+    {
+      year: '2018',
+      title: 'Studium Design',
+      description: 'Beginn des Studiums in visueller Kommunikation und UX Design'
+    },
+    {
+      year: '2020',
+      title: 'Erste Ausstellung',
+      description: 'Lokale Kunstausstellung mit traditionellen Malereien'
+    },
+    {
+      year: '2021',
+      title: 'Digitale Evolution',
+      description: 'Entdeckung der Möglichkeiten digitaler Kunst und AR-Technologie'
+    },
+    {
+      year: '2022',
+      title: 'GHWB Studio',
+      description: 'Gründung des Studios und Fokus auf interdisziplinäre Projekte'
+    },
+    {
+      year: '2023',
+      title: 'AR Integration',
+      description: 'Erste erfolgreiche Projekte mit erweiteter Realität in der Kunst'
+    },
+    {
+      year: '2024',
+      title: 'Heute',
+      description: 'Vollzeit kreativ tätig mit Fokus auf innovative Lösungen'
+    }
+  ]
+
+  return (
+    <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
+      <CustomCursor />
+      
+      {/* HERO SECTION - BAUHAUS LIGHT MODE STYLING */}
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
+        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        style={{ zIndex: 20 }}
+      >
+        {/* Floating Clouds - mit korrektem z-index */}
+        <FloatingCloudsArt />
+        
+        {/* Background gradient - matching startpage */}
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-white" />
+
+        {/* Subtle geometric background elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
+          <motion.div
+            className="relative w-full h-full"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.06, scale: 1 }}
+            transition={{ duration: 3, delay: 1 }}
+          >
+            {/* Minimale geometrische Formen */}
+            <motion.div 
+              className="absolute top-20 left-20 w-32 h-32 border-2 border-gray-300"
+              style={{ transform: 'rotate(45deg)' }}
+              initial={{ rotate: 0, scale: 0 }}
+              animate={{ rotate: 45, scale: 1 }}
+              transition={{ duration: 2, delay: 1.5 }}
+            />
+            
+            <motion.div 
+              className="absolute bottom-32 right-32 w-24 h-24 bg-gray-200 rounded-full"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.5, delay: 2 }}
+            />
+            
+            <motion.div 
+              className="absolute top-32 right-20 w-40 h-1 bg-gray-200"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.5, delay: 1.8 }}
+            />
+            <motion.div 
+              className="absolute bottom-40 left-32 w-1 h-40 bg-gray-200"
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: 1.5, delay: 2.2 }}
+            />
+          </motion.div>
+        </div>
+
+        <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 40 }}>
+          {/* Back Button - Startseite Button Styling */}
+          <motion.button
+            onClick={() => window.history.back()}
+            className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg mb-16"
+            style={{
+              background: 'rgba(0, 0, 0, 0.05)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(0, 0, 0, 0.1)'
+            }}
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            <span className="tracking-wide">Zurück</span>
+          </motion.button>
+
+          {/* Main Content - Startseite Typography */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+          >
+            {/* Subtitle - matching startpage */}
+            <motion.p 
+              className="text-base text-muted-foreground leading-7 mb-6"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+            >
+              Kreativer • Designer • Fotograf • Künstler
+            </motion.p>
+
+            {/* Main Title - startpage style */}
+            <motion.h1 
+              className="text-6xl font-semibold text-foreground leading-tight tracking-tight mb-4"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 1.4 }}
+            >
+              <span className="block">ÜBER</span>
+              <span className="block">MICH</span>
+            </motion.h1>
+
+            {/* Description - startpage style */}
+            <motion.p 
+              className="text-base text-muted-foreground leading-7 max-w-2xl mx-auto mb-16"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+            >
+              Ein leidenschaftlicher Kreativer, der die Grenzen zwischen<br/>
+              traditioneller Kunst, moderner Technologie und menschenzentriertem Design verwischt.
+            </motion.p>
+
+            {/* Profile Image - matching style */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 1.8 }}
+              className="flex justify-center mb-16"
+            >
+              <div className="relative">
+                <div className="w-64 h-64 rounded-full bg-gradient-to-br from-muted via-muted/70 to-background border-4 border-border/20 flex items-center justify-center shadow-lg">
+                  <Coffee className="w-16 h-16 text-foreground/30" />
+                </div>
+                
+                {/* Decorative elements */}
+                <div className="absolute -top-2 -left-2 w-6 h-6 border-l-2 border-t-2 border-foreground/20" />
+                <div className="absolute -top-2 -right-2 w-6 h-6 border-r-2 border-t-2 border-foreground/20" />
+                <div className="absolute -bottom-2 -left-2 w-6 h-6 border-l-2 border-b-2 border-foreground/20" />
+                <div className="absolute -bottom-2 -right-2 w-6 h-6 border-r-2 border-b-2 border-foreground/20" />
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* STORY SECTION - STARTSEITE LIGHT MODE STYLING */}
+      <section className="py-32 px-6 relative z-10 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            {/* Category Tag - subtil wie auf der Startseite */}
+            <motion.div 
+              className="flex items-center justify-center mb-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
+              <span className="text-muted-foreground text-sm">Meine Geschichte</span>
+            </motion.div>
+
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
+              Der kreative Weg
+            </h2>
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
+              Von den ersten Pinselstrichen bis zur digitalen Innovation
+            </p>
+          </motion.div>
+          
+          <div className="space-y-8 text-foreground/70 leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="text-lg"
+            >
+              Schon früh entdeckte ich meine Leidenschaft für visuelle Kommunikation. 
+              Was als Hobby mit Pinsel und Farbe begann, entwickelte sich zu einer 
+              tiefen Faszination für die Art, wie Design und Kunst Menschen berühren können.
+            </motion.p>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-lg"
+            >
+              Während meines Studiums lernte ich, dass gutes Design mehr ist als nur schöne Oberflächen – 
+              es geht um echte menschliche Bedürfnisse, um Funktionalität und um Emotionen. 
+              Diese Erkenntnis prägt bis heute meine Arbeit als UX/UI Designer.
+            </motion.p>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="text-lg"
+            >
+              Parallel dazu blieb meine Liebe zur Fotografie bestehen. Das Einfangen authentischer 
+              Momente, sei es in Porträts oder Produktaufnahmen, gibt mir die Möglichkeit, 
+              Geschichten zu erzählen und Emotionen festzuhalten.
+            </motion.p>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="text-lg"
+            >
+              Der spannendste Teil meiner kreativen Reise begann, als ich entdeckte, wie sich 
+              traditionelle Kunstformen mit moderner AR-Technologie verbinden lassen. 
+              Plötzlich konnten meine Gemälde zum Leben erwachen und Betrachter in völlig 
+              neue Welten entführen.
+            </motion.p>
+          </div>
+        </div>
+      </section>
+
+      {/* VALUES SECTION - STARTSEITE LIGHT MODE STYLING */}
+      <section className="py-32 px-6 relative z-10 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            {/* Category Tag - subtil wie auf der Startseite */}
+            <motion.div 
+              className="flex items-center justify-center mb-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
+              <span className="text-muted-foreground text-sm">Meine Werte</span>
+            </motion.div>
+
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
+              Was mich antreibt
+            </h2>
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
+              Die Prinzipien, die meine Arbeit und mein Denken prägen
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => {
+              const Icon = value.icon
+              return (
+                <motion.div
+                  key={value.title}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                  className="relative border border-border p-8 bg-white shadow-lg rounded-lg hover:border-foreground/20 transition-all duration-300"
+                >
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-muted mb-6">
+                    <Icon className="w-6 h-6 text-foreground" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4 text-foreground">{value.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* SKILLS SECTION - STARTSEITE LIGHT MODE STYLING */}
+      <section className="py-32 px-6 relative z-10 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            {/* Category Tag - subtil wie auf der Startseite */}
+            <motion.div 
+              className="flex items-center justify-center mb-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
+              <span className="text-muted-foreground text-sm">Fertigkeiten</span>
+            </motion.div>
+
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
+              Meine Kompetenzen
+            </h2>
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
+              Eine Übersicht meiner kreativen und technischen Fertigkeiten
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex flex-wrap justify-center gap-4"
+          >
+            {skills.map((skill, index) => (
+              <motion.span
+                key={skill}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                className="px-6 py-3 bg-background border border-border/50 rounded-full text-sm font-medium hover:border-border hover:shadow-md transition-all duration-300 cursor-default"
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* JOURNEY TIMELINE - STARTSEITE LIGHT MODE STYLING */}
+      <section className="py-32 px-6 relative z-10 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            {/* Category Tag - subtil wie auf der Startseite */}
+            <motion.div 
+              className="flex items-center justify-center mb-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
+              <span className="text-muted-foreground text-sm">Meine Reise</span>
+            </motion.div>
+
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
+              Kreative Entwicklung
+            </h2>
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
+              Die wichtigsten Meilensteine auf meinem kreativen Weg
+            </p>
+          </motion.div>
+
+          <div className="space-y-12">
+            {journey.map((milestone, index) => (
+              <motion.div
+                key={milestone.year}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`flex items-center gap-8 ${
+                  index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+                } md:flex-row`}
+              >
+                <div className="flex-1">
+                  <motion.div 
+                    className="relative p-6 bg-white border border-border shadow-lg rounded-lg hover:border-foreground/20 transition-all duration-300"
+                    whileHover={{ y: -5 }}
+                  >
+                    <div className="inline-block px-4 py-2 bg-foreground text-background rounded-full text-sm font-bold mb-4">
+                      {milestone.year}
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">{milestone.title}</h3>
+                    <p className="text-muted-foreground">{milestone.description}</p>
+                  </motion.div>
+                </div>
+                
+                <div className="hidden md:block w-4 h-4 rounded-full bg-foreground flex-shrink-0 relative">
+                  <div className="absolute inset-0 rounded-full bg-foreground animate-pulse opacity-50" />
+                </div>
+                
+                <div className="flex-1 hidden md:block" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CALL TO ACTION - STARTSEITE LIGHT MODE STYLING */}
+      <section className="py-32 px-6 relative z-10 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            {/* Category Tag - subtil wie auf der Startseite */}
+            <motion.div 
+              className="flex items-center justify-center mb-8"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
+              <span className="text-muted-foreground text-sm">Kontakt</span>
+            </motion.div>
+
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
+              Lassen Sie uns zusammenarbeiten
+            </h2>
+            <p className="text-xl text-muted-foreground leading-7 max-w-2xl mx-auto mb-16">
+              Haben Sie ein spannendes Projekt im Kopf? Ich freue mich darauf, 
+              mit Ihnen kreative Lösungen zu entwickeln, die begeistern und bewegen.
+            </p>
+            
+            <motion.a
+              href="mailto:hello@ghwb.studio"
+              className="inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
+              style={{
+                background: 'rgba(6, 182, 212, 0.15)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(6, 182, 212, 0.3)',
+                boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+              }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -2,
+                boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15), 0 8px 12px -4px rgba(0, 0, 0, 0.1)'
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Kontakt aufnehmen
+            </motion.a>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  )
+}
