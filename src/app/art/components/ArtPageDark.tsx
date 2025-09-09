@@ -6,6 +6,7 @@ import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
 import ContactForm from '@/components/ContactForm'
 import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
+import { artImages } from '@/data/gallery'
 
 // TypeScript Interfaces (same as light version)
 interface Artwork {
@@ -105,11 +106,9 @@ export default function ArtPageDark(): React.JSX.Element {
     return () => observer.disconnect()
   }, [])
 
-  // Dynamische Galerie-Bilder laden
+  // Statische Galerie-Bilder laden
   useEffect(() => {
-    fetch('/api/gallery/art')
-      .then(res => res.json())
-      .then(data => setGalleryImages(data.images || []))
+    setGalleryImages(artImages)
   }, [])
 
   const scrollToContactForm = (): void => {

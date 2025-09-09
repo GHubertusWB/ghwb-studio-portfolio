@@ -7,6 +7,7 @@ import ContactFormLight from './ContactFormLight'
 import CustomCursor from '@/components/CustomCursor'
 import FloatingCloudsArt from './FloatingCloudsArt'
 import Footer from '@/components/Footer'
+import { artImages } from '@/data/gallery'
 
 // TypeScript Interfaces (same as dark version)
 interface Artwork {
@@ -106,11 +107,9 @@ export default function ArtPageLight(): React.JSX.Element {
     return () => observer.disconnect()
   }, [])
 
-  // Dynamische Galerie-Bilder laden
+  // Statische Galerie-Bilder laden
   useEffect(() => {
-    fetch('/api/gallery/art')
-      .then(res => res.json())
-      .then(data => setGalleryImages(data.images || []))
+    setGalleryImages(artImages)
   }, [])
 
   const scrollToContactForm = (): void => {

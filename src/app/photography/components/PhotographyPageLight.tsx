@@ -7,6 +7,7 @@ import ContactFormPhotography from './ContactFormPhotography'
 import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
+import { photographyImages } from '@/data/gallery'
 
 // TypeScript Interfaces (same as dark version)
 interface Service {
@@ -95,11 +96,9 @@ export default function PhotographyPageLight(): React.JSX.Element {
     }
   }
 
-  // Dynamische Galerie-Bilder laden
+  // Statische Galerie-Bilder laden
   useEffect(() => {
-    fetch('/api/gallery/photography')
-      .then(res => res.json())
-      .then(data => setGalleryImages(data.images || []))
+    setGalleryImages(photographyImages)
   }, [])
 
   // Photography services data (same as dark version)

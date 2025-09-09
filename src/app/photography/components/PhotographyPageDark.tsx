@@ -6,6 +6,7 @@ import { ArrowRight, ArrowLeft, Camera, User, Heart, Sparkles, Eye } from 'lucid
 import ContactForm from '@/components/ContactForm'
 import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
+import { photographyImages } from '@/data/gallery'
 
 // TypeScript Interfaces
 interface Service {
@@ -103,11 +104,9 @@ export default function PhotographyPageDark(): React.JSX.Element {
     }
   }
 
-  // Dynamische Galerie-Bilder laden
+  // Statische Galerie-Bilder laden
   useEffect(() => {
-    fetch('/api/gallery/photography')
-      .then(res => res.json())
-      .then(data => setGalleryImages(data.images || []))
+    setGalleryImages(photographyImages)
   }, [])
 
   // Photography Services Data
