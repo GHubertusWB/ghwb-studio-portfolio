@@ -16,27 +16,27 @@ Dieses Projekt ist für automatisches Deployment über **Vercel** konfiguriert. 
 
 ### 2. Umgebungsvariablen konfigurieren
 
-**EmailJS für automatische E-Mails** (von u3170996315@gmail.com an office@ghwbstudio.de):
+**SMTP für automatische E-Mails** (von u3170996315@gmail.com an office@ghwbstudio.de):
 
 ```bash
-# EmailJS Konfiguration (erforderlich für E-Mail-Funktionalität)
-NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_gmail
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_contact
-NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=user_xxxxxxxxx
+# SMTP Konfiguration (erforderlich für E-Mail-Funktionalität)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=u3170996315@gmail.com
+SMTP_PASSWORD=ffkqsezyitqraewo
 
 # Build Konfiguration (optional)
 NEXT_TELEMETRY_DISABLED=1
 SKIP_ENV_VALIDATION=1
 ```
 
-**Setup-Anleitung**: Siehe `EMAILJS_SETUP.md` für detaillierte Konfiguration.
+**Setup-Anleitung**: SMTP nutzt dein Gmail-Konto für direktes E-Mail-Versenden.
 
 ### 3. Build Settings
 
 Vercel sollte automatisch erkennen:
 - **Framework**: Next.js
 - **Build Command**: `npm run build`
-- **Output Directory**: `out`
 - **Install Command**: `npm ci`
 
 ## 🔄 Deployment Workflow
@@ -66,7 +66,7 @@ vercel --prod
 ├── vercel.json                  # Vercel Konfiguration
 ├── next.config.ts              # Next.js Konfiguration
 ├── package.json                # Dependencies & Scripts
-└── out/                        # Static Export Output
+└── src/app/api/send-email/     # SMTP E-Mail API Route
 ```
 
 ## ✅ Build Verification
@@ -74,8 +74,7 @@ vercel --prod
 Der GitHub Action Workflow prüft bei jedem Push:
 - ✅ Dependencies Installation
 - ✅ Erfolgreicher Build
-- ✅ Static Export Generation
-- ✅ Output Directory Validation
+- ✅ TypeScript Validation
 
 ## 🔗 URLs
 
@@ -85,11 +84,10 @@ Der GitHub Action Workflow prüft bei jedem Push:
 
 ## 🚨 Wichtige Hinweise
 
-1. **Static Export**: Projekt nutzt `output: 'export'` für statische Generierung
-2. **EmailJS**: Sendet automatisch E-Mails von `u3170996315@gmail.com` an `office@ghwbstudio.de`
-3. **Environment Variables**: EmailJS-Konfiguration erforderlich (siehe EMAILJS_SETUP.md)
-4. **Images**: Optimierung deaktiviert für statischen Export
-5. **API Routes**: Nicht verfügbar bei Static Export
+1. **Next.js App**: Projekt läuft als vollständige Next.js Anwendung mit Server-side API Routes
+2. **SMTP E-Mail**: Sendet automatisch E-Mails von `u3170996315@gmail.com` an `office@ghwbstudio.de`
+3. **Environment Variables**: SMTP-Konfiguration erforderlich für E-Mail-Funktionalität
+4. **API Routes**: Verfügbar als Vercel Functions
 
 ## 🛠 Troubleshooting
 
@@ -99,10 +97,9 @@ Der GitHub Action Workflow prüft bei jedem Push:
 3. Lokaler Build-Test: `npm run build`
 
 ### E-Mail nicht funktionsfähig
-1. Prüfe EmailJS Environment Variables in Vercel Dashboard
-2. Prüfe EmailJS Service-Konfiguration unter emailjs.com
-3. Teste Gmail-Verbindung und Template-Konfiguration
-4. Fallback: mailto-Link öffnet E-Mail-Client des Nutzers
+1. Prüfe SMTP Environment Variables in Vercel Dashboard
+2. Teste mit curl/Postman die API Route
+3. Prüfe Gmail SMTP-Konfiguration und App-Password
 
 ### Routing Probleme
 1. Prüfe `vercel.json` Routes Konfiguration
