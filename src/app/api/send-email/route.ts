@@ -3,27 +3,51 @@ import nodemailer from 'nodemailer'
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('📧 API: E-Mail-Anfrage empfangen')
     const { name, email, message, selectedSubjects, variant } = await request.json()
 
     // Validierung der erforderlichen Felder
     if (!name || !email || !message) {
+      console.log('❌ Validierung fehlgeschlagen:', { name: !!name, email: !!email, message: !!message })
       return NextResponse.json(
         { error: 'Name, E-Mail und Nachricht sind erforderlich' },
         { status: 400 }
       )
     }
 
+    console.log('✅ Validierung erfolgreich:', { variant, selectedSubjects })
+
     // E-Mail-Transporter konfigurieren
-    // Hier müssen Sie Ihre SMTP-Einstellungen konfigurieren
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false, // true für 465, false für andere Ports
+      secure: false,
       auth: {
         user: process.env.SMTP_USER || '',
         pass: process.env.SMTP_PASSWORD || '',
       },
+      debug: true, // Aktiviere Debug-Modus
+      logger: true
     })
+
+    console.log('🔧 SMTP konfiguriert:', {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      user: process.env.SMTP_USER ? '***konfiguriert***' : 'FEHLT',
+      pass: process.env.SMTP_PASSWORD ? '***konfiguriert***' : 'FEHLT'
+    })
+
+    // Verbindung testen
+    try {
+      await transporter.verify()
+      console.log('✅ SMTP-Verbindung erfolgreich')
+    } catch (verifyError) {
+      console.error('❌ SMTP-Verbindung fehlgeschlagen:', verifyError)
+      return NextResponse.json(
+        { error: 'SMTP-Verbindung fehlgeschlagen. Bitte prüfen Sie die Konfiguration.' },
+        { status: 500 }
+      )
+    }
 
     // Betreff basierend auf Variante und ausgewählten Themen erstellen
     let subjectPrefix = ''
@@ -103,6 +127,7 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
     }
 
     await transporter.sendMail(mailOptions)
+    console.log('✅ E-Mail erfolgreich gesendet')
 
     return NextResponse.json(
       { message: 'E-Mail erfolgreich gesendet' },
@@ -110,9 +135,22 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
     )
 
   } catch (error) {
-    console.error('Fehler beim Senden der E-Mail:', error)
+    console.error('❌ Fehler beim Senden der E-Mail:', error)
+    
+    // Detaillierte Fehlerausgabe
+    if (error instanceof Error) {
+      console.error('Fehler-Details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      })
+    }
+    
     return NextResponse.json(
-      { error: 'Fehler beim Senden der E-Mail' },
+      { 
+        error: 'Fehler beim Senden der E-Mail',
+        details: error instanceof Error ? error.message : 'Unbekannter Fehler'
+      },
       { status: 500 }
     )
   }

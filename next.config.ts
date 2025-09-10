@@ -15,6 +15,30 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: false,
   },
   outputFileTracingRoot: __dirname,
+  // CSP Headers für E-Mail-Funktionalität
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob:",
+              "font-src 'self'",
+              "connect-src 'self'",
+              "frame-src 'self'",
+              "object-src 'none'",
+              "base-uri 'self'"
+            ].join('; ')
+          }
+        ]
+      }
+    ]
+  }
 };
 
 export default nextConfig;
