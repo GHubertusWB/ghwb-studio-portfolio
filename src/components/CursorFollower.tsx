@@ -28,7 +28,7 @@ const CursorFollower = () => {
         const lightAnimData = await lightResponse.json()
         setLightAnimationData(lightAnimData)
       } catch (error) {
-        console.error('Error loading Lottie animation:', error)
+        // Lottie animation loading failed - continue without animation
       }
     }
 

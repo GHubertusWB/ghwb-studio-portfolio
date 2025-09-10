@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion'
 import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Footer from '@/components/Footer'
 import CustomCursor from '@/components/CustomCursor'
+import ContactSection from '@/components/ContactSection'
 import { useState, useEffect } from 'react'
 
 export default function AboutPageDark() {
@@ -228,7 +230,7 @@ export default function AboutPageDark() {
               Ein leidenschaftlicher Kreativer, der die Grenzen zwischen traditioneller Kunst, moderner Technologie und menschenzentriertem Design verwischt.
             </motion.p>
 
-            {/* Profile Section mit HUD styling */}
+            {/* Portrait Image - Original Proportions HUD Style */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -236,17 +238,24 @@ export default function AboutPageDark() {
               className="flex justify-center mb-12"
             >
               <div className="relative">
-                <div className="w-64 h-64 relative">
+                <div className="w-80 h-96 relative">
                   {/* HUD frame */}
-                  <div className="absolute inset-0 border-2 border-white/30 rounded-full" />
-                  <div className="absolute inset-2 border border-white/20 rounded-full" />
+                  <div className="absolute inset-0 border-2 border-white/30 rounded-lg" />
+                  <div className="absolute inset-2 border border-white/20 rounded-lg" />
                   
-                  {/* Profile placeholder */}
-                  <div className="absolute inset-4 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-full flex items-center justify-center border border-white/10">
-                    <Coffee className="w-16 h-16 text-white/50" />
+                  {/* Portrait Image */}
+                  <div className="absolute inset-4 rounded-lg overflow-hidden border border-white/10">
+                    <Image
+                      src="/images/hubertus-portrait.jpg"
+                      alt="Hubertus Weidenbrücher - Portrait"
+                      width={320}
+                      height={384}
+                      className="w-full h-full object-cover"
+                      priority
+                    />
                   </div>
                   
-                  {/* Corner elements - wie andere Dark Pages */}
+                  {/* Corner elements - HUD Style */}
                   <div className="absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2 border-white" />
                   <div className="absolute -top-2 -right-2 w-8 h-8 border-r-2 border-t-2 border-white" />
                   <div className="absolute -bottom-2 -left-2 w-8 h-8 border-l-2 border-b-2 border-white" />
@@ -543,6 +552,9 @@ export default function AboutPageDark() {
           </motion.div>
         </div>
       </section>
+
+      {/* Contact Section */}
+      <ContactSection />
 
       <Footer />
     </div>

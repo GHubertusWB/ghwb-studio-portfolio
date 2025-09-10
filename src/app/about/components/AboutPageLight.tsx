@@ -3,9 +3,11 @@
 import { motion } from 'framer-motion'
 import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Footer from '@/components/Footer'
 import CustomCursor from '@/components/CustomCursor'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
+import ContactSection from '@/components/ContactSection'
 import { useState, useEffect } from 'react'
 
 export default function AboutPageLight() {
@@ -215,7 +217,7 @@ export default function AboutPageLight() {
               traditioneller Kunst, moderner Technologie und menschenzentriertem Design verwischt.
             </motion.p>
 
-            {/* Profile Image - matching style */}
+            {/* Portrait Image - Original Proportions */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -223,11 +225,18 @@ export default function AboutPageLight() {
               className="flex justify-center mb-16"
             >
               <div className="relative">
-                <div className="w-64 h-64 rounded-full bg-gradient-to-br from-muted via-muted/70 to-background border-4 border-border/20 flex items-center justify-center shadow-lg">
-                  <Coffee className="w-16 h-16 text-foreground/30" />
+                <div className="w-80 h-96 overflow-hidden rounded-lg border-4 border-border/20 shadow-xl bg-muted/10">
+                  <Image
+                    src="/images/hubertus-portrait.jpg"
+                    alt="Hubertus Weidenbrücher - Portrait"
+                    width={320}
+                    height={384}
+                    className="w-full h-full object-cover"
+                    priority
+                  />
                 </div>
                 
-                {/* Decorative elements */}
+                {/* Decorative corner elements */}
                 <div className="absolute -top-2 -left-2 w-6 h-6 border-l-2 border-t-2 border-foreground/20" />
                 <div className="absolute -top-2 -right-2 w-6 h-6 border-r-2 border-t-2 border-foreground/20" />
                 <div className="absolute -bottom-2 -left-2 w-6 h-6 border-l-2 border-b-2 border-foreground/20" />
@@ -546,6 +555,9 @@ export default function AboutPageLight() {
           </motion.div>
         </div>
       </section>
+
+      {/* Contact Section */}
+      <ContactSection />
 
       <Footer />
     </div>

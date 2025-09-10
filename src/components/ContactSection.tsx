@@ -47,7 +47,6 @@ const ContactSection = () => {
         throw new Error('Fehler beim Senden der E-Mail')
       }
     } catch (error) {
-      console.error('Error:', error)
       alert('Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut.')
     } finally {
       setIsSubmitting(false)
