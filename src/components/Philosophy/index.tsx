@@ -1,177 +1,188 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { useTheme } from '@/contexts/ThemeContext'
+import { useState } from 'react'
 
 const Philosophy = () => {
   const { theme } = useTheme()
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
   
   const philosophyPoints = [
     {
-      title: "Funktionalität trifft Ästhetik",
-      description: "Jedes Design muss nicht nur schön aussehen, sondern auch seinen Zweck erfüllen. Form folgt Funktion, aber beide müssen harmonieren.",
-      icon: "⚡"
+      number: "01",
+      title: "Form & Funktion",
+      subtitle: "Schönheit mit Zweck",
+      description: "Design muss nicht nur ästhetisch ansprechend sein, sondern auch funktional. Jedes Element hat einen Grund."
     },
     {
-      title: "Weniger ist mehr",
-      description: "Klare Linien, bewusste Reduktion und fokussierte Inhalte schaffen Raum für das Wesentliche und verbessern die Benutzererfahrung.",
-      icon: "✨"
+      number: "02", 
+      title: "Reduktion",
+      subtitle: "Das Wesentliche",
+      description: "Weniger ist mehr. Durch bewusste Reduktion entsteht Klarheit und Fokus auf das Wichtige."
     },
     {
-      title: "Authentische Geschichten",
-      description: "Jedes Projekt erzählt eine einzigartige Geschichte. Mein Ziel ist es, diese Geschichte visuell zu übersetzen und emotional erlebbar zu machen.",
-      icon: "🎨"
+      number: "03",
+      title: "Emotion",
+      subtitle: "Geschichten erzählen", 
+      description: "Gutes Design berührt Menschen. Es erzählt Geschichten und schafft emotionale Verbindungen."
     }
   ]
 
   return (
-    <section className={`py-20 px-6 transition-colors duration-500 ${
+    <section className={`min-h-screen flex items-center justify-center px-6 py-20 transition-all duration-700 ${
       theme === 'dark' 
-        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white' 
-        : 'bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-900'
+        ? 'bg-black text-white' 
+        : 'bg-white text-gray-900'
     }`}>
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
+      <div className="max-w-5xl w-full">
+        
+        {/* Minimal Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <motion.h2 
-            className={`font-serif text-4xl md:text-5xl lg:text-6xl font-light mb-6 tracking-tight ${
-              theme === 'dark' ? 'text-white' : 'text-gray-900'
-            }`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Design Philosophie
-          </motion.h2>
-          
-          <motion.p
-            className={`font-sans text-lg md:text-xl max-w-2xl mx-auto leading-relaxed ${
-              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-            }`}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            Drei Grundprinzipien, die mein kreatives Schaffen leiten
-          </motion.p>
-          
-          <motion.div 
-            className={`w-24 h-0.5 mx-auto mt-8 ${
-              theme === 'dark' ? 'bg-gradient-to-r from-cyan-400 to-blue-500' : 'bg-gradient-to-r from-gray-800 to-gray-600'
-            }`}
-            initial={{ width: 0 }}
-            whileInView={{ width: 96 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            viewport={{ once: true }}
-          />
+          <h2 className={`font-light text-5xl md:text-7xl tracking-tight mb-4 ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>
+            Philosophie
+          </h2>
+          <div className={`w-16 h-px mx-auto ${
+            theme === 'dark' ? 'bg-white/30' : 'bg-gray-900/30'
+          }`} />
         </motion.div>
 
-        {/* Philosophy Points */}
-        <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
+        {/* Interactive Cards */}
+        <div className="space-y-8 md:space-y-12">
           {philosophyPoints.map((point, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.8, 
-                delay: index * 0.2,
-                ease: "easeOut"
-              }}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              whileHover={{ y: -8 }}
-              className={`group relative p-8 rounded-2xl border transition-all duration-500 hover:shadow-2xl ${
-                theme === 'dark'
-                  ? 'bg-gray-800/50 border-gray-700/50 hover:border-cyan-400/50 backdrop-blur-sm'
-                  : 'bg-white/80 border-gray-200/50 hover:border-gray-400/50 shadow-lg backdrop-blur-sm'
+              onHoverStart={() => setActiveIndex(index)}
+              onHoverEnd={() => setActiveIndex(null)}
+              className={`group cursor-pointer border-l-2 pl-8 md:pl-12 py-8 transition-all duration-500 ${
+                activeIndex === index 
+                  ? theme === 'dark' 
+                    ? 'border-white bg-white/5' 
+                    : 'border-gray-900 bg-gray-900/5'
+                  : theme === 'dark'
+                    ? 'border-white/20 hover:border-white/40'
+                    : 'border-gray-300 hover:border-gray-600'
               }`}
             >
-              {/* Icon */}
-              <motion.div 
-                className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 text-2xl transition-all duration-300 ${
-                  theme === 'dark' 
-                    ? 'bg-gradient-to-br from-cyan-400/20 to-blue-500/20 group-hover:from-cyan-400/30 group-hover:to-blue-500/30' 
-                    : 'bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-gray-200 group-hover:to-gray-300'
-                }`}
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ duration: 0.3 }}
-              >
-                {point.icon}
-              </motion.div>
-              
-              {/* Number */}
-              <div className={`absolute top-6 right-6 font-mono text-sm font-medium ${
-                theme === 'dark' ? 'text-cyan-400/60' : 'text-gray-400'
-              }`}>
-                {String(index + 1).padStart(2, '0')}
-              </div>
-              
-              {/* Content */}
-              <h3 className={`font-serif text-2xl md:text-3xl font-medium mb-4 leading-tight ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}>
-                {point.title}
-              </h3>
-              
-              <p className={`font-sans text-base md:text-lg leading-relaxed ${
-                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-              }`}>
-                {point.description}
-              </p>
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                
+                {/* Left Content */}
+                <div className="flex-1">
+                  <div className="flex items-baseline space-x-4 mb-2">
+                    <motion.span 
+                      className={`font-mono text-sm tracking-wider transition-colors duration-300 ${
+                        activeIndex === index
+                          ? theme === 'dark' ? 'text-white' : 'text-gray-900'
+                          : theme === 'dark' ? 'text-white/50' : 'text-gray-400'
+                      }`}
+                      animate={{ 
+                        scale: activeIndex === index ? 1.1 : 1,
+                        opacity: activeIndex === index ? 1 : 0.7
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {point.number}
+                    </motion.span>
+                    
+                    <motion.h3 
+                      className={`text-3xl md:text-4xl font-light tracking-tight transition-colors duration-300 ${
+                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      }`}
+                      animate={{ 
+                        x: activeIndex === index ? 8 : 0
+                      }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                    >
+                      {point.title}
+                    </motion.h3>
+                  </div>
+                  
+                  <motion.p 
+                    className={`text-lg md:text-xl font-light mb-3 transition-colors duration-300 ${
+                      theme === 'dark' ? 'text-white/70' : 'text-gray-600'
+                    }`}
+                    animate={{ 
+                      opacity: activeIndex === index ? 1 : 0.8
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {point.subtitle}
+                  </motion.p>
+                  
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ 
+                      height: activeIndex === index ? 'auto' : 0,
+                      opacity: activeIndex === index ? 1 : 0
+                    }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className={`text-base leading-relaxed pt-2 ${
+                      theme === 'dark' ? 'text-white/60' : 'text-gray-500'
+                    }`}>
+                      {point.description}
+                    </p>
+                  </motion.div>
+                </div>
 
-              {/* Hover Effect Line */}
-              <motion.div
-                className={`absolute bottom-0 left-8 right-8 h-0.5 ${
-                  theme === 'dark' ? 'bg-gradient-to-r from-cyan-400 to-blue-500' : 'bg-gradient-to-r from-gray-800 to-gray-600'
-                }`}
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.3 }}
-              />
+                {/* Right Indicator */}
+                <motion.div 
+                  className={`hidden md:block w-12 h-12 rounded-full border transition-all duration-300 ${
+                    activeIndex === index
+                      ? theme === 'dark'
+                        ? 'border-white bg-white/10 scale-110'
+                        : 'border-gray-900 bg-gray-900/10 scale-110'
+                      : theme === 'dark'
+                        ? 'border-white/20'
+                        : 'border-gray-300'
+                  }`}
+                  animate={{ 
+                    rotate: activeIndex === index ? 90 : 0,
+                    scale: activeIndex === index ? 1.1 : 1
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className={`w-full h-full flex items-center justify-center transition-colors duration-300 ${
+                    activeIndex === index
+                      ? theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      : theme === 'dark' ? 'text-white/40' : 'text-gray-400'
+                  }`}>
+                    →
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Bottom Quote Section */}
+        {/* Minimal Footer Quote */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1 }}
           viewport={{ once: true }}
           className="text-center mt-24"
         >
-          <motion.blockquote 
-            className={`font-serif text-2xl md:text-3xl lg:text-4xl font-light italic leading-relaxed max-w-4xl mx-auto ${
-              theme === 'dark' ? 'text-gray-200' : 'text-gray-800'
-            }`}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            viewport={{ once: true }}
-          >
-            "Gutes Design ist unsichtbar – es funktioniert einfach und berührt die Seele."
-          </motion.blockquote>
-          
-          <motion.cite 
-            className={`block mt-6 font-sans text-sm tracking-wider uppercase ${
-              theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
-            }`}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            viewport={{ once: true }}
-          >
-            Design Maxime
-          </motion.cite>
+          <blockquote className={`font-light text-xl md:text-2xl italic tracking-wide ${
+            theme === 'dark' ? 'text-white/60' : 'text-gray-500'
+          }`}>
+            "Simplicity is the ultimate sophistication"
+          </blockquote>
         </motion.div>
+
       </div>
     </section>
   )
