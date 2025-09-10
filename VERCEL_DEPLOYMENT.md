@@ -34,10 +34,14 @@ SKIP_ENV_VALIDATION=1
 
 ### 3. Build Settings
 
-Vercel sollte automatisch erkennen:
-- **Framework**: Next.js
-- **Build Command**: `npm run build`
-- **Install Command**: `npm ci`
+**WICHTIG**: Vercel Project Settings korrekt konfigurieren:
+
+1. **Framework Preset**: Next.js
+2. **Build Command**: `npm run build` (NICHT überschreiben)
+3. **Output Directory**: LEER LASSEN (nicht überschreiben!)
+4. **Install Command**: `npm ci`
+
+**⚠️ Häufiger Fehler**: Wenn "Output Directory" auf `out` gesetzt ist, entferne diese Einstellung!
 
 ## 🔄 Deployment Workflow
 
@@ -63,7 +67,7 @@ vercel --prod
 ```
 ├── .github/workflows/
 │   └── vercel-deployment.yml    # Build-Check Workflow
-├── vercel.json                  # Vercel Konfiguration
+├── vercel.json                  # Vercel Functions Konfiguration
 ├── next.config.ts              # Next.js Konfiguration
 ├── package.json                # Dependencies & Scripts
 └── src/app/api/send-email/     # SMTP E-Mail API Route
@@ -90,6 +94,16 @@ Der GitHub Action Workflow prüft bei jedem Push:
 4. **API Routes**: Verfügbar als Vercel Functions
 
 ## 🛠 Troubleshooting
+
+### "routes-manifest.json" Fehler
+**Fehler**: `The file "/vercel/path0/out/routes-manifest.json" couldn't be found`
+
+**Lösung**:
+1. Gehe zu **Vercel Dashboard** → **Project Settings** → **Build & Development Settings**
+2. **Output Directory**: Muss LEER sein (entferne `out` falls gesetzt)
+3. **Build Command**: Muss `npm run build` sein (nicht überschreiben)
+4. **Framework Preset**: Next.js
+5. Lösche alte Deployments und deploye neu
 
 ### Build Fehler
 1. Prüfe GitHub Actions Logs
