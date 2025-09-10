@@ -6,6 +6,7 @@ import LoadingScreen from '@/components/LoadingScreen'
 import Hero from "@/components/Hero";
 import Philosophy from "@/components/Philosophy/index";
 import Services from "@/components/Services";
+import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
 export default function HomeWithLoader() {
@@ -34,6 +35,7 @@ export default function HomeWithLoader() {
             <Hero />
             <Philosophy />
             <Services />
+            <ContactSection />
             <Footer />
           </motion.div>
         )}

@@ -54,7 +54,7 @@ const Services = () => {
   }
 
   return (
-    <section id="services" className="pt-0 pb-20 lg:pb-32 bg-muted/30">
+    <section id="services" className="pt-20 pb-20 lg:pb-32 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
