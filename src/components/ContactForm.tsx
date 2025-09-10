@@ -54,32 +54,38 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
     setIsSubmitting(true)
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      const subject = selectedSubjectTags.length > 0 
-        ? `${variant === 'uxui' ? 'UX/UI' : variant === 'photography' ? 'Fotografie' : ''} Anfrage: ${selectedSubjectTags.join(', ')} - ${formData.name}`
-        : `${variant === 'uxui' ? 'UX/UI' : variant === 'photography' ? 'Fotografie' : ''} Kontaktanfrage - ${formData.name}`
-      
-      const body = `Hallo,
+      // E-Mail über API-Route senden
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          selectedSubjects: selectedSubjectTags,
+          variant: variant
+        }),
+      })
 
-${formData.message}
-
-Mit freundlichen Grüßen,
-${formData.name}
-E-Mail: ${formData.email}`
-
-      const mailtoLink = `mailto:office@ghwbstudio.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-      window.location.href = mailtoLink
-
-      setSubmitStatus('success')
-      
-      setTimeout(() => {
-        setFormData({ name: '', email: '', message: '' })
-        setSelectedSubjectTags([])
-        setSubmitStatus('idle')
-      }, 3000)
+      if (response.ok) {
+        setSubmitStatus('success')
+        
+        // Formular nach erfolgreichem Versand zurücksetzen
+        setTimeout(() => {
+          setFormData({ name: '', email: '', message: '' })
+          setSelectedSubjectTags([])
+          setSubmitStatus('idle')
+        }, 5000)
+      } else {
+        const errorData = await response.json()
+        console.error('Fehler beim Senden:', errorData)
+        setSubmitStatus('error')
+      }
       
     } catch (error) {
+      console.error('Fehler beim Senden der E-Mail:', error)
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -310,7 +316,7 @@ E-Mail: ${formData.email}`
                 border-green-600 bg-green-50 text-green-800 rounded-none
                 dark:border-green-400 dark:bg-green-400/10 dark:text-green-400"
             >
-              ✅ Vielen Dank! Ihr E-Mail-Client öffnet sich mit Ihrer Nachricht.
+              ✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.
             </motion.div>
           )}
 

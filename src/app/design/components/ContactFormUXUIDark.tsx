@@ -53,32 +53,38 @@ export default function ContactFormUXUIDark(): React.JSX.Element {
     setIsSubmitting(true)
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      const subject = selectedSubjectTags.length > 0 
-        ? `UX/UI Anfrage: ${selectedSubjectTags.join(', ')} - ${formData.name}`
-        : `UX/UI Kontaktanfrage - ${formData.name}`
-      
-      const body = `Hallo,
+      // E-Mail über API-Route senden
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          selectedSubjects: selectedSubjectTags,
+          variant: 'uxui'
+        }),
+      })
 
-${formData.message}
-
-Mit freundlichen Grüßen,
-${formData.name}
-E-Mail: ${formData.email}`
-
-      const mailtoLink = `mailto:office@ghwbstudio.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-      window.location.href = mailtoLink
-
-      setSubmitStatus('success')
-      
-      setTimeout(() => {
-        setFormData({ name: '', email: '', message: '' })
-        setSelectedSubjectTags([])
-        setSubmitStatus('idle')
-      }, 3000)
+      if (response.ok) {
+        setSubmitStatus('success')
+        
+        // Formular nach erfolgreichem Versand zurücksetzen
+        setTimeout(() => {
+          setFormData({ name: '', email: '', message: '' })
+          setSelectedSubjectTags([])
+          setSubmitStatus('idle')
+        }, 5000)
+      } else {
+        const errorData = await response.json()
+        console.error('Fehler beim Senden:', errorData)
+        setSubmitStatus('error')
+      }
       
     } catch (error) {
+      console.error('Fehler beim Senden der E-Mail:', error)
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -90,19 +96,19 @@ E-Mail: ${formData.email}`
       id: 'Website-Design',
       title: 'Website-Design',
       description: 'Responsive Websites und Web-Anwendungen',
-      icon: <ComputerDesktopIcon className="w-5 h-5 text-cyan-400" />
+      icon: <ComputerDesktopIcon className="w-5 h-5 text-white/70" />
     },
     {
       id: 'App-Design',
       title: 'App-Design',
       description: 'Mobile Apps für iOS und Android',
-      icon: <DevicePhoneMobileIcon className="w-5 h-5 text-cyan-400" />
+      icon: <DevicePhoneMobileIcon className="w-5 h-5 text-white/70" />
     },
     {
       id: 'UX-Beratung',
       title: 'UX-Beratung',
       description: 'User Research und Usability-Optimierung',
-      icon: <PresentationChartLineIcon className="w-5 h-5 text-cyan-400" />
+      icon: <PresentationChartLineIcon className="w-5 h-5 text-white/70" />
     }
   ]
 
@@ -111,18 +117,18 @@ E-Mail: ${formData.email}`
     return (
       <div className="w-full max-w-2xl mx-auto">
         <div 
-          className="relative p-8 rounded-2xl border border-white/20"
+          className="relative p-8 border border-white/20 bg-white/[0.02] backdrop-blur-sm"
           style={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            backdropFilter: 'blur(10px)'
+            backdropFilter: 'blur(10px)',
+            cursor: 'none'
           }}
         >
           <div className="animate-pulse">
             <div className="h-4 bg-white/20 rounded w-1/4 mb-4"></div>
             <div className="space-y-4">
-              <div className="h-20 bg-white/10 rounded"></div>
-              <div className="h-20 bg-white/10 rounded"></div>
-              <div className="h-20 bg-white/10 rounded"></div>
+              <div className="h-20 bg-white/20 rounded"></div>
+              <div className="h-20 bg-white/20 rounded"></div>
+              <div className="h-20 bg-white/20 rounded"></div>
             </div>
           </div>
         </div>
@@ -139,18 +145,17 @@ E-Mail: ${formData.email}`
       className="w-full max-w-2xl mx-auto"
     >
       <div 
-        className="relative p-8 rounded-2xl border border-white/20 hover:border-cyan-400/40 transition-all duration-300"
+        className="relative p-8 border border-white/20 bg-white/[0.02] backdrop-blur-sm"
         style={{
-          background: 'rgba(255, 255, 255, 0.05)',
           backdropFilter: 'blur(10px)',
           cursor: 'none'
         }}
       >
-        {/* HUD-style corner decorations */}
-        <div className="absolute top-0 left-8 w-16 h-1 bg-cyan-400/60"></div>
-        <div className="absolute bottom-0 right-8 w-16 h-1 bg-cyan-400/60"></div>
-        <div className="absolute top-4 left-0 w-1 h-16 bg-cyan-400/60"></div>
-        <div className="absolute bottom-4 right-0 w-1 h-16 bg-cyan-400/60"></div>
+        {/* Simple Corner Elements */}
+        <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-white/40"></div>
+        <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-white/40"></div>
+        <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-white/40"></div>
+        <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-white/40"></div>
 
         {/* Subject Cards */}
         <motion.div 
@@ -160,9 +165,7 @@ E-Mail: ${formData.email}`
           transition={{ duration: 0.6, delay: 0.1 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-sm font-bold text-cyan-400 mb-4 tracking-wider uppercase font-mono">
-            PROJECT_TYPE.SELECT
-          </h3>
+          <h3 className="text-sm font-medium text-white/80 mb-2">Betreff</h3>
           
           <div className="grid md:grid-cols-3 gap-4 mb-6">
             {subjectCards.map((card, index) => (
@@ -170,24 +173,24 @@ E-Mail: ${formData.email}`
                 key={card.id}
                 type="button"
                 onClick={() => handleCardClick(card.id)}
-                className={`cursor-button p-4 rounded-lg border transition-all duration-200 text-left group ${
+                className={`cursor-button p-4 border border-white/20 transition-all duration-200 text-left group ${
                   selectedSubjectTags.includes(card.id)
-                    ? 'bg-cyan-400/20 border-cyan-400 text-white' 
-                    : 'bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-cyan-400/40'
+                    ? 'bg-cyan-500/20 border-cyan-400 text-white' 
+                    : 'bg-white/[0.02] text-white/80 hover:bg-white/[0.05] hover:border-white/30'
                 }`}
                 style={{ cursor: 'none' }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.02, y: -2 }}
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-center mb-2">
                   {card.icon}
-                  <span className="ml-2 font-bold text-sm font-mono">{card.title}</span>
+                  <span className="ml-2 font-medium text-sm">{card.title}</span>
                 </div>
-                <p className="text-xs leading-relaxed opacity-80">
+                <p className="text-xs leading-relaxed opacity-70">
                   {card.description}
                 </p>
               </motion.button>
@@ -204,8 +207,8 @@ E-Mail: ${formData.email}`
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <label htmlFor="name" className="block text-sm font-bold text-cyan-400 mb-2 tracking-wider uppercase font-mono">
-              USER.NAME
+            <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
+              Name
             </label>
             <div className="relative">
               <input
@@ -215,11 +218,11 @@ E-Mail: ${formData.email}`
                 required
                 value={formData.name}
                 onChange={handleInputChange}
-                className="cursor-button w-full px-4 py-3 rounded-lg border border-white/20 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:bg-white/10 focus:border-cyan-400/40 transition-all duration-200"
+                className="cursor-button w-full px-4 py-3 border border-white/20 bg-white/[0.02] text-white placeholder-white/50 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-colors duration-200"
                 style={{ cursor: 'none' }}
                 placeholder="Ihr vollständiger Name"
               />
-              <UserIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
+              <UserIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/60" />
             </div>
           </motion.div>
 
@@ -230,8 +233,8 @@ E-Mail: ${formData.email}`
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <label htmlFor="email" className="block text-sm font-bold text-cyan-400 mb-2 tracking-wider uppercase font-mono">
-              COMM.EMAIL
+            <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
+              E-Mail
             </label>
             <div className="relative">
               <input
@@ -241,11 +244,11 @@ E-Mail: ${formData.email}`
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className="cursor-button w-full px-4 py-3 rounded-lg border border-white/20 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:bg-white/10 focus:border-cyan-400/40 transition-all duration-200"
+                className="cursor-button w-full px-4 py-3 border border-white/20 bg-white/[0.02] text-white placeholder-white/50 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-colors duration-200"
                 style={{ cursor: 'none' }}
                 placeholder="ihre.email@beispiel.de"
               />
-              <EnvelopeIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
+              <EnvelopeIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/60" />
             </div>
           </motion.div>
 
@@ -256,8 +259,8 @@ E-Mail: ${formData.email}`
             transition={{ duration: 0.6, delay: 0.5 }}
             viewport={{ once: true }}
           >
-            <label htmlFor="message" className="block text-sm font-bold text-cyan-400 mb-2 tracking-wider uppercase font-mono">
-              MESSAGE.CONTENT
+            <label htmlFor="message" className="block text-sm font-medium text-white/80 mb-2">
+              Nachricht
             </label>
             <div className="relative">
               <textarea
@@ -267,11 +270,11 @@ E-Mail: ${formData.email}`
                 rows={6}
                 value={formData.message}
                 onChange={handleInputChange}
-                className="cursor-button w-full px-4 py-3 rounded-lg border border-white/20 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:bg-white/10 focus:border-cyan-400/40 transition-all duration-200 resize-none"
+                className="cursor-button w-full px-4 py-3 border border-white/20 bg-white/[0.02] text-white placeholder-white/50 focus:outline-none focus:bg-white/[0.05] focus:border-white/30 transition-colors duration-200 resize-none"
                 style={{ cursor: 'none' }}
-                placeholder="Beschreiben Sie Ihr UX/UI Projekt oder Ihre Mission..."
+                placeholder="Beschreiben Sie Ihr UX/UI Projekt oder Ihre Anfrage..."
               />
-              <ChatBubbleLeftRightIcon className="absolute right-3 top-3 w-5 h-5 text-white/50" />
+              <ChatBubbleLeftRightIcon className="absolute right-3 top-3 w-4 h-4 text-white/60" />
             </div>
           </motion.div>
 
@@ -281,59 +284,88 @@ E-Mail: ${formData.email}`
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
             viewport={{ once: true }}
-            className="pt-4"
+            className="text-center"
           >
             <motion.button
               type="submit"
-              disabled={isSubmitting}
-              className={`cursor-button w-full py-4 px-6 rounded-lg font-bold text-sm tracking-wider uppercase transition-all duration-200 font-mono ${
-                isSubmitting 
-                  ? 'bg-white/5 text-white/30 border border-white/10 cursor-not-allowed' 
-                  : submitStatus === 'success'
-                  ? 'bg-green-400/20 text-green-400 border border-green-400'
-                  : submitStatus === 'error'
-                  ? 'bg-red-400/20 text-red-400 border border-red-400'
-                  : 'bg-cyan-400/25 text-cyan-400 border border-cyan-400 hover:bg-cyan-400/35 hover:shadow-lg hover:shadow-cyan-400/20'
-              }`}
-              style={{ 
-                cursor: 'none',
-                boxShadow: submitStatus === 'idle' && !isSubmitting ? '0 0 15px rgba(6, 182, 212, 0.3)' : undefined
+              disabled={isSubmitting || !formData.email.trim()}
+              className="cursor-button inline-flex items-center px-8 py-3 rounded-full font-mono transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white"
+              style={{
+                background: 'rgba(6, 182, 212, 0.25)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(6, 182, 212, 0.4)',
+                boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
+                cursor: 'none'
               }}
-              whileHover={!isSubmitting ? { 
-                scale: 1.02, 
+              whileHover={!isSubmitting && formData.email.trim() ? { 
+                scale: 1.05, 
                 y: -2,
-                boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4)'
+                boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)'
               } : {}}
-              whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+              whileTap={!isSubmitting && formData.email.trim() ? { 
+                scale: 0.95
+              } : {}}
             >
-              {isSubmitting ? 'TRANSMITTING_MESSAGE...' : 
-               submitStatus === 'success' ? 'MESSAGE_SENT_SUCCESSFUL!' :
-               submitStatus === 'error' ? 'ERROR_RETRY_TRANSMISSION' :
-               'SEND_TRANSMISSION'}
+              {isSubmitting ? (
+                <>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                  />
+                  WIRD GESENDET...
+                </>
+              ) : (
+                <>
+                  <EnvelopeIcon className="w-4 h-4 mr-2" />
+                  ANFRAGE ABSENDEN
+                </>
+              )}
             </motion.button>
           </motion.div>
+
+          {/* Status Messages */}
+          {submitStatus === 'success' && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center p-4 border-2 
+                border-green-400 bg-green-400/10 text-green-400 rounded-none"
+            >
+              ✅ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.
+            </motion.div>
+          )}
+
+          {submitStatus === 'error' && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center p-4 border-2
+                border-red-400 bg-red-400/10 text-red-400 rounded-none"
+            >
+              ❌ Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.
+            </motion.div>
+          )}
         </form>
 
-        {/* Status Messages */}
-        {submitStatus === 'success' && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-4 p-4 rounded-lg bg-green-400/10 border border-green-400 text-green-400 text-sm font-mono"
+        {/* Alternative Contact Info */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          viewport={{ once: true }}
+          className="mt-8 pt-6 border-t border-white/20 text-center"
+        >
+          <p className="text-xs mb-2 text-white/60">
+            Oder kontaktieren Sie mich direkt:
+          </p>
+          <a
+            href="mailto:office@ghwbstudio.de"
+            className="transition-colors underline underline-offset-2 text-white/80 hover:text-white"
           >
-            <strong>TRANSMISSION_SUCCESSFUL!</strong> Ihre Nachricht wurde übertragen. Antwort-Protokoll wird zeitnah initiiert.
-          </motion.div>
-        )}
-
-        {submitStatus === 'error' && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-4 p-4 rounded-lg bg-red-400/10 border border-red-400 text-red-400 text-sm font-mono"
-          >
-            <strong>TRANSMISSION_ERROR!</strong> Verbindungsfehler erkannt. Bitte Übertragung wiederholen.
-          </motion.div>
-        )}
+            office@ghwbstudio.de
+          </a>
+        </motion.div>
       </div>
     </motion.div>
   )

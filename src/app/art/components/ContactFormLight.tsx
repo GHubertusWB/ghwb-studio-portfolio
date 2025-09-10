@@ -53,32 +53,38 @@ export default function ContactFormLight(): React.JSX.Element {
     setIsSubmitting(true)
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      const subject = selectedSubjectTags.length > 0 
-        ? `Anfrage: ${selectedSubjectTags.join(', ')} - ${formData.name}`
-        : `Kontaktanfrage - ${formData.name}`
-      
-      const body = `Hallo,
+      // E-Mail über API-Route senden
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          selectedSubjects: selectedSubjectTags,
+          variant: 'art'
+        }),
+      })
 
-${formData.message}
-
-Mit freundlichen Grüßen,
-${formData.name}
-E-Mail: ${formData.email}`
-
-      const mailtoLink = `mailto:office@ghwbstudio.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-      window.location.href = mailtoLink
-
-      setSubmitStatus('success')
-      
-      setTimeout(() => {
-        setFormData({ name: '', email: '', message: '' })
-        setSelectedSubjectTags([])
-        setSubmitStatus('idle')
-      }, 3000)
+      if (response.ok) {
+        setSubmitStatus('success')
+        
+        // Formular nach erfolgreichem Versand zurücksetzen
+        setTimeout(() => {
+          setFormData({ name: '', email: '', message: '' })
+          setSelectedSubjectTags([])
+          setSubmitStatus('idle')
+        }, 5000)
+      } else {
+        const errorData = await response.json()
+        console.error('Fehler beim Senden:', errorData)
+        setSubmitStatus('error')
+      }
       
     } catch (error) {
+      console.error('Fehler beim Senden der E-Mail:', error)
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -314,7 +320,7 @@ E-Mail: ${formData.email}`
               exit={{ opacity: 0, y: -10 }}
               className="text-center p-4 border-2 border-green-600 bg-green-100 text-green-800 font-bold"
             >
-              ✓ Vielen Dank! Ihr E-Mail-Client öffnet sich mit Ihrer Nachricht.
+              ✓ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.
             </motion.div>
           )}
 
