@@ -6,7 +6,7 @@ import { ArrowLeft, Monitor, Smartphone, Palette, Users, Zap, Layers, Sparkles, 
 import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
-import SkillsRadarChartDark from './SkillsRadarChartDark'
+import SkillsCircleChartDark from './SkillsCircleChartDark'
 
 export default function UXUIPageDark() {
   const [currentTime, setCurrentTime] = useState('')
@@ -209,8 +209,8 @@ export default function UXUIPageDark() {
             </p>
           </motion.div>
 
-          {/* Skills Radar Chart */}
-          <SkillsRadarChartDark />
+          {/* Skills Circle Chart */}
+          <SkillsCircleChartDark />
 
           {/* Skills Description Grid */}
           <motion.div 
@@ -218,17 +218,19 @@ export default function UXUIPageDark() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             viewport={{ once: true }}
-            className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
           >
             {[
-              { title: 'Accessibility', desc: 'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung', level: '9/10' },
-              { title: 'Product Owner', desc: 'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten', level: '8/10' },
-              { title: 'Requirements Engineering', desc: 'User Research, Workshops und stakeholder-orientierte Analyse', level: '9/10' },
+              { title: 'Accessibility', desc: 'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung', level: '8/10' },
+              { title: 'Product Owner', desc: 'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten', level: '6/10' },
+              { title: 'Requirements Engineering', desc: 'User Research, Workshops und stakeholder-orientierte Analyse', level: '8/10' },
               { title: 'Wireframing', desc: 'Strukturierung und erste visuelle Konzepte für komplexe Systeme', level: '10/10' },
-              { title: 'Prototyping', desc: 'Interaktive Prototypen und User Testing für optimale UX', level: '10/10' },
-              { title: 'Design Systems', desc: 'Skalierbare Komponenten-Bibliotheken und Style Guides', level: '9/10' },
-              { title: 'Development', desc: 'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit', level: '7/10' },
-              { title: 'Rollout Planung', desc: 'Strategische Einführung und Change Management für neue Systeme', level: '8/10' }
+              { title: 'Prototyping', desc: 'Interaktive Prototypen und User Testing für optimale UX', level: '9/10' },
+              { title: 'Design Systems', desc: 'Skalierbare Komponenten-Bibliotheken und Style Guides', level: '10/10' },
+              { title: 'Development', desc: 'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit', level: '4/10' },
+              { title: 'Rollout Planning', desc: 'Strategische Einführung und Change Management für neue Systeme', level: '7/10' },
+              { title: 'Workshops', desc: 'Moderation und Durchführung von Design Thinking Workshops', level: '9/10' },
+              { title: 'UI Design', desc: 'Visuelle Gestaltung und Interface Design für digitale Produkte', level: '9/10' }
             ].map((skill, index) => (
               <motion.div
                 key={skill.title}
