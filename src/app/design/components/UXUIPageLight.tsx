@@ -248,18 +248,6 @@ export default function UXUIPageLight() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">UX/UI Expertise</span>
-            </motion.div>
-
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Meine Skills
             </h2>
@@ -293,7 +281,7 @@ export default function UXUIPageLight() {
         </div>
       </section>
 
-      {/* PROZESS SECTION - STARTSEITE LIGHT MODE STYLING */}
+      {/* WORKFLOW SECTION - NEUE WORKFLOW DARSTELLUNG */}
       <section className="py-32 px-6 relative z-10 bg-white">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -303,47 +291,29 @@ export default function UXUIPageLight() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">UX/UI Prozess</span>
-            </motion.div>
-
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Mein Arbeitsprozess
+              Workflow
             </h2>
             <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Schritt für Schritt zu nutzerzentrierten digitalen Lösungen
+              Kreativ, flexibel, interdisziplinär: so begleite ich den agilen Weg zu Produkten mit Sinn und Wirkung.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {prozess.map((item, index) => {
-              const Icon = item.icon
-              return (
-                <motion.div 
-                  key={item.title} 
-                  initial={{ opacity: 0, y: 50 }} 
-                  whileInView={{ opacity: 1, y: 0 }} 
-                  transition={{ duration: 0.8, delay: index * 0.2 }} 
-                  viewport={{ once: true }} 
-                  className="text-center relative border border-border p-8 bg-white shadow-lg rounded-lg"
-                >
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-border mb-6 bg-muted">
-                    <Icon className="w-8 h-8 text-foreground" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 text-foreground">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
-                </motion.div>
-              )
-            })}
-          </div>
+          {/* Light Mode SVG */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center"
+          >
+            <img
+              src="/images/light.svg"
+              alt="UX Design Workflow"
+              className="w-full h-auto max-w-5xl"
+              style={{ maxHeight: '400px' }}
+            />
+          </motion.div>
         </div>
       </section>
 
@@ -357,17 +327,6 @@ export default function UXUIPageLight() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">Tools & Expertise</span>
-            </motion.div>
-
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Mein Tech-Stack
             </h2>
@@ -419,18 +378,6 @@ export default function UXUIPageLight() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">Beispielprojekte</span>
-            </motion.div>
-
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Ausgewählte Arbeiten
             </h2>
@@ -482,18 +429,6 @@ export default function UXUIPageLight() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">Kontakt</span>
-            </motion.div>
-
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Bereit für Ihr UX/UI Projekt?
             </h2>

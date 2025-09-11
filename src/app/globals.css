@@ -57,6 +57,21 @@ body {
   cursor: none; /* Verstecke Standard-Cursor */
 }
 
+/* Automatische Schriftarten für Headlines */
+.text-2xl, .text-3xl, .text-4xl, .text-5xl, .text-6xl, .text-7xl, .text-8xl, .text-9xl {
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+/* Semantische Headlines */
+.text-display, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6 {
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+/* Standard-Text bleibt bei Atkinson Hyperlegible */
+.font-sans {
+  font-family: var(--font-atkinson), system-ui, sans-serif;
+}
+
 /* Smooth theme transitions for specific elements */
 .theme-transition {
   transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;

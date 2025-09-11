@@ -50,7 +50,8 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-atkinson)", "system-ui", "sans-serif"],
+        headline: ["var(--font-poppins)", "system-ui", "sans-serif"],
       },
       fontSize: {
         // Standard Tailwind Größen (explizit definiert für bessere Kontrolle)

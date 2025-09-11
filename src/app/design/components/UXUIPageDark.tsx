@@ -158,10 +158,6 @@ export default function UXUIPageDark() {
             viewport={{ once: true }} 
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-              UXUI.SERVICES
-            </div>
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
               Spezialisierte UX/UI Services
             </h2>
@@ -204,10 +200,6 @@ export default function UXUIPageDark() {
       <section id="skills-section" className="py-20 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
-            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-              UXUI.EXPERTISE
-            </div>
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
               Meine UX/UI Expertise
             </h2>
@@ -232,34 +224,32 @@ export default function UXUIPageDark() {
         </div>
       </section>
 
-      {/* PROZESS SECTION */}
+      {/* WORKFLOW SECTION */}
       <section className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-              UXUI.PROCESS
-            </div>
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
-              Mein UX/UI Prozess
+              Workflow
             </h2>
             <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
-              Schritt für Schritt zu nutzerzentrierten digitalen Lösungen
+              Kreativ, flexibel, interdisziplinär: so begleite ich den agilen Weg zu Produkten mit Sinn und Wirkung.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
-              {prozess.map((item, index) => {
-                const Icon = item.icon
-                return (
-                  <motion.div key={item.title} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: index * 0.2 }} viewport={{ once: true }} className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-white/20 mb-6" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(10px)' }}>
-                      <Icon className="w-8 h-8 text-cyan-400" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-4 text-white">{item.title}</h3>
-                    <p className="text-white/70 leading-relaxed">{item.desc}</p>
-                  </motion.div>
-                )
-              })}
-            </div>
+
+            {/* Dark Mode SVG */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="flex justify-center mt-16"
+            >
+              <img
+                src="/images/dark.svg"
+                alt="UX Design Workflow"
+                className="w-full h-auto max-w-5xl"
+                style={{ maxHeight: '400px' }}
+              />
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -268,10 +258,6 @@ export default function UXUIPageDark() {
       <section className="py-20 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
-            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-              UXUI.PROJECTS
-            </div>
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
               Beispielprojekte
             </h2>
@@ -309,18 +295,6 @@ export default function UXUIPageDark() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            {/* Category Tag - HUD style */}
-            <motion.div 
-              className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-              UXUI.CONTACT_PROTOCOL
-            </motion.div>
-
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
               Ready for UX/UI Mission?
             </h2>

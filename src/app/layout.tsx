@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
+import { Atkinson_Hyperlegible } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation";
@@ -7,10 +8,18 @@ import StarField from "@/components/StarField";
 import CustomCursor from "@/components/CustomCursor";
 import CursorFollower from "@/components/CursorFollower";
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-poppins",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
+const atkinsonHyperlegible = Atkinson_Hyperlegible({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-atkinson",
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -42,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="de" suppressHydrationWarning>
       <body
-        className={`${inter.variable} font-sans antialiased`}
+        className={`${poppins.variable} ${atkinsonHyperlegible.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         <ThemeProvider>
