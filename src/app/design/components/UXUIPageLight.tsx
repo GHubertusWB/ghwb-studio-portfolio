@@ -319,7 +319,6 @@ export default function UXUIPageLight() {
               src="/images/Light-mobile.svg"
               alt="UX Design Workflow Mobile"
               className="block md:hidden w-full h-auto"
-              style={{ maxHeight: '300px' }}
             />
           </motion.div>
         </div>

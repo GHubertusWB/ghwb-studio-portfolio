@@ -255,7 +255,6 @@ export default function UXUIPageDark() {
                 src="/images/Dark-mobile.svg"
                 alt="UX Design Workflow Mobile"
                 className="block md:hidden w-full h-auto"
-                style={{ maxHeight: '300px' }}
               />
             </motion.div>
           </motion.div>
