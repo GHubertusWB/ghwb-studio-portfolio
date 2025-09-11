@@ -47,7 +47,6 @@ SKIP_ENV_VALIDATION=1
 
 ### Automatisches Deployment
 - **Trigger**: Push auf `main` Branch
-- **GitHub Actions**: Führt Build-Check durch (siehe `.github/workflows/vercel-deployment.yml`)
 - **Vercel**: Deployed automatisch nach erfolgreichem Build
 
 ### Manuelles Deployment
@@ -65,17 +64,15 @@ vercel --prod
 ## 📁 Projekt Struktur
 
 ```
-├── .github/workflows/
-│   └── vercel-deployment.yml    # Build-Check Workflow
-├── vercel.json                  # Vercel Functions Konfiguration
-├── next.config.ts              # Next.js Konfiguration
-├── package.json                # Dependencies & Scripts
-└── src/app/api/send-email/     # SMTP E-Mail API Route
+├── .github/workflows/     # Leer (keine GitHub Actions mehr)
+├── next.config.ts         # Next.js Konfiguration
+├── package.json           # Dependencies & Scripts
+└── src/app/api/send-email/ # SMTP E-Mail API Route
 ```
 
 ## ✅ Build Verification
 
-Der GitHub Action Workflow prüft bei jedem Push:
+Vercel führt automatisch bei jedem Deployment durch:
 - ✅ Dependencies Installation
 - ✅ Erfolgreicher Build
 - ✅ TypeScript Validation
