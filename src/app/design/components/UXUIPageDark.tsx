@@ -243,11 +243,19 @@ export default function UXUIPageDark() {
               viewport={{ once: true }}
               className="flex justify-center mt-16"
             >
+              {/* Desktop SVG - hidden on mobile */}
               <img
-                src="/images/dark.svg"
+                src="/images/Dark.svg"
                 alt="UX Design Workflow"
-                className="w-full h-auto max-w-5xl"
+                className="hidden md:block w-full h-auto max-w-5xl"
                 style={{ maxHeight: '400px' }}
+              />
+              {/* Mobile SVG - shown only on mobile */}
+              <img
+                src="/images/Dark-mobile.svg"
+                alt="UX Design Workflow Mobile"
+                className="block md:hidden w-full h-auto max-w-sm"
+                style={{ maxHeight: '300px' }}
               />
             </motion.div>
           </motion.div>

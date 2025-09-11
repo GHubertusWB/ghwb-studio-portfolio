@@ -299,7 +299,7 @@ export default function UXUIPageLight() {
             </p>
           </motion.div>
 
-          {/* Light Mode SVG */}
+          {/* Light Mode SVG - Desktop and Mobile versions */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
@@ -307,11 +307,19 @@ export default function UXUIPageLight() {
             viewport={{ once: true }}
             className="flex flex-col items-center"
           >
+            {/* Desktop SVG - hidden on mobile */}
             <img
-              src="/images/light.svg"
+              src="/images/Light.svg"
               alt="UX Design Workflow"
-              className="w-full h-auto max-w-5xl"
+              className="hidden md:block w-full h-auto max-w-5xl"
               style={{ maxHeight: '400px' }}
+            />
+            {/* Mobile SVG - shown only on mobile */}
+            <img
+              src="/images/Light-mobile.svg"
+              alt="UX Design Workflow Mobile"
+              className="block md:hidden w-full h-auto max-w-sm"
+              style={{ maxHeight: '300px' }}
             />
           </motion.div>
         </div>
