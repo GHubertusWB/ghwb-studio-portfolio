@@ -7,6 +7,7 @@ import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
 import ContactFormUXUI from './ContactFormUXUI'
+import SkillsRadarChart from './SkillsRadarChart'
 
 export default function UXUIPageLight() {
   const [currentTime, setCurrentTime] = useState('')
@@ -238,8 +239,8 @@ export default function UXUIPageLight() {
         </div>
       </motion.section>
 
-      {/* SKILLS SECTION - STARTSEITE LIGHT MODE STYLING */}
-      <section className="py-32 px-6 relative z-10 bg-white">
+      {/* SKILLS SECTION - RADAR CHART */}
+      <section id="skills-section" className="py-32 px-6 relative z-10 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -252,32 +253,45 @@ export default function UXUIPageLight() {
               Meine Skills
             </h2>
             <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Von Research bis Prototyping – umfassende UX/UI Services
+              Kompetenzprofil im UX/UI Design – von Research bis Rollout
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {skills.map((skill, index) => {
-              const Icon = skill.icon
-              return (
-                <motion.div 
-                  key={skill.title} 
-                  initial={{ opacity: 0, y: 50 }} 
-                  whileInView={{ opacity: 1, y: 0 }} 
-                  transition={{ duration: 0.8, delay: index * 0.1 }} 
-                  viewport={{ once: true }} 
-                  whileHover={{ y: -5 }} 
-                  className="relative border border-border p-8 bg-white shadow-lg rounded-lg hover:border-foreground/20 transition-all duration-300"
-                >
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-muted mb-6">
-                    <Icon className="w-6 h-6 text-foreground" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 text-foreground">{skill.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{skill.description}</p>
-                </motion.div>
-              )
-            })}
-          </div>
+          {/* Skills Radar Chart */}
+          <SkillsRadarChart />
+
+          {/* Skills Description Grid */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            viewport={{ once: true }}
+            className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {[
+              { title: 'Accessibility', desc: 'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung', level: '9/10' },
+              { title: 'Product Owner', desc: 'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten', level: '8/10' },
+              { title: 'Requirements Engineering', desc: 'User Research, Workshops und stakeholder-orientierte Analyse', level: '9/10' },
+              { title: 'Wireframing', desc: 'Strukturierung und erste visuelle Konzepte für komplexe Systeme', level: '10/10' },
+              { title: 'Prototyping', desc: 'Interaktive Prototypen und User Testing für optimale UX', level: '10/10' },
+              { title: 'Design Systems', desc: 'Skalierbare Komponenten-Bibliotheken und Style Guides', level: '9/10' },
+              { title: 'Development', desc: 'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit', level: '7/10' },
+              { title: 'Rollout Planung', desc: 'Strategische Einführung und Change Management für neue Systeme', level: '8/10' }
+            ].map((skill, index) => (
+              <motion.div
+                key={skill.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 transition-colors duration-300"
+              >
+                <h3 className="font-semibold text-foreground mb-2">{skill.title}</h3>
+                <div className="text-sm text-primary font-semibold mb-3">{skill.level}</div>
+                <p className="text-sm text-muted-foreground leading-relaxed">{skill.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
