@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Monitor, Smartphone, Palette, Users, Zap, Layers, Sparkles, Eye, CheckCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import CustomCursor from '@/components/CustomCursor'
@@ -259,54 +259,107 @@ export default function UXUIPageLight() {
             </p>
           </motion.div>
 
+          {/* Permanent Label über dem Diagramm */}
+          <motion.div 
+            className="text-center mb-6"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-sm text-muted-foreground/70 font-medium">
+              Bewegen Sie die Maus über ein Segment für Details
+            </p>
+          </motion.div>
+
           {/* Skills Circle Chart */}
           <SkillsCircleChart 
             onSegmentHover={setHoveredSkill}
             hoveredSkill={hoveredSkill}
           />
 
-          {/* Skills Description Grid */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            viewport={{ once: true }}
-            className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
+          {/* Skill Details Display - erscheint langsam bei Hover */}
+          <div 
+            className="flex justify-center items-start"
+            style={{ marginTop: '24px' }}
           >
-            {[
-              { title: 'Accessibility', desc: 'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung', level: '8/10' },
-              { title: 'Product Owner', desc: 'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten', level: '6/10' },
-              { title: 'Requirements Engineering', desc: 'User Research, Workshops und stakeholder-orientierte Analyse', level: '8/10' },
-              { title: 'Wireframing', desc: 'Strukturierung und erste visuelle Konzepte für komplexe Systeme', level: '10/10' },
-              { title: 'Prototyping', desc: 'Interaktive Prototypen und User Testing für optimale UX', level: '9/10' },
-              { title: 'Design Systems', desc: 'Skalierbare Komponenten-Bibliotheken und Style Guides', level: '10/10' },
-              { title: 'Development', desc: 'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit', level: '4/10' },
-              { title: 'Rollout Planning', desc: 'Strategische Einführung und Change Management für neue Systeme', level: '7/10' },
-              { title: 'Workshops', desc: 'Moderation und Durchführung von Design Thinking Workshops', level: '9/10' },
-              { title: 'UI Design', desc: 'Visuelle Gestaltung und Interface Design für digitale Produkte', level: '9/10' }
-            ].map((skill, index) => (
-              <motion.div
-                key={skill.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`rounded-lg p-6 text-center transition-all duration-300 cursor-pointer ${
-                  hoveredSkill === index
-                    ? 'bg-blue-100 border-2 border-blue-300 shadow-lg scale-105'
-                    : hoveredSkill === null
-                    ? 'bg-gray-50 hover:bg-gray-100'
-                    : 'bg-gray-50 opacity-50'
-                }`}
-                onMouseEnter={() => setHoveredSkill(index)}
-                onMouseLeave={() => setHoveredSkill(null)}
-              >
-                <h3 className="font-semibold text-foreground mb-2">{skill.title}</h3>
-                <div className="text-sm text-primary font-semibold mb-3">{skill.level}</div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{skill.desc}</p>
+            <AnimatePresence mode="wait">
+              {hoveredSkill !== null && (
+                <motion.div
+                  key={hoveredSkill} // Key für Re-Animation bei Skill-Wechsel
+                  initial={{ opacity: 0, y: 20, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: 'auto' }}
+                  exit={{ opacity: 0, y: -15, height: 0 }}
+                  transition={{ 
+                    duration: 0.5,
+                    ease: [0.23, 1, 0.32, 1], // Smooth easing für langsames Erscheinen
+                    height: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } // Separate height transition
+                  }}
+                  className="max-w-3xl text-center px-6"
+                >
+                <motion.h3 
+                  className="text-3xl font-light text-foreground mb-3"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                >
+                  {[
+                    'Accessibility',
+                    'Product Owner', 
+                    'Requirements Engineering',
+                    'Wireframing',
+                    'Prototyping',
+                    'Design Systems',
+                    'Development',
+                    'Rollout Planning',
+                    'Workshops',
+                    'UI Design'
+                  ][hoveredSkill]}
+                </motion.h3>
+                
+                <motion.div 
+                  className="text-base text-primary font-medium mb-6 tracking-wide"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  Erfahrungslevel: {[
+                    '8/10',
+                    '6/10',
+                    '8/10', 
+                    '10/10',
+                    '9/10',
+                    '10/10',
+                    '4/10',
+                    '7/10',
+                    '9/10',
+                    '9/10'
+                  ][hoveredSkill]}
+                </motion.div>
+                
+                <motion.p 
+                  className="text-muted-foreground leading-relaxed text-lg font-light"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.5 }}
+                >
+                  {[
+                    'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung',
+                    'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten',
+                    'User Research, Workshops und stakeholder-orientierte Analyse',
+                    'Strukturierung und erste visuelle Konzepte für komplexe Systeme',
+                    'Interaktive Prototypen und User Testing für optimale UX',
+                    'Skalierbare Komponenten-Bibliotheken und Style Guides',
+                    'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit',
+                    'Strategische Einführung und Change Management für neue Systeme',
+                    'Moderation und Durchführung von Design Thinking Workshops',
+                    'Visuelle Gestaltung und Interface Design für digitale Produkte'
+                  ][hoveredSkill]}
+                </motion.p>
               </motion.div>
-            ))}
-          </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </section>
 

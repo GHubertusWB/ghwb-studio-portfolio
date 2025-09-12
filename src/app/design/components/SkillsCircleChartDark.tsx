@@ -4,6 +4,12 @@ import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import * as d3 from 'd3'
 
+type Skill = {
+  name: string
+  value: number
+  shortName: string
+}
+
 interface SkillsCircleChartDarkProps {
   onSegmentHover?: (index: number | null) => void;
   hoveredSkill?: number | null;
@@ -31,77 +37,55 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
     const svg = d3.select(svgRef.current)
     svg.selectAll("*").remove()
 
-    const width = 500
-    const height = 500
+    // Function to get color for ring level (1-10) from light blue to pink - EXAKT WIE LIGHT MODE
+    const getRingColor = (ringLevel: number) => {
+      const ratio = (ringLevel - 1) / 9 // 0 to 1
+      // Interpolate from light blue to pink
+      const r = Math.round(135 + ratio * (255 - 135)) // 135 to 255
+      const g = Math.round(206 - ratio * (206 - 192)) // 206 to 192
+      const b = Math.round(235 - ratio * (235 - 203)) // 235 to 203
+      return `rgb(${r}, ${g}, ${b})`
+    }
+
+    const width = 600
+    const height = 600
     const centerX = width / 2
     const centerY = height / 2
+    const innerRadius = 20 // Halbiert von 40 auf 20
     const maxRadius = 200
-    const innerRadius = 40
+    const ringHeight = 16
 
     svg.attr('width', width).attr('height', height)
 
-    // Create gradient for dark mode - radialer Verlauf von der Mitte des gesamten Diagramms
-    const defs = svg.append('defs')
-    const gradient = defs.append('radialGradient')
-      .attr('id', 'skillGradientDark')
-      .attr('cx', centerX)
-      .attr('cy', centerY)
-      .attr('r', maxRadius)
-      .attr('gradientUnits', 'userSpaceOnUse')
-
-    gradient.append('stop')
-      .attr('offset', '0%')
-      .attr('stop-color', '#ffffff')
-      .attr('stop-opacity', 0.9)
-
-    gradient.append('stop')
-      .attr('offset', '100%')
-      .attr('stop-color', '#7dd3fc')
-      .attr('stop-opacity', 1)
-
-    // Create transparent gradient for default state
-    const transparentGradient = defs.append('radialGradient')
-      .attr('id', 'skillGradientDarkTransparent')
-      .attr('cx', centerX)
-      .attr('cy', centerY)
-      .attr('r', maxRadius)
-      .attr('gradientUnits', 'userSpaceOnUse')
-
-    transparentGradient.append('stop')
-      .attr('offset', '0%')
-      .attr('stop-color', '#ffffff')
-      .attr('stop-opacity', 0.2)
-
-    transparentGradient.append('stop')
-      .attr('offset', '100%')
-      .attr('stop-color', '#7dd3fc')
-      .attr('stop-opacity', 0.4)
-
-    // Configuration for rings
-    const numRings = 10
-    const ringHeight = (maxRadius - innerRadius) / numRings
-
-    // Draw concentric circles (grid) for dark mode
-    for (let i = 1; i <= numRings; i++) {
-      const radius = innerRadius + (maxRadius - innerRadius) * (i / numRings)
-      svg.append('circle')
-        .attr('cx', centerX)
-        .attr('cy', centerY)
-        .attr('r', radius)
-        .attr('fill', 'none')
-        .attr('stroke', 'rgba(255, 255, 255, 0.2)')
-        .attr('stroke-width', 1)
-    }
-
-    // Create pie generator
-    const pie = d3.pie<any>()
-      .value(1) // Equal segments
+    // Create pie layout with padding for white space
+    const pie = d3.pie<Skill>()
+      .padAngle(0.06) // Increased padding for 2px white space
+      .value(() => 1) // Equal segments
       .sort(null)
 
-    // Create pie data
     const pieData = pie(skillsData)
 
-    // Create segments with ring-by-ring structure
+    // Create invisible full-segment areas for hover detection
+    const hoverAreas = svg.selectAll('.hover-area')
+      .data(pieData)
+      .enter()
+      .append('path')
+      .attr('class', 'hover-area')
+      .attr('transform', `translate(${centerX}, ${centerY})`)
+      .attr('d', (d: any) => {
+        const fullArc = d3.arc<any>()
+          .innerRadius(innerRadius)
+          .outerRadius(maxRadius)
+          .startAngle(d.startAngle)
+          .endAngle(d.endAngle)
+        return fullArc(d)
+      })
+      .attr('fill', 'transparent')
+      .attr('stroke', 'none')
+      .style('cursor', 'pointer')
+      .attr('data-index', (d: any, i: number) => i)
+
+    // Create segment groups
     const segmentGroups = svg.selectAll('.segment-group')
       .data(pieData)
       .enter()
@@ -117,7 +101,7 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
       const maxSkillRadius = innerRadius + (maxRadius - innerRadius) * (skill.value / 10)
       const skillRings = Math.ceil((maxSkillRadius - innerRadius) / ringHeight)
       
-      console.log(`Dark Segment ${segmentIndex}: ${skill.name}, value: ${skill.value}, rings: ${skillRings}, maxRadius: ${maxSkillRadius}`)
+      console.log(`Segment ${segmentIndex}: ${skill.name}, value: ${skill.value}, rings: ${skillRings}, maxRadius: ${maxSkillRadius}`)
 
       for (let ringIndex = 0; ringIndex < skillRings; ringIndex++) {
         const ringInnerRadius = innerRadius + ringIndex * ringHeight
@@ -125,7 +109,10 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
         
         if (ringOuterRadius <= ringInnerRadius) continue
 
-        console.log(`Dark Ring ${ringIndex}: inner=${ringInnerRadius}, outer=${ringOuterRadius}, start=${pieSlice.startAngle}, end=${pieSlice.endAngle}`)
+        const ringLevel = ringIndex + 1 // Ring level 1-10
+        const ringColor = getRingColor(ringLevel)
+        
+        console.log(`Ring ${ringIndex}: inner=${ringInnerRadius}, outer=${ringOuterRadius}, level=${ringLevel}, color=${ringColor}`)
 
         const arc = d3.arc<any>()
           .innerRadius(ringInnerRadius)
@@ -133,163 +120,207 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
           .startAngle(pieSlice.startAngle)
           .endAngle(pieSlice.endAngle)
 
+        const pathData = arc({} as any)
+
         segmentGroup.append('path')
           .attr('class', `ring ring-${ringIndex}`)
-          .attr('d', arc)
-          .attr('fill', 'url(#skillGradientDarkTransparent)')
-          .attr('stroke', '#000')
-          .attr('stroke-width', 1)
-          .style('opacity', 0)
+          .attr('d', pathData)
+          .attr('fill', ringColor)
+          .attr('stroke', 'none')
+          .style('opacity', 0.5) // 50% transparency by default
           .style('cursor', 'pointer')
           .transition()
           .delay(ringIndex * 150 + segmentIndex * 50) // Ring-für-Ring Animation
           .duration(600)
-          .style('opacity', 1)
+          .style('opacity', 0.5)
       }
     })
 
-    // Add hover effects to segment groups
-    segmentGroups
-      .on('mouseenter', function(event: any, d: any) {
-        const index = skillsData.indexOf(d.data)
-        if (onSegmentHover) onSegmentHover(index)
-        
-        // Animate hover effect from inside to outside
-        const segmentGroup = d3.select(this)
-        const rings = segmentGroup.selectAll('.ring')
-        
-        rings.each(function(_, ringIndex) {
-          d3.select(this)
-            .transition()
-            .delay(ringIndex * 50) // Von innen nach außen
-            .duration(200)
-            .attr('fill', 'url(#skillGradientDark)')
-            .attr('stroke-width', 2)
-        })
-      })
-      .on('mouseleave', function(event: any, d: any) {
-        if (onSegmentHover) onSegmentHover(null)
-        
-        // Zurück zum transparenten Zustand
-        const segmentGroup = d3.select(this)
-        const rings = segmentGroup.selectAll('.ring')
-        
-        rings
-          .transition()
-          .duration(200)
-          .attr('fill', 'url(#skillGradientDarkTransparent)')
-          .attr('stroke-width', 1)
-      })
+    // Add 10 WHITE grid circles with alternating stroke widths (AFTER segments for proper layering)
+    const gridCircles = [36, 52, 68, 84, 100, 116, 132, 148, 164, 180]
+    gridCircles.forEach((radius, index) => {
+      const strokeWidth = index % 2 === 0 ? 1 : 0.5 // Every second ring: 1px, between steps: 0.5px
+      svg.append('circle')
+        .attr('cx', centerX)
+        .attr('cy', centerY)
+        .attr('r', radius)
+        .attr('fill', 'none')
+        .attr('stroke', '#ffffff') // WEIß STATT SCHWARZ
+        .attr('stroke-width', strokeWidth)
+        .style('pointer-events', 'none') // Grid should not interfere with interactions
+    })
 
-
-
-    // Add radial lines between segments
+    // Add radial grid lines (1px WHITE) AFTER segments
     skillsData.forEach((_, i) => {
       const angle = (i * 2 * Math.PI) / skillsData.length - Math.PI / 2
-      const x1 = centerX + Math.cos(angle) * innerRadius
-      const y1 = centerY + Math.sin(angle) * innerRadius
-      const x2 = centerX + Math.cos(angle) * maxRadius
-      const y2 = centerY + Math.sin(angle) * maxRadius
-
+      const x1 = centerX + innerRadius * Math.cos(angle)
+      const y1 = centerY + innerRadius * Math.sin(angle)
+      const x2 = centerX + maxRadius * Math.cos(angle)
+      const y2 = centerY + maxRadius * Math.sin(angle)
+      
       svg.append('line')
         .attr('x1', x1)
         .attr('y1', y1)
         .attr('x2', x2)
         .attr('y2', y2)
-        .attr('stroke', 'rgba(255, 255, 255, 0.3)')
+        .attr('stroke', '#ffffff') // WEIß STATT SCHWARZ
         .attr('stroke-width', 1)
+        .style('pointer-events', 'none') // Grid should not interfere with interactions
     })
 
-    // Add labels - mittig zu den Segmenten positioniert
-    skillsData.forEach((skill, i) => {
-      // Berechne die mittlere Position des Segments
-      const startAngle = (i * 2 * Math.PI) / skillsData.length - Math.PI / 2
-      const endAngle = ((i + 1) * 2 * Math.PI) / skillsData.length - Math.PI / 2
-      const midAngle = (startAngle + endAngle) / 2
+    // Add skill labels - positioned correctly at segment centers
+    pieData.forEach((pieSlice, i) => {
+      const skill = pieSlice.data
       
+      // Calculate middle angle of the segment
+      const middleAngle = (pieSlice.startAngle + pieSlice.endAngle) / 2 - Math.PI / 2
       const labelRadius = maxRadius + 30
-      const x = centerX + Math.cos(midAngle) * labelRadius
-      const y = centerY + Math.sin(midAngle) * labelRadius
-
-      svg.append('text')
-        .attr('x', x)
-        .attr('y', y)
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .style('font-family', 'Poppins, sans-serif')
-        .style('font-size', '12px')
-        .style('font-weight', '500')
-        .style('fill', 'rgba(255, 255, 255, 0.9)')
-        .text(skill.shortName)
-        .style('opacity', 0)
-        .transition()
-        .delay(1000 + i * 100) // Langsamerer Aufbau der Labels
-        .duration(800)
-        .style('opacity', 1)
+      const x = centerX + labelRadius * Math.cos(middleAngle)
+      const y = centerY + labelRadius * Math.sin(middleAngle)
+      
+      // Split skill name into words for two-line layout if needed
+      const words = skill.shortName.split(' ')
+      
+      if (words.length === 1 || skill.shortName.length <= 12) {
+        // Single line for short text
+        svg.append('text')
+          .attr('x', x)
+          .attr('y', y)
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'middle')
+          .style('font-size', '12px')
+          .style('font-weight', '500')
+          .style('fill', '#ffffff') // WEIß STATT GRAU
+          .style('pointer-events', 'none')
+          .text(skill.shortName)
+      } else {
+        // Two lines for longer text
+        const midPoint = Math.ceil(words.length / 2)
+        const firstLine = words.slice(0, midPoint).join(' ')
+        const secondLine = words.slice(midPoint).join(' ')
+        
+        // First line (slightly above center)
+        svg.append('text')
+          .attr('x', x)
+          .attr('y', y - 8)
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'middle')
+          .style('font-size', '11px')
+          .style('font-weight', '500')
+          .style('fill', '#ffffff') // WEIß STATT GRAU
+          .style('pointer-events', 'none')
+          .text(firstLine)
+        
+        // Second line (slightly below center)
+        svg.append('text')
+          .attr('x', x)
+          .attr('y', y + 8)
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'middle')
+          .style('font-size', '11px')
+          .style('font-weight', '500')
+          .style('fill', '#ffffff') // WEIß STATT GRAU
+          .style('pointer-events', 'none')
+          .text(secondLine)
+      }
     })
 
-    // Add center circle for dark mode
+    // Add center circle
     svg.append('circle')
       .attr('cx', centerX)
       .attr('cy', centerY)
       .attr('r', innerRadius)
-      .attr('fill', '#1a1a1a')
-      .attr('stroke', 'rgba(255, 255, 255, 0.2)')
-      .attr('stroke-width', 2)
+      .attr('fill', '#1a1a1a') // DUNKLER HINTERGRUND STATT HELL
+      .attr('stroke', '#ffffff') // WEIß STATT SCHWARZ
+      .attr('stroke-width', 1)
 
-  }, [])
+    // Create hover function for reuse
+    const handleMouseEnter = function(event: any, d: any) {
+      const index = skillsData.indexOf(d.data)
+      if (onSegmentHover) onSegmentHover(index)
+      
+      // Find corresponding segment group and animate its rings
+      const segmentGroup = d3.select(segmentGroups.nodes()[index])
+      const rings = segmentGroup.selectAll('.ring')
+      
+      rings.each(function(_, ringIndex) {
+        d3.select(this)
+          .transition()
+          .delay(ringIndex * 50) // Von innen nach außen
+          .duration(200)
+          .style('opacity', 1) // Remove transparency (0% opacity means fully visible)
+      })
+    }
 
-  // Separate useEffect for handling external hover changes
+    const handleMouseLeave = function(event: any, d: any) {
+      const index = skillsData.indexOf(d.data)
+      if (onSegmentHover) onSegmentHover(null)
+      
+      // Find corresponding segment group and return to normal transparency
+      const segmentGroup = d3.select(segmentGroups.nodes()[index])
+      const rings = segmentGroup.selectAll('.ring')
+      
+      rings.each(function(_, ringIndex) {
+        d3.select(this)
+          .transition()
+          .delay(ringIndex * 50)
+          .duration(200)
+          .style('opacity', 0.5) // Back to 50% transparency
+      })
+    }
+
+    // Add hover effects to invisible hover areas (full segments)
+    hoverAreas
+      .on('mouseenter', handleMouseEnter)
+      .on('mouseleave', handleMouseLeave)
+
+    // Add hover effects to segment groups (colored parts)
+    segmentGroups
+      .on('mouseenter', handleMouseEnter)
+      .on('mouseleave', handleMouseLeave)
+  }, [onSegmentHover])
+
+  // Handle external hover state changes
   useEffect(() => {
     if (!svgRef.current) return
-
+    
     const svg = d3.select(svgRef.current)
     const segmentGroups = svg.selectAll('.segment-group')
-
-    // Update segment highlighting based on external hover state
-    if (hoveredSkill !== null) {
-      segmentGroups.each(function(d: any, i: number) {
-        const isHovered = skillsData.indexOf(d.data) === hoveredSkill
-        const segmentGroup = d3.select(this)
-        const rings = segmentGroup.selectAll('.ring')
-        
-        if (isHovered) {
-          rings.each(function(_, ringIndex) {
-            d3.select(this)
-              .transition()
-              .delay(ringIndex * 50)
-              .duration(200)
-              .attr('fill', 'url(#skillGradientDark)')
-              .attr('stroke-width', 2)
-          })
-        } else {
-          rings
+    
+    segmentGroups.each(function(_, i) {
+      const segmentGroup = d3.select(this)
+      const rings = segmentGroup.selectAll('.ring')
+      
+      if (hoveredSkill === i) {
+        // Apply hover state: full opacity from inside to outside
+        rings.each(function(_, ringIndex) {
+          d3.select(this)
+            .transition()
+            .delay(ringIndex * 50)
+            .duration(200)
+            .style('opacity', 1) // Full opacity
+        })
+      } else {
+        // Return to normal state (50% transparency)
+        rings.each(function() {
+          d3.select(this)
             .transition()
             .duration(200)
-            .attr('fill', 'url(#skillGradientDarkTransparent)')
-            .attr('stroke-width', 1)
-        }
-      })
-    } else {
-      segmentGroups.selectAll('.ring')
-        .transition()
-        .duration(200)
-        .attr('fill', 'url(#skillGradientDarkTransparent)')
-        .attr('stroke-width', 1)
-    }
+            .style('opacity', 0.5) // Normal 50% transparency
+        })
+      }
+    })
   }, [hoveredSkill])
 
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1, delay: 0.3 }}
+      transition={{ duration: 1 }}
       viewport={{ once: true }}
-      className="w-full max-w-2xl mx-auto"
+      className="flex justify-center items-center"
     >
-      <div className="flex justify-center">
-        <svg ref={svgRef} className="w-full h-auto max-w-[500px]" />
-      </div>
+      <svg ref={svgRef} className="max-w-full h-auto" />
     </motion.div>
   )
 }
