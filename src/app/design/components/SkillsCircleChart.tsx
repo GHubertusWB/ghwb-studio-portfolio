@@ -98,17 +98,15 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill }: Skil
     pieData.forEach((pieSlice, segmentIndex) => {
       const skill = pieSlice.data
       const segmentGroup = d3.select(segmentGroups.nodes()[segmentIndex])
-      const maxSkillRadius = innerRadius + (maxRadius - innerRadius) * (skill.value / 10)
-      const skillRings = Math.ceil((maxSkillRadius - innerRadius) / ringHeight)
+      // Ensure exactly skill.value rings (max 10), each ring has exactly ringHeight size
+      const skillRings = Math.min(skill.value, 10) // Max 10 rings
       
-      console.log(`Segment ${segmentIndex}: ${skill.name}, value: ${skill.value}, rings: ${skillRings}, maxRadius: ${maxSkillRadius}`)
+      console.log(`Segment ${segmentIndex}: ${skill.name}, value: ${skill.value}, rings: ${skillRings}`)
 
       for (let ringIndex = 0; ringIndex < skillRings; ringIndex++) {
         const ringInnerRadius = innerRadius + ringIndex * ringHeight
-        const ringOuterRadius = Math.min(innerRadius + (ringIndex + 1) * ringHeight, maxSkillRadius)
+        const ringOuterRadius = innerRadius + (ringIndex + 1) * ringHeight
         
-        if (ringOuterRadius <= ringInnerRadius) continue
-
         const ringLevel = ringIndex + 1 // Ring level 1-10
         const ringColor = getRingColor(ringLevel)
         
@@ -137,7 +135,8 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill }: Skil
     })
 
     // Add 10 black grid circles with alternating stroke widths (AFTER segments for proper layering)
-    const gridCircles = [36, 52, 68, 84, 100, 116, 132, 148, 164, 180]
+    // Calculate exact grid radii to match ring positions: innerRadius + ringHeight * level
+    const gridCircles = Array.from({length: 10}, (_, i) => innerRadius + ringHeight * (i + 1))
     gridCircles.forEach((radius, index) => {
       const strokeWidth = index % 2 === 0 ? 1 : 0.5 // Every second ring: 1px, between steps: 0.5px
       svg.append('circle')

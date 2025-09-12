@@ -261,7 +261,7 @@ export default function UXUIPageLight() {
 
           {/* Permanent Label über dem Diagramm */}
           <motion.div 
-            className="text-center mb-6"
+            className="text-center mb-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.8 }}
@@ -298,7 +298,7 @@ export default function UXUIPageLight() {
                   className="max-w-3xl text-center px-6"
                 >
                 <motion.h3 
-                  className="text-3xl font-light text-foreground mb-3"
+                  className="text-2xl font-medium text-foreground mb-2"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
@@ -317,8 +317,8 @@ export default function UXUIPageLight() {
                   ][hoveredSkill]}
                 </motion.h3>
                 
-                <motion.div 
-                  className="text-base text-primary font-medium mb-6 tracking-wide"
+                <motion.p 
+                  className="text-sm text-primary font-medium mb-4 tracking-wide"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
@@ -335,10 +335,10 @@ export default function UXUIPageLight() {
                     '9/10',
                     '9/10'
                   ][hoveredSkill]}
-                </motion.div>
+                </motion.p>
                 
                 <motion.p 
-                  className="text-muted-foreground leading-relaxed text-lg font-light"
+                  className="text-base text-muted-foreground leading-relaxed"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}

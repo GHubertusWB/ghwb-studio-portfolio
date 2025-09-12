@@ -212,7 +212,7 @@ export default function UXUIPageDark() {
 
           {/* Permanent Label über dem Diagramm */}
           <motion.div 
-            className="text-center mb-6"
+            className="text-center mb-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.8 }}
@@ -249,7 +249,7 @@ export default function UXUIPageDark() {
                   className="max-w-3xl text-center px-6"
                 >
                 <motion.h3 
-                  className="text-3xl font-light text-white mb-3"
+                  className="text-2xl font-medium text-white mb-2"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
@@ -268,8 +268,8 @@ export default function UXUIPageDark() {
                   ][hoveredSkill]}
                 </motion.h3>
                 
-                <motion.div 
-                  className="text-base text-cyan-400 font-medium mb-6 tracking-wide"
+                <motion.p 
+                  className="text-sm text-cyan-400 font-medium mb-4 tracking-wide"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
@@ -286,10 +286,10 @@ export default function UXUIPageDark() {
                     '9/10',
                     '9/10'
                   ][hoveredSkill]}
-                </motion.div>
+                </motion.p>
                 
                 <motion.p 
-                  className="text-white/80 leading-relaxed text-lg font-light"
+                  className="text-base text-white/80 leading-relaxed"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.5 }}
