@@ -10,6 +10,7 @@ import SkillsCircleChartDark from './SkillsCircleChartDark'
 
 export default function UXUIPageDark() {
   const [currentTime, setCurrentTime] = useState('')
+  const [hoveredSkill, setHoveredSkill] = useState<number | null>(null)
   
   // UX/UI Services Data - inspired by photography page structure
   const services = [
@@ -210,7 +211,10 @@ export default function UXUIPageDark() {
           </motion.div>
 
           {/* Skills Circle Chart */}
-          <SkillsCircleChartDark />
+          <SkillsCircleChartDark 
+            onSegmentHover={setHoveredSkill}
+            hoveredSkill={hoveredSkill}
+          />
 
           {/* Skills Description Grid */}
           <motion.div 
@@ -238,8 +242,21 @@ export default function UXUIPageDark() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="p-6 rounded-2xl border border-white/20 hover:border-cyan-400/40 transition-all duration-300 text-center"
-                style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(10px)' }}
+                className={`p-6 rounded-2xl border transition-all duration-300 text-center cursor-pointer ${
+                  hoveredSkill === index
+                    ? 'border-cyan-400 bg-cyan-400/20 shadow-lg shadow-cyan-400/20 scale-105'
+                    : hoveredSkill === null
+                    ? 'border-white/20 hover:border-cyan-400/40'
+                    : 'border-white/10 opacity-50'
+                }`}
+                style={{ 
+                  background: hoveredSkill === index 
+                    ? 'rgba(34, 211, 238, 0.15)' 
+                    : 'rgba(255,255,255,0.05)', 
+                  backdropFilter: 'blur(10px)' 
+                }}
+                onMouseEnter={() => setHoveredSkill(index)}
+                onMouseLeave={() => setHoveredSkill(null)}
               >
                 <h3 className="font-semibold text-white mb-2">{skill.title}</h3>
                 <div className="text-sm text-cyan-400 font-semibold mb-3">{skill.level}</div>

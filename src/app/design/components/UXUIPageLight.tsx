@@ -11,6 +11,8 @@ import SkillsCircleChart from './SkillsCircleChart'
 
 export default function UXUIPageLight() {
   const [currentTime, setCurrentTime] = useState('')
+  const [hoveredSkill, setHoveredSkill] = useState<number | null>(null)
+  
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
@@ -258,7 +260,10 @@ export default function UXUIPageLight() {
           </motion.div>
 
           {/* Skills Circle Chart */}
-          <SkillsCircleChart />
+          <SkillsCircleChart 
+            onSegmentHover={setHoveredSkill}
+            hoveredSkill={hoveredSkill}
+          />
 
           {/* Skills Description Grid */}
           <motion.div 
@@ -286,7 +291,15 @@ export default function UXUIPageLight() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-gray-50 rounded-lg p-6 text-center hover:bg-gray-100 transition-colors duration-300"
+                className={`rounded-lg p-6 text-center transition-all duration-300 cursor-pointer ${
+                  hoveredSkill === index
+                    ? 'bg-blue-100 border-2 border-blue-300 shadow-lg scale-105'
+                    : hoveredSkill === null
+                    ? 'bg-gray-50 hover:bg-gray-100'
+                    : 'bg-gray-50 opacity-50'
+                }`}
+                onMouseEnter={() => setHoveredSkill(index)}
+                onMouseLeave={() => setHoveredSkill(null)}
               >
                 <h3 className="font-semibold text-foreground mb-2">{skill.title}</h3>
                 <div className="text-sm text-primary font-semibold mb-3">{skill.level}</div>
