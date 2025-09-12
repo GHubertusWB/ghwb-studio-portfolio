@@ -37,13 +37,13 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
     const svg = d3.select(svgRef.current)
     svg.selectAll("*").remove()
 
-    // Function to get color for ring level (1-10) from light blue to pink - EXAKT WIE LIGHT MODE
+    // Function to get color for ring level (1-10) from light blue to #9AFFD3 (mint green)
     const getRingColor = (ringLevel: number) => {
       const ratio = (ringLevel - 1) / 9 // 0 to 1
-      // Interpolate from light blue to pink
-      const r = Math.round(135 + ratio * (255 - 135)) // 135 to 255
-      const g = Math.round(206 - ratio * (206 - 192)) // 206 to 192
-      const b = Math.round(235 - ratio * (235 - 203)) // 235 to 203
+      // Interpolate from light blue (135, 206, 235) to mint green (154, 255, 211) - #9AFFD3
+      const r = Math.round(135 + ratio * (154 - 135)) // 135 to 154
+      const g = Math.round(206 + ratio * (255 - 206)) // 206 to 255
+      const b = Math.round(235 - ratio * (235 - 211)) // 235 to 211
       return `rgb(${r}, ${g}, ${b})`
     }
 
@@ -129,6 +129,7 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
           .attr('stroke', 'none')
           .style('opacity', 0.5) // 50% transparency by default
           .style('cursor', 'pointer')
+          .style('filter', 'none') // No glow by default
           .transition()
           .delay(ringIndex * 150 + segmentIndex * 50) // Ring-für-Ring Animation
           .duration(600)
@@ -249,6 +250,7 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
           .delay(ringIndex * 50) // Von innen nach außen
           .duration(200)
           .style('opacity', 1) // Remove transparency (0% opacity means fully visible)
+          .style('filter', 'drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor)') // Leuchteffekt
       })
     }
 
@@ -266,6 +268,7 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
           .delay(ringIndex * 50)
           .duration(200)
           .style('opacity', 0.5) // Back to 50% transparency
+          .style('filter', 'none') // Remove glow effect
       })
     }
 
@@ -299,6 +302,7 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
             .delay(ringIndex * 50)
             .duration(200)
             .style('opacity', 1) // Full opacity
+            .style('filter', 'drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor)') // Leuchteffekt
         })
       } else {
         // Return to normal state (50% transparency)
@@ -307,6 +311,7 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill }: 
             .transition()
             .duration(200)
             .style('opacity', 0.5) // Normal 50% transparency
+            .style('filter', 'none') // Remove glow effect
         })
       }
     })
