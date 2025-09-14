@@ -9,6 +9,7 @@ import {
   EnvelopeIcon, 
   ChatBubbleLeftRightIcon 
 } from '@heroicons/react/24/outline'
+import { Button } from '@/components/ui/Button'
 
 interface ContactFormUXUIProps {
   // Keine Props benötigt

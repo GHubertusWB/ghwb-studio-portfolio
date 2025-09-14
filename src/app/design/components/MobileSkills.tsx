@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Button } from '@/components/ui/Button'
 
 interface MobileSkillsProps {
   isDark?: boolean
@@ -215,10 +216,12 @@ export default function MobileSkills({ isDark = false }: MobileSkillsProps) {
         <div className="flex flex-wrap gap-2 justify-center max-w-4xl mx-auto" 
              style={{ maxWidth: '100%' }}>
           {skillsData.map((skill, index) => (
-            <button
+            <Button
               key={index}
+              variant={index === activeSkill ? "primary" : "default"}
+              size="xs"
               onClick={() => setActiveSkill(index)}
-              className={`px-4 py-2 text-xs font-medium rounded-full transition-all duration-300 whitespace-nowrap cursor-pointer ${
+              className={`whitespace-nowrap ${
                 index === activeSkill
                   ? isDark 
                     ? 'bg-cyan-400 text-black shadow-lg shadow-cyan-400/30' 
@@ -233,7 +236,7 @@ export default function MobileSkills({ isDark = false }: MobileSkillsProps) {
               }}
             >
               {skill.shortName}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

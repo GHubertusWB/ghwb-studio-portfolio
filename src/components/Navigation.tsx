@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from '@/lib/utils'
+import { Button } from './ui/Button'
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -92,57 +93,63 @@ const Navigation = () => {
 
             {/* Theme Toggle & Mobile Menu Button */}
             <div className="flex items-center space-x-4">
-              <motion.button
-                onClick={toggleTheme}
-                className="p-3 rounded-full bg-background/20 backdrop-blur-md border border-white/10 hover:bg-background/30 transition-all duration-300 shadow-lg cursor-pointer"
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.9 }}
-                style={{
-                  background: theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: theme === 'dark' 
-                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                    : '1px solid rgba(0, 0, 0, 0.1)'
-                }}
-              >
-                <motion.div
-                  initial={false}
-                  animate={{ rotate: theme === 'dark' ? 0 : 180 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                >
-                  {theme === 'dark' ? (
-                    <Sun className="w-5 h-5" />
-                  ) : (
-                    <Moon className="w-5 h-5" />
-                  )}
-                </motion.div>
-              </motion.button>
+              <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleTheme}
+                  className="rounded-full shadow-lg"
+                  style={{
+                    background: theme === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.1)' 
+                      : 'rgba(0, 0, 0, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    border: theme === 'dark' 
+                      ? '1px solid rgba(255, 255, 255, 0.2)' 
+                      : '1px solid rgba(0, 0, 0, 0.1)'
+                  }}
+                  icon={
+                    <motion.div
+                      initial={false}
+                      animate={{ rotate: theme === 'dark' ? 0 : 180 }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                    >
+                      {theme === 'dark' ? (
+                        <Sun className="w-5 h-5" />
+                      ) : (
+                        <Moon className="w-5 h-5" />
+                      )}
+                    </motion.div>
+                  }
+                />
+              </motion.div>
 
-              <motion.button
-                onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden p-3 rounded-full bg-background/20 backdrop-blur-md border border-white/10 hover:bg-background/30 transition-all duration-300 shadow-lg cursor-pointer"
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.9 }}
-                style={{
-                  background: theme === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: theme === 'dark' 
-                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                    : '1px solid rgba(0, 0, 0, 0.1)'
-                }}
-              >
-                <motion.div
-                  initial={false}
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                </motion.div>
-              </motion.button>
+              <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="md:hidden rounded-full shadow-lg"
+                  style={{
+                    background: theme === 'dark' 
+                      ? 'rgba(255, 255, 255, 0.1)' 
+                      : 'rgba(0, 0, 0, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    border: theme === 'dark' 
+                      ? '1px solid rgba(255, 255, 255, 0.2)' 
+                      : '1px solid rgba(0, 0, 0, 0.1)'
+                  }}
+                  icon={
+                    <motion.div
+                      initial={false}
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </motion.div>
+                  }
+                />
+              </motion.div>
             </div>
           </div>
         </div>

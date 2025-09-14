@@ -8,6 +8,7 @@ import ContactForm from '@/components/ContactForm'
 import ContactFormUXUI from './ContactFormUXUI'
 import SkillsCircleChartDark from './SkillsCircleChartDark'
 import MobileSkills from './MobileSkills'
+import { Button } from '@/components/ui/Button'
 
 export default function UXUIPageDark() {
   const [currentTime, setCurrentTime] = useState('')
@@ -125,10 +126,18 @@ export default function UXUIPageDark() {
           </motion.div>
         </div>
         <div className="relative text-center px-6 max-w-6xl" style={{ zIndex: 25 }}>
-          <motion.button onClick={() => window.history.back()} className="inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5 cursor-pointer" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }} whileHover={{ scale: 1.05, y: -2 }}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            SYSTEM.EXIT
-          </motion.button>
+          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }} whileHover={{ scale: 1.05, y: -2 }} className="mb-12">
+            <Button
+              variant="ghost"
+              size="lg"
+              onClick={() => window.history.back()}
+              className="text-white/70 hover:text-white font-mono"
+              style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }}
+              icon={<ArrowLeft className="w-4 h-4" />}
+            >
+              SYSTEM.EXIT
+            </Button>
+          </motion.div>
           <motion.div className="relative" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, delay: 0.8 }}>
             <motion.h1 className="text-5xl md:text-8xl font-light tracking-tight mb-8 relative text-white" style={{ textShadow: '0 0 30px rgba(255, 255, 255, 0.4)' }} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.2 }}>
               <span className="text-cyan-400/80 text-lg block mb-2 tracking-widest font-mono">GHWB.UXUI.SYSTEM:</span>

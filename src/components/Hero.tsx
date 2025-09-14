@@ -5,6 +5,7 @@ import { ArrowDown, Sparkles, Mouse } from 'lucide-react'
 import MainLogo from './MainLogo'
 import { useTheme } from '@/contexts/ThemeContext'
 import SpaceshipHUD from './SpaceshipHUD'
+import { Button } from './ui/Button'
 
 const Hero = () => {
   const { theme } = useTheme()
@@ -116,23 +117,29 @@ const Hero = () => {
         </motion.div>
 
         {/* Scroll indicator - positioned at the bottom */}
-        <motion.button
-          onClick={scrollToNext}
-          className="mt-16"
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2.5 }}
           whileHover={{ scale: 1.1 }}
+          className="mt-16"
         >
-          <motion.div
-            className="flex flex-col items-center text-xs text-muted-foreground hover:text-base hover:text-muted-foreground theme-transition"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
+          <Button
+            variant="ghost"
+            size="icon" 
+            onClick={scrollToNext}
+            className="p-4"
           >
-            <Mouse className="w-5 h-5 mb-1" />
-            <ArrowDown className="w-3 h-3" />
-          </motion.div>
-        </motion.button>
+            <motion.div
+              className="flex flex-col items-center text-xs text-muted-foreground hover:text-base hover:text-muted-foreground theme-transition"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Mouse className="w-5 h-5 mb-1" />
+              <ArrowDown className="w-3 h-3" />
+            </motion.div>
+          </Button>
+        </motion.div>
       </div>
     </section>
     </>
