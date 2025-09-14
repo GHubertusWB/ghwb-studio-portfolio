@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/Button'
 import { 
   BriefcaseIcon, 
   UsersIcon, 
@@ -275,16 +276,7 @@ export default function ContactFormLight(): React.JSX.Element {
             viewport={{ once: true }}
             className="text-center pt-4"
           >
-            <motion.button
-              type="submit"
-              disabled={isSubmitting || !formData.email.trim()}
-              className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{
-                background: 'rgba(0, 0, 0, 0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(0, 0, 0, 0.1)',
-                
-              }}
+            <motion.div
               whileHover={!isSubmitting && formData.email.trim() ? { 
                 scale: 1.05,
                 y: -2
@@ -293,22 +285,30 @@ export default function ContactFormLight(): React.JSX.Element {
                 scale: 0.95
               } : {}}
             >
-              {isSubmitting ? (
-                <>
+              <Button
+                type="submit"
+                disabled={isSubmitting || !formData.email.trim()}
+                variant="ghost"
+                size="lg"
+                className="shadow-lg tracking-wide disabled:opacity-50"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(0, 0, 0, 0.1)'
+                }}
+                icon={isSubmitting ? (
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="inline-block w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full mr-3"
+                    className="inline-block w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full"
                   />
-                  <span className="tracking-wide">Wird gesendet...</span>
-                </>
-              ) : (
-                <>
-                  <EnvelopeIcon className="w-4 h-4 mr-2" />
-                  <span className="tracking-wide">Anfrage absenden</span>
-                </>
-              )}
-            </motion.button>
+                ) : (
+                  <EnvelopeIcon className="w-4 h-4" />
+                )}
+              >
+                {isSubmitting ? 'Wird gesendet...' : 'Anfrage absenden'}
+              </Button>
+            </motion.div>
           </motion.div>
 
           {/* Status Messages */}

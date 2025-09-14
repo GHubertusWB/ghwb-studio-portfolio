@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Palette, Camera, Layers, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/Button'
 
 const Services = () => {
   const services = [
@@ -161,14 +162,20 @@ const Services = () => {
           className="text-center mt-16"
         >
           <Link href="/about">
-            <motion.button
-              className="inline-flex items-center px-8 py-4 rounded-full text-label text-primary bg-foreground text-background hover:bg-foreground/90"
+            <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Über mich erfahren
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </motion.button>
+              <Button
+                variant="primary"
+                size="lg"
+                className="text-label text-primary bg-foreground text-background hover:bg-foreground/90"
+                iconPosition="right"
+                icon={<ArrowRight className="w-4 h-4" />}
+              >
+                Über mich erfahren
+              </Button>
+            </motion.div>
           </Link>
         </motion.div>
       </div>

@@ -26,7 +26,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = cn(
       // Basic layout
       "inline-flex items-center justify-center gap-2 rounded-[50px] overflow-hidden",
-      "font-semibold font-['Inter'] transition-all duration-200 ease-in-out",
+      "font-semibold font-['Poppins'] transition-all duration-200 ease-in-out",
       // Cursor behavior
       disabled 
         ? "cursor-not-allowed" 
@@ -50,61 +50,64 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const variantStyles = {
       // Default - neutral gray background
       default: disabled 
-        ? "bg-neutral-200/30 text-gray-400"
+        ? "bg-neutral-200/30 text-gray-400 dark:text-gray-500"
         : cn(
-            "bg-neutral-200/50 text-gray-500",
-            "hover:bg-neutral-200/70 hover:text-gray-600",
-            "active:bg-neutral-200/80",
+            "bg-neutral-200/50 text-gray-500 dark:text-white",
+            "hover:bg-neutral-200/70 hover:text-gray-600 dark:hover:text-white",
+            "active:bg-neutral-200/80 active:text-gray-600 dark:active:text-white",
             "focus:ring-gray-300"
           ),
       
       // Outline - border with transparent background
       outline: disabled
-        ? "outline outline-2 outline-gray-200 text-gray-400 bg-transparent"
+        ? "outline outline-2 outline-gray-200 text-gray-400 dark:text-gray-500 bg-transparent"
         : cn(
-            "outline outline-[3px] outline-sky-200 text-gray-900 bg-transparent",
-            "hover:outline-sky-300 hover:bg-sky-50/50",
-            "active:outline-sky-400 active:bg-sky-50/70",
+            "outline outline-[3px] outline-sky-200 text-gray-900 dark:text-white bg-transparent",
+            "hover:outline-sky-300 hover:bg-sky-50/50 hover:text-gray-900 dark:hover:text-white",
+            "active:outline-sky-400 active:bg-sky-50/70 active:text-gray-900 dark:active:text-white",
             "focus:ring-sky-300"
           ),
       
       // Ghost - minimal styling
       ghost: disabled
-        ? "text-gray-400 bg-transparent"
+        ? "text-gray-400 dark:text-gray-500 bg-transparent"
         : cn(
-            "text-gray-900 bg-transparent",
-            "hover:bg-gray-100/50",
-            "active:bg-gray-100/70",
+            "bg-transparent",
+            "!text-gray-900 dark:!text-white",
+            "hover:bg-gray-100/50 hover:!text-gray-900 dark:hover:!text-white",
+            "active:bg-gray-100/70 active:!text-gray-900 dark:active:!text-white",
             "focus:ring-gray-300"
           ),
       
       // Primary - cyan accent color
       primary: disabled
-        ? "bg-cyan-200/30 text-gray-400"
+        ? "bg-cyan-200/30 text-gray-400 dark:text-gray-500"
         : cn(
-            "bg-cyan-500/50 text-gray-900",
-            "hover:bg-cyan-500/60 hover:shadow-lg",
-            "active:bg-cyan-500/70",
+            "bg-cyan-500/50",
+            "!text-gray-900 dark:!text-white",
+            "hover:bg-cyan-500/60 hover:shadow-lg hover:!text-gray-900 dark:hover:!text-white",
+            "active:bg-cyan-500/70 active:!text-gray-900 dark:active:!text-white",
             "focus:ring-cyan-300"
           ),
       
       // Secondary - cyan with outline
       secondary: disabled
-        ? "bg-cyan-200/20 outline outline-1 outline-cyan-200/30 text-gray-400"
+        ? "bg-cyan-200/20 outline outline-1 outline-cyan-200/30 text-gray-400 dark:text-gray-500"
         : cn(
-            "bg-cyan-500/20 outline outline-1 outline-offset-[-1px] outline-cyan-500/50 text-gray-900",
-            "hover:bg-cyan-500/30 hover:outline-cyan-500/60",
-            "active:bg-cyan-500/40",
+            "bg-cyan-500/20 outline outline-1 outline-offset-[-1px] outline-cyan-500/50",
+            "!text-gray-900 dark:!text-white",
+            "hover:bg-cyan-500/30 hover:outline-cyan-500/60 hover:!text-gray-900 dark:hover:!text-white",
+            "active:bg-cyan-500/40 active:!text-gray-900 dark:active:!text-white",
             "focus:ring-cyan-300"
           ),
       
       // Accent - cyan outline only
       accent: disabled
-        ? "outline outline-1 outline-cyan-200/30 text-gray-400 bg-transparent"
+        ? "outline outline-1 outline-cyan-200/30 text-gray-400 dark:text-gray-500 bg-transparent"
         : cn(
-            "outline outline-1 outline-offset-[-1px] outline-cyan-500/50 text-gray-900 bg-transparent",
-            "hover:outline-cyan-500/60 hover:bg-cyan-50/30",
-            "active:outline-cyan-500/70 active:bg-cyan-50/50",
+            "outline outline-1 outline-offset-[-1px] outline-cyan-500/50 text-gray-900 dark:text-white bg-transparent",
+            "hover:outline-cyan-500/60 hover:bg-cyan-50/30 hover:text-gray-900 dark:hover:text-white",
+            "active:outline-cyan-500/70 active:bg-cyan-50/50 active:text-gray-900 dark:active:text-white",
             "focus:ring-cyan-300"
           )
     };
@@ -165,6 +168,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           variantStyles[variant],
           className
         )}
+        style={{
+          borderRadius: '50px',
+          ...props.style
+        }}
         ref={ref}
         disabled={disabled}
         {...props}

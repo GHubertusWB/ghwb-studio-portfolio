@@ -146,14 +146,30 @@ export default function UXUIPageDark() {
             <motion.p className="text-xl md:text-2xl text-white/80 mb-12 leading-relaxed max-w-3xl mx-auto relative" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.4 }}>
               Digitale Erlebnisse, die begeistern. Von Research bis Prototyping – nutzerzentriert, modern, wirkungsvoll.
             </motion.p>
-            <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.6 }} className="flex flex-col sm:flex-row gap-4 justify-center relative">
-              <motion.button className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono cursor-pointer" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }} whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}                 onClick={() => { const services = document.getElementById('services-section'); if (services) services.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
-                <Sparkles className="w-4 h-4 mr-2" />
+            <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.6 }} className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                variant="ghost"
+                size="lg"
+                className="font-mono"
+                onClick={() => { 
+                  const services = document.getElementById('services-section'); 
+                  if (services) services.scrollIntoView({ behavior: 'smooth', block: 'start' }) 
+                }}
+                icon={<Sparkles className="w-4 h-4" />}
+              >
                 Meine Skills
-              </motion.button>
-              <motion.button className="inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono cursor-pointer" style={{ background: 'rgba(6, 182, 212, 0.25)', backdropFilter: 'blur(10px)', border: '1px solid rgba(6, 182, 212, 0.4)', boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)' }} whileHover={{ scale: 1.05, y: -2, boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)' }} whileTap={{ scale: 0.95 }} onClick={() => { const contact = document.getElementById('contact-section'); if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
+              </Button>
+              <Button
+                variant="secondary"
+                size="lg"
+                className="font-mono"
+                onClick={() => { 
+                  const contact = document.getElementById('contact-section'); 
+                  if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) 
+                }}
+              >
                 Kontakt
-              </motion.button>
+              </Button>
             </motion.div>
           </motion.div>
         </div>

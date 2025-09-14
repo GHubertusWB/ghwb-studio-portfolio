@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
+import { Button } from '@/components/ui/Button'
 
 interface Artwork {
   title: string
@@ -115,15 +116,21 @@ export default function FeaturedArtwork({ artwork }: FeaturedArtworkProps) {
               </div>
             </motion.div>
 
-            <motion.button
+            <motion.div
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center px-6 py-3 bg-foreground text-background rounded-full font-medium hover:bg-foreground/90 transition-colors"
             >
-              Mehr Details
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </motion.button>
+              <Button
+                variant="primary"
+                size="lg"
+                className="bg-foreground text-background hover:bg-foreground/90"
+                iconPosition="right"
+                icon={<ArrowRight className="w-4 h-4" />}
+              >
+                Mehr Details
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </div>

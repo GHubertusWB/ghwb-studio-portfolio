@@ -149,7 +149,7 @@ export default function UXUIPageLight() {
           >
             <Button
               variant="ghost"
-              size="lg"
+              size="xs"
               onClick={() => window.history.back()}
               className="shadow-lg"
               style={{
@@ -209,46 +209,22 @@ export default function UXUIPageLight() {
               transition={{ duration: 0.8, delay: 1.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
-                <Button 
-                  variant="ghost"
-                  size="lg"
-                  onClick={() => { const skills = document.getElementById('skills-section'); if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
-                  className="shadow-lg"
-                  style={{
-                    background: 'rgba(0, 0, 0, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(0, 0, 0, 0.1)'
-                  }}
-                  icon={<Sparkles className="w-4 h-4" />}
-                >
-                  Meine Skills
-                </Button>
-              </motion.div>
-              
-              <motion.div 
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15), 0 8px 12px -4px rgba(0, 0, 0, 0.1)'
-                }}
-                whileTap={{ scale: 0.95 }}
+              <Button 
+                variant="ghost"
+                size="lg"
+                onClick={() => { const skills = document.getElementById('skills-section'); if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
+                icon={<Sparkles className="w-4 h-4" />}
               >
-                <Button 
-                  variant="secondary"
-                  size="lg"
-                  onClick={() => { const contact = document.getElementById('contact-section'); if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
-                  className="text-primary"
-                  style={{
-                    background: 'rgba(6, 182, 212, 0.15)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(6, 182, 212, 0.3)',
-                    boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-                  }}
-                >
-                  Kontakt
-                </Button>
-              </motion.div>
+                Meine Skills
+              </Button>
+              
+              <Button 
+                variant="secondary"
+                size="lg"
+                onClick={() => { const contact = document.getElementById('contact-section'); if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
+              >
+                Kontakt
+              </Button>
             </motion.div>
           </motion.div>
         </div>

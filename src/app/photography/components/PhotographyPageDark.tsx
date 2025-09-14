@@ -3,9 +3,10 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Camera, User, Heart, Sparkles, Eye } from 'lucide-react'
-import ContactForm from '@/components/ContactForm'
+import ContactFormPhotography from './ContactFormPhotography'
 import Footer from '@/components/Footer'
 import { photographyImages } from '@/data/gallery'
+import { Button } from '@/components/ui/Button'
 
 // TypeScript Interfaces
 interface Service {
@@ -480,23 +481,28 @@ export default function PhotographyPageDark(): React.JSX.Element {
 
         <div className="relative text-center px-6 max-w-6xl" style={{ zIndex: 25 }}>
           {/* Back Button - Styled like homepage buttons */}
-          <motion.button
-            onClick={() => window.history.back()}
-            className="inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5"
-            style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              
-            }}
+          <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             whileHover={{ scale: 1.05, y: -2 }}
+            className="mb-12"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            SYSTEM.EXIT
-          </motion.button>
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={() => window.history.back()}
+              className="text-white/70 hover:text-white font-mono hover:bg-white/5"
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}
+              icon={<ArrowLeft className="w-4 h-4" />}
+            >
+              SYSTEM.EXIT
+            </Button>
+          </motion.div>
 
           {/* Main Content - Simplified frame to match homepage aesthetic */}
           <motion.div
@@ -533,39 +539,22 @@ export default function PhotographyPageDark(): React.JSX.Element {
               transition={{ duration: 0.8, delay: 1.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center relative"
             >
-              <motion.button 
-                className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  
-                }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+              <Button
+                variant="ghost"
+                size="lg"
+                className="font-mono"
+                icon={<Sparkles className="w-4 h-4" />}
               >
-                <Sparkles className="w-4 h-4 mr-2" />
                 SERVICES.EXPLORE
-              </motion.button>
-              <motion.button 
-                onClick={scrollToContactForm} 
-                className="inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono"
-                style={{
-                  background: 'rgba(6, 182, 212, 0.25)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(6, 182, 212, 0.4)',
-                  boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
-                  
-                }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)'
-                }}
-                whileTap={{ scale: 0.95 }}
+              </Button>
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={scrollToContactForm}
+                className="font-mono"
               >
                 BOOKING.START
-              </motion.button>
+              </Button>
             </motion.div>
           </motion.div>
         </div>
@@ -766,7 +755,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
             </p>
           </motion.div>
 
-          <ContactForm variant="photography" />
+          <ContactFormPhotography />
         </div>
       </section>
 

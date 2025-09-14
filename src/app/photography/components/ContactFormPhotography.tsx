@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/Button'
 import { 
   CameraIcon, 
   HeartIcon, 
@@ -277,27 +278,40 @@ export default function ContactFormPhotography(): React.JSX.Element {
             viewport={{ once: true }}
             className="pt-4"
           >
-            <motion.button
-              type="submit"
-              disabled={isSubmitting}
-              className={`w-full py-4 px-6 border-2 border-gray-900 font-bold text-sm tracking-wider uppercase transition-all duration-200 ${
-                isSubmitting 
-                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
-                  : submitStatus === 'success'
-                  ? 'bg-green-100 text-green-800 border-green-600'
-                  : submitStatus === 'error'
-                  ? 'bg-red-100 text-red-800 border-red-600'
-                  : 'bg-gray-900 text-white hover:bg-gray-800'
-              }`}
-              style={{  }}
+            <motion.div
               whileHover={!isSubmitting ? { scale: 1.02 } : {}}
               whileTap={!isSubmitting ? { scale: 0.98 } : {}}
             >
-              {isSubmitting ? 'Nachricht wird gesendet...' : 
-               submitStatus === 'success' ? 'Nachricht gesendet!' :
-               submitStatus === 'error' ? 'Fehler - Bitte erneut versuchen' :
-               'Nachricht senden'}
-            </motion.button>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                variant={
+                  submitStatus === 'success' ? 'accent' :
+                  submitStatus === 'error' ? 'accent' : 'primary'
+                }
+                size="lg"
+                className={`w-full font-bold text-sm tracking-wider uppercase ${
+                  isSubmitting 
+                    ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                    : submitStatus === 'success'
+                    ? 'bg-green-100 text-green-800 border-green-600'
+                    : submitStatus === 'error'
+                    ? 'bg-red-100 text-red-800 border-red-600'
+                    : 'bg-gray-900 text-white hover:bg-gray-800'
+                }`}
+                style={{ 
+                  border: '2px solid', 
+                  borderColor: 
+                    submitStatus === 'success' ? '#16a34a' :
+                    submitStatus === 'error' ? '#dc2626' : '#111827'
+                }}
+              >
+                {isSubmitting ? 'Nachricht wird gesendet...' : 
+                 submitStatus === 'success' ? 'Nachricht gesendet!' :
+                 submitStatus === 'error' ? 'Fehler - Bitte erneut versuchen' :
+                 'Nachricht senden'}
+              </Button>
+            </motion.div>
           </motion.div>
         </form>
 

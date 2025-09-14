@@ -7,6 +7,7 @@ import ContactFormPhotography from './ContactFormPhotography'
 import Footer from '@/components/Footer'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
 import { photographyImages } from '@/data/gallery'
+import { Button } from '@/components/ui/Button'
 
 // TypeScript Interfaces (same as dark version)
 interface Service {
@@ -179,23 +180,28 @@ export default function PhotographyPageLight(): React.JSX.Element {
 
         <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 40 }}>
           {/* Back Button - Startseite Button Styling */}
-          <motion.button
-            onClick={() => window.history.back()}
-            className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg mb-16"
-            style={{
-              background: 'rgba(0, 0, 0, 0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(0, 0, 0, 0.1)',
-              
-            }}
+          <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
             whileHover={{ scale: 1.05, y: -2 }}
+            className="mb-16"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            <span className="tracking-wide">Zurück</span>
-          </motion.button>
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={() => window.history.back()}
+              className="shadow-lg"
+              style={{
+                background: 'rgba(0, 0, 0, 0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(0, 0, 0, 0.1)'
+              }}
+              icon={<ArrowLeft className="w-4 h-4" />}
+            >
+              <span className="tracking-wide">Zurück</span>
+            </Button>
+          </motion.div>
 
           {/* Main Content - Startseite Typography */}
           <motion.div
@@ -243,44 +249,21 @@ export default function PhotographyPageLight(): React.JSX.Element {
               transition={{ duration: 0.8, delay: 1.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <motion.button 
-                className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg"
-                style={{
-                  background: 'rgba(0, 0, 0, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
-                  
-                }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+              <Button 
+                variant="ghost"
+                size="lg"
+                icon={<Camera className="w-4 h-4" />}
               >
-                <Camera className="w-4 h-4 mr-2" />
                 Portfolio entdecken
-              </motion.button>
+              </Button>
               
-              <motion.button 
-                onClick={scrollToContactForm} 
-                className="inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
-                style={{
-                  background: 'rgba(6, 182, 212, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(6, 182, 212, 0.3)',
-                  boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                  
-                }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15), 0 8px 12px -4px rgba(0, 0, 0, 0.1)'
-                }}
-                whileTap={{ 
-                  scale: 0.95,
-                  boxShadow: '0 5px 15px -2px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.05)',
-                  transition: { duration: 0.1, repeat: 2, repeatType: "reverse" }
-                }}
+              <Button 
+                variant="secondary"
+                size="lg"
+                onClick={scrollToContactForm}
               >
                 Shooting buchen
-              </motion.button>
+              </Button>
             </motion.div>
           </motion.div>
         </div>

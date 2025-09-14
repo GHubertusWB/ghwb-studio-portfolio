@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Instagram, Linkedin, Mail, ArrowUp } from 'lucide-react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/Button'
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -113,17 +114,22 @@ const Footer = () => {
       </div>
 
       {/* Scroll to top button */}
-      <motion.button
-        onClick={scrollToTop}
-        className="absolute top-8 right-8 p-3 rounded-full bg-background border border-border/50 hover:border-border transition-colors"
+      <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}
         whileHover={{ scale: 1.1, y: -2 }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400 }}
+        className="absolute top-8 right-8"
       >
-        <ArrowUp className="w-5 h-5" />
-      </motion.button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={scrollToTop}
+          className="bg-background border-border/50 hover:border-border"
+          icon={<ArrowUp className="w-5 h-5" />}
+        />
+      </motion.div>
     </footer>
   )
 }

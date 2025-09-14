@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { Button } from '@/components/ui/Button'
 import { 
   BriefcaseIcon, 
   UsersIcon, 
@@ -263,17 +264,7 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
             viewport={{ once: true }}
             className="text-center"
           >
-            <motion.button
-              type="submit"
-              disabled={isSubmitting || !formData.email.trim()}
-              className="inline-flex items-center px-8 py-3 rounded-full font-mono transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-white"
-              style={{
-                background: 'rgba(6, 182, 212, 0.25)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(6, 182, 212, 0.4)',
-                boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
-                
-              }}
+            <motion.div
               whileHover={!isSubmitting && formData.email.trim() ? { 
                 scale: 1.05, 
                 y: -2,
@@ -289,22 +280,31 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
                 transition: { duration: 0.1, repeat: 2, repeatType: "reverse" }
               } : {}}
             >
-              {isSubmitting ? (
-                <>
+              <Button
+                type="submit"
+                disabled={isSubmitting || !formData.email.trim()}
+                variant="secondary"
+                size="lg"
+                className="font-mono text-white dark:text-white disabled:opacity-50"
+                style={{
+                  background: 'rgba(6, 182, 212, 0.25)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(6, 182, 212, 0.4)',
+                  boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)'
+                }}
+                icon={isSubmitting ? (
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                   />
-                  WIRD GESENDET...
-                </>
-              ) : (
-                <>
-                  <EnvelopeIcon className="w-4 h-4 mr-2" />
-                  ANFRAGE ABSENDEN
-                </>
-              )}
-            </motion.button>
+                ) : (
+                  <EnvelopeIcon className="w-4 h-4" />
+                )}
+              >
+                {isSubmitting ? 'WIRD GESENDET...' : 'ANFRAGE ABSENDEN'}
+              </Button>
+            </motion.div>
           </motion.div>
 
           {/* Status Messages */}
