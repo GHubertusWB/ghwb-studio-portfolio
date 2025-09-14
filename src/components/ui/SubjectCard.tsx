@@ -25,7 +25,7 @@ export default function SubjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
       viewport={{ once: true }}
-      className={`cursor-button card group relative cursor-pointer transition-all duration-300 ${
+      className={`card group relative cursor-pointer transition-all duration-300 ${
         isSelected 
           ? 'border-white bg-gray-50 ring-2 ring-white/20 shadow-lg shadow-white/40 dark:border-white dark:bg-cyan-400/5 dark:shadow-lg dark:shadow-white/20' 
           : 'border-gray-900 hover:border-gray-400 hover:bg-gray-50 dark:border-white dark:hover:border-white/40 dark:hover:bg-white/5 hover:shadow-lg dark:hover:shadow-white/10'
@@ -33,7 +33,7 @@ export default function SubjectCard({
       style={{
         border: '2px solid',
         padding: '16px',
-        cursor: 'none'
+        
       }}
       onClick={onClick}
       whileTap={{ scale: 0.98 }}

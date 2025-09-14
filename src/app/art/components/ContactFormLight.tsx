@@ -140,7 +140,7 @@ export default function ContactFormLight(): React.JSX.Element {
     >
       <div 
         className="relative bg-white border-2 border-gray-900 p-8"
-        style={{ cursor: 'none' }}
+        style={{  }}
       >
         {/* Simple line decorations */}
         <div className="absolute top-0 left-8 w-16 h-1 bg-gray-900"></div>
@@ -162,12 +162,12 @@ export default function ContactFormLight(): React.JSX.Element {
                 key={card.id}
                 type="button"
                 onClick={() => handleCardClick(card.id)}
-                className={`cursor-button p-4 border-2 border-gray-900 transition-all duration-200 text-left group ${
+                className={`p-4 border-2 border-gray-900 transition-all duration-200 text-left group ${
                   selectedSubjectTags.includes(card.id)
                     ? 'bg-gray-900 text-white' 
                     : 'bg-white text-gray-900 hover:bg-gray-100'
                 }`}
-                style={{ cursor: 'none' }}
+                style={{  }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
@@ -208,8 +208,8 @@ export default function ContactFormLight(): React.JSX.Element {
                 onChange={handleInputChange}
                 placeholder="Ihr Name"
                 required
-                className="cursor-button w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 font-mono text-sm focus:outline-none focus:bg-gray-50 transition-colors"
-                style={{ cursor: 'none' }}
+                className="w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 font-mono text-sm focus:outline-none focus:bg-gray-50 transition-colors"
+                style={{  }}
               />
               <UserIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-600" />
             </div>
@@ -234,8 +234,8 @@ export default function ContactFormLight(): React.JSX.Element {
                 onChange={handleInputChange}
                 placeholder="ihre@email.de"
                 required
-                className="cursor-button w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 font-mono text-sm focus:outline-none focus:bg-gray-50 transition-colors"
-                style={{ cursor: 'none' }}
+                className="w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 font-mono text-sm focus:outline-none focus:bg-gray-50 transition-colors"
+                style={{  }}
               />
               <EnvelopeIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-600" />
             </div>
@@ -260,8 +260,8 @@ export default function ContactFormLight(): React.JSX.Element {
                 placeholder="Beschreiben Sie Ihr Projekt..."
                 rows={4}
                 required
-                className="cursor-button w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 font-mono text-sm focus:outline-none focus:bg-gray-50 transition-colors resize-none"
-                style={{ cursor: 'none' }}
+                className="w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 font-mono text-sm focus:outline-none focus:bg-gray-50 transition-colors resize-none"
+                style={{  }}
               />
               <ChatBubbleLeftRightIcon className="absolute right-3 top-3 w-4 h-4 text-gray-600" />
             </div>
@@ -278,12 +278,12 @@ export default function ContactFormLight(): React.JSX.Element {
             <motion.button
               type="submit"
               disabled={isSubmitting || !formData.email.trim()}
-              className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 background: 'rgba(0, 0, 0, 0.05)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(0, 0, 0, 0.1)',
-                cursor: 'none'
+                
               }}
               whileHover={!isSubmitting && formData.email.trim() ? { 
                 scale: 1.05,
@@ -350,8 +350,8 @@ export default function ContactFormLight(): React.JSX.Element {
           </p>
           <a
             href="mailto:office@ghwbstudio.de"
-            className="cursor-button font-mono text-gray-900 hover:text-gray-600 transition-colors border-b-2 border-gray-900 hover:border-gray-600"
-            style={{ cursor: 'none' }}
+            className="font-mono text-gray-900 hover:text-gray-600 transition-colors border-b-2 border-gray-900 hover:border-gray-600"
+            style={{  }}
           >
             office@ghwbstudio.de
           </a>

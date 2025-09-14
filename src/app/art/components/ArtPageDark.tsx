@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
 import ContactForm from '@/components/ContactForm'
-import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
 import { artImages } from '@/data/gallery'
 
@@ -190,7 +189,6 @@ export default function ArtPageDark(): React.JSX.Element {
     <div className="min-h-screen text-white relative overflow-hidden" style={{ 
       background: 'linear-gradient(to bottom right, var(--background), var(--background), rgba(42, 47, 54, 0.2))'
     }}>
-      <CustomCursor />
       {/* 1. HERO SECTION - WITH REDESIGNED HUD SYSTEM */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -539,12 +537,12 @@ export default function ArtPageDark(): React.JSX.Element {
           {/* Back Button - Styled like homepage buttons */}
           <motion.button
             onClick={() => window.history.back()}
-            className="cursor-button inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5"
+            className="inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5"
             style={{
               background: 'rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              cursor: 'none'
+              
             }}
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -591,12 +589,12 @@ export default function ArtPageDark(): React.JSX.Element {
               className="flex flex-col sm:flex-row gap-4 justify-center relative"
             >
               <motion.button 
-                className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono"
+                className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono"
                 style={{
                   background: 'rgba(255, 255, 255, 0.1)',
                   backdropFilter: 'blur(10px)',
                   border: '1px solid rgba(255, 255, 255, 0.2)',
-                  cursor: 'none'
+                  
                 }}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
@@ -606,13 +604,13 @@ export default function ArtPageDark(): React.JSX.Element {
               </motion.button>
               <motion.button 
                 onClick={scrollToContactForm} 
-                className="cursor-button inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono"
+                className="inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono"
                 style={{
                   background: 'rgba(6, 182, 212, 0.25)',
                   backdropFilter: 'blur(10px)',
                   border: '1px solid rgba(6, 182, 212, 0.4)',
                   boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
-                  cursor: 'none'
+                  
                 }}
                 whileHover={{ 
                   scale: 1.05, 
@@ -772,8 +770,8 @@ export default function ArtPageDark(): React.JSX.Element {
             {galleryImages.map((src, index) => (
               <motion.div
                 key={src}
-                className={`card cursor-button group relative overflow-hidden col-span-1 row-span-1`}
-                style={{ cursor: 'none' }}
+                className={`card group relative overflow-hidden col-span-1 row-span-1`}
+                style={{  }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -825,7 +823,7 @@ export default function ArtPageDark(): React.JSX.Element {
           {/* Contact Type Cards */}
           <motion.div 
             className="relative"
-            style={{ cursor: 'none' }}
+            style={{  }}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}

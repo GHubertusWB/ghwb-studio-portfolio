@@ -140,7 +140,7 @@ export default function ContactFormUXUI(): React.JSX.Element {
     >
       <div 
         className="relative bg-white border-2 border-gray-900 p-8"
-        style={{ cursor: 'none' }}
+        style={{  }}
       >
         {/* Simple line decorations */}
         <div className="absolute top-0 left-8 w-16 h-1 bg-gray-900"></div>
@@ -162,12 +162,12 @@ export default function ContactFormUXUI(): React.JSX.Element {
                 key={card.id}
                 type="button"
                 onClick={() => handleCardClick(card.id)}
-                className={`cursor-button p-4 border-2 border-gray-900 transition-all duration-200 text-left group ${
+                className={`p-4 border-2 border-gray-900 transition-all duration-200 text-left group ${
                   selectedSubjectTags.includes(card.id)
                     ? 'bg-gray-900 text-white' 
                     : 'bg-white text-gray-900 hover:bg-gray-100'
                 }`}
-                style={{ cursor: 'none' }}
+                style={{  }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
@@ -207,8 +207,8 @@ export default function ContactFormUXUI(): React.JSX.Element {
                 required
                 value={formData.name}
                 onChange={handleInputChange}
-                className="cursor-button w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-gray-50 transition-colors duration-200"
-                style={{ cursor: 'none' }}
+                className="w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-gray-50 transition-colors duration-200"
+                style={{  }}
                 placeholder="Ihr vollständiger Name"
               />
               <UserIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -233,8 +233,8 @@ export default function ContactFormUXUI(): React.JSX.Element {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className="cursor-button w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-gray-50 transition-colors duration-200"
-                style={{ cursor: 'none' }}
+                className="w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-gray-50 transition-colors duration-200"
+                style={{  }}
                 placeholder="ihre.email@beispiel.de"
               />
               <EnvelopeIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -259,8 +259,8 @@ export default function ContactFormUXUI(): React.JSX.Element {
                 rows={6}
                 value={formData.message}
                 onChange={handleInputChange}
-                className="cursor-button w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-gray-50 transition-colors duration-200 resize-none"
-                style={{ cursor: 'none' }}
+                className="w-full px-4 py-3 border-2 border-gray-900 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-gray-50 transition-colors duration-200 resize-none"
+                style={{  }}
                 placeholder="Beschreiben Sie Ihr UX/UI Projekt oder Ihre Anfrage..."
               />
               <ChatBubbleLeftRightIcon className="absolute right-3 top-3 w-5 h-5 text-gray-500" />
@@ -278,7 +278,7 @@ export default function ContactFormUXUI(): React.JSX.Element {
             <motion.button
               type="submit"
               disabled={isSubmitting}
-              className={`cursor-button w-full py-4 px-6 border-2 border-gray-900 font-bold text-sm tracking-wider uppercase transition-all duration-200 ${
+              className={`w-full py-4 px-6 border-2 border-gray-900 font-bold text-sm tracking-wider uppercase transition-all duration-200 ${
                 isSubmitting 
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
                   : submitStatus === 'success'
@@ -287,7 +287,7 @@ export default function ContactFormUXUI(): React.JSX.Element {
                   ? 'bg-red-100 text-red-800 border-red-600'
                   : 'bg-gray-900 text-white hover:bg-gray-800'
               }`}
-              style={{ cursor: 'none' }}
+              style={{  }}
               whileHover={!isSubmitting ? { scale: 1.02 } : {}}
               whileTap={!isSubmitting ? { scale: 0.98 } : {}}
             >

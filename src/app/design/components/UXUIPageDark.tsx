@@ -3,10 +3,11 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, Monitor, Smartphone, Palette, Users, Zap, Layers, Sparkles, Eye, CheckCircle } from 'lucide-react'
-import CustomCursor from '@/components/CustomCursor'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
+import ContactFormUXUI from './ContactFormUXUI'
 import SkillsCircleChartDark from './SkillsCircleChartDark'
+import MobileSkills from './MobileSkills'
 
 export default function UXUIPageDark() {
   const [currentTime, setCurrentTime] = useState('')
@@ -111,7 +112,6 @@ export default function UXUIPageDark() {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--background), var(--background), rgba(42, 47, 54, 0.2))' }}>
-      <CustomCursor />
       {/* HERO HUD */}
       <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }} className="min-h-screen flex items-center justify-center relative" style={{ zIndex: 20 }}>
         <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 15 }}>
@@ -125,7 +125,7 @@ export default function UXUIPageDark() {
           </motion.div>
         </div>
         <div className="relative text-center px-6 max-w-6xl" style={{ zIndex: 25 }}>
-          <motion.button onClick={() => window.history.back()} className="cursor-button inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)', cursor: 'none' }} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }} whileHover={{ scale: 1.05, y: -2 }}>
+          <motion.button onClick={() => window.history.back()} className="inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5 cursor-pointer" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }} whileHover={{ scale: 1.05, y: -2 }}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             SYSTEM.EXIT
           </motion.button>
@@ -138,11 +138,11 @@ export default function UXUIPageDark() {
               Digitale Erlebnisse, die begeistern. Von Research bis Prototyping – nutzerzentriert, modern, wirkungsvoll.
             </motion.p>
             <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.6 }} className="flex flex-col sm:flex-row gap-4 justify-center relative">
-              <motion.button className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)', cursor: 'none' }} whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}                 onClick={() => { const services = document.getElementById('services-section'); if (services) services.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
+              <motion.button className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono cursor-pointer" style={{ background: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.2)' }} whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}                 onClick={() => { const services = document.getElementById('services-section'); if (services) services.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
                 <Sparkles className="w-4 h-4 mr-2" />
                 Meine Skills
               </motion.button>
-              <motion.button className="inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono" style={{ background: 'rgba(6, 182, 212, 0.25)', backdropFilter: 'blur(10px)', border: '1px solid rgba(6, 182, 212, 0.4)', boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)', cursor: 'none' }} whileHover={{ scale: 1.05, y: -2, boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)' }} whileTap={{ scale: 0.95 }} onClick={() => { const contact = document.getElementById('contact-section'); if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
+              <motion.button className="inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono cursor-pointer" style={{ background: 'rgba(6, 182, 212, 0.25)', backdropFilter: 'blur(10px)', border: '1px solid rgba(6, 182, 212, 0.4)', boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)' }} whileHover={{ scale: 1.05, y: -2, boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)' }} whileTap={{ scale: 0.95 }} onClick={() => { const contact = document.getElementById('contact-section'); if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
                 Kontakt
               </motion.button>
             </motion.div>
@@ -198,119 +198,127 @@ export default function UXUIPageDark() {
         </div>
       </section>
 
-      {/* SKILLS SECTION - RADAR CHART */}
-      <section id="skills-section" className="py-20 px-6 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
-            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
-              Meine UX/UI Expertise
-            </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Kompetenzprofil im UX/UI Design – von Research bis Rollout
-            </p>
-          </motion.div>
+      {/* SKILLS SECTION - RESPONSIVE */}
+      <section id="skills-section" className="relative z-10">
+        {/* Desktop Version */}
+        <div className="hidden md:block py-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
+              <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+                Meine UX/UI Expertise
+              </h2>
+              <p className="text-lg text-white/70 max-w-2xl mx-auto">
+                Kompetenzprofil im UX/UI Design – von Research bis Rollout
+              </p>
+            </motion.div>
 
-          {/* Permanent Label über dem Diagramm */}
-          <motion.div 
-            className="text-center mb-2"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-sm text-white/50 font-medium">
-              Bewegen Sie die Maus über ein Segment für Details
-            </p>
-          </motion.div>
+            {/* Permanent Label über dem Diagramm */}
+            <motion.div 
+              className="text-center mb-2"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <p className="text-sm text-white/50 font-medium">
+                Bewegen Sie die Maus über ein Segment für Details
+              </p>
+            </motion.div>
 
-          {/* Skills Circle Chart */}
-          <SkillsCircleChartDark 
-            onSegmentHover={setHoveredSkill}
-            hoveredSkill={hoveredSkill}
-          />
+            {/* Skills Circle Chart */}
+            <SkillsCircleChartDark 
+              onSegmentHover={setHoveredSkill}
+              hoveredSkill={hoveredSkill}
+            />
 
-          {/* Skill Details Display - erscheint langsam bei Hover */}
-          <div 
-            className="flex justify-center items-start"
-            style={{ marginTop: '24px' }}
-          >
-            <AnimatePresence mode="wait">
-              {hoveredSkill !== null && (
-                <motion.div
-                  key={hoveredSkill} // Key für Re-Animation bei Skill-Wechsel
-                  initial={{ opacity: 0, y: 20, height: 0 }}
-                  animate={{ opacity: 1, y: 0, height: 'auto' }}
-                  exit={{ opacity: 0, y: -15, height: 0 }}
-                  transition={{ 
-                    duration: 0.5,
-                    ease: [0.23, 1, 0.32, 1], // Smooth easing für langsames Erscheinen
-                    height: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } // Separate height transition
-                  }}
-                  className="max-w-3xl text-center px-6"
-                >
-                <motion.h3 
-                  className="text-2xl font-medium text-white mb-2"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                >
-                  {[
-                    'Accessibility',
-                    'Product Owner', 
-                    'Requirements Engineering',
-                    'Wireframing',
-                    'Prototyping',
-                    'Design Systems',
-                    'Development',
-                    'Rollout Planning',
-                    'Workshops',
-                    'UI Design'
-                  ][hoveredSkill]}
-                </motion.h3>
-                
-                <motion.p 
-                  className="text-sm text-cyan-400 font-medium mb-4 tracking-wide"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                >
-                  Erfahrungslevel: {[
-                    '8/10',
-                    '6/10',
-                    '8/10', 
-                    '10/10',
-                    '9/10',
-                    '10/10',
-                    '4/10',
-                    '7/10',
-                    '9/10',
-                    '9/10'
-                  ][hoveredSkill]}
-                </motion.p>
-                
-                <motion.p 
-                  className="text-base text-white/80 leading-relaxed"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
-                >
-                  {[
-                    'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung',
-                    'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten',
-                    'User Research, Workshops und stakeholder-orientierte Analyse',
-                    'Strukturierung und erste visuelle Konzepte für komplexe Systeme',
-                    'Interaktive Prototypen und User Testing für optimale UX',
-                    'Skalierbare Komponenten-Bibliotheken und Style Guides',
-                    'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit',
-                    'Strategische Einführung und Change Management für neue Systeme',
-                    'Moderation und Durchführung von Design Thinking Workshops',
-                    'Visuelle Gestaltung und Interface Design für digitale Produkte'
-                  ][hoveredSkill]}
-                </motion.p>
-              </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Skill Details Display - erscheint langsam bei Hover */}
+            <div 
+              className="flex justify-center items-start"
+              style={{ marginTop: '24px' }}
+            >
+              <AnimatePresence mode="wait">
+                {hoveredSkill !== null && (
+                  <motion.div
+                    key={hoveredSkill} // Key für Re-Animation bei Skill-Wechsel
+                    initial={{ opacity: 0, y: 20, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                    exit={{ opacity: 0, y: -15, height: 0 }}
+                    transition={{ 
+                      duration: 0.5,
+                      ease: [0.23, 1, 0.32, 1], // Smooth easing für langsames Erscheinen
+                      height: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } // Separate height transition
+                    }}
+                    className="max-w-3xl text-center px-6"
+                  >
+                  <motion.h3 
+                    className="text-2xl font-medium text-white mb-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                  >
+                    {[
+                      'Accessibility',
+                      'Product Owner', 
+                      'Requirements Engineering',
+                      'Wireframing',
+                      'Prototyping',
+                      'Design Systems',
+                      'Development',
+                      'Rollout Planning',
+                      'Workshops',
+                      'UI Design'
+                    ][hoveredSkill]}
+                  </motion.h3>
+                  
+                  <motion.p 
+                    className="text-sm text-cyan-400 font-medium mb-4 tracking-wide"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    Erfahrungslevel: {[
+                      '8/10',
+                      '6/10',
+                      '8/10', 
+                      '10/10',
+                      '9/10',
+                      '10/10',
+                      '4/10',
+                      '7/10',
+                      '9/10',
+                      '9/10'
+                    ][hoveredSkill]}
+                  </motion.p>
+                  
+                  <motion.p 
+                    className="text-base text-white/80 leading-relaxed"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.5 }}
+                  >
+                    {[
+                      'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung',
+                      'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten',
+                      'User Research, Workshops und stakeholder-orientierte Analyse',
+                      'Strukturierung und erste visuelle Konzepte für komplexe Systeme',
+                      'Interaktive Prototypen und User Testing für optimale UX',
+                      'Skalierbare Komponenten-Bibliotheken und Style Guides',
+                      'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit',
+                      'Strategische Einführung und Change Management für neue Systeme',
+                      'Moderation und Durchführung von Design Thinking Workshops',
+                      'Visuelle Gestaltung und Interface Design für digitale Produkte'
+                    ][hoveredSkill]}
+                  </motion.p>
+                </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
+        </div>
+
+        {/* Mobile Version */}
+        <div className="block md:hidden">
+          <MobileSkills isDark={true} />
         </div>
       </section>
 

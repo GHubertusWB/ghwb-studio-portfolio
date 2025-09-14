@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
 import ContactFormLight from './ContactFormLight'
-import CustomCursor from '@/components/CustomCursor'
 import FloatingCloudsArt from './FloatingCloudsArt'
 import Footer from '@/components/Footer'
 import { artImages } from '@/data/gallery'
@@ -189,7 +188,6 @@ export default function ArtPageLight(): React.JSX.Element {
 
   return (
     <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
-      <CustomCursor />
       
       {/* 1. HERO SECTION - STARTSEITE LIGHT MODE STYLING */}
       <motion.section 
@@ -248,12 +246,12 @@ export default function ArtPageLight(): React.JSX.Element {
           {/* Back Button - Startseite Button Styling */}
           <motion.button
             onClick={() => window.history.back()}
-            className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg mb-16"
+            className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg mb-16"
             style={{
               background: 'rgba(0, 0, 0, 0.05)',
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(0, 0, 0, 0.1)',
-              cursor: 'none'
+              
             }}
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -311,12 +309,12 @@ export default function ArtPageLight(): React.JSX.Element {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <motion.button 
-                className="cursor-button group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg"
+                className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg"
                 style={{
                   background: 'rgba(0, 0, 0, 0.05)',
                   backdropFilter: 'blur(10px)',
                   border: '1px solid rgba(0, 0, 0, 0.1)',
-                  cursor: 'none'
+                  
                 }}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
@@ -327,13 +325,13 @@ export default function ArtPageLight(): React.JSX.Element {
               
               <motion.button 
                 onClick={scrollToContactForm} 
-                className="cursor-button inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
+                className="inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
                 style={{
                   background: 'rgba(6, 182, 212, 0.15)',
                   backdropFilter: 'blur(10px)',
                   border: '1px solid rgba(6, 182, 212, 0.3)',
                   boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                  cursor: 'none'
+                  
                 }}
                 whileHover={{ 
                   scale: 1.05, 
@@ -487,8 +485,8 @@ export default function ArtPageLight(): React.JSX.Element {
             {galleryImages.map((src, index) => (
               <motion.div
                 key={src}
-                className={`card cursor-button group relative overflow-hidden col-span-1 row-span-1`}
-                style={{ cursor: 'none' }}
+                className={`card group relative overflow-hidden col-span-1 row-span-1`}
+                style={{  }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -541,7 +539,7 @@ export default function ArtPageLight(): React.JSX.Element {
           {/* Contact Form Section - clean style */}
           <motion.div 
             className="relative"
-            style={{ cursor: 'none' }}
+            style={{  }}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}

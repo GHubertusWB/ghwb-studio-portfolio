@@ -46,7 +46,7 @@ const Navigation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link href="/" className="text-xl tracking-wider cursor-none">
+            <Link href="/" className="text-xl tracking-wider">
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400 }}
@@ -60,7 +60,7 @@ const Navigation = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               {menuItems.slice(1).map((item) => (
-                <Link key={item.href} href={item.href} className="cursor-none">
+                <Link key={item.href} href={item.href} className="">
                   <motion.span
                     className={cn(
                       "relative text-sm font-medium transition-colors hover:text-foreground/80",
@@ -94,7 +94,7 @@ const Navigation = () => {
             <div className="flex items-center space-x-4">
               <motion.button
                 onClick={toggleTheme}
-                className="cursor-none p-3 rounded-full bg-background/20 backdrop-blur-md border border-white/10 hover:bg-background/30 transition-all duration-300 shadow-lg"
+                className="p-3 rounded-full bg-background/20 backdrop-blur-md border border-white/10 hover:bg-background/30 transition-all duration-300 shadow-lg cursor-pointer"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.9 }}
                 style={{
@@ -122,7 +122,7 @@ const Navigation = () => {
 
               <motion.button
                 onClick={() => setIsOpen(!isOpen)}
-                className="cursor-none md:hidden p-3 rounded-full bg-background/20 backdrop-blur-md border border-white/10 hover:bg-background/30 transition-all duration-300 shadow-lg"
+                className="md:hidden p-3 rounded-full bg-background/20 backdrop-blur-md border border-white/10 hover:bg-background/30 transition-all duration-300 shadow-lg cursor-pointer"
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.9 }}
                 style={{
@@ -180,7 +180,7 @@ const Navigation = () => {
                         href={item.href}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          "cursor-none block text-lg font-medium transition-colors relative",
+                          "block text-lg font-medium transition-colors relative",
                           pathname === item.href
                             ? "text-foreground font-semibold"
                             : "text-foreground/60"

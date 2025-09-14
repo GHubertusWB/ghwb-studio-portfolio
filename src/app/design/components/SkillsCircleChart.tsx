@@ -13,9 +13,10 @@ type Skill = {
 interface SkillsCircleChartProps {
   onSegmentHover?: (index: number | null) => void;
   hoveredSkill?: number | null;
+  hideLabels?: boolean;
 }
 
-export default function SkillsCircleChart({ onSegmentHover, hoveredSkill }: SkillsCircleChartProps) {
+export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLabels = false }: SkillsCircleChartProps) {
   const svgRef = useRef<SVGSVGElement>(null)
 
   const skillsData = [
@@ -167,62 +168,64 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill }: Skil
         .style('pointer-events', 'none') // Grid should not interfere with interactions
     })
 
-    // Add skill labels - positioned correctly at segment centers
-    pieData.forEach((pieSlice, i) => {
-      const skill = pieSlice.data
-      
-      // Calculate middle angle of the segment
-      const middleAngle = (pieSlice.startAngle + pieSlice.endAngle) / 2 - Math.PI / 2
-      const labelRadius = maxRadius + 30
-      const x = centerX + labelRadius * Math.cos(middleAngle)
-      const y = centerY + labelRadius * Math.sin(middleAngle)
-      
-      // Split skill name into words for two-line layout if needed
-      const words = skill.shortName.split(' ')
-      
-      if (words.length === 1 || skill.shortName.length <= 12) {
-        // Single line for short text
-        svg.append('text')
-          .attr('x', x)
-          .attr('y', y)
-          .attr('text-anchor', 'middle')
-          .attr('dominant-baseline', 'middle')
-          .style('font-size', '12px')
-          .style('font-weight', '500')
-          .style('fill', '#374151')
-          .style('pointer-events', 'none')
-          .text(skill.shortName)
-      } else {
-        // Two lines for longer text
-        const midPoint = Math.ceil(words.length / 2)
-        const firstLine = words.slice(0, midPoint).join(' ')
-        const secondLine = words.slice(midPoint).join(' ')
+    // Add skill labels - positioned correctly at segment centers (only if not hidden)
+    if (!hideLabels) {
+      pieData.forEach((pieSlice, i) => {
+        const skill = pieSlice.data
         
-        // First line (slightly above center)
-        svg.append('text')
-          .attr('x', x)
-          .attr('y', y - 8)
-          .attr('text-anchor', 'middle')
-          .attr('dominant-baseline', 'middle')
-          .style('font-size', '11px')
-          .style('font-weight', '500')
-          .style('fill', '#374151')
-          .style('pointer-events', 'none')
-          .text(firstLine)
+        // Calculate middle angle of the segment
+        const middleAngle = (pieSlice.startAngle + pieSlice.endAngle) / 2 - Math.PI / 2
+        const labelRadius = maxRadius + 30
+        const x = centerX + labelRadius * Math.cos(middleAngle)
+        const y = centerY + labelRadius * Math.sin(middleAngle)
         
-        // Second line (slightly below center)
-        svg.append('text')
-          .attr('x', x)
-          .attr('y', y + 8)
-          .attr('text-anchor', 'middle')
-          .attr('dominant-baseline', 'middle')
-          .style('font-size', '11px')
-          .style('font-weight', '500')
-          .style('fill', '#374151')
-          .style('pointer-events', 'none')
-          .text(secondLine)
-      }
-    })
+        // Split skill name into words for two-line layout if needed
+        const words = skill.shortName.split(' ')
+        
+        if (words.length === 1 || skill.shortName.length <= 12) {
+          // Single line for short text
+          svg.append('text')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .style('font-size', '12px')
+            .style('font-weight', '500')
+            .style('fill', '#374151')
+            .style('pointer-events', 'none')
+            .text(skill.shortName)
+        } else {
+          // Two lines for longer text
+          const midPoint = Math.ceil(words.length / 2)
+          const firstLine = words.slice(0, midPoint).join(' ')
+          const secondLine = words.slice(midPoint).join(' ')
+          
+          // First line (slightly above center)
+          svg.append('text')
+            .attr('x', x)
+            .attr('y', y - 8)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .style('font-size', '11px')
+            .style('font-weight', '500')
+            .style('fill', '#374151')
+            .style('pointer-events', 'none')
+            .text(firstLine)
+          
+          // Second line (slightly below center)
+          svg.append('text')
+            .attr('x', x)
+            .attr('y', y + 8)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .style('font-size', '11px')
+            .style('font-weight', '500')
+            .style('fill', '#374151')
+            .style('pointer-events', 'none')
+            .text(secondLine)
+        }
+      })
+    }
 
     // Add center circle
     svg.append('circle')

@@ -176,7 +176,7 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
         className="relative p-8 border border-gray-200 dark:border-white/20 bg-white dark:bg-white/[0.02] backdrop-blur-sm"
         style={{
           backdropFilter: 'blur(10px)',
-          cursor: 'none'
+          
         }}
       >
         {/* Simple Corner Elements */}
@@ -266,13 +266,13 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
             <motion.button
               type="submit"
               disabled={isSubmitting || !formData.email.trim()}
-              className="cursor-button inline-flex items-center px-8 py-3 rounded-full font-mono transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-white"
+              className="inline-flex items-center px-8 py-3 rounded-full font-mono transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-white"
               style={{
                 background: 'rgba(6, 182, 212, 0.25)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(6, 182, 212, 0.4)',
                 boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
-                cursor: 'none'
+                
               }}
               whileHover={!isSubmitting && formData.email.trim() ? { 
                 scale: 1.05, 

@@ -5,7 +5,6 @@ import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap } from 'lucide-r
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
-import CustomCursor from '@/components/CustomCursor'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
 import ContactSection from '@/components/ContactSection'
 import { useState, useEffect } from 'react'
@@ -104,7 +103,6 @@ export default function AboutPageLight() {
 
   return (
     <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
-      <CustomCursor />
       
       {/* HERO SECTION - BAUHAUS LIGHT MODE STYLING */}
       <motion.section 

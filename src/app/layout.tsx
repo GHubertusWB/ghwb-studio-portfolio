@@ -5,7 +5,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation";
 import StarField from "@/components/StarField";
-import CustomCursor from "@/components/CustomCursor";
 import CursorFollower from "@/components/CursorFollower";
 
 const poppins = Poppins({
@@ -55,7 +54,6 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <CustomCursor />
           <CursorFollower />
           <StarField />
           <Navigation />

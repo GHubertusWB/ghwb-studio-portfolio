@@ -54,7 +54,6 @@ body {
   color: var(--foreground);
   font-feature-settings: "rlig" 1, "calt" 1;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  cursor: none; /* Verstecke Standard-Cursor */
 }
 
 /* Automatische Schriftarten für Headlines */

@@ -5,7 +5,6 @@ import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap } from 'lucide-r
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
-import CustomCursor from '@/components/CustomCursor'
 import ContactSection from '@/components/ContactSection'
 import { useState, useEffect } from 'react'
 
@@ -98,7 +97,6 @@ export default function AboutPageDark() {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--background), var(--background), rgba(42, 47, 54, 0.2))' }}>
-      <CustomCursor />
       
       {/* HERO HUD - identisch wie andere Dark Pages */}
       <motion.section 
@@ -187,12 +185,12 @@ export default function AboutPageDark() {
           {/* Back Button - exakt wie andere Dark Pages */}
           <motion.button
             onClick={() => window.history.back()}
-            className="cursor-button inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5"
+            className="inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5"
             style={{
               background: 'rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              cursor: 'none'
+              
             }}
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -372,8 +370,8 @@ export default function AboutPageDark() {
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ y: -5 }}
-                  className="group cursor-button relative"
-                  style={{ cursor: 'none' }}
+                  className="group relative"
+                  style={{  }}
                 >
                   <div className="relative p-6 bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/20 transition-all duration-300 hover:bg-white/10">
                     {/* Corner brackets - wie andere Dark Pages */}
@@ -434,8 +432,8 @@ export default function AboutPageDark() {
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05, y: -2 }}
-                className="cursor-button px-6 py-3 bg-white/5 border border-white/10 text-sm font-medium hover:border-white/20 hover:bg-white/10 transition-all duration-300 text-gray-300"
-                style={{ cursor: 'none' }}
+                className="px-6 py-3 bg-white/5 border border-white/10 text-sm font-medium hover:border-white/20 hover:bg-white/10 transition-all duration-300 text-gray-300"
+                style={{  }}
               >
                 {skill}
               </motion.span>
@@ -532,13 +530,13 @@ export default function AboutPageDark() {
             
             <motion.a
               href="mailto:office@ghwbstudio.de"
-              className="cursor-button inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono"
+              className="inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono"
               style={{
                 background: 'rgba(6, 182, 212, 0.25)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(6, 182, 212, 0.4)',
                 boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
-                cursor: 'none'
+                
               }}
               whileHover={{ 
                 scale: 1.05, 
