@@ -1,183 +1,239 @@
 import React, { forwardRef } from 'react';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'outline' | 'ghost' | 'primary' | 'secondary' | 'accent';
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'icon';
-  iconPosition?: 'left' | 'right';
+// Performanter Loading Spinner mit Framer Motion
+const LoadingSpinner = ({ size }: { size: 'xs' | 'sm' | 'base' }) => {
+  const spinnerSizes = {
+    xs: 'w-3 h-3',
+    sm: 'w-4 h-4', 
+    base: 'w-4 h-4'
+  };
+
+  return (
+    <motion.div
+      className={cn("border-2 border-current border-t-transparent rounded-full", spinnerSizes[size])}
+      animate={{ rotate: 360 }}
+      transition={{
+        duration: 0.8,
+        ease: "linear",
+        repeat: Infinity,
+      }}
+      style={{
+        willChange: 'transform'
+      }}
+    />
+  );
+};
+
+export interface ButtonProps extends Omit<HTMLMotionProps<"button">, 'children'> {
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  size?: 'xs' | 'sm' | 'base';
+  icon?: 'none' | 'left' | 'right' | 'only';
+  iconElement?: React.ReactNode;
   children?: React.ReactNode;
-  icon?: React.ReactNode;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ 
-    className, 
-    variant = 'default', 
-    size = 'md', 
-    iconPosition = 'left',
-    children, 
-    icon,
+    variant = 'secondary', 
+    size = 'base', 
+    icon = 'none',
+    iconElement,
+    children,
     disabled = false,
+    loading = false,
+    className,
     ...props 
   }, ref) => {
     
-    // Base styles - immer angewendet
+    // Base styles - rounded pill buttons wie im Figma
     const baseStyles = cn(
-      // Basic layout
-      "inline-flex items-center justify-center gap-2 rounded-[50px] overflow-hidden",
-      "font-semibold font-['Poppins'] transition-all duration-200 ease-in-out",
-      // Cursor behavior
+      "relative inline-flex items-center justify-center rounded-full",
+      "font-['Poppins'] font-semibold leading-tight",
+      "transition-all duration-200 ease-in-out",
+      "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
       disabled 
-        ? "cursor-not-allowed" 
-        : "cursor-pointer",
-      // Focus states
-      "focus:outline-none focus:ring-2 focus:ring-offset-2",
-      // Hover and active transforms
-      !disabled && "hover:scale-[1.02] active:scale-[0.98]"
+        ? "cursor-not-allowed opacity-60" 
+        : loading
+        ? "cursor-wait opacity-80"
+        : "cursor-pointer"
     );
 
-    // Size variants
+    // Framer Motion Glow Animation Varianten - optimiert für sofortige Reaktion
+    const isDisabledOrLoading = disabled || loading;
+    
+    const glowVariants = {
+      rest: {
+        boxShadow: isDisabledOrLoading ? 'none' : (() => {
+          switch (variant) {
+            case 'primary':
+              return '0 0 8px rgba(6, 182, 212, 0.2), 0 0 16px rgba(6, 182, 212, 0.1)';
+            case 'secondary':
+              return '0 0 8px rgba(6, 182, 212, 0.15), 0 0 16px rgba(6, 182, 212, 0.05)';
+            case 'tertiary':
+              return 'none';
+            default:
+              return '0 0 8px rgba(6, 182, 212, 0.15), 0 0 16px rgba(6, 182, 212, 0.05)';
+          }
+        })(),
+        scale: 1
+      },
+      hover: isDisabledOrLoading ? {} : {
+        boxShadow: '0 0 12px rgba(6, 182, 212, 0.3), 0 0 24px rgba(6, 182, 212, 0.15)'
+      },
+      tap: isDisabledOrLoading ? {} : {
+        scale: 0.98
+      },
+      loading: {
+        boxShadow: 'none',
+        scale: 1
+      }
+    };
+
+    // Size variants - exakt nach Figma Größen
     const sizeVariants = {
-      xs: "px-3 py-2 text-xs leading-none gap-2",
-      sm: "px-5 py-2.5 text-sm leading-tight gap-3", 
-      md: "px-5 py-3 text-base leading-normal gap-3",
-      lg: "px-6 py-3.5 text-base leading-normal gap-3",
-      icon: "p-4 text-base" // Nur für Icon-only buttons
+      xs: {
+        padding: icon === 'only' ? "p-2" : "px-3 py-2",
+        text: "text-xs",
+        gap: "gap-1.5",
+        iconSize: "w-3 h-3"
+      },
+      sm: {
+        padding: icon === 'only' ? "p-2.5" : "px-4 py-2.5",
+        text: "text-sm",
+        gap: "gap-2",
+        iconSize: "w-4 h-4"
+      },
+      base: {
+        padding: icon === 'only' ? "p-3" : "px-5 py-3",
+        text: "text-sm",
+        gap: "gap-2",
+        iconSize: "w-4 h-4"
+      }
     };
 
-    // Variant styles
+    // Variant styles - mit exakten #06B6D4 Farben und Deckkraft
     const variantStyles = {
-      // Default - neutral gray background
-      default: disabled 
-        ? "bg-neutral-200/30 text-gray-400 dark:text-gray-500"
-        : cn(
-            "bg-neutral-200/50 text-gray-500 dark:text-white",
-            "hover:bg-neutral-200/70 hover:text-gray-600 dark:hover:text-white",
-            "active:bg-neutral-200/80 active:text-gray-600 dark:active:text-white",
-            "focus:ring-gray-300"
-          ),
-      
-      // Outline - border with transparent background
-      outline: disabled
-        ? "outline outline-2 outline-gray-200 text-gray-400 dark:text-gray-500 bg-transparent"
-        : cn(
-            "outline outline-[3px] outline-sky-200 text-gray-900 dark:text-white bg-transparent",
-            "hover:outline-sky-300 hover:bg-sky-50/50 hover:text-gray-900 dark:hover:text-white",
-            "active:outline-sky-400 active:bg-sky-50/70 active:text-gray-900 dark:active:text-white",
-            "focus:ring-sky-300"
-          ),
-      
-      // Ghost - minimal styling
-      ghost: disabled
-        ? "text-gray-400 dark:text-gray-500 bg-transparent"
-        : cn(
-            "bg-transparent",
-            "!text-gray-900 dark:!text-white",
-            "hover:bg-gray-100/50 hover:!text-gray-900 dark:hover:!text-white",
-            "active:bg-gray-100/70 active:!text-gray-900 dark:active:!text-white",
-            "focus:ring-gray-300"
-          ),
-      
-      // Primary - cyan accent color
+      // Primary - #06B6D4 mit 15% Default, 50% Hover, 1px Border im Light Mode
       primary: disabled
-        ? "bg-cyan-200/30 text-gray-400 dark:text-gray-500"
+        ? "bg-gray-300 text-gray-500 dark:bg-gray-600 dark:text-gray-400"
         : cn(
-            "bg-cyan-500/50",
-            "!text-gray-900 dark:!text-white",
-            "hover:bg-cyan-500/60 hover:shadow-lg hover:!text-gray-900 dark:hover:!text-white",
-            "active:bg-cyan-500/70 active:!text-gray-900 dark:active:!text-white",
-            "focus:ring-cyan-300"
+            "bg-cyan-500/15 border border-cyan-500 text-foreground",
+            "hover:bg-cyan-500/50 hover:border-white hover:text-foreground",
+            "focus-visible:bg-cyan-500/15 focus-visible:ring-cyan-500 focus-visible:text-foreground",
+            "active:bg-cyan-500/60 active:text-foreground",
+            // Dark Mode ohne Border und normale Hover-Farbe
+            "dark:border-transparent dark:hover:border-transparent"
           ),
       
-      // Secondary - cyan with outline
+      // Secondary - transparent mit 1px #06B6D4 Border
       secondary: disabled
-        ? "bg-cyan-200/20 outline outline-1 outline-cyan-200/30 text-gray-400 dark:text-gray-500"
+        ? "bg-gray-200 border border-gray-300 text-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500"
         : cn(
-            "bg-cyan-500/20 outline outline-1 outline-offset-[-1px] outline-cyan-500/50",
-            "!text-gray-900 dark:!text-white",
-            "hover:bg-cyan-500/30 hover:outline-cyan-500/60 hover:!text-gray-900 dark:hover:!text-white",
-            "active:bg-cyan-500/40 active:!text-gray-900 dark:active:!text-white",
-            "focus:ring-cyan-300"
+            "bg-transparent border border-cyan-500 text-foreground",
+            "hover:bg-cyan-500/25 hover:border-white hover:text-foreground",
+            "focus-visible:bg-transparent focus-visible:border-cyan-500 focus-visible:ring-cyan-500 focus-visible:text-foreground",
+            "active:bg-cyan-500/30 active:border-cyan-500 active:text-foreground",
+            // Dark Mode spezifische Border-Farben
+            "dark:border-cyan-400 dark:hover:border-cyan-300"
           ),
       
-      // Accent - cyan outline only
-      accent: disabled
-        ? "outline outline-1 outline-cyan-200/30 text-gray-400 dark:text-gray-500 bg-transparent"
+      // Tertiary - transparent ohne Border, Hover #06B6D4 25%
+      tertiary: disabled
+        ? "bg-transparent border border-gray-300 text-gray-400 dark:border-gray-600 dark:text-gray-500"
         : cn(
-            "outline outline-1 outline-offset-[-1px] outline-cyan-500/50 text-gray-900 dark:text-white bg-transparent",
-            "hover:outline-cyan-500/60 hover:bg-cyan-50/30 hover:text-gray-900 dark:hover:text-white",
-            "active:outline-cyan-500/70 active:bg-cyan-50/50 active:text-gray-900 dark:active:text-white",
-            "focus:ring-cyan-300"
+            "bg-transparent text-foreground",
+            "hover:bg-cyan-500/25 hover:border hover:border-cyan-400 hover:text-foreground",
+            "focus-visible:bg-transparent focus-visible:border focus-visible:border-cyan-500 focus-visible:ring-cyan-500 focus-visible:text-foreground",
+            "active:bg-cyan-500/30 active:border active:border-cyan-500 active:text-foreground",
+            // Dark Mode spezifische Border-Farbe für Hover-Zustände
+            "dark:hover:border-cyan-300"
           )
-    };
-
-    // Icon size based on button size
-    const getIconSize = (size: string) => {
-      switch (size) {
-        case 'xs': return 'w-3 h-3';
-        case 'sm': return 'w-4 h-4';
-        case 'md': return 'w-5 h-5';
-        case 'lg': return 'w-5 h-5';
-        case 'icon': return 'w-5 h-5';
-        default: return 'w-5 h-5';
-      }
-    };
-
-    // Content rendering based on icon position
-    const renderContent = () => {
-      if (!icon && !children) {
-        return null;
-      }
-
-      if (!icon) {
-        return <span className="justify-start">{children}</span>;
-      }
-
-      const iconElement = icon as React.ReactElement<any>;
-      const iconWithSize = React.cloneElement(iconElement, {
-        className: cn(getIconSize(size), iconElement.props?.className)
-      });
-
-      if (size === 'icon' || !children) {
-        return iconWithSize;
-      }
-
-      if (iconPosition === 'right') {
-        return (
-          <>
-            <span className="justify-start">{children}</span>
-            {iconWithSize}
-          </>
-        );
-      }
-
+    };    const currentSize = sizeVariants[size] || sizeVariants.base;
+    
+    // Icon rendern
+    const renderIcon = () => {
+      if (!iconElement || icon === 'none') return null;
+      
       return (
-        <>
-          {iconWithSize}
-          <span className="justify-start">{children}</span>
-        </>
+        <span className={currentSize.iconSize}>
+          {iconElement}
+        </span>
       );
     };
 
+    // Content rendern mit Loading-State
+    const renderContent = () => {
+      if (loading) {
+        if (icon === 'only') {
+          return <LoadingSpinner size={size} />;
+        }
+        
+        return (
+          <>
+            <LoadingSpinner size={size} />
+            {children && <span className="ml-2">{children}</span>}
+          </>
+        );
+      }
+      
+      const iconComponent = renderIcon();
+      
+      if (icon === 'only') {
+        return iconComponent;
+      }
+      
+      if (icon === 'left') {
+        return (
+          <>
+            {iconComponent}
+            <span>{children}</span>
+          </>
+        );
+      }
+      
+      if (icon === 'right') {
+        return (
+          <>
+            <span>{children}</span>
+            {iconComponent}
+          </>
+        );
+      }
+      
+      return <span>{children}</span>;
+    };
+
     return (
-      <button
+      <motion.button
         className={cn(
           baseStyles,
-          sizeVariants[size],
-          variantStyles[variant],
+          currentSize.padding,
+          currentSize.text,
+          (icon !== 'none' && icon !== 'only' && !loading) && currentSize.gap,
+          loading && currentSize.gap, // Gap für Loading-State
+          variantStyles[variant] || variantStyles.secondary,
           className
         )}
-        style={{
-          borderRadius: '50px',
-          ...props.style
+        variants={glowVariants}
+        initial="rest"
+        animate={loading ? "loading" : "rest"}
+        whileHover={!isDisabledOrLoading ? "hover" : undefined}
+        whileTap={!isDisabledOrLoading ? "tap" : undefined}
+        transition={{
+          type: "tween",
+          duration: 0.1,
+          ease: "easeOut"
         }}
         ref={ref}
-        disabled={disabled}
+        disabled={disabled || loading}
         {...props}
       >
         {renderContent()}
-      </button>
+      </motion.button>
     );
   }
 );

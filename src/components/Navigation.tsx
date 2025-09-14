@@ -67,8 +67,8 @@ const Navigation = () => {
                     whileTap={{ scale: 0.95 }}
                   >
                     <Button
-                      variant={pathname === item.href ? "primary" : "ghost"}
-                      size="sm"
+                      variant="tertiary"
+                      size="xs"
                       className={cn(
                         "relative text-sm transition-colors",
                         pathname === item.href
@@ -100,8 +100,9 @@ const Navigation = () => {
             <div className="flex items-center space-x-4">
               <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
                 <Button
-                  variant="ghost"
-                  size="icon"
+                  variant="tertiary"
+                  size="md"
+                  icon="only"
                   onClick={toggleTheme}
                   className="rounded-full shadow-lg"
                   style={{
@@ -113,7 +114,7 @@ const Navigation = () => {
                       ? '1px solid rgba(255, 255, 255, 0.2)' 
                       : '1px solid rgba(0, 0, 0, 0.1)'
                   }}
-                  icon={
+                  iconElement={
                     <motion.div
                       initial={false}
                       animate={{ rotate: theme === 'dark' ? 0 : 180 }}
@@ -131,8 +132,9 @@ const Navigation = () => {
 
               <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
                 <Button
-                  variant="ghost"
-                  size="icon"
+                  variant="tertiary"
+                  size="md"
+                  icon="only"
                   onClick={() => setIsOpen(!isOpen)}
                   className="md:hidden rounded-full shadow-lg"
                   style={{
@@ -144,7 +146,7 @@ const Navigation = () => {
                       ? '1px solid rgba(255, 255, 255, 0.2)' 
                       : '1px solid rgba(0, 0, 0, 0.1)'
                   }}
-                  icon={
+                  iconElement={
                     <motion.div
                       initial={false}
                       animate={{ rotate: isOpen ? 180 : 0 }}
@@ -193,7 +195,7 @@ const Navigation = () => {
                         onClick={() => setIsOpen(false)}
                       >
                         <Button
-                          variant={pathname === item.href ? "primary" : "ghost"}
+                          variant="tertiary"
                           size="md"
                           className={cn(
                             "w-full justify-start text-lg relative",

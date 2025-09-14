@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+/* Prevent flash of unstyled content */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #1a1d23;
+    --foreground: #fafafa;
+    --card: #1a1d23;
+    --card-foreground: #fafafa;
+    --popover: #1a1d23;
+    --popover-foreground: #fafafa;
+    --primary: #fafafa;
+    --primary-foreground: #1a1d23;
+    --secondary: #2a2f36;
+    --secondary-foreground: #fafafa;
+    --muted: #2a2f36;
+    --muted-foreground: #a3a3a3;
+    --accent: #2a2f36;
+    --accent-foreground: #fafafa;
+    --destructive: #7f1d1d;
+    --destructive-foreground: #fafafa;
+    --border: #2a2f36;
+    --input: #2a2f36;
+    --ring: #d4d4d4;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #1f2d45;

@@ -48,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" suppressHydrationWarning>
+    <html lang="de" suppressHydrationWarning className="transition-colors duration-300">
       <body
         className={`${poppins.variable} ${atkinsonHyperlegible.variable} font-sans antialiased`}
         suppressHydrationWarning

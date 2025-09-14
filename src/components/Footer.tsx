@@ -46,20 +46,17 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="flex flex-wrap justify-center gap-8 mb-12"
+            className="flex flex-wrap justify-center gap-4 mb-12"
           >
             {footerLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <motion.span
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 400 }}
+              <Link key={link.href} href={link.href}>
+                <Button
+                  variant="tertiary"
+                  size="sm"
+                  className="text-muted-foreground hover:text-foreground"
                 >
                   {link.label}
-                </motion.span>
+                </Button>
               </Link>
             ))}
           </motion.div>
@@ -102,12 +99,24 @@ const Footer = () => {
             © 2025 GHWB Studio. Alle Rechte vorbehalten.
           </p>
           
-          <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-            <Link href="/impressum" className="hover:text-foreground transition-colors">
-              Impressum
+          <div className="flex space-x-4">
+            <Link href="/impressum">
+              <Button
+                variant="tertiary"
+                size="xs"
+                className="text-muted-foreground hover:text-foreground text-sm"
+              >
+                Impressum
+              </Button>
             </Link>
-            <Link href="/datenschutz" className="hover:text-foreground transition-colors">
-              Datenschutz
+            <Link href="/datenschutz">
+              <Button
+                variant="tertiary"
+                size="xs"
+                className="text-muted-foreground hover:text-foreground text-sm"
+              >
+                Datenschutz
+              </Button>
             </Link>
           </div>
         </motion.div>
@@ -123,12 +132,14 @@ const Footer = () => {
         className="absolute top-8 right-8"
       >
         <Button
-          variant="outline"
-          size="icon"
+          variant="secondary"
+          size="sm"
           onClick={scrollToTop}
           className="bg-background border-border/50 hover:border-border"
-          icon={<ArrowUp className="w-5 h-5" />}
-        />
+          icon="only"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </Button>
       </motion.div>
     </footer>
   )

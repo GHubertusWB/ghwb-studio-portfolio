@@ -68,13 +68,14 @@ const Hero = () => {
               const services = document.getElementById('services');
               if (services) services.scrollIntoView({ behavior: 'smooth' });
             }}
-            icon={<Sparkles className="w-4 h-4" />}
+            icon="left"
+            iconElement={<Sparkles className="w-4 h-4" />}
           >
             Meine Services
           </Button>
           
           <Button
-            variant="secondary"
+            variant="tertiary"
             size="lg"
             onClick={() => {
               const contact = document.getElementById('contact');
@@ -94,8 +95,8 @@ const Hero = () => {
           className="mt-16"
         >
           <Button
-            variant="ghost"
-            size="icon" 
+            variant="tertiary"
+            size="md"
             onClick={scrollToNext}
             className="p-4"
           >

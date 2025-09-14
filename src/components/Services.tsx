@@ -96,6 +96,21 @@ const Services = () => {
                     {/* Gradient background */}
                     <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                     
+                    {/* Arrow on the right side - same height as icon */}
+                    <motion.div
+                      className="absolute top-8 right-8 flex items-center justify-center w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      animate={{
+                        x: [0, 6, 0]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <ArrowRight className="w-5 h-5 text-foreground" />
+                    </motion.div>
+                    
                     {/* Content */}
                     <div className="relative z-10">
                       <motion.div
@@ -110,18 +125,9 @@ const Services = () => {
                         {service.title}
                       </h3>
 
-                      <p className="text-base text-muted-foreground leading-7 mb-6">
+                      <p className="text-base text-muted-foreground leading-7">
                         {service.description}
                       </p>
-
-                      <motion.div
-                        className="text-primary hover:text-secondary transition-colors underline underline-offset-2"
-                        whileHover={{ x: 5 }}
-                        transition={{ type: "spring", stiffness: 400 }}
-                      >
-                        Mehr erfahren
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </motion.div>
                     </div>
 
                     {/* Floating elements */}
@@ -162,20 +168,14 @@ const Services = () => {
           className="text-center mt-16"
         >
           <Link href="/about">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <Button
+              variant="secondary"
+              size="base"
+              icon="right"
+              iconElement={<ArrowRight className="w-4 h-4" />}
             >
-              <Button
-                variant="primary"
-                size="lg"
-                className="text-label text-primary bg-foreground text-background hover:bg-foreground/90"
-                iconPosition="right"
-                icon={<ArrowRight className="w-4 h-4" />}
-              >
-                Über mich erfahren
-              </Button>
-            </motion.div>
+              Mehr über mich erfahren
+            </Button>
           </Link>
         </motion.div>
       </div>

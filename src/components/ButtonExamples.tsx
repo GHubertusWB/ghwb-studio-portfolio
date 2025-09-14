@@ -1,129 +1,134 @@
-import { Button } from './ui/Button';
+'use client'
 
-// Beispiel für die Verwendung der Button-Komponente
+import { Button } from './ui/Button';
+import { useTheme } from '@/contexts/ThemeContext';
+
+// Beispiel für die Verwendung der Button-Komponente - basierend auf Figma-Design
 
 const ButtonExamples = () => {
+  const { theme } = useTheme();
   return (
-    <div className="p-8 space-y-8">
-      <h2 className="text-2xl font-bold mb-6">Button Component Examples</h2>
+    <div className="p-8 space-y-12 bg-background relative z-10">
+      <div className="mb-4 text-sm text-muted-foreground">
+        Current Theme: <span className="font-semibold">{theme}</span>
+      </div>
+      <h2 className="text-2xl font-bold mb-6 text-foreground">Button Component Examples</h2>
       
-      {/* Default Buttons */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Default Variant</h3>
-        <div className="flex flex-wrap gap-4">
-          <Button size="xs">Button text</Button>
-          <Button size="sm">Button text</Button>
-          <Button size="md">Button text</Button>
-          <Button size="lg">Button text</Button>
+      {/* Button Matrix - wie im Figma */}
+      <section className="space-y-6">
+        <h3 className="text-lg font-semibold text-foreground">Complete Button Matrix</h3>
+        
+        {/* Alle Größen Header */}
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-muted-foreground">Variant / Size</div>
+          <div className="text-sm font-medium text-muted-foreground text-center">XS</div>
+          <div className="text-sm font-medium text-muted-foreground text-center">SM</div>
+          <div className="text-sm font-medium text-muted-foreground text-center">BASE</div>
         </div>
-      </section>
 
-      {/* Outline Buttons */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Outline Variant</h3>
-        <div className="flex flex-wrap gap-4">
-          <Button variant="outline" size="xs">Button text</Button>
-          <Button variant="outline" size="sm">Button text</Button>
-          <Button variant="outline" size="md">Button text</Button>
-          <Button variant="outline" size="lg">Button text</Button>
-        </div>
-      </section>
-
-      {/* Primary Buttons */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Primary Variant</h3>
-        <div className="flex flex-wrap gap-4">
+        {/* Primary Row */}
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-foreground">Primary</div>
           <Button variant="primary" size="xs">Button text</Button>
           <Button variant="primary" size="sm">Button text</Button>
-          <Button variant="primary" size="md">Button text</Button>
-          <Button variant="primary" size="lg">Button text</Button>
+          <Button variant="primary" size="base">Button text</Button>
         </div>
-      </section>
 
-      {/* Secondary Buttons */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Secondary Variant</h3>
-        <div className="flex flex-wrap gap-4">
+        {/* Secondary Row */}
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-foreground">Secondary</div>
           <Button variant="secondary" size="xs">Button text</Button>
           <Button variant="secondary" size="sm">Button text</Button>
-          <Button variant="secondary" size="md">Button text</Button>
-          <Button variant="secondary" size="lg">Button text</Button>
+          <Button variant="secondary" size="base">Button text</Button>
+        </div>
+
+        {/* Tertiary Row */}
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-foreground">Tertiary</div>
+          <Button variant="tertiary" size="xs">Button text</Button>
+          <Button variant="tertiary" size="sm">Button text</Button>
+          <Button variant="tertiary" size="base">Button text</Button>
         </div>
       </section>
 
-      {/* Accent Buttons */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Accent Variant</h3>
-        <div className="flex flex-wrap gap-4">
-          <Button variant="accent" size="xs">Button text</Button>
-          <Button variant="accent" size="sm">Button text</Button>
-          <Button variant="accent" size="md">Button text</Button>
-          <Button variant="accent" size="lg">Button text</Button>
+      {/* Icons Left */}
+      <section className="space-y-6">
+        <h3 className="text-lg font-semibold text-foreground">Buttons with Icons Left</h3>
+        
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-foreground">Primary + Icon</div>
+          <Button variant="primary" size="xs" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+          <Button variant="primary" size="sm" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+          <Button variant="primary" size="base" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-foreground">Secondary + Icon</div>
+          <Button variant="secondary" size="xs" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+          <Button variant="secondary" size="sm" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+          <Button variant="secondary" size="base" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-foreground">Tertiary + Icon</div>
+          <Button variant="tertiary" size="xs" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+          <Button variant="tertiary" size="sm" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+          <Button variant="tertiary" size="base" icon="left" iconElement={<CloudArrowDownIcon />}>Button text</Button>
         </div>
       </section>
 
-      {/* Buttons with Icons */}
-      <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Buttons with Icons</h3>
-        <div className="flex flex-wrap gap-4">
-          <Button 
-            variant="primary" 
-            size="md"
-            icon={<CloudArrowDownIcon />}
-          >
-            Download
-          </Button>
-          <Button 
-            variant="secondary" 
-            size="md"
-            icon={<CloudArrowDownIcon />}
-            iconPosition="right"
-          >
-            Upload
-          </Button>
-          <Button 
-            variant="outline" 
-            size="icon"
-            icon={<CloudArrowDownIcon />}
-          />
+      {/* Icons Right */}
+      <section className="space-y-6">
+        <h3 className="text-lg font-semibold text-foreground">Buttons with Icons Right</h3>
+        
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-foreground">Primary + Icon</div>
+          <Button variant="primary" size="xs" icon="right" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+          <Button variant="primary" size="sm" icon="right" iconElement={<CloudArrowDownIcon />}>Button text</Button>
+          <Button variant="primary" size="base" icon="right" iconElement={<CloudArrowDownIcon />}>Button text</Button>
         </div>
       </section>
 
-      {/* Disabled Buttons */}
+      {/* Icon Only */}
+      <section className="space-y-6">
+        <h3 className="text-lg font-semibold text-foreground">Icon Only Buttons</h3>
+        
+        <div className="grid grid-cols-4 gap-4 items-center">
+          <div className="text-sm font-medium text-foreground">Icon Only</div>
+          <Button variant="primary" size="xs" icon="only" iconElement={<CloudArrowDownIcon />} />
+          <Button variant="primary" size="sm" icon="only" iconElement={<CloudArrowDownIcon />} />
+          <Button variant="primary" size="base" icon="only" iconElement={<CloudArrowDownIcon />} />
+        </div>
+      </section>
+
+      {/* Disabled States */}
       <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Disabled Buttons</h3>
+        <h3 className="text-lg font-semibold text-foreground">Disabled States</h3>
         <div className="flex flex-wrap gap-4">
-          <Button disabled>Default Disabled</Button>
-          <Button variant="outline" disabled>Outline Disabled</Button>
           <Button variant="primary" disabled>Primary Disabled</Button>
           <Button variant="secondary" disabled>Secondary Disabled</Button>
-          <Button 
-            variant="primary" 
-            disabled
-            icon={<CloudArrowDownIcon />}
-          >
-            With Icon Disabled
-          </Button>
+          <Button variant="tertiary" disabled>Tertiary Disabled</Button>
+        </div>
+      </section>
+
+      {/* Loading States */}
+      <section className="space-y-4">
+        <h3 className="text-lg font-semibold text-foreground">Loading States</h3>
+        <div className="flex flex-wrap gap-4">
+          <Button variant="primary" loading>Loading Primary</Button>
+          <Button variant="secondary" loading>Loading Secondary</Button>
+          <Button variant="tertiary" loading>Loading Tertiary</Button>
+          <Button variant="primary" loading icon="only" iconElement={<CloudArrowDownIcon />} />
         </div>
       </section>
 
       {/* Interactive Examples */}
       <section className="space-y-4">
-        <h3 className="text-lg font-semibold">Interactive Examples</h3>
+        <h3 className="text-lg font-semibold text-foreground">Interactive Examples</h3>
         <div className="flex flex-wrap gap-4">
-          <Button 
-            variant="primary" 
-            onClick={() => alert('Button clicked!')}
-          >
-            Click me
-          </Button>
-          <Button 
-            variant="secondary"
-            onClick={() => console.log('Secondary button clicked')}
-            icon={<CloudArrowDownIcon />}
-          >
-            Log to Console
-          </Button>
+          <Button variant="primary" onClick={() => alert('Primary button clicked!')}>Click me</Button>
+          <Button variant="secondary" onClick={() => console.log('Secondary button clicked')} icon="left" iconElement={<CloudArrowDownIcon />}>Log to Console</Button>
+          <Button variant="tertiary" onClick={() => window.open('https://example.com', '_blank')}>Open Link</Button>
         </div>
       </section>
     </div>
