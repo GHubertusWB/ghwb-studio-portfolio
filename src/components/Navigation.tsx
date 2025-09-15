@@ -100,20 +100,10 @@ const Navigation = () => {
             <div className="flex items-center space-x-4">
               <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
                 <Button
-                  variant="tertiary"
+                  variant="secondary"
                   size="base"
                   icon="only"
                   onClick={toggleTheme}
-                  className="rounded-full shadow-lg"
-                  style={{
-                    background: theme === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.1)' 
-                      : 'rgba(0, 0, 0, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    border: theme === 'dark' 
-                      ? '1px solid rgba(255, 255, 255, 0.2)' 
-                      : '1px solid rgba(0, 0, 0, 0.1)'
-                  }}
                   iconElement={
                     <motion.div
                       initial={false}
@@ -121,9 +111,9 @@ const Navigation = () => {
                       transition={{ duration: 0.5, ease: "easeInOut" }}
                     >
                       {theme === 'dark' ? (
-                        <Sun className="w-5 h-5" />
+                        <Sun className="w-4 h-4" />
                       ) : (
-                        <Moon className="w-5 h-5" />
+                        <Moon className="w-4 h-4" />
                       )}
                     </motion.div>
                   }

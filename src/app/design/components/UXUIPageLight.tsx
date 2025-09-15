@@ -139,31 +139,6 @@ export default function UXUIPageLight() {
         </div>
 
         <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 40 }}>
-          {/* Back Button - Startseite Button Styling */}
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            className="mb-16"
-          >
-            <Button
-              variant="tertiary"
-              size="xs"
-              onClick={() => window.history.back()}
-              className="shadow-lg"
-              style={{
-                background: 'rgba(0, 0, 0, 0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(0, 0, 0, 0.1)'
-              }}
-              icon="left"
-              iconElement={<ArrowLeft className="w-4 h-4" />}
-            >
-              <span className="tracking-wide">Zurück</span>
-            </Button>
-          </motion.div>
-
           {/* Main Content - Startseite Typography */}
           <motion.div
             className="relative"
@@ -211,7 +186,7 @@ export default function UXUIPageLight() {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <Button 
-                variant="tertiary"
+                variant="secondary"
                 size="base"
                 onClick={() => { const skills = document.getElementById('skills-section'); if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
                 icon="left"
@@ -221,7 +196,7 @@ export default function UXUIPageLight() {
               </Button>
               
               <Button 
-                variant="secondary"
+                variant="primary"
                 size="base"
                 onClick={() => { const contact = document.getElementById('contact-section'); if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
               >

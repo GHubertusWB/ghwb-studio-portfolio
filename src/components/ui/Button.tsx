@@ -55,6 +55,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       "font-['Poppins'] font-semibold leading-tight",
       "transition-all duration-200 ease-in-out",
       "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
+      "!outline-none", // Forciert outline: none mit !important
       disabled 
         ? "cursor-not-allowed opacity-60" 
         : loading
@@ -117,28 +118,24 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     // Variant styles - mit exakten #06B6D4 Farben und Deckkraft
     const variantStyles = {
-      // Primary - #06B6D4 mit 15% Default, 50% Hover, 1px Border im Light Mode
+      // Primary - #06B6D4 mit 15% Default, 50% Hover, Border: automatischer Theme-Wechsel
       primary: disabled
         ? "bg-gray-300 text-gray-500 dark:bg-gray-600 dark:text-gray-400"
         : cn(
-            "bg-cyan-500/15 border border-cyan-500 text-foreground",
-            "hover:bg-cyan-500/50 hover:border-white hover:text-foreground",
+            "bg-cyan-500/15 border border-foreground text-foreground",
+            "hover:bg-cyan-500/50 hover:border-foreground hover:text-foreground",
             "focus-visible:bg-cyan-500/15 focus-visible:ring-cyan-500 focus-visible:text-foreground",
-            "active:bg-cyan-500/60 active:text-foreground",
-            // Dark Mode ohne Border und normale Hover-Farbe
-            "dark:border-transparent dark:hover:border-transparent"
+            "active:bg-cyan-500/60 active:text-foreground"
           ),
       
       // Secondary - transparent mit 1px #06B6D4 Border
       secondary: disabled
         ? "bg-gray-200 border border-gray-300 text-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-500"
         : cn(
-            "bg-transparent border border-cyan-500 text-foreground",
-            "hover:bg-cyan-500/25 hover:border-white hover:text-foreground",
+            "bg-transparent border border-foreground text-foreground",
+            "hover:bg-cyan-500/25 hover:border-foreground hover:text-foreground",
             "focus-visible:bg-transparent focus-visible:border-cyan-500 focus-visible:ring-cyan-500 focus-visible:text-foreground",
-            "active:bg-cyan-500/30 active:border-cyan-500 active:text-foreground",
-            // Dark Mode spezifische Border-Farben
-            "dark:border-cyan-400 dark:hover:border-cyan-300"
+            "active:bg-cyan-500/30 active:border-foreground active:text-foreground"
           ),
       
       // Tertiary - transparent ohne Border, Hover #06B6D4 25%
@@ -146,11 +143,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ? "bg-transparent border border-gray-300 text-gray-400 dark:border-gray-600 dark:text-gray-500"
         : cn(
             "bg-transparent text-foreground",
-            "hover:bg-cyan-500/25 hover:border hover:border-cyan-400 hover:text-foreground",
+            "hover:bg-cyan-500/25 hover:border hover:border-cyan-500 hover:text-foreground",
             "focus-visible:bg-transparent focus-visible:border focus-visible:border-cyan-500 focus-visible:ring-cyan-500 focus-visible:text-foreground",
-            "active:bg-cyan-500/30 active:border active:border-cyan-500 active:text-foreground",
-            // Dark Mode spezifische Border-Farbe für Hover-Zustände
-            "dark:hover:border-cyan-300"
+            "active:bg-cyan-500/30 active:border active:border-cyan-500 active:text-foreground"
           )
     };    const currentSize = sizeVariants[size] || sizeVariants.base;
     
@@ -230,6 +225,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         }}
         ref={ref}
         disabled={disabled || loading}
+        style={{ outline: 'none', ...props.style }}
         {...props}
       >
         {renderContent()}

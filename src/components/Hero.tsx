@@ -75,7 +75,7 @@ const Hero = () => {
           </Button>
           
           <Button
-            variant="tertiary"
+            variant="primary"
             size="base"
             onClick={() => {
               const contact = document.getElementById('contact');

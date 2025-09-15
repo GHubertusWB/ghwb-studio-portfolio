@@ -18,6 +18,7 @@ const config: Config = {
         primary: {
           DEFAULT: "var(--primary)",
           foreground: "var(--primary-foreground)",
+          border: "var(--primary-border)",
         },
         secondary: {
           DEFAULT: "var(--secondary)",

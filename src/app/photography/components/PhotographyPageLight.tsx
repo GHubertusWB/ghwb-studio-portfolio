@@ -9,16 +9,7 @@ import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
 import { photographyImages } from '@/data/gallery'
 import { Button } from '@/components/ui/Button'
 
-// TypeScript Interfaces (same as dark version)
-interface Service {
-  id: number;
-  title: string;
-  category: string;
-  description: string;
-  approach: string;
-  image: string;
-  gridSpan: string;
-}
+
 
 /**
  * PhotographyPageLight Component (Page)
@@ -37,6 +28,35 @@ export default function PhotographyPageLight(): React.JSX.Element {
   const servicesRef = useRef<HTMLElement>(null)
   const portfolioRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
+
+  // Vordefiniertes Raster-Muster - zufällig aber ausgewogen, jede Zeile summiert sich zu 3 Spalten
+  const predefinedGridPattern = [
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    1, // 2x1 - Querformat 
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    4, // 2x2 - Quadrat groß
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    1, // 2x1 - Querformat
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    2, // 3x1 - Panorama (komplette Zeile)
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    1, // 2x1 - Querformat
+    4, // 2x2 - Quadrat groß
+    0  // 1x1 - Quadrat klein
+  ]
 
   // Real-time clock for consistency
   useEffect(() => {
@@ -101,27 +121,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
     setGalleryImages(photographyImages)
   }, [])
 
-  // Photography services data (same as dark version)
-  const services: Service[] = [
-    {
-      id: 1,
-      title: "Porträtfotografie",
-      category: "PORTRAIT",
-      description: "Individuelle Porträts, die die Persönlichkeit und Ausstrahlung jedes Menschen einfangen. Von Business-Portraits bis hin zu kreativen Kunstporträts.",
-      approach: "Natürliches Licht • Authentische Momente • Professionelle Nachbearbeitung",
-      image: "/api/placeholder/400/500",
-      gridSpan: "col-span-1 row-span-1"
-    },
-    {
-      id: 2,
-      title: "Haustierfotografie",
-      category: "PETS",
-      description: "Liebevolle Aufnahmen Ihrer vierbeinigen Familienmitglieder in natürlicher Umgebung. Einzigartige Persönlichkeiten festgehalten.",
-      approach: "Geduldiger Ansatz • Natürliche Umgebung • Emotionale Verbindung",
-      image: "/api/placeholder/500/400",
-      gridSpan: "col-span-1 row-span-1"
-    }
-  ]
+
 
   return (
     <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
@@ -179,31 +179,6 @@ export default function PhotographyPageLight(): React.JSX.Element {
         </div>
 
         <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 40 }}>
-          {/* Back Button - Startseite Button Styling */}
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            className="mb-16"
-          >
-            <Button
-              variant="tertiary"
-              size="xs"
-              onClick={() => window.history.back()}
-              className="shadow-lg"
-              style={{
-                background: 'rgba(0, 0, 0, 0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(0, 0, 0, 0.1)'
-              }}
-              icon="left"
-              iconElement={<ArrowLeft className="w-4 h-4" />}
-            >
-              <span className="tracking-wide">Zurück</span>
-            </Button>
-          </motion.div>
-
           {/* Main Content - Startseite Typography */}
           <motion.div
             className="relative"
@@ -251,7 +226,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <Button 
-                variant="tertiary"
+                variant="secondary"
                 size="base"
                 icon="left"
               iconElement={<Camera className="w-4 h-4" />}
@@ -260,153 +235,81 @@ export default function PhotographyPageLight(): React.JSX.Element {
               </Button>
               
               <Button 
-                variant="secondary"
+                variant="primary"
                 size="base"
                 onClick={scrollToContactForm}
               >
-                Shooting buchen
+                Shooting anfragen
               </Button>
             </motion.div>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* 2. SERVICES SECTION - BAUHAUS STYLING */}
-      <section 
-        ref={servicesRef}
-        className="py-32 px-6 relative z-10 bg-white"
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Meine Services
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Spezialisiert auf authentische Porträts und liebevolle Haustieraufnahmen
-            </p>
-          </motion.div>
-
-          {/* Services Grid */}
-          <div className="grid lg:grid-cols-2 gap-16">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="group"
-              >
-                {/* Service Image - Bauhaus style */}
-                <div className="relative mb-8 aspect-[4/3] bg-gray-100 border-2 border-gray-900 group-hover:shadow-lg transition-all duration-300">
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-                    {service.category === 'PORTRAIT' ? (
-                      <User className="w-16 h-16 text-gray-600" />
-                    ) : (
-                      <Heart className="w-16 h-16 text-gray-600" />
-                    )}
-                  </div>
-                  
-                  {/* Bauhaus corner elements */}
-                  <div className="absolute top-2 left-2 w-4 h-4 bg-gray-900" />
-                  <div className="absolute bottom-2 right-2 w-4 h-4 bg-gray-900" />
-                  
-                  {/* Category label */}
-                  <div className="absolute top-4 left-4 font-bold text-xs text-gray-900 tracking-wider">
-                    {service.category}
-                  </div>
-                </div>
-
-                {/* Service Content - Bauhaus typography */}
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-gray-700 transition-colors tracking-tight">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {service.description}
-                  </p>
-                  <div className="font-mono text-sm text-gray-800 tracking-wide">
-                    {service.approach}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. PORTFOLIO GRID - MINIMAL MASONRY LAYOUT */}
+      {/* 2. PORTFOLIO GRID - MINIMAL MASONRY LAYOUT */}
       <section 
         ref={portfolioRef}
         className="py-32 px-6 relative z-10 bg-white"
       >
         <div className="max-w-none mx-auto">
           <motion.div 
-            className="text-center mb-20"
+            className="text-center mb-24"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Portfolio Arbeiten
+              Ausgewählte Arbeiten
             </h2>
             <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Eine Auswahl meiner fotografischen Arbeiten
+              Ein kleiner Einblick in meine fotografische Welt – authentische Momente, liebevoll festgehalten
             </p>
           </motion.div>
 
-          {/* Portfolio Grid */}
-          <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4 px-6">
+          {/* Portfolio Grid - Varierende Größen mit mehr Weißraum */}
+          <div className="grid grid-cols-3 gap-8 px-6" style={{ gridAutoRows: '33.33vw' }}>
             {galleryImages.length === 0 && (
               <div className="col-span-3 text-center text-gray-400 py-20">Noch keine Bilder im Galerie-Ordner.</div>
             )}
-            {galleryImages.map((src, index) => (
-              <motion.div
-                key={src}
-                className={`card group relative overflow-hidden col-span-1 row-span-1`}
-                style={{  }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-full h-full bg-white border border-gray-300 hover:border-gray-900 transition-all duration-300 group-hover:shadow-lg relative overflow-hidden">
-                  {/* Bild aus Galerie */}
-                  <img src={src} alt="Galeriebild" className="object-cover w-full h-full" />
-                  {/* Overlay mit Dateiname als Platzhalter für Metadaten */}
-                  <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                    <div className="text-center px-4">
-                      <div className="font-mono text-xs text-gray-600 mb-2 tracking-wider uppercase">
-                        {src.split('/').pop()?.split('.')[0]}
-                      </div>
-                      <div className="text-gray-900 font-bold text-lg mb-2">
-                        Foto {index + 1}
-                      </div>
-                      <div className="text-gray-600 text-sm">
-                        {/* Hier könnten weitere Metadaten stehen */}
-                      </div>
-                    </div>
+{galleryImages.map((src, index) => {
+              // Layout-Definitionen - statisch definiert
+              const layouts = [
+                { colSpan: 1, rowSpan: 1, className: 'col-span-1 row-span-1' }, // 1x1 - Quadrat klein
+                { colSpan: 2, rowSpan: 1, className: 'col-span-2 row-span-1' }, // 2x1 - Querformat
+                { colSpan: 3, rowSpan: 1, className: 'col-span-3 row-span-1' }, // 3x1 - Panorama
+                { colSpan: 1, rowSpan: 2, className: 'col-span-1 row-span-2' }, // 1x2 - Hochformat
+                { colSpan: 2, rowSpan: 2, className: 'col-span-2 row-span-2' }  // 2x2 - Quadrat groß
+              ];
+
+              // Verwendung des vordefinierten Raster-Musters
+              const layout = layouts[predefinedGridPattern[index % predefinedGridPattern.length]];
+              
+              return (
+                <motion.div
+                  key={src}
+                  className={`relative overflow-hidden ${layout.className}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: (index * 0.05) }}
+                  viewport={{ once: true }}
+                >
+                  <div className="w-full h-full bg-white border border-gray-200 relative overflow-hidden shadow-sm">
+                    {/* Bild aus Galerie */}
+                    <img 
+                      src={src} 
+                      alt={`Fotografische Arbeit ${index + 1}`} 
+                      className="object-cover w-full h-full" 
+                    />
                   </div>
-                  {/* Bauhaus corner elements */}
-                  <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 4. CONTACT FORM - BAUHAUS LIGHT MODE STYLING */}
+      {/* 3. CONTACT FORM - BAUHAUS LIGHT MODE STYLING */}
       <section
         id="contact-form"
         ref={contactRef}

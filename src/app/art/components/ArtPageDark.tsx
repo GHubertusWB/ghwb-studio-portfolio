@@ -534,25 +534,6 @@ export default function ArtPageDark(): React.JSX.Element {
         </div>
 
         <div className="relative text-center px-6 max-w-6xl" style={{ zIndex: 25 }}>
-          {/* Back Button - Styled like homepage buttons */}
-          <motion.button
-            onClick={() => window.history.back()}
-            className="inline-flex items-center text-white/70 hover:text-white transition-colors mb-12 relative font-mono px-6 py-3 rounded-full hover:bg-white/5"
-            style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              
-            }}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            SYSTEM.EXIT
-          </motion.button>
-
           {/* Main Content - Simplified frame to match homepage aesthetic */}
           <motion.div
             className="relative"

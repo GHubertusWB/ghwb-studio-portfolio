@@ -159,31 +159,6 @@ export default function AboutPageLight() {
         </div>
 
         <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 40 }}>
-          {/* Back Button - Startseite Button Styling */}
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            className="mb-16"
-          >
-            <Button
-              variant="tertiary"
-              size="xs"
-              onClick={() => window.history.back()}
-              className="shadow-lg tracking-wide"
-              style={{
-                background: 'rgba(0, 0, 0, 0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(0, 0, 0, 0.1)'
-              }}
-              icon="left"
-              iconElement={<ArrowLeft className="w-4 h-4" />}
-            >
-              Zurück
-            </Button>
-          </motion.div>
-
           {/* Main Content - Startseite Typography */}
           <motion.div
             className="relative"

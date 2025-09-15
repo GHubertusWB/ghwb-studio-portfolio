@@ -243,25 +243,6 @@ export default function ArtPageLight(): React.JSX.Element {
         </div>
 
         <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 30 }}>
-          {/* Back Button - Startseite Button Styling */}
-          <motion.button
-            onClick={() => window.history.back()}
-            className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg mb-16"
-            style={{
-              background: 'rgba(0, 0, 0, 0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(0, 0, 0, 0.1)',
-              
-            }}
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            whileHover={{ scale: 1.05, y: -2 }}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            <span className="tracking-wide">Zurück</span>
-          </motion.button>
-
           {/* Main Content - Startseite Typography */}
           <motion.div
             className="relative"
