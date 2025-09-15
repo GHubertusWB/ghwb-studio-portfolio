@@ -125,9 +125,8 @@ export default function FeaturedArtwork({ artwork }: FeaturedArtworkProps) {
                 variant="primary"
                 size="base"
                 className="bg-foreground text-background hover:bg-foreground/90"
-                iconPosition="right"
-                icon="left"
-              iconElement={<ArrowRight className="w-4 h-4" />}
+                icon="right"
+                iconElement={<ArrowRight className="w-4 h-4" />}
               >
                 Mehr Details
               </Button>
