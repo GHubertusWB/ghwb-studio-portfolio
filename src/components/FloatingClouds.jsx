@@ -95,12 +95,13 @@ const FloatingClouds = () => {
             width={300}
             height={150}
             style={{
-              width: 'auto',
-              height: 'auto',
+              width: 'auto !important',
+              height: 'auto !important',
               maxWidth: '300px',
               objectFit: 'contain',
             }}
-            priority={false}
+            priority={cloud.id === 1} // Erste Cloud als LCP optimieren
+            suppressHydrationWarning
           />
         </motion.div>
       ))}

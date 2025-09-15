@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Monitor, Smartphone, Palette, Users, Zap, Layers, Sparkles, Eye, CheckCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Footer from '@/components/Footer'
-import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
+import FloatingClouds from '@/components/FloatingClouds'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import SkillsCircleChart from './SkillsCircleChart'
 import MobileSkills from './MobileSkills'
@@ -95,7 +95,7 @@ export default function UXUIPageLight() {
         style={{ zIndex: 20 }}
       >
         {/* Floating Clouds - mit korrektem z-index */}
-        <FloatingCloudsArt />
+        <FloatingClouds />
         {/* Background gradient - matching startpage */}
         <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-white" />
 
@@ -152,6 +152,7 @@ export default function UXUIPageLight() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
+              suppressHydrationWarning
             >
               UX/UI Design • Research • Prototyping
             </motion.p>

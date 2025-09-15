@@ -32,7 +32,7 @@ const SpaceshipHUD = () => {
   }, [theme])
   
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 pt-16 pb-16">
       <motion.div
         key={animationKey}
         className="relative"

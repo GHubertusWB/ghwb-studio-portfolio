@@ -13,161 +13,81 @@ const MainLogo = () => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative flex flex-col items-center w-full px-12 gap-4 z-40"
-      style={{ height: 'auto' }}
+      className="relative flex flex-col items-center justify-center w-full h-full px-4 z-40"
     >
-      {/* Floating clouds in light mode */}
+      {/* Floating clouds background in light mode */}
       {theme === 'light' && <FloatingClouds />}
-      {/* Main Logo Image */}
+      
+      {/* Logo Container - Auto-sizing */}
       <motion.div
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative z-30"
-        style={{ height: '200px', width: '160px' }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+        className="relative z-30 flex flex-col items-center gap-8 w-full max-w-2xl"
       >
-        {theme === 'dark' ? (
-          <div className="relative">
-            <motion.div
-              animate={{ 
-                filter: [
-                  'brightness(0) invert drop-shadow(0 0 8px rgba(255,255,255,0.4))',
-                  'brightness(0) invert drop-shadow(0 0 12px rgba(255,255,255,0.5)) drop-shadow(0 0 18px rgba(255,255,255,0.2))',
-                  'brightness(0) invert drop-shadow(0 0 6px rgba(255,255,255,0.6)) drop-shadow(0 0 10px rgba(255,255,255,0.3))',
-                  'brightness(0) invert drop-shadow(0 0 14px rgba(255,255,255,0.3)) drop-shadow(0 0 20px rgba(255,255,255,0.15))',
-                  'brightness(0) invert drop-shadow(0 0 9px rgba(255,255,255,0.45))'
-                ]
-              }}
-              transition={{
-                duration: 8.5, // Much slower
-                repeat: Infinity,
-                ease: [0.4, 0, 0.6, 1] // custom bezier curve for organic feel
-              }}
-            >
-              <Image
-                src="/icons/logo/logo.svg"
-                alt="GHWB Studio Logo"
-                width={160}
-                height={200}
-                priority
-              />
-            </motion.div>
-            {/* Enhanced pulsing glow layers */}
-            <motion.div 
-              className="absolute inset-0 filter blur-md opacity-20"
-              animate={{ 
-                opacity: [0.15, 0.3, 0.2, 0.35, 0.18],
-                scale: [0.98, 1.04, 1.01, 1.06, 0.99]
-              }}
-              transition={{
-                duration: 7.2, // Much slower
-                repeat: Infinity,
-                ease: [0.25, 0.46, 0.45, 0.94] // organic easing
-              }}
-            >
-              <Image
-                src="/icons/logo/logo.svg"
-                alt="GHWB Studio Logo"
-                width={160}
-                height={200}
-                className="filter brightness-0 invert"
-                priority
-              />
-            </motion.div>
-            <motion.div 
-              className="absolute inset-0 filter blur-lg opacity-10"
-              animate={{ 
-                opacity: [0.06, 0.15, 0.1, 0.18, 0.08],
-                scale: [1, 1.08, 1.03, 1.12, 1.01]
-              }}
-              transition={{
-                duration: 9.8, // Very slow
-                repeat: Infinity,
-                ease: [0.68, -0.55, 0.265, 1.55], // bouncy organic feel
-                delay: 1.2 // Longer delay
-              }}
-            >
-              <Image
-                src="/icons/logo/logo.svg"
-                alt="GHWB Studio Logo"
-                width={160}
-                height={200}
-                className="filter brightness-0 invert"
-                priority
-              />
-            </motion.div>
-          </div>
-        ) : (
-          <Image
-            src="/icons/logo/logo-blue.svg"
-            alt="GHWB Studio Logo" 
-            width={160}
-            height={200}
-            priority
-          />
-        )}
-        
-        {/* Floating particles for added visual interest */}
-        <motion.div className="absolute inset-0">
-          {[...Array(8)].map((_, i) => {
-            // Fixed positions to avoid hydration mismatch
-            const topPositions = [87, 92, 89, 94, 88, 91, 90, 93];
-            return (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 bg-foreground/30 rounded-full"
-                style={{
-                  left: `${10 + i * 10}%`,
-                  top: `${topPositions[i]}%`,
-                }}
-                animate={{ 
-                  opacity: [0, 0.6, 0],
-                  y: [-15, -35, -55]
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                  ease: "easeOut"
-                }}
-              />
-            )
-          })}
+        {/* Logo Image with smooth opacity transition */}
+        <div className="relative">
+          {/* Light Mode Logo (Blue) */}
+          <motion.div
+            animate={{ opacity: theme === 'light' ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="relative"
+          >
+            <Image
+              src="/icons/logo/logo-blue.svg"
+              alt="GHWB Studio Logo"
+              width={200}
+              height={250}
+              priority
+              className="w-auto h-auto max-w-[30vw] max-h-[40vh] min-w-[120px] min-h-[150px]"
+              style={{ width: 'auto !important', height: 'auto !important' }}
+            />
+          </motion.div>
+          
+          {/* Dark Mode Logo (White) - Positioned absolutely on top */}
+          <motion.div
+            animate={{ opacity: theme === 'dark' ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <Image
+              src="/icons/logo/logo.svg"
+              alt="GHWB Studio Logo"
+              width={200}
+              height={250}
+              priority
+              className="w-auto h-auto max-w-[30vw] max-h-[40vh] min-w-[120px] min-h-[150px]"
+              style={{ width: 'auto !important', height: 'auto !important' }}
+            />
+          </motion.div>
+        </div>
+
+        {/* Text Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="flex flex-col items-center text-center"
+        >
+          {/* GHWB - Ultra Bold */}
+          <motion.h1 
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-poppins font-black text-foreground tracking-[0.2em] mb-2"
+            style={{ fontWeight: 900, marginRight: '-0.2em' }}
+          >
+            GHWB
+          </motion.h1>
+          
+          {/* STUDIO - Weight 200 */}
+          <motion.h2 
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-poppins text-foreground tracking-[0.5em]"
+            style={{ fontWeight: 200, marginRight: '-0.5em' }}
+          >
+            STUDIO
+          </motion.h2>
         </motion.div>
       </motion.div>
-      
-      {/* Studio Text */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="flex flex-col items-center space-y-2 relative z-30 w-full"
-      >
-        <h1 className="text-6xl font-poppins font-bold text-foreground tracking-[0.25em] text-center -mr-[0.25em]">
-          GHWB
-        </h1>
-        <h1 className="text-5xl font-poppins font-thin text-foreground tracking-[0.3em] text-center -mr-[0.4em]">
-          STUDIO
-        </h1>
-      </motion.div>
 
-      {/* Enhanced glow effect for dark mode */}
-      {theme === 'dark' && (
-        <motion.div
-          className="absolute inset-0 rounded-full opacity-0 pointer-events-none"
-          animate={{ 
-            opacity: [0, 0.12, 0.05, 0.15, 0.03, 0.14, 0],
-            scale: [0.8, 1.15, 0.95, 1.25, 0.85, 1.18, 0.82]
-          }}
-          transition={{
-            duration: 11.5, // Very slow background glow
-            repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1] // smooth organic curve
-          }}
-          style={{
-            background: `radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 40%, transparent 70%)`
-          }}
-        />
-      )}
+
     </motion.div>
   )
 }

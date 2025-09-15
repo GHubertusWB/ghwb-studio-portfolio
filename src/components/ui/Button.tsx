@@ -170,7 +170,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         return (
           <>
             <LoadingSpinner size={size} />
-            {children && <span className="ml-2">{children}</span>}
+            {children && <span className="ml-2" suppressHydrationWarning>{children}</span>}
           </>
         );
       }
@@ -185,7 +185,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         return (
           <>
             {iconComponent}
-            <span>{children}</span>
+            <span suppressHydrationWarning>{children}</span>
           </>
         );
       }
@@ -193,13 +193,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       if (icon === 'right') {
         return (
           <>
-            <span>{children}</span>
+            <span suppressHydrationWarning>{children}</span>
             {iconComponent}
           </>
         );
       }
       
-      return <span>{children}</span>;
+      return <span suppressHydrationWarning>{children}</span>;
     };
 
     return (

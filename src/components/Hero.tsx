@@ -22,7 +22,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
 
   return (
     <>
-      <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 pb-16">
       {/* Background gradient - theme aware */}
       <div className={`absolute inset-0 ${
         theme === 'light' 
@@ -49,7 +49,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.6 }}
-          className="mt-[8vh] md:mt-[10vh] lg:mt-[12vh]"
+          className="mt-12"
         >
           <h1 className="text-6xl font-semibold text-foreground leading-tight tracking-tight mb-4 sr-only md:text-4xl">
             GHWB Studio - UX/UI Design, Fotografie und Kunst

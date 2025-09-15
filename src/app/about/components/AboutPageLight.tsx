@@ -214,6 +214,7 @@ export default function AboutPageLight() {
                     height={384}
                     className="w-full h-full object-cover"
                     priority
+                    style={{ width: 'auto !important', height: 'auto !important' }}
                   />
                 </div>
                 
