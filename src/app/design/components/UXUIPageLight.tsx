@@ -148,7 +148,7 @@ export default function UXUIPageLight() {
             className="mb-16"
           >
             <Button
-              variant="ghost"
+              variant="tertiary"
               size="xs"
               onClick={() => window.history.back()}
               className="shadow-lg"
@@ -157,7 +157,8 @@ export default function UXUIPageLight() {
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(0, 0, 0, 0.1)'
               }}
-              icon={<ArrowLeft className="w-4 h-4" />}
+              icon="left"
+              iconElement={<ArrowLeft className="w-4 h-4" />}
             >
               <span className="tracking-wide">Zurück</span>
             </Button>
@@ -210,17 +211,18 @@ export default function UXUIPageLight() {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <Button 
-                variant="ghost"
-                size="lg"
+                variant="tertiary"
+                size="base"
                 onClick={() => { const skills = document.getElementById('skills-section'); if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
-                icon={<Sparkles className="w-4 h-4" />}
+                icon="left"
+              iconElement={<Sparkles className="w-4 h-4" />}
               >
                 Meine Skills
               </Button>
               
               <Button 
                 variant="secondary"
-                size="lg"
+                size="base"
                 onClick={() => { const contact = document.getElementById('contact-section'); if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
               >
                 Kontakt

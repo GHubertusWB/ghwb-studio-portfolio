@@ -220,7 +220,8 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
             name="name"
             type="text"
             label="Name"
-            icon={<UserIcon className="w-4 h-4" />}
+            icon="left"
+              iconElement={<UserIcon className="w-4 h-4" />}
             value={formData.name}
             onChange={handleInputChange}
             placeholder="Ihr Name"
@@ -232,7 +233,8 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
             name="email"
             type="email"
             label="E-Mail"
-            icon={<EnvelopeIcon className="w-4 h-4" />}
+            icon="left"
+              iconElement={<EnvelopeIcon className="w-4 h-4" />}
             value={formData.email}
             onChange={handleInputChange}
             placeholder="Ihre E-Mail Adresse"
@@ -244,7 +246,8 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
             id="message"
             name="message"
             label="Nachricht"
-            icon={<ChatBubbleLeftRightIcon className="w-4 h-4" />}
+            icon="left"
+              iconElement={<ChatBubbleLeftRightIcon className="w-4 h-4" />}
             value={formData.message}
             onChange={handleInputChange}
             placeholder={
@@ -284,7 +287,7 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
                 type="submit"
                 disabled={isSubmitting || !formData.email.trim()}
                 variant="secondary"
-                size="lg"
+                size="base"
                 className="font-mono text-white dark:text-white disabled:opacity-50"
                 style={{
                   background: 'rgba(6, 182, 212, 0.25)',

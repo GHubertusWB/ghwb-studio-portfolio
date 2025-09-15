@@ -123,10 +123,11 @@ export default function FeaturedArtwork({ artwork }: FeaturedArtworkProps) {
             >
               <Button
                 variant="primary"
-                size="lg"
+                size="base"
                 className="bg-foreground text-background hover:bg-foreground/90"
                 iconPosition="right"
-                icon={<ArrowRight className="w-4 h-4" />}
+                icon="left"
+              iconElement={<ArrowRight className="w-4 h-4" />}
               >
                 Mehr Details
               </Button>

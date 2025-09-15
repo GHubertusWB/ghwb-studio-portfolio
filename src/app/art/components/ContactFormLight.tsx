@@ -288,23 +288,17 @@ export default function ContactFormLight(): React.JSX.Element {
               <Button
                 type="submit"
                 disabled={isSubmitting || !formData.email.trim()}
-                variant="ghost"
-                size="lg"
+                variant="tertiary"
+                size="base"
                 className="shadow-lg tracking-wide disabled:opacity-50"
                 style={{
                   background: 'rgba(0, 0, 0, 0.05)',
                   backdropFilter: 'blur(10px)',
                   border: '1px solid rgba(0, 0, 0, 0.1)'
                 }}
-                icon={isSubmitting ? (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="inline-block w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full"
-                  />
-                ) : (
-                  <EnvelopeIcon className="w-4 h-4" />
-                )}
+                icon={isSubmitting ? "none" : "left"}
+                iconElement={isSubmitting ? undefined : <EnvelopeIcon className="w-4 h-4" />}
+                loading={isSubmitting}
               >
                 {isSubmitting ? 'Wird gesendet...' : 'Anfrage absenden'}
               </Button>

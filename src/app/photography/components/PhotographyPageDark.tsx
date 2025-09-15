@@ -489,7 +489,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
             className="mb-12"
           >
             <Button
-              variant="ghost"
+              variant="tertiary"
               size="xs"
               onClick={() => window.history.back()}
               className="text-white/70 hover:text-white font-mono hover:bg-white/5"
@@ -540,8 +540,8 @@ export default function PhotographyPageDark(): React.JSX.Element {
               className="flex flex-col sm:flex-row gap-4 justify-center relative"
             >
               <Button
-                variant="ghost"
-                size="lg"
+                variant="tertiary"
+                size="base"
                 className="font-mono"
                 icon={<Sparkles className="w-4 h-4" />}
               >
@@ -549,7 +549,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
               </Button>
               <Button
                 variant="secondary"
-                size="lg"
+                size="base"
                 onClick={scrollToContactForm}
                 className="font-mono"
               >

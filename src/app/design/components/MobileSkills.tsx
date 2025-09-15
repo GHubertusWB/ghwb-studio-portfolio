@@ -218,7 +218,7 @@ export default function MobileSkills({ isDark = false }: MobileSkillsProps) {
           {skillsData.map((skill, index) => (
             <Button
               key={index}
-              variant={index === activeSkill ? "primary" : "default"}
+              variant={index === activeSkill ? "primary" : "secondary"}
               size="xs"
               onClick={() => setActiveSkill(index)}
               className={`whitespace-nowrap ${

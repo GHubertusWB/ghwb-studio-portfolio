@@ -289,7 +289,7 @@ export default function ContactFormPhotography(): React.JSX.Element {
                   submitStatus === 'success' ? 'accent' :
                   submitStatus === 'error' ? 'accent' : 'primary'
                 }
-                size="lg"
+                size="base"
                 className={`w-full font-bold text-sm tracking-wider uppercase ${
                   isSubmitting 
                     ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 

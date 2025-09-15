@@ -188,7 +188,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
             className="mb-16"
           >
             <Button
-              variant="ghost"
+              variant="tertiary"
               size="xs"
               onClick={() => window.history.back()}
               className="shadow-lg"
@@ -197,7 +197,8 @@ export default function PhotographyPageLight(): React.JSX.Element {
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(0, 0, 0, 0.1)'
               }}
-              icon={<ArrowLeft className="w-4 h-4" />}
+              icon="left"
+              iconElement={<ArrowLeft className="w-4 h-4" />}
             >
               <span className="tracking-wide">Zurück</span>
             </Button>
@@ -250,16 +251,17 @@ export default function PhotographyPageLight(): React.JSX.Element {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <Button 
-                variant="ghost"
-                size="lg"
-                icon={<Camera className="w-4 h-4" />}
+                variant="tertiary"
+                size="base"
+                icon="left"
+              iconElement={<Camera className="w-4 h-4" />}
               >
                 Portfolio entdecken
               </Button>
               
               <Button 
                 variant="secondary"
-                size="lg"
+                size="base"
                 onClick={scrollToContactForm}
               >
                 Shooting buchen

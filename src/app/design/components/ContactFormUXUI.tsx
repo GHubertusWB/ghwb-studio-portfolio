@@ -284,10 +284,10 @@ export default function ContactFormUXUI(): React.JSX.Element {
                 type="submit"
                 disabled={isSubmitting}
                 variant={
-                  submitStatus === 'success' ? 'accent' :
-                  submitStatus === 'error' ? 'accent' : 'primary'
+                  submitStatus === 'success' ? 'primary' :
+                  submitStatus === 'error' ? 'secondary' : 'primary'
                 }
-                size="lg"
+                size="base"
                 className={`w-full font-bold text-sm tracking-wider uppercase ${
                   isSubmitting 
                     ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 

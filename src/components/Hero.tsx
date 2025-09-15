@@ -63,7 +63,7 @@ const Hero = () => {
         >
           <Button
             variant="secondary"
-            size="lg"
+            size="base"
             onClick={() => {
               const services = document.getElementById('services');
               if (services) services.scrollIntoView({ behavior: 'smooth' });
@@ -76,7 +76,7 @@ const Hero = () => {
           
           <Button
             variant="tertiary"
-            size="lg"
+            size="base"
             onClick={() => {
               const contact = document.getElementById('contact');
               if (contact) contact.scrollIntoView({ behavior: 'smooth' });
@@ -96,7 +96,7 @@ const Hero = () => {
         >
           <Button
             variant="tertiary"
-            size="md"
+            size="base"
             onClick={scrollToNext}
             className="p-4"
           >

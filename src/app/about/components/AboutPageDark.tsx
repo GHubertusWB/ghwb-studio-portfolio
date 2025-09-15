@@ -192,7 +192,7 @@ export default function AboutPageDark() {
             className="mb-12"
           >
             <Button
-              variant="ghost"
+              variant="tertiary"
               size="xs"
               onClick={() => window.history.back()}
               className="text-white/70 hover:text-white font-mono hover:bg-white/5"
@@ -201,7 +201,8 @@ export default function AboutPageDark() {
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)'
               }}
-              icon={<ArrowLeft className="w-4 h-4" />}
+              icon="left"
+              iconElement={<ArrowLeft className="w-4 h-4" />}
             >
               SYSTEM.EXIT
             </Button>

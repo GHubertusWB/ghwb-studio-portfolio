@@ -168,7 +168,7 @@ export default function AboutPageLight() {
             className="mb-16"
           >
             <Button
-              variant="ghost"
+              variant="tertiary"
               size="xs"
               onClick={() => window.history.back()}
               className="shadow-lg tracking-wide"
@@ -177,7 +177,8 @@ export default function AboutPageLight() {
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(0, 0, 0, 0.1)'
               }}
-              icon={<ArrowLeft className="w-4 h-4" />}
+              icon="left"
+              iconElement={<ArrowLeft className="w-4 h-4" />}
             >
               Zurück
             </Button>

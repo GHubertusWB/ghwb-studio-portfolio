@@ -101,7 +101,7 @@ const Navigation = () => {
               <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
                 <Button
                   variant="tertiary"
-                  size="md"
+                  size="base"
                   icon="only"
                   onClick={toggleTheme}
                   className="rounded-full shadow-lg"
@@ -133,7 +133,7 @@ const Navigation = () => {
               <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
                 <Button
                   variant="tertiary"
-                  size="md"
+                  size="base"
                   icon="only"
                   onClick={() => setIsOpen(!isOpen)}
                   className="md:hidden rounded-full shadow-lg"
@@ -196,7 +196,7 @@ const Navigation = () => {
                       >
                         <Button
                           variant="tertiary"
-                          size="md"
+                          size="base"
                           className={cn(
                             "w-full justify-start text-lg relative",
                             pathname === item.href

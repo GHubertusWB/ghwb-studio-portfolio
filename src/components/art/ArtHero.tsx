@@ -46,22 +46,23 @@ export default function ArtHero({ onCollaborationClick }: ArtHeroProps) {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8"
           >
             <Button
-              variant="ghost"
-              size="lg"
+              variant="tertiary"
+              size="base"
               onClick={() => {
                 const portfolioElement = document.querySelector('#portfolio-section')
                 if (portfolioElement) {
                   portfolioElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }
               }}
-              icon={<Sparkles className="w-4 h-4" />}
+              icon="left"
+              iconElement={<Sparkles className="w-4 h-4" />}
             >
               Portfolio entdecken
             </Button>
             
             <Button
               variant="secondary"
-              size="lg"
+              size="base"
               onClick={onCollaborationClick}
             >
               Zusammenarbeiten
