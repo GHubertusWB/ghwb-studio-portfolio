@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
-import ContactFormLight from './ContactFormLight'
+import FloatingContactButton from '@/components/FloatingContactButton'
 import FloatingCloudsArt from './FloatingCloudsArt'
 import Footer from '@/components/Footer'
 import { artImages } from '@/data/gallery'
@@ -111,15 +111,7 @@ export default function ArtPageLight(): React.JSX.Element {
     setGalleryImages(artImages)
   }, [])
 
-  const scrollToContactForm = (): void => {
-    const contactElement = document.getElementById('contact-form')
-    if (contactElement) {
-      contactElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
-  }
+
 
   // Same content as dark version
   const artwork: Artwork = {
@@ -305,7 +297,10 @@ export default function ArtPageLight(): React.JSX.Element {
               </motion.button>
               
               <motion.button 
-                onClick={scrollToContactForm} 
+                onClick={() => { 
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
+                }}
                 className="inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
                 style={{
                   background: 'rgba(6, 182, 212, 0.15)',
@@ -494,45 +489,10 @@ export default function ArtPageLight(): React.JSX.Element {
         </div>
       </section>
 
-      {/* 4. CONTACT FORM - STARTSEITE LIGHT MODE STYLING */}
-      <section
-        id="contact-form"
-        ref={contactRef}
-        className="py-32 px-6 relative z-10 bg-white"
-      >
-        <div className="max-w-4xl mx-auto">
-          {/* Header Section - startseite style */}
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Kontakt
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Lassen Sie uns über Ihre Ideen und Projekte sprechen
-            </p>
-          </motion.div>
-
-          {/* Contact Form Section - clean style */}
-          <motion.div 
-            className="relative"
-            style={{  }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            {/* Main form container - Bauhaus style */}
-            <div className="relative">
-              <ContactFormLight />
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* FLOATING CONTACT BUTTON */}
+      <FloatingContactButton 
+        theme="light" 
+      />
 
       <Footer />
     </div>

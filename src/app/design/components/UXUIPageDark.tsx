@@ -4,8 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, Monitor, Smartphone, Palette, Users, Zap, Layers, Sparkles, Eye, CheckCircle } from 'lucide-react'
 import Footer from '@/components/Footer'
-import ContactForm from '@/components/ContactForm'
-import ContactFormUXUI from './ContactFormUXUI'
+import FloatingContactButton from '@/components/FloatingContactButton'
 import SkillsCircleChartDark from './SkillsCircleChartDark'
 import MobileSkills from './MobileSkills'
 import { Button } from '@/components/ui/Button'
@@ -151,8 +150,8 @@ export default function UXUIPageDark() {
                 variant="primary"
                 size="base"
                 onClick={() => { 
-                  const contact = document.getElementById('contact-section'); 
-                  if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) 
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
                 }}
               >
                 Kontakt
@@ -401,38 +400,10 @@ export default function UXUIPageDark() {
         </div>
       </section>
 
-      {/* CONTACT SECTION - HUD SPACESHIP DESIGN WITH FORM */}
-      <section id="contact-section" className="py-32 px-6 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          {/* Header Section - HUD style */}
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
-              Ready for UX/UI Mission?
-            </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Initiating communication protocol for extraordinary user experience development. 
-              Target: Exceptional interfaces that captivate your user base.
-            </p>
-          </motion.div>
-
-          {/* Contact Form Section - same as Photography Dark Mode */}
-          <motion.div 
-            className="relative"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <ContactForm variant="uxui" />
-          </motion.div>
-        </div>
-      </section>
+      {/* FLOATING CONTACT BUTTON */}
+      <FloatingContactButton 
+        theme="dark" 
+      />
       <Footer />
     </div>
   )

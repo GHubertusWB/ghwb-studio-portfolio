@@ -3,9 +3,9 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Camera, User, Heart, Sparkles, Eye } from 'lucide-react'
-import ContactFormPhotography from './ContactFormPhotography'
 import Footer from '@/components/Footer'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
+import FloatingContactButton from '@/components/FloatingContactButton'
 import { photographyImages } from '@/data/gallery'
 import { Button } from '@/components/ui/Button'
 
@@ -27,7 +27,6 @@ export default function PhotographyPageLight(): React.JSX.Element {
   // Refs for scroll animations
   const servicesRef = useRef<HTMLElement>(null)
   const portfolioRef = useRef<HTMLElement>(null)
-  const contactRef = useRef<HTMLElement>(null)
 
   // Vordefiniertes Raster-Muster - zufällig aber ausgewogen, jede Zeile summiert sich zu 3 Spalten
   const predefinedGridPattern = [
@@ -92,7 +91,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
     )
 
     // Observe sections
-    const sections = [servicesRef, portfolioRef, contactRef]
+    const sections = [servicesRef, portfolioRef]
     sections.forEach(ref => {
       if (ref.current) {
         observer.observe(ref.current)
@@ -106,15 +105,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
     return () => observer.disconnect()
   }, [])
 
-  const scrollToContactForm = (): void => {
-    const contactElement = document.getElementById('contact-form')
-    if (contactElement) {
-      contactElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
-  }
+
 
   // Statische Galerie-Bilder laden
   useEffect(() => {
@@ -237,7 +228,10 @@ export default function PhotographyPageLight(): React.JSX.Element {
               <Button 
                 variant="primary"
                 size="base"
-                onClick={scrollToContactForm}
+                onClick={() => { 
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
+                }}
               >
                 Shooting anfragen
               </Button>
@@ -309,42 +303,12 @@ export default function PhotographyPageLight(): React.JSX.Element {
         </div>
       </section>
 
-      {/* 3. CONTACT FORM - BAUHAUS LIGHT MODE STYLING */}
-      <section
-        id="contact-form"
-        ref={contactRef}
-        className="py-32 px-6 relative z-10 bg-white"
-      >
-        <div className="max-w-4xl mx-auto">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Shooting Anfrage
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Lassen Sie uns Ihre Geschichte in Bildern erzählen
-            </p>
-          </motion.div>
-
-          <motion.div 
-            className="relative"
-            style={{  }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <ContactFormPhotography />
-          </motion.div>
-        </div>
-      </section>
-
       <Footer />
+
+      {/* FLOATING CONTACT BUTTON */}
+      <FloatingContactButton 
+        theme="light" 
+      />
     </div>
   )
 }

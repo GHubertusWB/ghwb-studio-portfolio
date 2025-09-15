@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
-import ContactSection from '@/components/ContactSection'
+import FloatingContactButton from '@/components/FloatingContactButton'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/Button'
 
@@ -538,7 +538,10 @@ export default function AboutPageLight() {
       </section>
 
       {/* Contact Section */}
-      <ContactSection />
+      {/* FLOATING CONTACT BUTTON */}
+      <FloatingContactButton 
+        theme="light" 
+      />
 
       <Footer />
     </div>

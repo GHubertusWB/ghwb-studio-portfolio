@@ -7,7 +7,11 @@ import { useTheme } from '@/contexts/ThemeContext'
 import SpaceshipHUD from './SpaceshipHUD'
 import { Button } from './ui/Button'
 
-const Hero = () => {
+interface HeroProps {
+  onContactClick?: () => void
+}
+
+const Hero = ({ onContactClick }: HeroProps) => {
   const { theme } = useTheme()
   const scrollToNext = () => {
     window.scrollTo({
@@ -77,10 +81,11 @@ const Hero = () => {
           <Button
             variant="primary"
             size="base"
-            onClick={() => {
-              const contact = document.getElementById('contact');
-              if (contact) contact.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={onContactClick || (() => {
+              // Global event to open contact modal
+              const event = new CustomEvent('openContactModal');
+              window.dispatchEvent(event);
+            })}
           >
             Kontakt
           </Button>

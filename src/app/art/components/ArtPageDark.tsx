@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
-import ContactForm from '@/components/ContactForm'
+import FloatingContactButton from '@/components/FloatingContactButton'
 import Footer from '@/components/Footer'
 import { artImages } from '@/data/gallery'
 
@@ -110,15 +110,7 @@ export default function ArtPageDark(): React.JSX.Element {
     setGalleryImages(artImages)
   }, [])
 
-  const scrollToContactForm = (): void => {
-    const contactElement = document.getElementById('contact-form')
-    if (contactElement) {
-      contactElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
-  }
+
 
   // Same content as light version
   const artwork: Artwork = {
@@ -584,7 +576,10 @@ export default function ArtPageDark(): React.JSX.Element {
                 PORTFOLIO.EXPLORE
               </motion.button>
               <motion.button 
-                onClick={scrollToContactForm} 
+                onClick={() => { 
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
+                }} 
                 className="inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono"
                 style={{
                   background: 'rgba(6, 182, 212, 0.25)',
@@ -779,41 +774,10 @@ export default function ArtPageDark(): React.JSX.Element {
         </div>
       </section>
 
-      {/* 4. CONTACT FORM - CLEAN STYLE */}
-      <section
-        id="contact-form"
-        ref={contactRef}
-        className="py-32 px-6 relative z-10"
-      >
-        <div className="max-w-4xl mx-auto">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6 text-white" style={{ fontFamily: 'monospace', textShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}>
-              KONTAKT
-            </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Lassen Sie uns über Ihre Ideen und Projekte sprechen
-            </p>
-          </motion.div>
-
-          {/* Contact Type Cards */}
-          <motion.div 
-            className="relative"
-            style={{  }}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <ContactForm />
-          </motion.div>
-        </div>
-      </section>
+      {/* FLOATING CONTACT BUTTON */}
+      <FloatingContactButton 
+        theme="dark" 
+      />
 
       <Footer />
     </div>

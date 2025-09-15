@@ -5,7 +5,7 @@ import { ArrowLeft, Monitor, Smartphone, Palette, Users, Zap, Layers, Sparkles, 
 import { useState, useEffect } from 'react'
 import Footer from '@/components/Footer'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
-import ContactFormUXUI from './ContactFormUXUI'
+import FloatingContactButton from '@/components/FloatingContactButton'
 import SkillsCircleChart from './SkillsCircleChart'
 import MobileSkills from './MobileSkills'
 import { Button } from '@/components/ui/Button'
@@ -198,7 +198,10 @@ export default function UXUIPageLight() {
               <Button 
                 variant="primary"
                 size="base"
-                onClick={() => { const contact = document.getElementById('contact-section'); if (contact) contact.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
+                onClick={() => { 
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
+                }}
               >
                 Kontakt
               </Button>
@@ -481,38 +484,14 @@ export default function UXUIPageLight() {
         </div>
       </section>
 
-      {/* CONTACT SECTION - STARTSEITE LIGHT MODE STYLING */}
-      <section id="contact-section" className="py-32 px-6 relative z-10 bg-white">
-        <div className="max-w-4xl mx-auto">
-          {/* Header Section - startseite style */}
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Bereit für Ihr UX/UI Projekt?
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Lassen Sie uns gemeinsam eine außergewöhnliche Nutzererfahrung schaffen, die Ihre Zielgruppe begeistert.
-            </p>
-          </motion.div>
-
-          {/* Contact Form Section - clean style */}
-          <motion.div 
-            className="relative"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <ContactFormUXUI />
-          </motion.div>
-        </div>
-      </section>
       <Footer />
+
+      {/* Floating Contact Button System */}
+      <FloatingContactButton
+        theme="light"
+        title="Bereit für Ihr UX/UI Projekt?"
+        subtitle="Lassen Sie uns gemeinsam eine außergewöhnliche Nutzererfahrung schaffen, die Ihre Zielgruppe begeistert."
+      />
     </div>
   )
 }

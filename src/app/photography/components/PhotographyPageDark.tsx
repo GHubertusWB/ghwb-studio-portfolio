@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Camera, User, Heart, Sparkles, Eye } from 'lucide-react'
-import ContactFormPhotography from './ContactFormPhotography'
 import Footer from '@/components/Footer'
+import FloatingContactButton from '@/components/FloatingContactButton'
 import { photographyImages } from '@/data/gallery'
 import { Button } from '@/components/ui/Button'
 
@@ -34,7 +34,6 @@ export default function PhotographyPageDark(): React.JSX.Element {
   // Refs for scroll animations
   const servicesRef = useRef<HTMLElement>(null)
   const portfolioRef = useRef<HTMLElement>(null)
-  const contactRef = useRef<HTMLElement>(null)
 
   // Vordefiniertes Raster-Muster - identisch zum Light Mode
   const predefinedGridPattern = [
@@ -99,7 +98,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
     )
 
     // Observe sections
-    const sections = [servicesRef, portfolioRef, contactRef]
+    const sections = [servicesRef, portfolioRef]
     sections.forEach(ref => {
       if (ref.current) {
         observer.observe(ref.current)
@@ -113,15 +112,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
     return () => observer.disconnect()
   }, [])
 
-  const scrollToContactForm = (): void => {
-    const contactElement = document.getElementById('contact-form')
-    if (contactElement) {
-      contactElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
-  }
+
 
   // Statische Galerie-Bilder laden
   useEffect(() => {
@@ -526,7 +517,10 @@ export default function PhotographyPageDark(): React.JSX.Element {
               <Button
                 variant="primary"
                 size="base"
-                onClick={scrollToContactForm}
+                onClick={() => { 
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
+                }}
                 className="font-mono"
               >
                 BOOKING.REQUEST
@@ -602,34 +596,12 @@ export default function PhotographyPageDark(): React.JSX.Element {
         </div>
       </section>
 
-      {/* 3. CONTACT SECTION */}
-      <section ref={contactRef} id="contact-form" className="py-20 px-6 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-              CONTACT.BOOKING
-            </div>
-            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
-              Lassen Sie uns Ihre Geschichte erzählen
-            </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Bereit für ein authentisches Foto-Shooting? Kontaktieren Sie mich für 
-              Porträt- oder Haustierfotografie.
-            </p>
-          </motion.div>
-
-          <ContactFormPhotography />
-        </div>
-      </section>
-
       <Footer />
+
+      {/* FLOATING CONTACT BUTTON */}
+      <FloatingContactButton 
+        theme="dark" 
+      />
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap } from 'lucide-r
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
-import ContactSection from '@/components/ContactSection'
+import FloatingContactButton from '@/components/FloatingContactButton'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/Button'
 
@@ -534,7 +534,10 @@ export default function AboutPageDark() {
       </section>
 
       {/* Contact Section */}
-      <ContactSection />
+      {/* FLOATING CONTACT BUTTON */}
+      <FloatingContactButton 
+        theme="dark" 
+      />
 
       <Footer />
     </div>

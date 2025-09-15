@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { MessageCircle } from 'lucide-react'
 import LoadingScreen from '@/components/LoadingScreen'
 import Hero from "@/components/Hero";
 import Philosophy from "@/components/Philosophy/index";
 import Services from "@/components/Services";
-import ContactSection from "@/components/ContactSection";
+
 import Footer from "@/components/Footer";
+import FloatingContactButton from "@/components/FloatingContactButton";
 
 export default function HomeWithLoader() {
   const [isLoading, setIsLoading] = useState(true)
@@ -20,6 +22,10 @@ export default function HomeWithLoader() {
       setShowContent(true)
     }, 200)
   }
+
+  
+
+
 
   return (
     <>
@@ -35,8 +41,13 @@ export default function HomeWithLoader() {
             <Hero />
             <Philosophy />
             <Services />
-            <ContactSection />
+
             <Footer />
+
+            {/* Floating Contact Button System */}
+            <FloatingContactButton
+              theme="light"
+            />
           </motion.div>
         )}
       </AnimatePresence>
