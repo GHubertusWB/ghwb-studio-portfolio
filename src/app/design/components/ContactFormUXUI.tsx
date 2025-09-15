@@ -159,16 +159,8 @@ export default function ContactFormUXUI(): React.JSX.Element {
           
           <div className="grid md:grid-cols-3 gap-4 mb-6">
             {subjectCards.map((card, index) => (
-              <motion.button
+              <motion.div
                 key={card.id}
-                type="button"
-                onClick={() => handleCardClick(card.id)}
-                className={`p-4 border-2 border-gray-900 transition-all duration-200 text-left group ${
-                  selectedSubjectTags.includes(card.id)
-                    ? 'bg-gray-900 text-white' 
-                    : 'bg-white text-gray-900 hover:bg-gray-100'
-                }`}
-                style={{  }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
@@ -176,14 +168,26 @@ export default function ContactFormUXUI(): React.JSX.Element {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className="flex items-center mb-2">
-                  {card.icon}
-                  <span className="ml-2 font-bold text-sm">{card.title}</span>
-                </div>
-                <p className="text-xs leading-relaxed opacity-80">
-                  {card.description}
-                </p>
-              </motion.button>
+                <Button
+                  variant={selectedSubjectTags.includes(card.id) ? "primary" : "secondary"}
+                  size="base"
+                  onClick={() => handleCardClick(card.id)}
+                  className={`w-full p-4 text-left group justify-start ${
+                    selectedSubjectTags.includes(card.id)
+                      ? 'bg-gray-900 text-white border-gray-900' 
+                      : 'bg-white text-gray-900 border-gray-900 hover:bg-gray-100'
+                  }`}
+                  icon="left"
+                  iconElement={card.icon}
+                >
+                  <div className="flex flex-col items-start">
+                    <span className="font-bold text-sm mb-1">{card.title}</span>
+                    <p className="text-xs leading-relaxed opacity-80">
+                      {card.description}
+                    </p>
+                  </div>
+                </Button>
+              </motion.div>
             ))}
           </div>
         </motion.div>

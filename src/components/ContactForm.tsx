@@ -220,8 +220,7 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
             name="name"
             type="text"
             label="Name"
-            icon="left"
-              iconElement={<UserIcon className="w-4 h-4" />}
+            icon={<UserIcon className="w-4 h-4" />}
             value={formData.name}
             onChange={handleInputChange}
             placeholder="Ihr Name"
@@ -233,8 +232,7 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
             name="email"
             type="email"
             label="E-Mail"
-            icon="left"
-              iconElement={<EnvelopeIcon className="w-4 h-4" />}
+            icon={<EnvelopeIcon className="w-4 h-4" />}
             value={formData.email}
             onChange={handleInputChange}
             placeholder="Ihre E-Mail Adresse"
@@ -242,18 +240,17 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
             required
           />
 
-          <Textarea
+                    <Textarea
             id="message"
             name="message"
             label="Nachricht"
-            icon="left"
-              iconElement={<ChatBubbleLeftRightIcon className="w-4 h-4" />}
+            icon={<ChatBubbleLeftRightIcon className="w-4 h-4" />}
             value={formData.message}
             onChange={handleInputChange}
             placeholder={
-              variant === 'uxui' ? 'Beschreiben Sie Ihr UX/UI Projekt oder Ihre Anfrage...' :
-              variant === 'photography' ? 'Beschreiben Sie Ihr Fotografie-Projekt oder Ihre Wünsche...' :
-              'Beschreiben Sie Ihr Projekt...'
+              variant === 'uxui' ? 'Beschreiben Sie Ihr UX/UI Projekt...' :
+              variant === 'photography' ? 'Erzählen Sie mir von Ihrem Fotoshooting...' :
+              'Erzählen Sie mir von Ihrer Projektidee...'
             }
             rows={4}
             required
@@ -295,15 +292,9 @@ export default function ContactForm({ variant = 'art' }: ContactFormProps): Reac
                   border: '1px solid rgba(6, 182, 212, 0.4)',
                   boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)'
                 }}
-                icon={isSubmitting ? (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
-                  />
-                ) : (
-                  <EnvelopeIcon className="w-4 h-4" />
-                )}
+                loading={isSubmitting}
+                icon={isSubmitting ? "none" : "left"}
+                iconElement={isSubmitting ? undefined : <EnvelopeIcon className="w-4 h-4" />}
               >
                 {isSubmitting ? 'WIRD GESENDET...' : 'ANFRAGE ABSENDEN'}
               </Button>
