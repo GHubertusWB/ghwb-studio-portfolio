@@ -6,6 +6,7 @@ import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import FloatingCloudsArt from './FloatingCloudsArt'
 import Footer from '@/components/Footer'
+import { Button } from '@/components/ui/Button'
 import { artImages } from '@/data/gallery'
 
 // TypeScript Interfaces (same as dark version)
@@ -106,12 +107,39 @@ export default function ArtPageLight(): React.JSX.Element {
     return () => observer.disconnect()
   }, [])
 
+  // Vordefiniertes Raster-Muster - gleich wie Photography-Seite
+  const predefinedGridPattern = [
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    1, // 2x1 - Querformat 
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    4, // 2x2 - Quadrat groß
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    1, // 2x1 - Querformat
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    2, // 3x1 - Panorama (komplette Zeile)
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    1, // 2x1 - Querformat
+    4, // 2x2 - Quadrat groß
+    0  // 1x1 - Quadrat klein
+  ]
+
   // Statische Galerie-Bilder laden
   useEffect(() => {
     setGalleryImages(artImages)
   }, [])
-
-
 
   // Same content as dark version
   const artwork: Artwork = {
@@ -274,54 +302,32 @@ export default function ArtPageLight(): React.JSX.Element {
               Eine Exploration der Grenzen zwischen Technologie und menschlicher Kreativität.
             </motion.p>
 
-            {/* CTA Buttons - exakt wie auf der Startseite */}
+            {/* CTA Buttons - globale Button Components */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 1.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <motion.button 
-                className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 shadow-lg"
-                style={{
-                  background: 'rgba(0, 0, 0, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
-                  
-                }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+              <Button 
+                variant="secondary"
+                size="base"
+                icon="left"
+                iconElement={<Sparkles className="w-4 h-4" />}
               >
-                <Sparkles className="w-4 h-4 mr-2" />
                 Portfolio entdecken
-              </motion.button>
+              </Button>
               
-              <motion.button 
+              <Button 
+                variant="primary"
+                size="base"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);
                 }}
-                className="inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
-                style={{
-                  background: 'rgba(6, 182, 212, 0.15)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(6, 182, 212, 0.3)',
-                  boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                  
-                }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15), 0 8px 12px -4px rgba(0, 0, 0, 0.1)'
-                }}
-                whileTap={{ 
-                  scale: 0.95,
-                  boxShadow: '0 5px 15px -2px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.05)',
-                  transition: { duration: 0.1, repeat: 2, repeatType: "reverse" }
-                }}
               >
                 Zusammenarbeiten
-              </motion.button>
+              </Button>
             </motion.div>
           </motion.div>
         </div>
@@ -453,38 +459,44 @@ export default function ArtPageLight(): React.JSX.Element {
             </p>
           </motion.div>
 
-          {/* Masonry Grid Layout */}
-          <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4 px-6">
+          {/* Portfolio Grid - Photography Seite Style mit Variierenden Größen */}
+          <div className="grid grid-cols-3 gap-8 px-6" style={{ gridAutoRows: '33.33vw' }}>
             {galleryImages.length === 0 && (
               <div className="col-span-3 text-center text-gray-400 py-20">Noch keine Bilder im Galerie-Ordner.</div>
             )}
-            {galleryImages.map((src, index) => (
-              <motion.div
-                key={src}
-                className={`card group relative overflow-hidden col-span-1 row-span-1`}
-                style={{  }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-full h-full bg-white border border-gray-300 hover:border-gray-900 transition-all duration-300 group-hover:shadow-lg relative overflow-hidden">
-                  {/* Bild aus Galerie */}
-                  <img src={src} alt="Galeriebild" className="object-cover w-full h-full absolute inset-0" style={{ filter: 'brightness(0.9) contrast(1.1)' }} />
-                  {/* Overlay mit Dateiname als Platzhalter für Metadaten */}
-                  <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                    <span className="text-gray-900 font-mono text-center px-4">
-                      {src.split('/').pop()?.split('.')[0]}
-                    </span>
+            {galleryImages.map((src, index) => {
+              // Layout-Definitionen - statisch definiert
+              const layouts = [
+                { colSpan: 1, rowSpan: 1, className: 'col-span-1 row-span-1' }, // 1x1 - Quadrat klein
+                { colSpan: 2, rowSpan: 1, className: 'col-span-2 row-span-1' }, // 2x1 - Querformat
+                { colSpan: 3, rowSpan: 1, className: 'col-span-3 row-span-1' }, // 3x1 - Panorama
+                { colSpan: 1, rowSpan: 2, className: 'col-span-1 row-span-2' }, // 1x2 - Hochformat
+                { colSpan: 2, rowSpan: 2, className: 'col-span-2 row-span-2' }  // 2x2 - Quadrat groß
+              ];
+
+              // Verwendung des vordefinierten Raster-Musters
+              const layout = layouts[predefinedGridPattern[index % predefinedGridPattern.length]];
+              
+              return (
+                <motion.div
+                  key={src}
+                  className={`relative overflow-hidden ${layout.className}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: (index * 0.05) }}
+                  viewport={{ once: true }}
+                >
+                  <div className="w-full h-full bg-white border border-gray-200 relative overflow-hidden shadow-sm">
+                    {/* Bild aus Galerie */}
+                    <img 
+                      src={src} 
+                      alt={`Kunstwerk ${index + 1}`} 
+                      className="object-cover w-full h-full" 
+                    />
                   </div>
-                  {/* Bauhaus corner elements */}
-                  <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

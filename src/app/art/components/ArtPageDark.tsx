@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import Footer from '@/components/Footer'
+import { Button } from '@/components/ui/Button'
 import { artImages } from '@/data/gallery'
 
 // TypeScript Interfaces (same as light version)
@@ -105,12 +106,39 @@ export default function ArtPageDark(): React.JSX.Element {
     return () => observer.disconnect()
   }, [])
 
+  // Vordefiniertes Raster-Muster - gleich wie Photography-Seite
+  const predefinedGridPattern = [
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    1, // 2x1 - Querformat 
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    4, // 2x2 - Quadrat groß
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    1, // 2x1 - Querformat
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    2, // 3x1 - Panorama (komplette Zeile)
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    0, // 1x1 - Quadrat klein
+    1, // 2x1 - Querformat
+    0, // 1x1 - Quadrat klein
+    3, // 1x2 - Hochformat
+    1, // 2x1 - Querformat
+    4, // 2x2 - Quadrat groß
+    0  // 1x1 - Quadrat klein
+  ]
+
   // Statische Galerie-Bilder laden
   useEffect(() => {
     setGalleryImages(artImages)
   }, [])
-
-
 
   // Same content as light version
   const artwork: Artwork = {
@@ -561,42 +589,25 @@ export default function ArtPageDark(): React.JSX.Element {
               transition={{ duration: 0.8, delay: 1.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center relative"
             >
-              <motion.button 
-                className="group relative inline-flex items-center px-8 py-3 rounded-full font-medium transition-all duration-300 font-mono"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  
-                }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+              <Button 
+                variant="secondary"
+                size="base"
+                icon="left"
+                iconElement={<Sparkles className="w-4 h-4" />}
               >
-                <Sparkles className="w-4 h-4 mr-2" />
-                PORTFOLIO.EXPLORE
-              </motion.button>
-              <motion.button 
+                Portfolio entdecken
+              </Button>
+              
+              <Button 
+                variant="primary"
+                size="base"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);
-                }} 
-                className="inline-flex items-center px-8 py-3 rounded-full transition-all duration-300 font-mono"
-                style={{
-                  background: 'rgba(6, 182, 212, 0.25)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(6, 182, 212, 0.4)',
-                  boxShadow: '0 0 15px rgba(6, 182, 212, 0.3), 0 0 30px rgba(6, 182, 212, 0.15), 0 0 45px rgba(6, 182, 212, 0.05)',
-                  
                 }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  y: -2,
-                  boxShadow: '0 0 30px rgba(6, 182, 212, 0.6), 0 0 60px rgba(6, 182, 212, 0.4), 0 0 90px rgba(6, 182, 212, 0.2)'
-                }}
-                whileTap={{ scale: 0.95 }}
               >
-                COLLABORATE.START
-              </motion.button>
+                Zusammenarbeiten
+              </Button>
             </motion.div>
           </motion.div>
         </div>
@@ -738,38 +749,44 @@ export default function ArtPageDark(): React.JSX.Element {
             </p>
           </motion.div>
 
-          {/* Masonry Grid Layout */}
-          <div className="grid grid-cols-3 auto-rows-[33.333vw] gap-4 px-6">
+          {/* Portfolio Grid - Photography Seite Style mit Variierenden Größen */}
+          <div className="grid grid-cols-3 gap-8 px-6" style={{ gridAutoRows: '33.33vw' }}>
             {galleryImages.length === 0 && (
               <div className="col-span-3 text-center text-white/40 py-20">Noch keine Bilder im Galerie-Ordner.</div>
             )}
-            {galleryImages.map((src, index) => (
-              <motion.div
-                key={src}
-                className={`card group relative overflow-hidden col-span-1 row-span-1`}
-                style={{  }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 hover:border-cyan-400/40 transition-all duration-300 group-hover:bg-white/10 relative overflow-hidden">
-                  {/* Bild aus Galerie */}
-                  <img src={src} alt="Galeriebild" className="object-cover w-full h-full absolute inset-0" style={{ filter: 'brightness(0.8) contrast(1.1)' }} />
-                  {/* Overlay mit Dateiname als Platzhalter für Metadaten */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                    <span className="text-white font-mono text-center px-4">
-                      {src.split('/').pop()?.split('.')[0]}
-                    </span>
+            {galleryImages.map((src, index) => {
+              // Layout-Definitionen - statisch definiert
+              const layouts = [
+                { colSpan: 1, rowSpan: 1, className: 'col-span-1 row-span-1' }, // 1x1 - Quadrat klein
+                { colSpan: 2, rowSpan: 1, className: 'col-span-2 row-span-1' }, // 2x1 - Querformat
+                { colSpan: 3, rowSpan: 1, className: 'col-span-3 row-span-1' }, // 3x1 - Panorama
+                { colSpan: 1, rowSpan: 2, className: 'col-span-1 row-span-2' }, // 1x2 - Hochformat
+                { colSpan: 2, rowSpan: 2, className: 'col-span-2 row-span-2' }  // 2x2 - Quadrat groß
+              ];
+
+              // Verwendung des vordefinierten Raster-Musters
+              const layout = layouts[predefinedGridPattern[index % predefinedGridPattern.length]];
+              
+              return (
+                <motion.div
+                  key={src}
+                  className={`relative overflow-hidden ${layout.className}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: (index * 0.05) }}
+                  viewport={{ once: true }}
+                >
+                  <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 relative overflow-hidden shadow-sm">
+                    {/* Bild aus Galerie */}
+                    <img 
+                      src={src} 
+                      alt={`Kunstwerk ${index + 1}`} 
+                      className="object-cover w-full h-full" 
+                    />
                   </div>
-                  {/* HUD corner elements */}
-                  <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                  <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
