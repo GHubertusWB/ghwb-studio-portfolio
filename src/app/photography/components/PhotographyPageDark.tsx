@@ -498,7 +498,8 @@ export default function PhotographyPageDark(): React.JSX.Element {
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)'
               }}
-              icon={<ArrowLeft className="w-4 h-4" />}
+              icon="left"
+              iconElement={<ArrowLeft className="w-4 h-4" />}
             >
               SYSTEM.EXIT
             </Button>
@@ -543,7 +544,8 @@ export default function PhotographyPageDark(): React.JSX.Element {
                 variant="tertiary"
                 size="base"
                 className="font-mono"
-                icon={<Sparkles className="w-4 h-4" />}
+                icon="left"
+                iconElement={<Sparkles className="w-4 h-4" />}
               >
                 SERVICES.EXPLORE
               </Button>
