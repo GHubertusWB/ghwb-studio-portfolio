@@ -119,7 +119,7 @@ const AboutSection = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              Über mich
+              Gerd-Hubertus Weidenbrücher-Britze
             </h2>
             <div className="space-y-4 text-gray-700 leading-relaxed">
               <p>

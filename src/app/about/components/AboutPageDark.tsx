@@ -247,7 +247,7 @@ const AboutSection = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
-              Über mich
+              Gerd-Hubertus Weidenbrücher-Britze
             </h2>
             <div className="space-y-3 md:space-y-4 text-gray-300 leading-relaxed text-sm md:text-base">
               <p>
@@ -785,7 +785,7 @@ export default function AboutPageDark() {
               transition={{ duration: 0.8, delay: 1.2 }}
             >
               <span className="text-cyan-400/80 text-sm md:text-lg block mb-2 tracking-widest font-mono">GHWB.ABOUT.SYSTEM:</span>
-              ÜBER MICH
+              GERD-HUBERTUS WEIDENBRÜCHER-BRITZE
             </motion.h1>
 
             <motion.p 
