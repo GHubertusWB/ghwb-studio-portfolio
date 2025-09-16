@@ -327,8 +327,8 @@ export default function AboutPageLight() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 1.4 }}
             >
-              <span className="block">ÜBER</span>
-              <span className="block">MICH</span>
+              <span className="block">GERD-HUBERTUS</span>
+              <span className="block">WEIDENBRÜCHER-BRITZE</span>
             </motion.h1>
 
             {/* Description - startpage style */}
