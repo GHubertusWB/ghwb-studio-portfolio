@@ -99,7 +99,7 @@ export default function UXUIPageDark() {
         </div>
         <div className="relative text-center px-6 max-w-6xl" style={{ zIndex: 25 }}>
           <motion.div className="relative" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, delay: 0.8 }}>
-            <motion.h1 className="text-5xl md:text-8xl font-light tracking-tight mb-8 relative text-white" style={{ textShadow: '0 0 30px rgba(255, 255, 255, 0.4)' }} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.2 }}>
+            <motion.h1 className="text-5xl md:text-8xl font-extrabold tracking-tight mb-8 relative text-white" style={{ textShadow: '0 0 30px rgba(255, 255, 255, 0.4)' }} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.2 }}>
               <span className="text-cyan-400/80 text-lg block mb-2 tracking-widest font-mono">GHWB.UXUI.SYSTEM:</span>
               UX/UI DESIGN
             </motion.h1>

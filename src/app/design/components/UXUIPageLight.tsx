@@ -160,7 +160,7 @@ export default function UXUIPageLight() {
 
             {/* Main Title - startpage style */}
             <motion.h1 
-              className="text-6xl font-semibold text-foreground leading-tight tracking-tight mb-4"
+              className="text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-4"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 1.4 }}

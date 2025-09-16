@@ -776,7 +776,7 @@ export default function AboutPageDark() {
             transition={{ duration: 1.2, delay: 0.8 }}
           >
             <motion.h1 
-              className="text-4xl md:text-6xl lg:text-8xl font-light tracking-tight mb-6 md:mb-8 relative text-white"
+              className="text-4xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-6 md:mb-8 relative text-white"
               style={{ 
                 textShadow: '0 0 30px rgba(255, 255, 255, 0.4)'
               }}
