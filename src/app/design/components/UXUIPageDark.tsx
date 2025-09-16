@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import SkillsCircleChartDark from './SkillsCircleChartDark'
 import MobileSkills from './MobileSkills'
+import TechStackSectionDark from './TechStackSectionDark'
 import { Button } from '@/components/ui/Button'
 
 export default function UXUIPageDark() {
@@ -293,6 +294,9 @@ export default function UXUIPageDark() {
           </motion.div>
         </div>
       </section>
+
+      {/* TECH STACK SECTION */}
+      <TechStackSectionDark />
 
       {/* PROJEKTE SECTION */}
       <section className="py-20 px-6 relative z-10">

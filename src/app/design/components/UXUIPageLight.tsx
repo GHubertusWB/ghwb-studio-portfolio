@@ -8,6 +8,7 @@ import FloatingClouds from '@/components/FloatingClouds'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import SkillsCircleChart from './SkillsCircleChart'
 import MobileSkills from './MobileSkills'
+import TechStackSection from './TechStackSection'
 import { Button } from '@/components/ui/Button'
 
 export default function UXUIPageLight() {
@@ -385,55 +386,7 @@ export default function UXUIPageLight() {
       </section>
 
       {/* TOOLS & TECHNOLOGIEN SECTION */}
-      <section className="py-32 px-6 relative z-10 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Mein Tech-Stack
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Über 5 Jahre Erfahrung mit professionellen Design- und Development-Tools
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {[
-              { name: 'Figma', category: 'Design', experience: '5+ Jahre' },
-              { name: 'Adobe Illustrator', category: 'Design', experience: '5+ Jahre' },
-              { name: 'Sketch', category: 'Design', experience: '4+ Jahre' },
-              { name: 'Adobe XD', category: 'Prototyping', experience: '3+ Jahre' },
-              { name: 'Adobe Photoshop', category: 'Design', experience: '5+ Jahre' },
-              { name: 'Miro', category: 'Workshop', experience: '4+ Jahre' },
-              { name: 'Jira', category: 'Projektmanagement', experience: '4+ Jahre' },
-              { name: 'Confluence', category: 'Dokumentation', experience: '4+ Jahre' },
-              { name: 'Zeplin', category: 'Handoff', experience: '3+ Jahre' },
-              { name: 'PowerPoint', category: 'Präsentation', experience: '5+ Jahre' },
-              { name: 'WAVE', category: 'Accessibility', experience: '3+ Jahre' },
-              { name: 'Frontend Dev', category: 'Development', experience: '2+ Jahre' }
-            ].map((tool, index) => (
-              <motion.div
-                key={tool.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
-                className="bg-white border border-border rounded-lg p-4 text-center hover:border-foreground/20 transition-all duration-300"
-              >
-                <h3 className="font-semibold text-foreground text-sm mb-1">{tool.name}</h3>
-                <p className="text-xs text-muted-foreground mb-1">{tool.category}</p>
-                <p className="text-xs text-muted-foreground/70">{tool.experience}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TechStackSection />
 
       {/* PROJEKTE SECTION - MINIMAL GRID LAYOUT */}
       <section className="py-32 px-6 relative z-10 bg-white">
