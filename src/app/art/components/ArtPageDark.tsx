@@ -53,6 +53,7 @@ interface CollaborationCard {
 export default function ArtPageDark(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
   const [galleryImages, setGalleryImages] = useState<string[]>([])
+
   
   // Refs for scroll animations
   const portfolioRef = useRef<HTMLElement>(null)
@@ -148,6 +149,8 @@ export default function ArtPageDark(): React.JSX.Element {
     description: "Harmonie in der Gesellschaft wird schnell verdrängt, wenn es um stark diskutierte Themen geht. Die Serie 'Teilen' kritisiert dieses Verhalten und zeigt auf, dass eine bewusste Betrachtung beider Seiten erst das Gesamtbild erkennen gibt.",
     dimensions: "Variable Dimensionen"
   }
+
+
 
   const processSteps: ProcessStep[] = [
     {
@@ -625,44 +628,20 @@ export default function ArtPageDark(): React.JSX.Element {
           >
             {/* Left Side - Enhanced Image Display */}
             <div className="relative">
-              {/* Status Header */}
+              {/* Simple Image Display */}
               <motion.div 
-                className="flex items-center mb-8"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
-                <span className="text-cyan-400 font-mono text-sm tracking-wider">FEATURED.ARTWORK</span>
-              </motion.div>
-
-              {/* Minimalist Image Display */}
-              <motion.div 
-                className="relative"
+                className="relative h-full"
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                <div className="relative border border-white/20 p-6">
-                  {/* Main Artwork Display */}
-                  <div className="relative w-full h-96 bg-gradient-to-br from-white/5 to-white/2 overflow-hidden">
-                    <img 
-                      src="https://www.sirhub.online/wp-content/uploads/go-x/u/5afb8e8c-63bb-49a1-84a3-3409e85b788e/l382,t0,w981,h1107/image-768x867.jpg"
-                      alt={artwork.title}
-                      className="w-full h-full object-cover"
-                      style={{ filter: 'brightness(0.9) contrast(1.1)' }}
-                    />
-                    {/* Subtle overlay to maintain readability */}
-                    <div className="absolute inset-0 bg-black/20" />
-                  </div>
-                  
-                  {/* Simple Corner Elements */}
-                  <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-cyan-400/40" />
-                  <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-cyan-400/40" />
-                  <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-cyan-400/40" />
-                  <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-cyan-400/40" />
+                <div className="relative w-full h-full overflow-hidden">
+                  <img 
+                    src="/gallery/art/0C0FF1CB-BB55-4087-B418-A7D493B5EC7F_1_105_c.jpeg"
+                    alt={artwork.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </motion.div>
             </div>

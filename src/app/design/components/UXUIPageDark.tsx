@@ -13,34 +13,6 @@ export default function UXUIPageDark() {
   const [currentTime, setCurrentTime] = useState('')
   const [hoveredSkill, setHoveredSkill] = useState<number | null>(null)
   
-  // UX/UI Services Data - inspired by photography page structure
-  const services = [
-    {
-      id: 1,
-      title: "Website Design",
-      category: "Web Design",
-      description: "Moderne, benutzerfreundliche Websites die Ihre Marke zum Leben erwecken",
-      approach: "Responsive Design, Performance-Optimierung",
-      icon: Monitor
-    },
-    {
-      id: 2,
-      title: "Barrierefreiheits-Beratung", 
-      category: "Accessibility",
-      description: "WCAG-konforme Lösungen für inklusive digitale Erfahrungen",
-      approach: "Audit, Testing, Implementation",
-      icon: Users
-    },
-    {
-      id: 3,
-      title: "Branding & Design Systems",
-      category: "Branding",
-      description: "Konsistente visuelle Identitäten und skalierbare Designsysteme",
-      approach: "Corporate Identity, Style Guides",
-      icon: Palette
-    }
-  ]
-  
   const skills = [
     { icon: Monitor, title: 'Enterprise Interface-Systeme', description: 'Komplexe Softwarelösungen für Großunternehmen wie Infineon, Bundesdruckerei und Medizinische Dienste.' },
     { icon: Smartphone, title: 'Command Dashboard Apps', description: 'KPI-Management-Terminals und Mobile Interfaces für Führungskräfte mit fokussiertem UX Design.' },
@@ -138,8 +110,8 @@ export default function UXUIPageDark() {
                 variant="secondary"
                 size="base"
                 onClick={() => { 
-                  const services = document.getElementById('services-section'); 
-                  if (services) services.scrollIntoView({ behavior: 'smooth', block: 'start' }) 
+                  const skills = document.getElementById('skills-section'); 
+                  if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) 
                 }}
                 icon="left"
               iconElement={<Sparkles className="w-4 h-4" />}
@@ -160,54 +132,6 @@ export default function UXUIPageDark() {
           </motion.div>
         </div>
       </motion.section>
-
-      {/* SERVICES SECTION - SAME STYLE AS PHOTOGRAPHY PAGE */}
-      <section id="services-section" className="py-20 px-6 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8 }} 
-            viewport={{ once: true }} 
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
-              Spezialisierte UX/UI Services
-            </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Fokus auf benutzerfreundliche Designs, Barrierefreiheit und starke Markenidentitäten
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((service, index) => {
-              const Icon = service.icon
-              return (
-                <motion.div
-                  key={service.id}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -5 }}
-                  className="p-8 rounded-2xl border border-white/20 hover:border-cyan-400/40 transition-all duration-300"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)'
-                  }}
-                >
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400/20 mb-6">
-                    <Icon className="w-6 h-6 text-cyan-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 text-white">{service.title}</h3>
-                  <p className="text-white/70 leading-relaxed mb-4">{service.description}</p>
-                  <p className="text-cyan-400 text-sm font-mono">{service.approach}</p>
-                </motion.div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* SKILLS SECTION - RESPONSIVE */}
       <section id="skills-section" className="relative z-10">

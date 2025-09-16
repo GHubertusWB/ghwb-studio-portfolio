@@ -69,36 +69,31 @@ const Navigation = () => {
             <div className="hidden md:flex items-center space-x-2">
               {menuItems.slice(1).map((item) => (
                 <Link key={item.href} href={item.href}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <Button
+                    variant="tertiary"
+                    size="xs"
+                    className={cn(
+                      "relative text-sm transition-colors",
+                      pathname === item.href
+                        ? "text-foreground font-semibold"
+                        : "text-foreground/60 hover:text-foreground/80"
+                    )}
                   >
-                    <Button
-                      variant="tertiary"
-                      size="xs"
-                      className={cn(
-                        "relative text-sm transition-colors",
-                        pathname === item.href
-                          ? "text-foreground font-semibold"
-                          : "text-foreground/60 hover:text-foreground/80"
-                      )}
-                    >
-                      {item.label}
-                      {pathname === item.href && mounted && (
-                        <motion.div
-                          layoutId="underline"
-                          className={cn(
-                            "absolute left-0 top-full h-1 w-full rounded-full",
-                            theme === 'dark' 
-                              ? "bg-gradient-to-r from-cyan-400 to-blue-500 shadow-lg shadow-cyan-400/25" 
-                              : "bg-gradient-to-r from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/25"
-                          )}
-                          initial={false}
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                        />
-                      )}
-                    </Button>
-                  </motion.div>
+                    {item.label}
+                    {pathname === item.href && mounted && (
+                      <motion.div
+                        layoutId="underline"
+                        className={cn(
+                          "absolute left-0 top-full h-1 w-full rounded-full",
+                          theme === 'dark' 
+                            ? "bg-gradient-to-r from-cyan-400 to-blue-500 shadow-lg shadow-cyan-400/25" 
+                            : "bg-gradient-to-r from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/25"
+                        )}
+                        initial={false}
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                  </Button>
                 </Link>
               ))}
             </div>

@@ -1,10 +1,16 @@
 'use client'
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Target, Minimize2, Heart, Users, Leaf } from 'lucide-react'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Target, Minimize2, Heart, Users, Leaf, ArrowLeft, ArrowRight } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 
 const Philosophy = () => {
+  const [activeIndex, setActiveIndex] = useState(0)
+  
+  // Kreis-Radius für gleichmäßige Verteilung
+  const circleRadius = 200
+  
   const principles = [
     {
       id: "function",
@@ -12,7 +18,10 @@ const Philosophy = () => {
       subtitle: "Zweck vor Form", 
       description: "Jedes Element hat einen klaren Grund und trägt zum Gesamterlebnis bei. Design folgt der Funktion.",
       icon: Target,
-      position: { x: 0, y: -120 },
+      position: { 
+        x: Math.cos(-Math.PI / 2) * circleRadius, // Oben (90°)
+        y: Math.sin(-Math.PI / 2) * circleRadius 
+      },
       color: "from-blue-500 to-cyan-500"
     },
     {
@@ -21,7 +30,10 @@ const Philosophy = () => {
       subtitle: "Fokus auf das Wesentliche",
       description: "Komplexe Prozesse werden einfach und klar gestaltet, ohne Ablenkungen – immer mit Blick auf Fokus und Klarheit.",
       icon: Minimize2,
-      position: { x: 104, y: -37 },
+      position: { 
+        x: Math.cos(-Math.PI / 2 + (2 * Math.PI / 5)) * circleRadius, // 72° weiter
+        y: Math.sin(-Math.PI / 2 + (2 * Math.PI / 5)) * circleRadius 
+      },
       color: "from-purple-500 to-pink-500"
     },
     {
@@ -30,7 +42,10 @@ const Philosophy = () => {
       subtitle: "Geschichten erzählen", 
       description: "Design verbindet sich auf emotionaler Ebene mit Nutzern und erzählt bedeutungsvolle Geschichten.",
       icon: Heart,
-      position: { x: 64, y: 97 },
+      position: { 
+        x: Math.cos(-Math.PI / 2 + (4 * Math.PI / 5)) * circleRadius, // 144° weiter
+        y: Math.sin(-Math.PI / 2 + (4 * Math.PI / 5)) * circleRadius 
+      },
       color: "from-red-500 to-orange-500"
     },
     {
@@ -39,7 +54,10 @@ const Philosophy = () => {
       subtitle: "Zugänglich für alle",
       description: "Inklusives Design ermöglicht es allen Menschen, digitale Erlebnisse vollständig zu nutzen und zu verstehen.",
       icon: Users,
-      position: { x: -64, y: 97 },
+      position: { 
+        x: Math.cos(-Math.PI / 2 + (6 * Math.PI / 5)) * circleRadius, // 216° weiter
+        y: Math.sin(-Math.PI / 2 + (6 * Math.PI / 5)) * circleRadius 
+      },
       color: "from-green-500 to-emerald-500"
     },
     {
@@ -48,10 +66,21 @@ const Philosophy = () => {
       subtitle: "Umweltbewusstsein",
       description: "In einer digitaleren Welt mit wachsendem Energieverbrauch spielt nachhaltige Gestaltung eine wichtige Rolle.",
       icon: Leaf,
-      position: { x: -104, y: -37 },
+      position: { 
+        x: Math.cos(-Math.PI / 2 + (8 * Math.PI / 5)) * circleRadius, // 288° weiter
+        y: Math.sin(-Math.PI / 2 + (8 * Math.PI / 5)) * circleRadius 
+      },
       color: "from-emerald-500 to-teal-500"
     }
   ]
+
+  const nextPrinciple = () => {
+    setActiveIndex((prev) => (prev + 1) % principles.length)
+  }
+
+  const prevPrinciple = () => {
+    setActiveIndex((prev) => (prev - 1 + principles.length) % principles.length)
+  }
 
   return (
     <section className="pt-20 pb-20 lg:pb-32 bg-muted/30">
@@ -73,47 +102,14 @@ const Philosophy = () => {
           </p>
         </motion.div>
 
-        {/* Central Infographic */}
-        <div className="relative flex items-center justify-center min-h-[600px] mb-16">
-          
-          {/* Central Core */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="absolute z-10 w-32 h-32 rounded-full bg-background border-2 border-foreground flex items-center justify-center"
-          >
-            <span className="text-sm font-bold text-foreground">DESIGN</span>
-          </motion.div>
-
-          {/* Connecting Lines */}
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400">
-            {principles.map((principle, index) => (
-              <motion.line
-                key={`line-${principle.id}`}
-                x1="200"
-                y1="200"
-                x2={200 + principle.position.x}
-                y2={200 + principle.position.y}
-                stroke="currentColor"
-                strokeWidth="1"
-                className="text-foreground opacity-20"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
-                viewport={{ once: true }}
-              />
-            ))}
-          </svg>
-
-          {/* Principle Nodes */}
+        {/* Icon Navigation - horizontale Reihe */}
+        <div className="flex justify-center items-center space-x-8 mb-16 h-16">
           {principles.map((principle, index) => {
             const Icon = principle.icon
-            const isLeftSide = principle.position.x < 0
+            const isActive = index === activeIndex
             
             return (
-              <motion.div
+              <motion.button
                 key={principle.id}
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -121,63 +117,135 @@ const Philosophy = () => {
                   type: "spring",
                   stiffness: 100,
                   damping: 20,
-                  delay: 0.8 + index * 0.1 
+                  delay: 0.2 + index * 0.1 
                 }}
                 viewport={{ once: true }}
-                className="absolute group cursor-pointer"
-                style={{
-                  left: `calc(50% + ${principle.position.x}px - 3rem)`,
-                  top: `calc(50% + ${principle.position.y}px - 3rem)`
-                }}
+                onClick={() => setActiveIndex(index)}
+                className="cursor-pointer flex items-center justify-center transition-all duration-300"
               >
-                {/* Node Circle */}
-                <div className="w-24 h-24 rounded-full bg-background border-2 border-foreground flex items-center justify-center group-hover:bg-muted/10 transition-colors">
-                  <Icon className="w-8 h-8 text-foreground" />
-                </div>
-
-                {/* Label positioned next to circle */}
-                <div className={`absolute top-1/2 transform -translate-y-1/2 ${
-                  isLeftSide ? 'left-full ml-4' : 'right-full mr-4'
-                } text-${isLeftSide ? 'left' : 'right'}`}>
-                  <h3 className="text-sm font-semibold text-foreground mb-1 whitespace-nowrap">
-                    {principle.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground whitespace-nowrap">
-                    {principle.subtitle}
-                  </p>
-                </div>
-
-                {/* Side Info Panel */}
-                <div className={`absolute top-1/2 transform -translate-y-1/2 ${
-                  isLeftSide ? 'left-full ml-8' : 'right-full mr-8'
-                } opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none`}>
-                  <div className="bg-background border border-foreground p-4 max-w-xs">
-                    <p className="text-sm text-foreground leading-relaxed">
-                      {principle.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
+                <motion.div
+                  animate={{
+                    scale: isActive ? 1.2 : 1,
+                    opacity: isActive ? 1 : 0.6
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex items-center justify-center ${
+                    isActive ? 'drop-shadow-lg' : ''
+                  }`}
+                >
+                  <Icon className={`transition-all duration-300 ${
+                    isActive 
+                      ? 'w-10 h-10 text-foreground drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]' 
+                      : 'w-8 h-8 text-muted-foreground hover:text-foreground'
+                  }`} />
+                </motion.div>
+              </motion.button>
             )
           })}
         </div>
 
-        {/* Bottom Quote */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <div className="w-12 h-px bg-border mx-auto mb-6" />
-          <blockquote className="text-lg italic text-muted-foreground">
-            "Gutes Design ist so wenig Design wie möglich"
-          </blockquote>
-          <cite className="block text-sm mt-2 text-muted-foreground/60">
-            — Dieter Rams
-          </cite>
-        </motion.div>
+        {/* Container für Details */}
+        <div className="max-w-4xl mx-auto">
+
+          {/* Active Principle Details */}
+          <div className="relative">
+            {/* Navigation Buttons - custom buttons - hidden on mobile */}
+            <button
+              onClick={prevPrinciple}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 
+                         w-12 h-12 rounded-full 
+                         bg-transparent border border-muted-foreground/20 
+                         text-muted-foreground hover:border-foreground hover:text-foreground 
+                         hover:bg-muted/50 hover:scale-105
+                         flex items-center justify-center
+                         transition-all duration-200
+                         hidden md:flex"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+            
+            <button
+              onClick={nextPrinciple}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 
+                         w-12 h-12 rounded-full 
+                         bg-transparent border border-muted-foreground/20 
+                         text-muted-foreground hover:border-foreground hover:text-foreground 
+                         hover:bg-muted/50 hover:scale-105
+                         flex items-center justify-center
+                         transition-all duration-200
+                         hidden md:flex"
+            >
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="text-center mb-16"
+            >
+              <div className="max-w-2xl mx-auto px-4 md:px-16 min-h-[200px] flex flex-col justify-center">
+                <h3 className="text-2xl font-bold text-foreground mb-4">
+                  {principles[activeIndex].title}
+                </h3>
+                
+                <p className="text-lg text-muted-foreground mb-6">
+                  {principles[activeIndex].subtitle}
+                </p>
+                <p className="text-base text-foreground leading-relaxed">
+                  {principles[activeIndex].description}
+                </p>
+              </div>
+
+              {/* Mobile Navigation Buttons - visible only on mobile */}
+              <div className="flex justify-center space-x-4 mb-8 md:hidden">
+                <button
+                  onClick={prevPrinciple}
+                  className="w-12 h-12 rounded-full 
+                             bg-transparent border border-muted-foreground/20 
+                             text-muted-foreground hover:border-foreground hover:text-foreground 
+                             hover:bg-muted/50 hover:scale-105
+                             flex items-center justify-center
+                             transition-all duration-200"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+                
+                <button
+                  onClick={nextPrinciple}
+                  className="w-12 h-12 rounded-full 
+                             bg-transparent border border-muted-foreground/20 
+                             text-muted-foreground hover:border-foreground hover:text-foreground 
+                             hover:bg-muted/50 hover:scale-105
+                             flex items-center justify-center
+                             transition-all duration-200"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            
+              {/* Progress Indicator */}
+              <div className="flex justify-center mt-8 space-x-2">
+                {principles.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveIndex(index)}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      index === activeIndex 
+                        ? 'bg-foreground' 
+                        : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </div>
+          
+        </div>
+
+
 
       </div>
     </section>

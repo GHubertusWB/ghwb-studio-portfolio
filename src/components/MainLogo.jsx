@@ -37,9 +37,9 @@ const MainLogo = () => {
               src="/icons/logo/logo-blue.svg"
               alt="GHWB Studio Logo"
               width={200}
-              height={250}
+              height={200}
               priority
-              className="w-auto h-auto max-w-[30vw] max-h-[40vh] min-w-[120px] min-h-[150px]"
+              className="w-auto h-auto max-w-[30vw] max-h-[30vh] min-w-[120px] min-h-[150px]"
               style={{ width: 'auto !important', height: 'auto !important' }}
             />
           </motion.div>
@@ -54,9 +54,9 @@ const MainLogo = () => {
               src="/icons/logo/logo.svg"
               alt="GHWB Studio Logo"
               width={200}
-              height={250}
+              height={200}
               priority
-              className="w-auto h-auto max-w-[30vw] max-h-[40vh] min-w-[120px] min-h-[150px]"
+              className="w-auto h-auto max-w-[30vw] max-h-[30vh] min-w-[120px] min-h-[150px]"
               style={{ width: 'auto !important', height: 'auto !important' }}
             />
           </motion.div>

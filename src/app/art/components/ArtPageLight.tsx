@@ -345,37 +345,20 @@ export default function ArtPageLight(): React.JSX.Element {
           >
             {/* Left Side - Minimalist Image Display */}
             <div className="relative">
-              {/* Category Tag - subtil wie auf der Startseite */}
-              <motion.div 
-                className="flex items-center mb-8"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-                <span className="text-muted-foreground text-sm">Ausgewählte Arbeit</span>
-              </motion.div>
-
               {/* Clean Image Display - startseite style */}
               <motion.div 
-                className="relative"
+                className="relative h-full"
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                <div className="relative border border-border p-6 bg-white shadow-lg rounded-lg">
-                  {/* Main Artwork Display */}
-                  <div className="relative w-full aspect-[4/5] bg-muted/30 overflow-hidden rounded">
-                    <img 
-                      src="https://www.sirhub.online/wp-content/uploads/go-x/u/5afb8e8c-63bb-49a1-84a3-3409e85b788e/l382,t0,w981,h1107/image-768x867.jpg"
-                      alt={artwork.title}
-                      className="w-full h-full object-cover"
-                    />
-                    {/* Subtle overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
-                  </div>
+                <div className="relative w-full h-full overflow-hidden">
+                  <img 
+                    src="/gallery/art/0C0FF1CB-BB55-4087-B418-A7D493B5EC7F_1_105_c.jpeg"
+                    alt={artwork.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </motion.div>
             </div>

@@ -142,10 +142,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       tertiary: disabled
         ? "bg-transparent border border-gray-300 text-gray-400 dark:border-gray-600 dark:text-gray-500"
         : cn(
-            "bg-transparent text-foreground",
-            "hover:bg-cyan-500/25 hover:border hover:border-cyan-500 hover:text-foreground",
-            "focus-visible:bg-transparent focus-visible:border focus-visible:border-cyan-500 focus-visible:ring-cyan-500 focus-visible:text-foreground",
-            "active:bg-cyan-500/30 active:border active:border-cyan-500 active:text-foreground"
+            "bg-transparent border border-transparent text-foreground",
+            "hover:bg-cyan-500/25 hover:border-cyan-500 hover:text-foreground",
+            "focus-visible:bg-transparent focus-visible:border-cyan-500 focus-visible:ring-cyan-500 focus-visible:text-foreground",
+            "active:bg-cyan-500/30 active:border-cyan-500 active:text-foreground"
           )
     };    const currentSize = sizeVariants[size] || sizeVariants.base;
     

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Instagram, Linkedin, Mail, ArrowUp } from 'lucide-react'
+import { Linkedin, Mail, ArrowUp } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 
@@ -11,7 +11,6 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { icon: Instagram, href: '#', label: 'Instagram' },
     { icon: Linkedin, href: 'https://www.linkedin.com/in/weidenbruechergh/', label: 'LinkedIn' },
     { icon: Mail, href: 'mailto:office@ghwbstudio.de', label: 'E-Mail' }
   ]
@@ -135,11 +134,9 @@ const Footer = () => {
           variant="secondary"
           size="sm"
           onClick={scrollToTop}
-          className="bg-background border-border/50 hover:border-border"
           icon="only"
-        >
-          <ArrowUp className="w-5 h-5" />
-        </Button>
+          iconElement={<ArrowUp className="w-4 h-4" />}
+        />
       </motion.div>
     </footer>
   )
