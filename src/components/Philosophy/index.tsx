@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Target, Minimize2, Heart, Users, Leaf, ArrowLeft, ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import { SpecialButton } from '@/components/ui/SpecialButton'
 
 const Philosophy = () => {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -149,34 +149,26 @@ const Philosophy = () => {
 
           {/* Active Principle Details */}
           <div className="relative">
-            {/* Navigation Buttons - custom buttons - hidden on mobile */}
-            <button
-              onClick={prevPrinciple}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 
-                         w-12 h-12 rounded-full 
-                         bg-transparent border border-muted-foreground/20 
-                         text-muted-foreground hover:border-foreground hover:text-foreground 
-                         hover:bg-muted/50 hover:scale-105
-                         flex items-center justify-center
-                         transition-all duration-200
-                         hidden md:flex"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </button>
+            {/* Navigation Buttons - SpecialButton Secondary - hidden on mobile */}
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden md:block">
+              <SpecialButton
+                variant="secondary"
+                size="sm"
+                icon="only"
+                iconElement={<ArrowLeft className="w-4 h-4" />}
+                onClick={prevPrinciple}
+              />
+            </div>
             
-            <button
-              onClick={nextPrinciple}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 
-                         w-12 h-12 rounded-full 
-                         bg-transparent border border-muted-foreground/20 
-                         text-muted-foreground hover:border-foreground hover:text-foreground 
-                         hover:bg-muted/50 hover:scale-105
-                         flex items-center justify-center
-                         transition-all duration-200
-                         hidden md:flex"
-            >
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:block">
+              <SpecialButton
+                variant="secondary"
+                size="sm"
+                icon="only"
+                iconElement={<ArrowRight className="w-4 h-4" />}
+                onClick={nextPrinciple}
+              />
+            </div>
 
             <motion.div
               key={activeIndex}
@@ -199,31 +191,23 @@ const Philosophy = () => {
                 </p>
               </div>
 
-              {/* Mobile Navigation Buttons - visible only on mobile */}
+              {/* Mobile Navigation Buttons - SpecialButton Secondary - visible only on mobile */}
               <div className="flex justify-center space-x-4 mb-8 md:hidden">
-                <button
+                <SpecialButton
+                  variant="secondary"
+                  size="sm"
+                  icon="only"
+                  iconElement={<ArrowLeft className="w-4 h-4" />}
                   onClick={prevPrinciple}
-                  className="w-12 h-12 rounded-full 
-                             bg-transparent border border-muted-foreground/20 
-                             text-muted-foreground hover:border-foreground hover:text-foreground 
-                             hover:bg-muted/50 hover:scale-105
-                             flex items-center justify-center
-                             transition-all duration-200"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                </button>
+                />
                 
-                <button
+                <SpecialButton
+                  variant="secondary"
+                  size="sm"
+                  icon="only"
+                  iconElement={<ArrowRight className="w-4 h-4" />}
                   onClick={nextPrinciple}
-                  className="w-12 h-12 rounded-full 
-                             bg-transparent border border-muted-foreground/20 
-                             text-muted-foreground hover:border-foreground hover:text-foreground 
-                             hover:bg-muted/50 hover:scale-105
-                             flex items-center justify-center
-                             transition-all duration-200"
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                />
               </div>
             
               {/* Progress Indicator */}

@@ -6,6 +6,7 @@ import MainLogo from './MainLogo'
 import { useTheme } from '@/contexts/ThemeContext'
 import SpaceshipHUD from './SpaceshipHUD'
 import { Button } from './ui/Button'
+import { SpecialButton } from './ui/SpecialButton'
 
 interface HeroProps {
   onContactClick?: () => void
@@ -65,20 +66,20 @@ const Hero = ({ onContactClick }: HeroProps) => {
           transition={{ duration: 0.8, delay: 2 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4"
         >
-          <Button
+          <SpecialButton
             variant="secondary"
             size="base"
+            icon="left"
+            iconElement={<Sparkles className="w-4 h-4" />}
             onClick={() => {
               const services = document.getElementById('services');
               if (services) services.scrollIntoView({ behavior: 'smooth' });
             }}
-            icon="left"
-            iconElement={<Sparkles className="w-4 h-4" />}
           >
             Meine Services
-          </Button>
-          
-          <Button
+          </SpecialButton>
+
+          <SpecialButton
             variant="primary"
             size="base"
             onClick={onContactClick || (() => {
@@ -88,7 +89,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
             })}
           >
             Kontakt
-          </Button>
+          </SpecialButton>
         </motion.div>
 
         {/* Scroll indicator - positioned at the bottom */}
@@ -99,8 +100,8 @@ const Hero = ({ onContactClick }: HeroProps) => {
           whileHover={{ scale: 1.1 }}
           className="mt-16"
         >
-          <Button
-            variant="tertiary"
+          <SpecialButton
+            variant="secondary"
             size="base"
             onClick={scrollToNext}
             className="p-4"
@@ -113,7 +114,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
               <Mouse className="w-5 h-5 mb-1" />
               <ArrowDown className="w-3 h-3" />
             </motion.div>
-          </Button>
+          </SpecialButton>
         </motion.div>
       </div>
     </section>

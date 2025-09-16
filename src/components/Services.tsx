@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion'
 import { Palette, Camera, Layers, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/Button'
+import { SpecialButton } from '@/components/ui/SpecialButton'
+import FloatingClouds from '@/components/FloatingClouds'
 
 const Services = () => {
   const services = [
@@ -55,8 +56,22 @@ const Services = () => {
   }
 
   return (
-    <section id="services" className="pt-20 pb-20 lg:pb-32 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" className="pt-20 pb-20 lg:pb-32 bg-muted/30 relative overflow-hidden">
+      {/* Floating Clouds Background - hellblau eingefärbt */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Clouds mit hellblauer Einfärbung */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            filter: 'sepia(100%) saturate(200%) hue-rotate(180deg) brightness(0.8) contrast(1.2)',
+            opacity: 0.6
+          }}
+        >
+          <FloatingClouds />
+        </div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -77,7 +92,8 @@ const Services = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 md:items-stretch"
+          style={{ gap: 'calc(var(--spacing) * 4)' }}
         >
           {services.map((service, index) => {
             const Icon = service.icon
@@ -85,47 +101,102 @@ const Services = () => {
               <motion.div
                 key={service.title}
                 variants={itemVariants}
-                className="group"
+                className="group h-full"
               >
                 <Link href={service.href}>
-                  <motion.div
-                    className="relative p-8 rounded-2xl bg-background border border-border/50 hover:border-border duration-300 h-full"
-                    whileHover={{ y: -5, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    <motion.div
+                      className="relative p-8 rounded-2xl h-full cursor-pointer transform-gpu flex flex-col backdrop-blur-md"
+                    style={{
+                      background: `
+                        rgba(255, 255, 255, 0.1),
+                        linear-gradient(145deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%)
+                      `,
+                      boxShadow: `
+                        -6px -6px 18px rgba(255, 255, 255, 0.8),
+                        6px 6px 18px rgba(0, 0, 0, 0.15),
+                        0 0 0 1px rgba(255, 255, 255, 0.2),
+                        inset 2px 2px 6px rgba(0, 0, 0, 0.08),
+                        inset -2px -2px 6px rgba(255, 255, 255, 0.3)
+                      `,
+                    }}
+                    whileHover={{ 
+                      y: -2, 
+                      scale: 1.05,
+                      boxShadow: `
+                        -12px -12px 48px rgba(255, 255, 255, 0.9),
+                        12px 12px 48px rgba(0, 0, 0, 0.18),
+                        0 0 0 1px rgba(255, 255, 255, 0.18),
+                        inset 2px 2px 6px rgba(135, 206, 235, 0.12),
+                        inset -2px -2px 6px rgba(255, 255, 255, 0.4)
+                      `
+                    }}
+                    whileTap={{
+                      scale: 0.998,
+                      y: 0,
+                      boxShadow: `
+                        -3px -3px 9px rgba(255, 255, 255, 0.6),
+                        3px 3px 9px rgba(0, 0, 0, 0.12),
+                        0 0 0 1px rgba(255, 255, 255, 0.08),
+                        inset 4px 4px 8px rgba(0, 0, 0, 0.12),
+                        inset -4px -4px 8px rgba(255, 255, 255, 0.25)
+                      `
+                    }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 180, 
+                      damping: 28,
+                      mass: 1.3
+                    }}
                   >
-                    {/* Gradient background */}
-                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                    {/* Subtle glow overlay on hover */}
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
+                         style={{
+                           background: `radial-gradient(circle at center, rgba(135, 206, 235, 0.1), transparent 70%)`
+                         }} />
                     
                     {/* Arrow on the right side - same height as icon */}
                     <motion.div
-                      className="absolute top-8 right-8 flex items-center justify-center w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute top-8 right-8 flex items-center justify-center w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                      style={{
+                        filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))',
+                        transition: 'filter 0.3s ease'
+                      }}
                       animate={{
                         x: [0, 6, 0]
                       }}
                       transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut"
+                        x: {
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }
                       }}
                     >
-                      <ArrowRight className="w-5 h-5 text-foreground" />
+                      <ArrowRight className="w-5 h-5 text-foreground group-hover:drop-shadow-[0_0_16px_rgba(135,206,235,1)] group-hover:animate-pulse" />
                     </motion.div>
                     
                     {/* Content */}
-                    <div className="relative z-10">
+                    <div className="relative z-10 flex flex-col flex-1">
                       <motion.div
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6"
+                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6 transition-all duration-300"
                         whileHover={{ scale: 1.1, rotate: 5 }}
                         transition={{ type: "spring", stiffness: 400 }}
                       >
-                        <Icon className="w-8 h-8" />
+                        <Icon className="w-8 h-8 group-hover:drop-shadow-[0_0_16px_rgba(135,206,235,1)] group-hover:animate-pulse" />
                       </motion.div>
 
-                      <h3 className="text-2xl font-semibold text-foreground leading-tight mb-4 md:text-xl">
-                        {service.title}
+                      <h3 
+                        className="text-2xl font-semibold text-foreground leading-tight mb-4 md:text-xl opacity-85 transition-all duration-300"
+                        style={{
+                          textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                        }}
+                      >
+                        <span className="group-hover:drop-shadow-[0_0_20px_rgba(135,206,235,1)] group-hover:animate-pulse">
+                          {service.title}
+                        </span>
                       </h3>
 
-                      <p className="text-base text-muted-foreground leading-7">
+                      <p className="text-base text-muted-foreground leading-7 flex-1">
                         {service.description}
                       </p>
                     </div>
@@ -165,17 +236,23 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
-          className="text-center mt-16"
+          className="w-full backdrop-blur-md rounded-2xl"
+          style={{ 
+            marginTop: 'calc(var(--spacing) * 4)',
+            background: 'rgba(255, 255, 255, 0.1)'
+          }}
         >
-          <Link href="/about">
-            <Button
+          <Link href="/about" className="block w-full">
+            <SpecialButton
               variant="secondary"
-              size="base"
-              icon="right"
-              iconElement={<ArrowRight className="w-4 h-4" />}
+              size="variabel"
+              className="flex items-center justify-center"
             >
-              Mehr über mich erfahren
-            </Button>
+              <span className="flex items-center gap-3">
+                Mehr über mich erfahren
+                <ArrowRight className="w-4 h-4" />
+              </span>
+            </SpecialButton>
           </Link>
         </motion.div>
       </div>

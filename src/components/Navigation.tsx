@@ -8,6 +8,7 @@ import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { cn } from '@/lib/utils'
 import { Button } from './ui/Button'
+import { SpecialButton } from './ui/SpecialButton'
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -66,34 +67,19 @@ const Navigation = () => {
             </NavigationLink>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-2">
+            <div className="hidden md:flex items-center space-x-6">
               {menuItems.slice(1).map((item) => (
                 <NavigationLink key={item.href} href={item.href}>
-                  <Button
-                    variant="tertiary"
-                    size="xs"
+                  <span
                     className={cn(
-                      "relative text-sm transition-colors",
+                      "text-sm font-poppins font-semibold transition-all duration-300",
                       pathname === item.href
-                        ? "text-foreground font-semibold"
-                        : "text-foreground/60 hover:text-foreground/80"
+                        ? "text-[#FF8C42] drop-shadow-[0_0_8px_rgba(255,140,66,0.6)]"
+                        : "text-foreground hover:text-[#4A90E2] hover:drop-shadow-[0_0_6px_rgba(74,144,226,0.5)]"
                     )}
                   >
                     {item.label}
-                    {pathname === item.href && mounted && (
-                      <motion.div
-                        layoutId="underline"
-                        className={cn(
-                          "absolute left-0 top-full h-1 w-full rounded-full",
-                          theme === 'dark' 
-                            ? "bg-gradient-to-r from-cyan-400 to-blue-500 shadow-lg shadow-cyan-400/25" 
-                            : "bg-gradient-to-r from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/25"
-                        )}
-                        initial={false}
-                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                      />
-                    )}
-                  </Button>
+                  </span>
                 </NavigationLink>
               ))}
             </div>
@@ -176,31 +162,16 @@ const Navigation = () => {
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                   >
-                    <Button
-                      variant="tertiary"
-                      size="base"
+                    <span
                       className={cn(
-                        "text-2xl relative px-8 py-4",
+                        "text-2xl font-poppins font-semibold transition-all duration-300",
                         pathname === item.href
-                          ? "text-foreground font-semibold"
-                          : "text-foreground/60"
+                          ? "text-[#FF8C42] drop-shadow-[0_0_12px_rgba(255,140,66,0.7)]"
+                          : "text-foreground hover:text-[#4A90E2] hover:drop-shadow-[0_0_10px_rgba(74,144,226,0.6)]"
                       )}
                     >
                       {item.label}
-                      {pathname === item.href && mounted && (
-                        <motion.div
-                          className={cn(
-                            "absolute left-0 top-full h-1 w-full rounded-full mt-2",
-                            theme === 'dark' 
-                              ? "bg-gradient-to-r from-cyan-400 to-blue-500 shadow-lg shadow-cyan-400/25" 
-                              : "bg-gradient-to-r from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/25"
-                          )}
-                          layoutId="mobile-underline"
-                          initial={false}
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                        />
-                      )}
-                    </Button>
+                    </span>
                   </NavigationLink>
                 </motion.div>
               ))}

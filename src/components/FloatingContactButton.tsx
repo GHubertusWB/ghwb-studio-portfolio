@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
 import { Button } from './ui/Button'
+import { SpecialButton } from './ui/SpecialButton'
 import ContactModal from './ContactModal'
 import { useTheme } from '@/contexts/ThemeContext'
 
@@ -118,16 +119,17 @@ export default function FloatingContactButton({
               damping: 30
             }}
           >
-            <Button
+            <SpecialButton
               variant="primary"
-              size="base"
+              size="lg"
               onClick={openContactModal}
               icon="left"
-              iconElement={<MessageCircle className="w-4 h-4" />}
-              className="shadow-lg hover:shadow-xl transition-shadow duration-300"
+              iconElement={<MessageCircle className="w-5 h-5" />}
+              className="shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-full"
+              style={{ borderRadius: '9999px' }}
             >
               Kontakt
-            </Button>
+            </SpecialButton>
           </motion.div>
         )}
       </AnimatePresence>

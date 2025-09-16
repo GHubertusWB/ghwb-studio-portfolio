@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Linkedin, Mail, ArrowUp } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
+import { SpecialButton } from '@/components/ui/SpecialButton'
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -23,7 +24,16 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="relative bg-muted/50 border-t border-border/50">
+    <footer className="relative border-t border-border/50" style={{
+      background: `
+        linear-gradient(135deg, 
+          rgba(173, 216, 230, 0.15) 0%, 
+          rgba(135, 206, 235, 0.25) 50%, 
+          rgba(70, 130, 180, 0.35) 100%
+        ),
+        var(--background)
+      `
+    }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-16">
           <motion.div
@@ -49,13 +59,12 @@ const Footer = () => {
           >
             {footerLinks.map((link) => (
               <Link key={link.href} href={link.href}>
-                <Button
-                  variant="tertiary"
+                <SpecialButton
+                  variant="secondary"
                   size="sm"
-                  className="text-muted-foreground hover:text-foreground"
                 >
                   {link.label}
-                </Button>
+                </SpecialButton>
               </Link>
             ))}
           </motion.div>
@@ -75,12 +84,14 @@ const Footer = () => {
                   href={social.href}
                   target={social.href.startsWith('http') ? '_blank' : undefined}
                   rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="p-3 rounded-full bg-background border border-border/50 hover:border-border transition-colors"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
                   aria-label={social.label}
                 >
-                  <Icon className="w-5 h-5" />
+                  <SpecialButton
+                    variant="secondary"
+                    size="base"
+                    icon="only"
+                    iconElement={<Icon className="w-5 h-5" />}
+                  />
                 </motion.a>
               )
             })}
@@ -100,22 +111,22 @@ const Footer = () => {
           
           <div className="flex space-x-4">
             <Link href="/impressum">
-              <Button
-                variant="tertiary"
-                size="xs"
-                className="text-muted-foreground hover:text-foreground text-sm"
+              <SpecialButton
+                variant="secondary"
+                size="sm"
+                className="text-sm"
               >
                 Impressum
-              </Button>
+              </SpecialButton>
             </Link>
             <Link href="/datenschutz">
-              <Button
-                variant="tertiary"
-                size="xs"
-                className="text-muted-foreground hover:text-foreground text-sm"
+              <SpecialButton
+                variant="secondary"
+                size="sm"
+                className="text-sm"
               >
                 Datenschutz
-              </Button>
+              </SpecialButton>
             </Link>
           </div>
         </motion.div>
@@ -130,12 +141,12 @@ const Footer = () => {
         transition={{ type: "spring", stiffness: 400 }}
         className="absolute top-8 right-8"
       >
-        <Button
+        <SpecialButton
           variant="secondary"
-          size="sm"
+          size="base"
           onClick={scrollToTop}
           icon="only"
-          iconElement={<ArrowUp className="w-4 h-4" />}
+          iconElement={<ArrowUp className="w-5 h-5" />}
         />
       </motion.div>
     </footer>
