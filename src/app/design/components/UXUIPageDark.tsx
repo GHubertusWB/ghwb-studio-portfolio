@@ -279,7 +279,7 @@ export default function UXUIPageDark() {
             >
               {/* Desktop SVG - hidden on mobile */}
               <img
-                src="/images/Dark.svg"
+                src="/images/Dark-workflow.svg"
                 alt="UX Design Workflow"
                 className="hidden md:block w-full h-auto max-w-5xl"
                 style={{ maxHeight: '400px' }}

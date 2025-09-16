@@ -370,7 +370,7 @@ export default function UXUIPageLight() {
           >
             {/* Desktop SVG - hidden on mobile */}
             <img
-              src="/images/Light.svg"
+              src="/images/Light-workflow.svg"
               alt="UX Design Workflow"
               className="hidden md:block w-full h-auto max-w-5xl"
               style={{ maxHeight: '400px' }}
