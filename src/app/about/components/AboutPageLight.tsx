@@ -1,11 +1,12 @@
 'use client'
 
-import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { ArrowLeft, Award, Users, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
 import FloatingContactButton from '@/components/FloatingContactButton'
+import FloatingClouds from '@/components/FloatingClouds'
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 
@@ -17,65 +18,51 @@ const TimelineItem = ({ item, index }: { item: any, index: number }) => {
   return (
     <motion.div 
       ref={ref}
-      className="relative flex items-start mb-16 last:mb-0"
-      initial={{ opacity: 0, x: -50 }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+      className="mb-12 last:mb-0"
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
     >
-      {/* Timeline Line */}
-      <div className="absolute left-6 top-12 w-0.5 h-full bg-gradient-to-b from-blue-500/50 to-transparent"></div>
-      
-      {/* Year Badge */}
-      <div className="relative z-10 flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/25">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-pulse opacity-75"></div>
-        <span className="relative z-10">{item.year.slice(-2)}</span>
-      </div>
-      
-      {/* Content Card */}
-      <div className="ml-8 flex-1">
-        <motion.div 
-          className="bg-white/70 backdrop-blur-sm border border-gray-200 rounded-xl p-6 hover:border-blue-500/50 transition-all duration-300 shadow-lg"
-          whileHover={{ scale: 1.02, y: -5 }}
-        >
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-1">{item.title}</h3>
-              <p className="text-blue-600 font-medium">{item.company}</p>
-            </div>
-            <span className="text-gray-600 text-sm bg-gray-100 px-3 py-1 rounded-full">{item.year}</span>
+      {/* Content Card - ohne Rundungen, Schatten und Hover */}
+      <div className="bg-white border border-gray-200 p-6">
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 mb-1">{item.title}</h3>
+            <p className="text-gray-600 font-medium">{item.company}</p>
           </div>
-          
-          <p className="text-gray-700 mb-4 leading-relaxed">{item.description}</p>
-          
-          {/* Achievements */}
-          {item.achievements && (
-            <div className="mb-4">
-              <h4 className="text-gray-900 font-semibold mb-2 flex items-center">
-                <Award className="w-4 h-4 mr-2 text-blue-600" />
-                Highlights
-              </h4>
-              <ul className="space-y-1">
-                {item.achievements.map((achievement: string, idx: number) => (
-                  <li key={idx} className="text-gray-700 text-sm flex items-start">
-                    <span className="text-blue-600 mr-2">▸</span>
-                    {achievement}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          
-          {/* Technologies */}
-          {item.tech && (
-            <div className="flex flex-wrap gap-2">
-              {item.tech.map((tech: string, idx: number) => (
-                <span key={idx} className="bg-gray-100 text-blue-600 text-xs px-2 py-1 rounded-md border border-gray-300">
-                  {tech}
-                </span>
+          <span className="text-gray-600 text-sm bg-gray-100 px-3 py-1">{item.year}</span>
+        </div>
+        
+        <p className="text-gray-700 mb-4 leading-relaxed">{item.description}</p>
+        
+        {/* Achievements */}
+        {item.achievements && (
+          <div className="mb-4">
+            <h4 className="text-gray-900 font-semibold mb-2 flex items-center">
+              <Award className="w-4 h-4 mr-2 text-gray-600" />
+              Highlights
+            </h4>
+            <ul className="space-y-1">
+              {item.achievements.map((achievement: string, idx: number) => (
+                <li key={idx} className="text-gray-700 text-sm flex items-start">
+                  <span className="text-gray-600 mr-2">▸</span>
+                  {achievement}
+                </li>
               ))}
-            </div>
-          )}
-        </motion.div>
+            </ul>
+          </div>
+        )}
+        
+        {/* Technologies */}
+        {item.tech && (
+          <div className="flex flex-wrap gap-2">
+            {item.tech.map((tech: string, idx: number) => (
+              <span key={idx} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 border border-gray-300">
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </motion.div>
   )
@@ -114,12 +101,12 @@ const AboutSection = () => {
             </div>
             {/* Floating Elements */}
             <motion.div 
-              className="absolute -top-4 -right-4 w-8 h-8 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"
+              className="absolute -top-4 -right-4 w-8 h-8 bg-gray-400 rounded-full shadow-lg shadow-gray-400/50"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
             <motion.div 
-              className="absolute -bottom-4 -left-4 w-6 h-6 bg-cyan-500 rounded-full shadow-lg shadow-cyan-500/50"
+              className="absolute -bottom-4 -left-4 w-6 h-6 bg-gray-500 rounded-full shadow-lg shadow-gray-500/50"
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             />
@@ -136,7 +123,7 @@ const AboutSection = () => {
             </h2>
             <div className="space-y-4 text-gray-700 leading-relaxed">
               <p>
-                Hallo! Ich bin <span className="text-blue-600 font-semibold">Hubertus Weidenbrücher</span>, 
+                Hallo! Ich bin <span className="text-gray-900 font-semibold">Hubertus Weidenbrücher</span>, 
                 ein leidenschaftlicher UX/UI Designer mit vielseitiger Erfahrung von der Landschaftsarchitektur 
                 bis hin zur digitalen Produktentwicklung.
               </p>
@@ -147,24 +134,24 @@ const AboutSection = () => {
               </p>
               <p>
                 Wenn ich nicht gerade an der nächsten innovativen Software-Lösung arbeite, 
-                beschäftige ich mich mit <span className="text-blue-600">Fotografie</span>, 
-                <span className="text-blue-600"> klassischer Malerei</span> und 
-                <span className="text-blue-600"> digitaler Kunst</span>.
+                beschäftige ich mich mit <span className="text-gray-900">Fotografie</span>, 
+                <span className="text-gray-900"> klassischer Malerei</span> und 
+                <span className="text-gray-900"> digitaler Kunst</span>.
               </p>
             </div>
             
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-4 mt-8">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">5+</div>
+                <div className="text-2xl font-bold text-gray-900">5+</div>
                 <div className="text-sm text-gray-600">Jahre UX/UI</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">8</div>
+                <div className="text-2xl font-bold text-gray-900">8</div>
                 <div className="text-sm text-gray-600">Unternehmen</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">10+</div>
+                <div className="text-2xl font-bold text-gray-900">10+</div>
                 <div className="text-sm text-gray-600">Jahre Erfahrung</div>
               </div>
             </div>
@@ -177,13 +164,6 @@ const AboutSection = () => {
 
 export default function AboutPageLight() {
   const [currentTime, setCurrentTime] = useState('')
-  const timelineRef = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ["start end", "end start"]
-  })
-  
-  const progressLine = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
 
   useEffect(() => {
     const updateTime = () => {
@@ -268,7 +248,7 @@ export default function AboutPageLight() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 relative overflow-hidden">
+    <div className="min-h-screen bg-white text-gray-900 relative overflow-hidden">
       {/* 1. HERO SECTION - STARTSEITE LIGHT MODE STYLING */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -279,6 +259,9 @@ export default function AboutPageLight() {
       >
         {/* Background gradient - matching startpage */}
         <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-white" />
+        
+        {/* Floating Clouds */}
+        <FloatingClouds />
 
         {/* Subtle geometric background elements */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 15 }}>
@@ -398,8 +381,8 @@ export default function AboutPageLight() {
       <AboutSection />
 
       {/* Timeline Section */}
-      <section ref={timelineRef} className="py-20 relative">
-        <div className="max-w-5xl mx-auto px-4">
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -415,14 +398,8 @@ export default function AboutPageLight() {
             </p>
           </motion.div>
 
-          {/* Timeline Progress Line */}
-          <motion.div 
-            className="absolute left-6 top-32 w-0.5 bg-gradient-to-b from-blue-500 to-cyan-500 origin-top"
-            style={{ height: progressLine }}
-          />
-
           {/* Timeline Items */}
-          <div className="relative">
+          <div className="space-y-8">
             {timelineData.map((item, index) => (
               <TimelineItem 
                 key={`${item.year}-${index}`} 

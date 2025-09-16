@@ -35,31 +35,25 @@ const CursorFollower = () => {
     loadAnimations()
   }, [])
 
-  // Track mouse movement and hero section bounds
+  // Track mouse movement globally
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
+      setIsInHero(true) // Always show in light mode
+    }
 
-      // Check if mouse is over hero section
-      if (!heroRef.current) {
-        heroRef.current = document.querySelector('section') as HTMLElement
-      }
-
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect()
-        const isOver = (
-          e.clientX >= rect.left &&
-          e.clientX <= rect.right &&
-          e.clientY >= rect.top &&
-          e.clientY <= rect.bottom
-        )
-        setIsInHero(isOver)
-      }
+    const handleMouseLeave = () => {
+      setIsInHero(false) // Hide when mouse leaves window
     }
 
     window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseleave', handleMouseLeave)
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
+    }
   }, [mouseX, mouseY])
 
   return (

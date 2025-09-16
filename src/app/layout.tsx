@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation";
 import StarField from "@/components/StarField";
 import CursorFollower from "@/components/CursorFollower";
+import NavigationLoader from "@/components/NavigationLoader";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -54,6 +55,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
+          <NavigationLoader />
           <CursorFollower />
           <StarField />
           <Navigation />

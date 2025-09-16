@@ -17,7 +17,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
   useEffect(() => {
     let mounted = true
     
-    // Visueller Progress läuft unabhängig (für UX)
+    // Visueller Progress läuft über 4 Sekunden bis 100%
     const startTime = Date.now()
     const progressInterval = setInterval(() => {
       if (!mounted) {
@@ -26,9 +26,14 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
       }
       
       const elapsed = Date.now() - startTime
-      // Langsamer Progress bis 90%, dann warten auf onLoadingComplete
-      const newProgress = Math.min((elapsed / 6000) * 90, 90)
+      // Progress über 3.5 Sekunden bis 100%
+      const newProgress = Math.min((elapsed / 3500) * 100, 100)
       setProgress(newProgress)
+      
+      // Bei 100% aufhören
+      if (newProgress >= 100) {
+        clearInterval(progressInterval)
+      }
     }, 50)
 
     return () => {
@@ -39,15 +44,14 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
 
   // Wird von HomeWithLoader aufgerufen wenn Ressourcen fertig sind
   useEffect(() => {
-    if (onLoadingComplete) {
-      // Fortschritt auf 100% setzen und dann verschwinden
-      setProgress(100)
+    if (progress >= 100) {
+      // Bei 100% kurz warten und dann verschwinden
       setTimeout(() => {
         setIsVisible(false)
         setTimeout(onLoadingComplete, 500)
       }, 800) // Kurz bei 100% bleiben
     }
-  }, [onLoadingComplete])
+  }, [progress, onLoadingComplete])
 
   const circumference = 2 * Math.PI * 85 // Radius von 85px (größerer Kreis)
   const strokeDashoffset = circumference - (progress / 100) * circumference

@@ -44,8 +44,8 @@ export default function HomeWithLoader() {
       // Warte auf alle Ressourcen
       await Promise.allSettled([...imagePromises, ...apiPromises])
       
-      // Mindest-Loading Zeit von 2 Sekunden für UX
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      // Mindest-Loading Zeit von 4 Sekunden für vollständige Animation
+      await new Promise(resolve => setTimeout(resolve, 4000))
       
       setResourcesLoaded(true)
     }

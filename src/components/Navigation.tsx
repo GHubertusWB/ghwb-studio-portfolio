@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import NavigationLink from './NavigationLink'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Sun, Moon } from 'lucide-react'
@@ -54,7 +54,7 @@ const Navigation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link href="/" className="text-xl tracking-wider">
+            <NavigationLink href="/" className="text-xl tracking-wider">
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400 }}
@@ -63,12 +63,12 @@ const Navigation = () => {
                 <span className="font-bold">GHWB</span>
                 <span className="font-medium ml-2">STUDIO</span>
               </motion.span>
-            </Link>
+            </NavigationLink>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-2">
               {menuItems.slice(1).map((item) => (
-                <Link key={item.href} href={item.href}>
+                <NavigationLink key={item.href} href={item.href}>
                   <Button
                     variant="tertiary"
                     size="xs"
@@ -94,7 +94,7 @@ const Navigation = () => {
                       />
                     )}
                   </Button>
-                </Link>
+                </NavigationLink>
               ))}
             </div>
 
@@ -172,7 +172,7 @@ const Navigation = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Link
+                  <NavigationLink
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                   >
@@ -201,7 +201,7 @@ const Navigation = () => {
                         />
                       )}
                     </Button>
-                  </Link>
+                  </NavigationLink>
                 </motion.div>
               ))}
             </div>
