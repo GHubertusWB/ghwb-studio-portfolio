@@ -325,9 +325,7 @@ export default function UXUIPageDark() {
       </section>
 
       {/* FLOATING CONTACT BUTTON */}
-      <FloatingContactButton 
-        theme="dark" 
-      />
+      <FloatingContactButton />
       <Footer />
     </div>
   )

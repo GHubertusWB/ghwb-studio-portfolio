@@ -485,9 +485,7 @@ export default function ArtPageLight(): React.JSX.Element {
       </section>
 
       {/* FLOATING CONTACT BUTTON */}
-      <FloatingContactButton 
-        theme="light" 
-      />
+      <FloatingContactButton />
 
       <Footer />
     </div>

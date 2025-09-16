@@ -93,9 +93,7 @@ export default function HomeWithLoader() {
           <Footer />
 
           {/* Floating Contact Button System */}
-          <FloatingContactButton
-            theme="light"
-          />
+          <FloatingContactButton />
         </motion.div>
       )}
     </AnimatePresence>

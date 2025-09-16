@@ -489,7 +489,6 @@ export default function UXUIPageLight() {
 
       {/* Floating Contact Button System */}
       <FloatingContactButton
-        theme="light"
         title="Bereit für Ihr UX/UI Projekt?"
         subtitle="Lassen Sie uns gemeinsam eine außergewöhnliche Nutzererfahrung schaffen, die Ihre Zielgruppe begeistert."
       />

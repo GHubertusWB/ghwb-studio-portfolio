@@ -1,17 +1,189 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ArrowLeft, Award, Coffee, Heart, Lightbulb, Users, Zap } from 'lucide-react'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { ArrowLeft, Award, Users, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
-import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
 import FloatingContactButton from '@/components/FloatingContactButton'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
+
+// Timeline Item Component
+const TimelineItem = ({ item, index }: { item: any, index: number }) => {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  
+  return (
+    <motion.div 
+      ref={ref}
+      className="relative flex items-start mb-16 last:mb-0"
+      initial={{ opacity: 0, x: -50 }}
+      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+    >
+      {/* Timeline Line */}
+      <div className="absolute left-6 top-12 w-0.5 h-full bg-gradient-to-b from-blue-500/50 to-transparent"></div>
+      
+      {/* Year Badge */}
+      <div className="relative z-10 flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/25">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-pulse opacity-75"></div>
+        <span className="relative z-10">{item.year.slice(-2)}</span>
+      </div>
+      
+      {/* Content Card */}
+      <div className="ml-8 flex-1">
+        <motion.div 
+          className="bg-white/70 backdrop-blur-sm border border-gray-200 rounded-xl p-6 hover:border-blue-500/50 transition-all duration-300 shadow-lg"
+          whileHover={{ scale: 1.02, y: -5 }}
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-1">{item.title}</h3>
+              <p className="text-blue-600 font-medium">{item.company}</p>
+            </div>
+            <span className="text-gray-600 text-sm bg-gray-100 px-3 py-1 rounded-full">{item.year}</span>
+          </div>
+          
+          <p className="text-gray-700 mb-4 leading-relaxed">{item.description}</p>
+          
+          {/* Achievements */}
+          {item.achievements && (
+            <div className="mb-4">
+              <h4 className="text-gray-900 font-semibold mb-2 flex items-center">
+                <Award className="w-4 h-4 mr-2 text-blue-600" />
+                Highlights
+              </h4>
+              <ul className="space-y-1">
+                {item.achievements.map((achievement: string, idx: number) => (
+                  <li key={idx} className="text-gray-700 text-sm flex items-start">
+                    <span className="text-blue-600 mr-2">▸</span>
+                    {achievement}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {/* Technologies */}
+          {item.tech && (
+            <div className="flex flex-wrap gap-2">
+              {item.tech.map((tech: string, idx: number) => (
+                <span key={idx} className="bg-gray-100 text-blue-600 text-xs px-2 py-1 rounded-md border border-gray-300">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
+        </motion.div>
+      </div>
+    </motion.div>
+  )
+}
+
+// About Section Component
+const AboutSection = () => {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true })
+  
+  return (
+    <motion.section 
+      ref={ref}
+      className="py-20 about-section"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Profile Image */}
+          <motion.div 
+            className="relative"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div className="relative overflow-hidden shadow-xl">
+              <Image
+                src="/images/hubertus-portrait.jpg"
+                alt="Hubertus Weidenbrücher"
+                width={400}
+                height={600}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            {/* Floating Elements */}
+            <motion.div 
+              className="absolute -top-4 -right-4 w-8 h-8 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <motion.div 
+              className="absolute -bottom-4 -left-4 w-6 h-6 bg-cyan-500 rounded-full shadow-lg shadow-cyan-500/50"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity }}
+            />
+          </motion.div>
+          
+          {/* About Text */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              Über mich
+            </h2>
+            <div className="space-y-4 text-gray-700 leading-relaxed">
+              <p>
+                Hallo! Ich bin <span className="text-blue-600 font-semibold">Hubertus Weidenbrücher</span>, 
+                ein leidenschaftlicher UX/UI Designer mit vielseitiger Erfahrung von der Landschaftsarchitektur 
+                bis hin zur digitalen Produktentwicklung.
+              </p>
+              <p>
+                Meine berufliche Reise begann in der Landschaftsarchitektur, wo ich analytisches Denken und 
+                systematische Planungsansätze entwickelte. Bei adabay GmbH und adesso SE habe ich diese 
+                Fähigkeiten in die digitale Welt übertragen und moderne UX/UI-Lösungen für Enterprise-Anwendungen entwickelt.
+              </p>
+              <p>
+                Wenn ich nicht gerade an der nächsten innovativen Software-Lösung arbeite, 
+                beschäftige ich mich mit <span className="text-blue-600">Fotografie</span>, 
+                <span className="text-blue-600"> klassischer Malerei</span> und 
+                <span className="text-blue-600"> digitaler Kunst</span>.
+              </p>
+            </div>
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-3 gap-4 mt-8">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">5+</div>
+                <div className="text-sm text-gray-600">Jahre UX/UI</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">8</div>
+                <div className="text-sm text-gray-600">Unternehmen</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">10+</div>
+                <div className="text-sm text-gray-600">Jahre Erfahrung</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </motion.section>
+  )
+}
 
 export default function AboutPageLight() {
   const [currentTime, setCurrentTime] = useState('')
+  const timelineRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start end", "end start"]
+  })
+  
+  const progressLine = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
 
   useEffect(() => {
     const updateTime = () => {
@@ -28,84 +200,76 @@ export default function AboutPageLight() {
     return () => clearInterval(interval)
   }, [])
 
-  const skills = [
-    'UX/UI Design',
-    'Fotografie',
-    'Klassische Malerei',
-    'Digitale Kunst',
-    'AR-Entwicklung',
-    'Prototyping',
-    'User Research',
-    'Produktfotografie',
-    'Porträtfotografie',
-    'Mixed Media'
-  ]
-
-  const values = [
+  const timelineData = [
     {
-      icon: Heart,
-      title: 'Leidenschaft',
-      description: 'Jedes Projekt wird mit vollster Hingabe und Liebe zum Detail umgesetzt.'
+      year: '2022',
+      title: 'Senior UX UI Designer',
+      company: 'adesso SE',
+      description: 'Vollzeit Position in München, Bayern. Spezialisierung auf moderne UX/UI-Lösungen mit Focus auf Design Systems und User Experience für Enterprise-Anwendungen.',
+      achievements: ['Design Systems Development', 'User Journey Mapping', 'Workshop-Leitung', 'Projektmanagement'],
+      tech: ['PowerPoint', 'Adobe Illustrator', 'Mediengestaltung', 'SketchUp', 'Figma', 'Adobe Photoshop', 'Prototyp']
     },
     {
-      icon: Lightbulb,
-      title: 'Innovation',
-      description: 'Ich verbinde traditionelle Methoden mit modernster Technologie für einzigartige Lösungen.'
+      year: '2020',
+      title: 'Senior UI/UX Designer',
+      company: 'adabay GmbH',
+      description: 'Vollzeit Position (Nov. 2020 - Sept. 2022) mit 1 Jahr 11 Monaten Erfahrung. Entwicklung von Benutzeroberflächen und User Experience Konzepten für digitale Produkte.',
+      achievements: ['Mediengestaltung & Prototyping', 'Design System Entwicklung', 'User Journey Optimierung', 'Workshop-Koordination'],
+      tech: ['Mediengestaltung', 'Prototyp', 'Design Systeme', 'Analytische Fähigkeiten', 'User Journeys']
     },
     {
-      icon: Users,
-      title: 'Zusammenarbeit',
-      description: 'Enger Dialog mit Kunden für maßgeschneiderte Ergebnisse, die begeistern.'
+      year: '2020',
+      title: 'Junior UI/UX Designer',
+      company: 'adabay GmbH',
+      description: 'Einstieg in die professionelle UX/UI-Welt (März 2020 - Nov. 2020) in München. Erste Erfahrungen in der Gestaltung digitaler Benutzeroberflächen und User Experience Design.',
+      achievements: ['Mediengestaltung Grundlagen', 'Prototyping Methoden', 'User Research Basics', 'Teamwork & Kollaboration'],
+      tech: ['Mediengestaltung', 'Prototyp', 'Analytische Fähigkeiten', 'User Journeys', 'Kreative Ideenfindung']
     },
     {
-      icon: Zap,
-      title: 'Präzision',
-      description: 'Höchste Qualitätsansprüche in jedem Aspekt meiner kreativen Arbeit.'
-    }
-  ]
-
-  const journey = [
-    {
-      year: '2012',
-      title: 'TU München - Wissenschaftlicher Mitarbeiter',
-      description: 'EU-Forschungsprojekt: Zählen und Bestimmen von Insekten aus Fallen'
+      year: '2019',
+      title: 'Mitarbeiter Landschaftsarchitektur',
+      company: 'HinnenthalSchaar Landschaftsarchitekten',
+      description: 'Tätigkeit in München (Jan. 2019 - Feb. 2020) mit Fokus auf analytische Planungsprozesse. Entwicklung von Fertigkeiten in der systematischen Analyse und visuellen Kommunikation.',
+      achievements: ['Analytische Projektbearbeitung', 'Visuelle Kommunikation', 'Planungsmethodik', 'Teamkoordination'],
+      tech: ['Analytische Fähigkeiten', 'Planungssoftware', 'Projektkoordination']
     },
     {
-      year: '2013', 
-      title: 'TU München - Studentischer Mitarbeiter',
-      description: 'Zeichentutor für architektonisches Zeichnen in der Lehre'
+      year: '2018',
+      title: 'Mitarbeiter Landschaftsarchitektur',
+      company: 'Studio Vulkan Landschaftsarchitektur',
+      description: 'Projektmitarbeit (Juli 2018 - Dez. 2018) mit 6 Monaten intensiver Erfahrung in der konzeptionellen Planung und systematischen Herangehensweise an komplexe Projekte.',
+      achievements: ['Konzeptentwicklung', 'Systematisches Arbeiten', 'Projektplanung', 'Kreative Problemlösung'],
+      tech: ['Planungssoftware', 'Konzeptentwicklung', 'Projektmanagement']
     },
     {
-      year: '2014-2017',
-      title: 'Landschaftsarchitektur',
-      description: 'Praktika bei renommierten Architekturbüros in München, Wien und Zürich'
+      year: '2017',
+      title: 'Mitarbeiter Landschaftsarchitektur',
+      company: 'Green4Cities GmbH',
+      description: 'Projektarbeit in Wien (Okt. 2017 - Juni 2018) mit 9 Monaten Erfahrung in der internationalen Zusammenarbeit und nachhaltigen Stadtplanung.',
+      achievements: ['Internationale Projekte', 'Nachhaltige Planung', 'Teamwork', 'Analytische Projektbearbeitung'],
+      tech: ['CAD-Software', 'Planungstools', 'Präsentationstechniken']
     },
     {
-      year: '2018-2020',
-      title: 'Freelance Landschaftsplanung',
-      description: 'Selbstständige Projekte und Mitarbeit bei verschiedenen Planungsbüros'
+      year: '2016',
+      title: 'Studentischer Mitarbeiter',
+      company: '3zu0 Landschaftsarchitektur',
+      description: 'Studienbegleitende Tätigkeit in Wien (Aug. 2016 - Jan. 2017) als Grundstein für die berufliche Entwicklung. Erste praktische Erfahrungen in der Branche.',
+      achievements: ['Studium & Praxis kombiniert', 'Grundlagen CAD', 'Teamintegration', 'Lernbereitschaft'],
+      tech: ['CAD-Grundlagen', 'Planungssoftware', 'Office-Anwendungen']
     },
     {
-      year: '2020-2022',
-      title: 'UI/UX Designer - adabay GmbH',
-      description: 'Junior bis Senior Designer: Von ersten digitalen Projekten zur Projektleitung'
-    },
-    {
-      year: '2022-2025',
-      title: 'Senior UX UI Designer - adesso SE',
-      description: 'Führung komplexer Designprojekte und Mentoring von Junior Designern'
-    },
-    {
-      year: '2025',
-      title: 'Creative Director - GHWB Studio',
-      description: 'Gründung des eigenen Studios mit Fokus auf innovative digitale Lösungen'
+      year: '2013',
+      title: 'Zeichentutor',
+      company: 'Technische Universität München',
+      description: 'Studentische Hilfskraft (Apr. 2013 - Aug. 2013) in München. Unterstützung von Studenten beim architektonischen Zeichnen und erste Lehrerfahrungen.',
+      achievements: ['Unterrichtserfahrung', 'Architektonisches Zeichnen', 'Studentenbetreuung', 'Wissensvermittlung'],
+      tech: ['Zeichentechnik', 'Architektonische Darstellung', 'Präsentation']
     }
   ]
 
   return (
-    <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
-      
-      {/* HERO SECTION - BAUHAUS LIGHT MODE STYLING */}
+    <div className="min-h-screen bg-gray-50 text-gray-900 relative overflow-hidden">
+      {/* 1. HERO SECTION - STARTSEITE LIGHT MODE STYLING */}
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -113,14 +277,11 @@ export default function AboutPageLight() {
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
         style={{ zIndex: 20 }}
       >
-        {/* Floating Clouds - mit korrektem z-index */}
-        <FloatingCloudsArt />
-        
         {/* Background gradient - matching startpage */}
         <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-white" />
 
         {/* Subtle geometric background elements */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 15 }}>
           <motion.div
             className="relative w-full h-full"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -158,7 +319,7 @@ export default function AboutPageLight() {
           </motion.div>
         </div>
 
-        <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 40 }}>
+        <div className="relative text-center px-6 max-w-4xl mx-auto" style={{ zIndex: 30 }}>
           {/* Main Content - Startseite Typography */}
           <motion.div
             className="relative"
@@ -173,7 +334,7 @@ export default function AboutPageLight() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
             >
-              Kreativer • Designer • Fotograf • Künstler
+              UX/UI-Design • Fotografie • Kunst
             </motion.p>
 
             {/* Main Title - startpage style */}
@@ -194,357 +355,120 @@ export default function AboutPageLight() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.6 }}
             >
-              Ein leidenschaftlicher Kreativer, der die Grenzen zwischen<br/>
-              traditioneller Kunst, moderner Technologie und menschenzentriertem Design verwischt.
+              Entdecke meine Reise als UX/UI Designer und die Erfahrungen,<br/>
+              die mich zu dem gemacht haben, was ich heute bin.
             </motion.p>
 
-            {/* Portrait Image - Original Proportions */}
+            {/* CTA Buttons - globale Button Components */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 1.8 }}
-              className="flex justify-center mb-16"
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <div className="relative">
-                <div className="w-80 h-96 overflow-hidden rounded-lg border-4 border-border/20 shadow-xl bg-muted/10">
-                  <Image
-                    src="/images/hubertus-portrait.jpg"
-                    alt="Hubertus Weidenbrücher - Portrait"
-                    width={320}
-                    height={384}
-                    className="w-full h-full object-cover"
-                    priority
-                    style={{ width: 'auto !important', height: 'auto !important' }}
-                  />
-                </div>
-                
-                {/* Decorative corner elements */}
-                <div className="absolute -top-2 -left-2 w-6 h-6 border-l-2 border-t-2 border-foreground/20" />
-                <div className="absolute -top-2 -right-2 w-6 h-6 border-r-2 border-t-2 border-foreground/20" />
-                <div className="absolute -bottom-2 -left-2 w-6 h-6 border-l-2 border-b-2 border-foreground/20" />
-                <div className="absolute -bottom-2 -right-2 w-6 h-6 border-r-2 border-b-2 border-foreground/20" />
-              </div>
+              <Button 
+                variant="secondary"
+                size="base"
+                icon="left"
+                iconElement={<Sparkles className="w-4 h-4" />}
+                onClick={() => {
+                  const aboutSection = document.querySelector('.about-section');
+                  if (aboutSection) aboutSection.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Meine Geschichte
+              </Button>
+              
+              <Button 
+                variant="primary"
+                size="base"
+                onClick={() => { 
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
+                }}
+              >
+                Kontakt aufnehmen
+              </Button>
             </motion.div>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* STORY SECTION - STARTSEITE LIGHT MODE STYLING */}
-      <section className="py-32 px-6 relative z-10 bg-white">
-        <div className="max-w-4xl mx-auto">
+      {/* About Section */}
+      <AboutSection />
+
+      {/* Timeline Section */}
+      <section ref={timelineRef} className="py-20 relative">
+        <div className="max-w-5xl mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-16"
           >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">Meine Geschichte</span>
-            </motion.div>
-
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Der kreative Weg
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Meine Reise
             </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Von den ersten Pinselstrichen bis zur digitalen Innovation
-            </p>
-          </motion.div>
-          
-          <div className="space-y-8 text-foreground/70 leading-relaxed">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="text-lg"
-            >
-              Mein Weg begann in der Wissenschaft an der TU München, wo ich in EU-Forschungsprojekten 
-              analytisches Denken und präzises Arbeiten lernte. Diese Grundlagen prägen bis heute 
-              meine systematische Herangehensweise an komplexe Designherausforderungen.
-            </motion.p>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-lg"
-            >
-              Der Übergang von der Landschaftsarchitektur zum digitalen Design war fließend – 
-              in beiden Bereichen geht es um die Gestaltung von Räumen und Erfahrungen. 
-              Nur dass meine &ldquo;Landschaften&rdquo; heute digital sind und auf Bildschirmen zum Leben erwachen.
-            </motion.p>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="text-lg"
-            >
-              Bei adesso SE konnte ich meine Fähigkeiten in groß angelegten Enterprise-Projekten 
-              verfeinern und lernte, wie Design in komplexen Organisationsstrukturen funktioniert. 
-              Diese Erfahrung ist unbezahlbar für strategisches Designdenken.
-            </motion.p>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="text-lg"
-            >
-              Heute verbinde ich bei GHWB Studio all diese Erfahrungen: die analytische Präzision 
-              aus der Wissenschaft, das räumliche Denken der Architektur und die nutzerzentrierte 
-              Gestaltung digitaler Produkte zu ganzheitlichen Lösungen.
-            </motion.p>
-          </div>
-        </div>
-      </section>
-
-      {/* VALUES SECTION - STARTSEITE LIGHT MODE STYLING */}
-      <section className="py-32 px-6 relative z-10 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">Meine Werte</span>
-            </motion.div>
-
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Was mich antreibt
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Die Prinzipien, die meine Arbeit und mein Denken prägen
+            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+              Von den ersten Schritten im Design bis hin zu komplexen Enterprise-Projekten
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => {
-              const Icon = value.icon
-              return (
-                <motion.div
-                  key={value.title}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -5 }}
-                  className="relative border border-border p-8 bg-white shadow-lg rounded-lg hover:border-foreground/20 transition-all duration-300"
-                >
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-muted mb-6">
-                    <Icon className="w-6 h-6 text-foreground" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 text-foreground">{value.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{value.description}</p>
-                </motion.div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
+          {/* Timeline Progress Line */}
+          <motion.div 
+            className="absolute left-6 top-32 w-0.5 bg-gradient-to-b from-blue-500 to-cyan-500 origin-top"
+            style={{ height: progressLine }}
+          />
 
-      {/* SKILLS SECTION - STARTSEITE LIGHT MODE STYLING */}
-      <section className="py-32 px-6 relative z-10 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">Fertigkeiten</span>
-            </motion.div>
-
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Meine Kompetenzen
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Eine Übersicht meiner kreativen und technischen Fertigkeiten
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="flex flex-wrap justify-center gap-4"
-          >
-            {skills.map((skill, index) => (
-              <motion.span
-                key={skill}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                className="px-6 py-3 bg-background border border-border/50 rounded-full text-sm font-medium hover:border-border hover:shadow-md transition-all duration-300 cursor-default"
-              >
-                {skill}
-              </motion.span>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* JOURNEY TIMELINE - STARTSEITE LIGHT MODE STYLING */}
-      <section className="py-32 px-6 relative z-10 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">Meine Reise</span>
-            </motion.div>
-
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Kreative Entwicklung
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Die wichtigsten Meilensteine auf meinem kreativen Weg
-            </p>
-          </motion.div>
-
-          <div className="space-y-12">
-            {journey.map((milestone, index) => (
-              <motion.div
-                key={milestone.year}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`flex items-center gap-8 ${
-                  index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-                } md:flex-row`}
-              >
-                <div className="flex-1">
-                  <motion.div 
-                    className="relative p-6 bg-white border border-border shadow-lg rounded-lg hover:border-foreground/20 transition-all duration-300"
-                    whileHover={{ y: -5 }}
-                  >
-                    <div className="inline-block px-4 py-2 bg-foreground text-background rounded-full text-sm font-bold mb-4">
-                      {milestone.year}
-                    </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">{milestone.title}</h3>
-                    <p className="text-muted-foreground">{milestone.description}</p>
-                  </motion.div>
-                </div>
-                
-                <div className="hidden md:block w-4 h-4 rounded-full bg-foreground flex-shrink-0 relative">
-                  <div className="absolute inset-0 rounded-full bg-foreground animate-pulse opacity-50" />
-                </div>
-                
-                <div className="flex-1 hidden md:block" />
-              </motion.div>
+          {/* Timeline Items */}
+          <div className="relative">
+            {timelineData.map((item, index) => (
+              <TimelineItem 
+                key={`${item.year}-${index}`} 
+                item={item} 
+                index={index}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* CALL TO ACTION - STARTSEITE LIGHT MODE STYLING */}
-      <section className="py-32 px-6 relative z-10 bg-white">
-        <div className="max-w-4xl mx-auto">
+      {/* Contact CTA */}
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center"
+            className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-200 rounded-2xl p-12 shadow-xl bg-white/50 backdrop-blur-sm"
           >
-            {/* Category Tag - subtil wie auf der Startseite */}
-            <motion.div 
-              className="flex items-center justify-center mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="w-2 h-2 bg-muted-foreground rounded-full mr-3" />
-              <span className="text-muted-foreground text-sm">Kontakt</span>
-            </motion.div>
-
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Lassen Sie uns zusammenarbeiten
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Lass uns zusammenarbeiten
             </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-2xl mx-auto mb-16">
-              Haben Sie ein spannendes Projekt im Kopf? Ich freue mich darauf, 
-              mit Ihnen kreative Lösungen zu entwickeln, die begeistern und bewegen.
+            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+              Hast du ein spannendes Projekt oder möchtest mehr über meine Arbeit erfahren? 
+              Ich freue mich auf deine Nachricht!
             </p>
-            
-            <motion.a
-              href="mailto:office@ghwbstudio.de"
-              className="inline-flex items-center px-8 py-3 rounded-full text-label text-primary transition-all duration-300"
-              style={{
-                background: 'rgba(6, 182, 212, 0.15)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(6, 182, 212, 0.3)',
-                boxShadow: '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+            <Button 
+              variant="primary" 
+              size="base"
+              icon="left"
+              iconElement={<Users className="w-4 h-4" />}
+              onClick={() => { 
+                const event = new CustomEvent('openContactModal');
+                window.dispatchEvent(event);
               }}
-              whileHover={{ 
-                scale: 1.05, 
-                y: -2,
-                boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15), 0 8px 12px -4px rgba(0, 0, 0, 0.1)'
-              }}
-              whileTap={{ scale: 0.95 }}
             >
               Kontakt aufnehmen
-            </motion.a>
+            </Button>
           </motion.div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      {/* FLOATING CONTACT BUTTON */}
-      <FloatingContactButton 
-        theme="light" 
-      />
-
       <Footer />
+      <FloatingContactButton />
     </div>
   )
 }

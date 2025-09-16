@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
 import { Button } from './ui/Button'
 import ContactModal from './ContactModal'
+import { useTheme } from '@/contexts/ThemeContext'
 
 interface FloatingContactButtonProps {
-  theme?: 'light' | 'dark'
   title?: string
   subtitle?: string
 }
@@ -23,10 +23,12 @@ interface FloatingContactButtonProps {
  */
 
 export default function FloatingContactButton({
-  theme = 'light',
   title = 'Kontakt aufnehmen',
   subtitle = 'Haben Sie ein Projekt im Kopf oder möchten Sie einfach Hallo sagen? Ich freue mich auf Ihre Nachricht.'
 }: FloatingContactButtonProps): React.JSX.Element {
+  
+  // Verwende das aktuelle Theme aus dem Context
+  const { theme } = useTheme()
   const [showStickyButton, setShowStickyButton] = useState(false)
   const [buttonBottomOffset, setButtonBottomOffset] = useState(16) // 1rem in px
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
@@ -91,7 +93,6 @@ export default function FloatingContactButton({
         onClose={closeContactModal}
         title={title}
         subtitle={subtitle}
-        theme={theme}
       />
 
       {/* Sticky Contact Button */}

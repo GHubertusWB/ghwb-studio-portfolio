@@ -599,9 +599,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
       <Footer />
 
       {/* FLOATING CONTACT BUTTON */}
-      <FloatingContactButton 
-        theme="dark" 
-      />
+      <FloatingContactButton />
     </div>
   )
 }

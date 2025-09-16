@@ -306,9 +306,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
       <Footer />
 
       {/* FLOATING CONTACT BUTTON */}
-      <FloatingContactButton 
-        theme="light" 
-      />
+      <FloatingContactButton />
     </div>
   )
 }

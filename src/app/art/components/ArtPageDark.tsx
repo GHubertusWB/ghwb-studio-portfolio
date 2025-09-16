@@ -771,9 +771,7 @@ export default function ArtPageDark(): React.JSX.Element {
       </section>
 
       {/* FLOATING CONTACT BUTTON */}
-      <FloatingContactButton 
-        theme="dark" 
-      />
+      <FloatingContactButton />
 
       <Footer />
     </div>

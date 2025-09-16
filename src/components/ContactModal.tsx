@@ -5,13 +5,13 @@ import { X } from 'lucide-react'
 import { useEffect } from 'react'
 import GlobalContactForm from './GlobalContactForm'
 import { Button } from './ui/Button'
+import { useTheme } from '@/contexts/ThemeContext'
 
 interface ContactModalProps {
   isOpen: boolean
   onClose: () => void
   title?: string
   subtitle?: string
-  theme?: 'light' | 'dark'
 }
 
 /**
@@ -19,6 +19,7 @@ interface ContactModalProps {
  * 
  * A modal popup that contains the GlobalContactForm component.
  * Can be triggered by any button and provides a clean overlay experience.
+ * Automatically adapts to the current theme (light/dark) from ThemeContext.
  * 
  * @param {ContactModalProps} props - The modal configuration props
  * @returns {JSX.Element} The modal component with contact form
@@ -28,9 +29,11 @@ export default function ContactModal({
   isOpen,
   onClose,
   title = 'Kontakt aufnehmen',
-  subtitle = 'Haben Sie ein Projekt im Kopf oder möchten Sie einfach Hallo sagen? Ich freue mich auf Ihre Nachricht.',
-  theme = 'light'
+  subtitle = 'Haben Sie ein Projekt im Kopf oder möchten Sie einfach Hallo sagen? Ich freue mich auf Ihre Nachricht.'
 }: ContactModalProps): React.JSX.Element {
+  
+  // Verwende das aktuelle Theme aus dem Context
+  const { theme } = useTheme()
 
   // Escape key handler
   useEffect(() => {
