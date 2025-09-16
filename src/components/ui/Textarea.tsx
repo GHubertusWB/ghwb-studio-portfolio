@@ -48,7 +48,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                 ref.current = element
               }
             }
-            internalRef.current = element
+            // Assign to internal ref using object assignment
+            if (internalRef.current !== element) {
+              (internalRef as React.MutableRefObject<HTMLTextAreaElement | null>).current = element
+            }
             
             // Set initial border styling based on theme
             if (element) {

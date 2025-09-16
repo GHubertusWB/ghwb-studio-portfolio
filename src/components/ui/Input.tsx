@@ -62,7 +62,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 ref.current = element
               }
             }
-            internalRef.current = element
+            // Assign to internal ref using object assignment
+            if (internalRef.current !== element) {
+              (internalRef as React.MutableRefObject<HTMLInputElement | null>).current = element
+            }
             
             // Set initial border styling based on theme
             if (element) {
