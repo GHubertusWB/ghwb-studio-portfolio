@@ -7,6 +7,7 @@ import { useTheme } from '@/contexts/ThemeContext'
 import SpaceshipHUD from './SpaceshipHUD'
 import { Button } from './ui/Button'
 import { SpecialButton } from './ui/SpecialButton'
+import { SpecialButtonDark } from './ui/SpecialButtonDark'
 
 interface HeroProps {
   onContactClick?: () => void
@@ -66,30 +67,61 @@ const Hero = ({ onContactClick }: HeroProps) => {
           transition={{ duration: 0.8, delay: 2 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4"
         >
-          <SpecialButton
-            variant="secondary"
-            size="base"
-            icon="left"
-            iconElement={<Sparkles className="w-4 h-4" />}
-            onClick={() => {
-              const services = document.getElementById('services');
-              if (services) services.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            Meine Services
-          </SpecialButton>
+          {theme === 'dark' ? (
+            <>
+              <SpecialButtonDark
+                variant="secondary"
+                size="base"
+                icon="left"
+                iconElement={<Sparkles className="w-4 h-4" />}
+                onClick={() => {
+                  const services = document.getElementById('services');
+                  if (services) services.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Meine Services
+              </SpecialButtonDark>
 
-          <SpecialButton
-            variant="primary"
-            size="base"
-            onClick={onContactClick || (() => {
-              // Global event to open contact modal
-              const event = new CustomEvent('openContactModal');
-              window.dispatchEvent(event);
-            })}
-          >
-            Kontakt
-          </SpecialButton>
+              <SpecialButtonDark
+                variant="primary"
+                size="base"
+                onClick={onContactClick || (() => {
+                  // Global event to open contact modal
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
+                })}
+              >
+                Kontakt
+              </SpecialButtonDark>
+            </>
+          ) : (
+            <>
+              <SpecialButton
+                variant="secondary"
+                size="base"
+                icon="left"
+                iconElement={<Sparkles className="w-4 h-4" />}
+                onClick={() => {
+                  const services = document.getElementById('services');
+                  if (services) services.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Meine Services
+              </SpecialButton>
+
+              <SpecialButton
+                variant="primary"
+                size="base"
+                onClick={onContactClick || (() => {
+                  // Global event to open contact modal
+                  const event = new CustomEvent('openContactModal');
+                  window.dispatchEvent(event);
+                })}
+              >
+                Kontakt
+              </SpecialButton>
+            </>
+          )}
         </motion.div>
 
         {/* Scroll indicator - positioned at the bottom */}
@@ -100,21 +132,39 @@ const Hero = ({ onContactClick }: HeroProps) => {
           whileHover={{ scale: 1.1 }}
           className="mt-16"
         >
-          <SpecialButton
-            variant="secondary"
-            size="base"
-            onClick={scrollToNext}
-            className="p-4"
-          >
-            <motion.div
-              className="flex flex-col items-center text-xs text-muted-foreground hover:text-base hover:text-muted-foreground theme-transition"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
+          {theme === 'dark' ? (
+            <SpecialButtonDark
+              variant="tertiary"
+              size="base"
+              onClick={scrollToNext}
+              className="p-4"
             >
-              <Mouse className="w-5 h-5 mb-1" />
-              <ArrowDown className="w-3 h-3" />
-            </motion.div>
-          </SpecialButton>
+              <motion.div
+                className="flex flex-col items-center text-xs"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Mouse className="w-5 h-5 mb-1" />
+                <ArrowDown className="w-3 h-3" />
+              </motion.div>
+            </SpecialButtonDark>
+          ) : (
+            <SpecialButton
+              variant="secondary"
+              size="base"
+              onClick={scrollToNext}
+              className="p-4"
+            >
+              <motion.div
+                className="flex flex-col items-center text-xs text-muted-foreground hover:text-base hover:text-muted-foreground theme-transition"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Mouse className="w-5 h-5 mb-1" />
+                <ArrowDown className="w-3 h-3" />
+              </motion.div>
+            </SpecialButton>
+          )}
         </motion.div>
       </div>
     </section>
