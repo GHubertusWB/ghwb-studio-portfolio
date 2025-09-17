@@ -11,69 +11,41 @@ const Philosophy = () => {
   const { theme } = useTheme()
   const [activeIndex, setActiveIndex] = useState(0)
   
-  // Kreis-Radius für gleichmäßige Verteilung
-  const circleRadius = 200
-  
   const principles = [
     {
       id: "function",
       title: "Funktion",
       subtitle: "Zweck vor Form", 
       description: "Jedes Element hat einen klaren Grund und trägt zum Gesamterlebnis bei. Design folgt der Funktion.",
-      icon: Target,
-      position: { 
-        x: Math.cos(-Math.PI / 2) * circleRadius, // Oben (90°)
-        y: Math.sin(-Math.PI / 2) * circleRadius 
-      },
-      color: "from-blue-500 to-cyan-500"
+      icon: Target
     },
     {
       id: "reduction",
       title: "Reduktion",
       subtitle: "Fokus auf das Wesentliche",
       description: "Komplexe Prozesse werden einfach und klar gestaltet, ohne Ablenkungen – immer mit Blick auf Fokus und Klarheit.",
-      icon: Minimize2,
-      position: { 
-        x: Math.cos(-Math.PI / 2 + (2 * Math.PI / 5)) * circleRadius, // 72° weiter
-        y: Math.sin(-Math.PI / 2 + (2 * Math.PI / 5)) * circleRadius 
-      },
-      color: "from-purple-500 to-pink-500"
+      icon: Minimize2
     },
     {
       id: "emotion",
       title: "Emotion",
       subtitle: "Geschichten erzählen", 
       description: "Design verbindet sich auf emotionaler Ebene mit Nutzern und erzählt bedeutungsvolle Geschichten.",
-      icon: Heart,
-      position: { 
-        x: Math.cos(-Math.PI / 2 + (4 * Math.PI / 5)) * circleRadius, // 144° weiter
-        y: Math.sin(-Math.PI / 2 + (4 * Math.PI / 5)) * circleRadius 
-      },
-      color: "from-red-500 to-orange-500"
+      icon: Heart
     },
     {
       id: "accessibility",
       title: "Barrierefreiheit",
       subtitle: "Zugänglich für alle",
       description: "Inklusives Design ermöglicht es allen Menschen, digitale Erlebnisse vollständig zu nutzen und zu verstehen.",
-      icon: Users,
-      position: { 
-        x: Math.cos(-Math.PI / 2 + (6 * Math.PI / 5)) * circleRadius, // 216° weiter
-        y: Math.sin(-Math.PI / 2 + (6 * Math.PI / 5)) * circleRadius 
-      },
-      color: "from-green-500 to-emerald-500"
+      icon: Users
     },
     {
       id: "sustainability",
       title: "Nachhaltigkeit",
       subtitle: "Umweltbewusstsein",
       description: "In einer digitaleren Welt mit wachsendem Energieverbrauch spielt nachhaltige Gestaltung eine wichtige Rolle.",
-      icon: Leaf,
-      position: { 
-        x: Math.cos(-Math.PI / 2 + (8 * Math.PI / 5)) * circleRadius, // 288° weiter
-        y: Math.sin(-Math.PI / 2 + (8 * Math.PI / 5)) * circleRadius 
-      },
-      color: "from-emerald-500 to-teal-500"
+      icon: Leaf
     }
   ]
 
@@ -86,8 +58,8 @@ const Philosophy = () => {
   }
 
   return (
-    <section className="pt-20 pb-20 lg:pb-32 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-muted/30 flex items-center justify-center" style={{ height: '80vh' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         
         {/* Header */}
         <motion.div
@@ -153,13 +125,13 @@ const Philosophy = () => {
           {/* Active Principle Details */}
           <div className="relative">
             {/* Navigation Buttons - Theme-aware - hidden on mobile */}
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden md:block">
+            <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-20 hidden md:block">
               {theme === 'dark' ? (
                 <SpecialButtonDark
                   variant="secondary"
-                  size="sm"
+                  size="lg"
                   icon="only"
-                  iconElement={<ArrowLeft className="w-3 h-3" />}
+                  iconElement={<ArrowLeft className="w-5 h-5" />}
                   onClick={prevPrinciple}
                 />
               ) : (
@@ -173,13 +145,13 @@ const Philosophy = () => {
               )}
             </div>
             
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:block">
+            <div className="absolute -right-8 top-1/2 -translate-y-1/2 z-20 hidden md:block">
               {theme === 'dark' ? (
                 <SpecialButtonDark
                   variant="secondary"
-                  size="sm"
+                  size="lg"
                   icon="only"
-                  iconElement={<ArrowRight className="w-3 h-3" />}
+                  iconElement={<ArrowRight className="w-5 h-5" />}
                   onClick={nextPrinciple}
                 />
               ) : (
@@ -215,20 +187,20 @@ const Philosophy = () => {
               </div>
 
               {/* Mobile Navigation Buttons - Theme-aware - visible only on mobile */}
-              <div className="flex justify-center space-x-4 mb-8 md:hidden">
+              <div className="flex justify-center space-x-4 mb-8 md:hidden mt-12">
                 {theme === 'dark' ? (
                   <>
                 <SpecialButtonDark
                   variant="secondary"
-                  size="sm"
+                  size="lg"
                   icon="only"
-                  iconElement={<ArrowLeft className="w-3 h-3" />}
+                  iconElement={<ArrowLeft className="w-5 h-5" />}
                   onClick={prevPrinciple}
                 />                    <SpecialButtonDark
                       variant="secondary"
-                      size="sm"
+                      size="lg"
                       icon="only"
-                      iconElement={<ArrowRight className="w-3 h-3" />}
+                      iconElement={<ArrowRight className="w-5 h-5" />}
                       onClick={nextPrinciple}
                     />
                   </>
@@ -271,8 +243,6 @@ const Philosophy = () => {
           </div>
           
         </div>
-
-
 
       </div>
     </section>

@@ -35,6 +35,7 @@ export interface SpecialButtonDarkProps {
   children?: React.ReactNode;
   disabled?: boolean;
   loading?: boolean;
+  rounded?: boolean; // Für maximal abgerundete Ecken beim Primary-Button
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -48,6 +49,7 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
     children,
     disabled = false,
     loading = false,
+    rounded = false,
     className = '',
     ...props 
   }, ref) => {
@@ -192,7 +194,9 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
           config.fontWeight, // Variantenspezifisches Font-Weight
           "tracking-wide transition-colors duration-300",
           "font-[var(--font-poppins)]", // Explizit Poppins für Buttons
-          "focus:outline-none select-none bg-transparent border-none",
+          "focus:outline-none select-none bg-transparent",
+          variant === 'primary' || variant === 'secondary' ? "border border-white/20" : "border-none",
+          rounded && variant === 'primary' ? "rounded-full" : "", // Maximal abgerundete Ecken für Primary
           "transform-gpu overflow-visible", // overflow-visible für die Border-Effekte
           currentSize.padding,
           currentSize.text,
@@ -214,7 +218,10 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
       >
         {/* Hover Background - simpler Farbverlauf */}
         <motion.div
-          className="absolute inset-0 -z-10"
+          className={cn(
+            "absolute inset-0 -z-10",
+            rounded && variant === 'primary' ? "rounded-full" : ""
+          )}
           style={{
             background: config.bgHover,
           }}
@@ -229,90 +236,207 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
 
         {/* Cursor-Following animation removed */}
 
-        {/* Corner Border Animation - ohne Überlappung */}
-        {/* Top-Left Corner */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            top: '-2px',
-            left: '-2px',
-            borderTop: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
-            borderLeft: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
-            filter: `drop-shadow(0 0 6px ${config.glowColor})`,
-          }}
-          initial={{ width: '8px', height: '8px' }}
-          animate={isHovered && !isDisabledOrLoading ? {
-            width: '50%',
-            height: '50%'
-          } : {
-            width: '8px',
-            height: '8px'
-          }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        />
+        {/* Corner Animation - unterschiedlich für eckige und runde Buttons */}
+        {rounded ? (
+          <>
+            {/* Runde Punkte für abgerundete Buttons */}
+            {/* Top Point */}
+            <motion.div
+              className="absolute pointer-events-none rounded-full"
+              style={{
+                top: '-4px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor,
+                filter: `drop-shadow(0 0 6px ${config.glowColor})`,
+              }}
+              initial={{ width: '4px', height: '4px' }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: '8px',
+                height: '8px'
+              } : {
+                width: '4px',
+                height: '4px'
+              }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+            />
 
-        {/* Top-Right Corner */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            top: '-2px',
-            right: '-2px',
-            borderTop: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
-            borderRight: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
-            filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
-          }}
-          initial={{ width: '8px', height: '8px' }}
-          animate={isHovered && !isDisabledOrLoading ? {
-            width: '50%',
-            height: '50%'
-          } : {
-            width: '8px',
-            height: '8px'
-          }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        />
+            {/* Right Point */}
+            <motion.div
+              className="absolute pointer-events-none rounded-full"
+              style={{
+                top: '50%',
+                right: '-4px',
+                transform: 'translateY(-50%)',
+                backgroundColor: variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor,
+                filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
+              }}
+              initial={{ width: '4px', height: '4px' }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: '8px',
+                height: '8px'
+              } : {
+                width: '4px',
+                height: '4px'
+              }}
+              transition={{ duration: 0.8, ease: "easeInOut", delay: 0.1 }}
+            />
 
-        {/* Bottom-Left Corner */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            bottom: '-2px',
-            left: '-2px',
-            borderBottom: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
-            borderLeft: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
-            filter: `drop-shadow(0 0 6px ${config.glowColor})`,
-          }}
-          initial={{ width: '8px', height: '8px' }}
-          animate={isHovered && !isDisabledOrLoading ? {
-            width: '50%',
-            height: '50%'
-          } : {
-            width: '8px',
-            height: '8px'
-          }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        />
+            {/* Bottom Point */}
+            <motion.div
+              className="absolute pointer-events-none rounded-full"
+              style={{
+                bottom: '-4px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundColor: variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor,
+                filter: `drop-shadow(0 0 6px ${config.glowColor})`,
+              }}
+              initial={{ width: '4px', height: '4px' }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: '8px',
+                height: '8px'
+              } : {
+                width: '4px',
+                height: '4px'
+              }}
+              transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
+            />
 
-        {/* Bottom-Right Corner */}
-        <motion.div
-          className="absolute pointer-events-none"
-          style={{
-            bottom: '-2px',
-            right: '-2px',
-            borderBottom: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
-            borderRight: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
-            filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
-          }}
-          initial={{ width: '8px', height: '8px' }}
-          animate={isHovered && !isDisabledOrLoading ? {
-            width: '50%',
-            height: '50%'
-          } : {
-            width: '8px',
-            height: '8px'
-          }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-        />
+            {/* Left Point */}
+            <motion.div
+              className="absolute pointer-events-none rounded-full"
+              style={{
+                top: '50%',
+                left: '-4px',
+                transform: 'translateY(-50%)',
+                backgroundColor: variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor,
+                filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
+              }}
+              initial={{ width: '4px', height: '4px' }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: '8px',
+                height: '8px'
+              } : {
+                width: '4px',
+                height: '4px'
+              }}
+              transition={{ duration: 0.8, ease: "easeInOut", delay: 0.3 }}
+            />
+
+            {/* Kreisförmige Kontur beim Hover */}
+            <motion.div
+              className="absolute pointer-events-none rounded-full"
+              style={{
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                border: `1px solid ${config.borderColor}`,
+                filter: `drop-shadow(0 0 8px ${config.glowColor})`,
+              }}
+              initial={{ width: '0px', height: '0px', opacity: 0 }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: `${Math.max(currentSize.buttonWidth, currentSize.buttonHeight) + 8}px`,
+                height: `${Math.max(currentSize.buttonWidth, currentSize.buttonHeight) + 8}px`,
+                opacity: 0.6
+              } : {
+                width: '0px',
+                height: '0px',
+                opacity: 0
+              }}
+              transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
+            />
+          </>
+        ) : (
+          <>
+            {/* Eckige Corner-Animationen für normale Buttons */}
+            {/* Top-Left Corner */}
+            <motion.div
+              className="absolute pointer-events-none"
+              style={{
+                top: '-2px',
+                left: '-2px',
+                borderTop: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
+                borderLeft: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
+                filter: `drop-shadow(0 0 6px ${config.glowColor})`,
+              }}
+              initial={{ width: '8px', height: '8px' }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: '50%',
+                height: '50%'
+              } : {
+                width: '8px',
+                height: '8px'
+              }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+            />
+
+            {/* Top-Right Corner */}
+            <motion.div
+              className="absolute pointer-events-none"
+              style={{
+                top: '-2px',
+                right: '-2px',
+                borderTop: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
+                borderRight: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
+                filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
+              }}
+              initial={{ width: '8px', height: '8px' }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: '50%',
+                height: '50%'
+              } : {
+                width: '8px',
+                height: '8px'
+              }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+            />
+
+            {/* Bottom-Left Corner */}
+            <motion.div
+              className="absolute pointer-events-none"
+              style={{
+                bottom: '-2px',
+                left: '-2px',
+                borderBottom: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
+                borderLeft: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
+                filter: `drop-shadow(0 0 6px ${config.glowColor})`,
+              }}
+              initial={{ width: '8px', height: '8px' }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: '50%',
+                height: '50%'
+              } : {
+                width: '8px',
+                height: '8px'
+              }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+            />
+
+            {/* Bottom-Right Corner */}
+            <motion.div
+              className="absolute pointer-events-none"
+              style={{
+                bottom: '-2px',
+                right: '-2px',
+                borderBottom: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
+                borderRight: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
+                filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
+              }}
+              initial={{ width: '8px', height: '8px' }}
+              animate={isHovered && !isDisabledOrLoading ? {
+                width: '50%',
+                height: '50%'
+              } : {
+                width: '8px',
+                height: '8px'
+              }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+            />
+          </>
+        )}
+
+
 
         {/* Center Glow - füllt den mittleren Bereich */}
         <motion.div

@@ -65,7 +65,7 @@ const Footer = () => {
               <Link key={link.href} href={link.href}>
                 {theme === 'dark' ? (
                   <SpecialButtonDark
-                    variant="secondary"
+                    variant="tertiary"
                     size="sm"
                   >
                     {link.label}
@@ -101,7 +101,7 @@ const Footer = () => {
                 >
                   {theme === 'dark' ? (
                     <SpecialButtonDark
-                      variant="secondary"
+                      variant="tertiary"
                       size="base"
                       icon="only"
                       iconElement={<Icon className="w-5 h-5" />}
@@ -135,7 +135,7 @@ const Footer = () => {
             <Link href="/impressum">
               {theme === 'dark' ? (
                 <SpecialButtonDark
-                  variant="secondary"
+                  variant="tertiary"
                   size="sm"
                   className="text-sm"
                 >
@@ -154,7 +154,7 @@ const Footer = () => {
             <Link href="/datenschutz">
               {theme === 'dark' ? (
                 <SpecialButtonDark
-                  variant="secondary"
+                  variant="tertiary"
                   size="sm"
                   className="text-sm"
                 >
@@ -185,7 +185,7 @@ const Footer = () => {
       >
         {theme === 'dark' ? (
           <SpecialButtonDark
-            variant="secondary"
+            variant="tertiary"
             size="base"
             onClick={scrollToTop}
             icon="only"

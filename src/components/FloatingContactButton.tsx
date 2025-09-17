@@ -123,11 +123,13 @@ export default function FloatingContactButton({
             {theme === 'dark' ? (
               <SpecialButtonDark
                 variant="primary"
+                rounded={true}
                 size="lg"
                 onClick={openContactModal}
                 icon="left"
                 iconElement={<MessageCircle className="w-5 h-5" />}
                 className="rounded-full"
+                
               >
                 Kontakt
               </SpecialButtonDark>

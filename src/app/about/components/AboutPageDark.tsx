@@ -8,6 +8,7 @@ import Footer from '@/components/Footer'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
+import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 
 // Timeline Item Component - Clean Design with Mobile Optimization
 const TimelineItem = ({ item, index }: { item: any, index: number }) => {
@@ -29,7 +30,7 @@ const TimelineItem = ({ item, index }: { item: any, index: number }) => {
       
       {/* Content Card */}
       <motion.div 
-        className="relative bg-gray-900/40 backdrop-blur-sm border border-white/10 rounded-lg p-4 md:p-6 hover:border-white/30 transition-all duration-300"
+        className="relative bg-white/[0.02] backdrop-blur-sm border border-white/10 p-4 md:p-6 hover:border-white/30 transition-all duration-300"
         whileHover={{ 
           scale: [1, 1.01, 1], 
           y: [0, -2, 0],
@@ -40,10 +41,10 @@ const TimelineItem = ({ item, index }: { item: any, index: number }) => {
         
         <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4 relative">
           <div className="flex-1 mb-2 md:mb-0">
-            <h3 className="text-lg md:text-xl font-bold text-white mb-1 leading-tight">{item.title}</h3>
+            <h3 className="text-lg md:text-xl font-bold text-orange-500 mb-1 leading-tight drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]">{item.title}</h3>
             <p className="text-white/70 font-medium text-sm md:text-base">{item.company}</p>
           </div>
-          <div className="bg-gray-800/50 border border-white/20 px-2 md:px-3 py-1 rounded text-white/80 text-xs md:text-sm self-start md:self-auto">
+          <div className="bg-white/20 border border-white/20 px-2 md:px-3 py-1 text-white/80 text-xs md:text-sm self-start md:self-auto font-bold" style={{ fontFamily: 'Poppins, sans-serif' }}>
             {item.year}
           </div>
         </div>
@@ -54,8 +55,8 @@ const TimelineItem = ({ item, index }: { item: any, index: number }) => {
         {item.achievements && (
           <div className="mb-4 relative">
             <div className="flex items-center mb-3">
-              <div className="w-4 h-4 border border-white/40 rounded mr-2 flex items-center justify-center">
-                <Award className="w-2.5 h-2.5 text-white/70" />
+              <div className="w-6 h-6 mr-3 flex items-center justify-center">
+                <Award className="w-4 h-4 text-white/70" />
               </div>
               <h4 className="text-white font-semibold text-sm">Highlights</h4>
               <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent ml-4"></div>
@@ -81,8 +82,8 @@ const TimelineItem = ({ item, index }: { item: any, index: number }) => {
         {item.tech && (
           <div className="relative">
             <div className="flex items-center mb-3">
-              <div className="w-4 h-4 border border-white/40 rounded mr-2 flex items-center justify-center">
-                <Sparkles className="w-2.5 h-2.5 text-white/70" />
+              <div className="w-6 h-6 mr-3 flex items-center justify-center">
+                <Sparkles className="w-4 h-4 text-white/70" />
               </div>
               <h4 className="text-white font-semibold text-sm">Technologien</h4>
               <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent ml-4"></div>
@@ -91,7 +92,7 @@ const TimelineItem = ({ item, index }: { item: any, index: number }) => {
               {item.tech.map((tech: string, idx: number) => (
                 <motion.span 
                   key={idx} 
-                  className="bg-gray-800/60 border border-white/20 text-white/80 text-xs px-2 md:px-3 py-1 rounded hover:border-white/40 hover:bg-gray-700/60 transition-all duration-200"
+                  className="bg-white/20 border border-white/20 text-white/80 text-xs px-2 md:px-3 py-1 hover:border-white/40 hover:bg-white/30 transition-all duration-200"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.2, delay: (index * 0.05) + (idx * 0.02) }}
@@ -137,7 +138,7 @@ const TimelineItem = ({ item, index }: { item: any, index: number }) => {
         {index % 4 === 2 && index < 6 && (
           // Border Glow Effect - Subtle on mobile
           <motion.div
-            className="absolute inset-0 border border-white/20 rounded-lg"
+            className="absolute inset-0 border border-white/20"
             animate={{ 
               borderColor: [
                 'rgba(255,255,255,0.1)', 
@@ -804,7 +805,7 @@ export default function AboutPageDark() {
               transition={{ duration: 0.8, delay: 1.6 }}
               className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center relative px-4 md:px-0"
             >
-              <Button 
+              <SpecialButtonDark 
                 variant="secondary"
                 size="base"
                 icon="left"
@@ -815,9 +816,9 @@ export default function AboutPageDark() {
                 }}
               >
                 Meine Geschichte
-              </Button>
+              </SpecialButtonDark>
               
-              <Button 
+              <SpecialButtonDark 
                 variant="primary"
                 size="base"
                 onClick={() => { 
@@ -826,7 +827,7 @@ export default function AboutPageDark() {
                 }}
               >
                 Kontakt aufnehmen
-              </Button>
+              </SpecialButtonDark>
             </motion.div>
           </motion.div>
         </div>
@@ -984,35 +985,201 @@ export default function AboutPageDark() {
         </div>
       </section>
 
-      {/* Contact CTA - Mobile Optimized */}
+      {/* Contact CTA - Services Card Design */}
       <section className="py-12 md:py-20">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <div className="max-w-5xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-xl md:rounded-2xl p-6 md:p-12"
+            className="group cursor-pointer relative"
+            onClick={() => { 
+              const event = new CustomEvent('openContactModal');
+              window.dispatchEvent(event);
+            }}
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">
-              Lass uns zusammenarbeiten
-            </h2>
-            <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed">
-              Hast du ein spannendes Projekt oder möchtest mehr über meine Arbeit erfahren? 
-              Ich freue mich auf deine Nachricht!
-            </p>
-            <Button 
-              variant="primary" 
-              size="base"
-              icon="left"
-              iconElement={<Users className="w-4 h-4" />}
-              onClick={() => { 
-                const event = new CustomEvent('openContactModal');
-                window.dispatchEvent(event);
+            {/* Eckige Border */}
+            <div className="absolute inset-0 border border-white/20 pointer-events-none z-10" />
+            
+            <motion.div
+              className="relative px-6 py-12 md:px-12 md:py-24 h-full cursor-pointer transform-gpu overflow-visible backdrop-blur-md border border-white/20"
+              style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+              }}
+              whileHover={{}}
+              whileTap={{
+                scale: 0.98,
+                y: 0
+              }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 180, 
+                damping: 28,
+                mass: 1.3
               }}
             >
-              Kontakt aufnehmen
-            </Button>
+              {/* Hover Background */}
+              <motion.div
+                className="absolute inset-0 -z-10"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(156, 163, 175, 0.1) 0%, rgba(107, 114, 128, 0.1) 100%)',
+                }}
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+
+              {/* Top-Left Corner */}
+              <motion.div
+                className="absolute pointer-events-none"
+                style={{
+                  top: '-2px',
+                  left: '-2px',
+                  borderTop: '2px solid #ffffff',
+                  borderLeft: '2px solid #ffffff',
+                  filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
+                }}
+                initial={{ width: '8px', height: '8px' }}
+                whileHover={{
+                  width: '50%',
+                  height: '50%'
+                }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+              />
+
+              {/* Top-Right Corner */}
+              <motion.div
+                className="absolute pointer-events-none"
+                style={{
+                  top: '-2px',
+                  right: '-2px',
+                  borderTop: '2px solid #ffffff',
+                  borderRight: '2px solid #ffffff',
+                  filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
+                }}
+                initial={{ width: '8px', height: '8px' }}
+                whileHover={{
+                  width: '50%',
+                  height: '50%'
+                }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+              />
+
+              {/* Bottom-Left Corner */}
+              <motion.div
+                className="absolute pointer-events-none"
+                style={{
+                  bottom: '-2px',
+                  left: '-2px',
+                  borderBottom: '2px solid #ffffff',
+                  borderLeft: '2px solid #ffffff',
+                  filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
+                }}
+                initial={{ width: '8px', height: '8px' }}
+                whileHover={{
+                  width: '50%',
+                  height: '50%'
+                }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+              />
+
+              {/* Bottom-Right Corner */}
+              <motion.div
+                className="absolute pointer-events-none"
+                style={{
+                  bottom: '-2px',
+                  right: '-2px',
+                  borderBottom: '2px solid #ffffff',
+                  borderRight: '2px solid #ffffff',
+                  filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
+                }}
+                initial={{ width: '8px', height: '8px' }}
+                whileHover={{
+                  width: '50%',
+                  height: '50%'
+                }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+              />
+
+              {/* Center Glow */}
+              <motion.div
+                className="absolute pointer-events-none"
+                style={{
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  background: 'radial-gradient(ellipse, rgba(63, 223, 255, 0.63) 0%, rgba(63, 223, 255, 0.63) 30%, transparent 70%)',
+                  filter: 'blur(6px)',
+                  mixBlendMode: 'screen',
+                }}
+                initial={{ width: '0px', height: '0px', opacity: 0 }}
+                whileHover={{
+                  width: '60%',
+                  height: '60%',
+                  opacity: 0.3
+                }}
+                transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
+              />
+
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Icon Container */}
+                <motion.div
+                  className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-800/50 mb-6 transition-all duration-300"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <Users className="w-8 h-8 text-white transition-colors duration-300 group-hover:text-orange-500" />
+                </motion.div>
+
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 transition-all duration-300 group-hover:text-orange-500">
+                  Lass uns zusammenarbeiten
+                </h2>
+                <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed">
+                  Hast du ein spannendes Projekt oder möchtest mehr über meine Arbeit erfahren? 
+                  Ich freue mich auf deine Nachricht!
+                </p>
+                
+                <SpecialButtonDark 
+                  variant="primary" 
+                  size="base"
+                  icon="left"
+                  iconElement={<Users className="w-4 h-4" />}
+                  onClick={() => { 
+                    const event = new CustomEvent('openContactModal');
+                    window.dispatchEvent(event);
+                  }}
+                >
+                  Kontakt aufnehmen
+                </SpecialButtonDark>
+              </div>
+
+              {/* Floating elements */}
+              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-1 h-1 rounded-full bg-white"
+                    style={{
+                      top: i * 10,
+                      right: i * 8,
+                    }}
+                    animate={{
+                      opacity: [0, 1, 0],
+                      scale: [0, 1, 0],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      delay: i * 0.3,
+                    }}
+                  />
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>

@@ -6,6 +6,7 @@ import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/Button'
+import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 import { artImages } from '@/data/gallery'
 
 // TypeScript Interfaces (same as light version)
@@ -592,16 +593,16 @@ export default function ArtPageDark(): React.JSX.Element {
               transition={{ duration: 0.8, delay: 1.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center relative"
             >
-              <Button 
+              <SpecialButtonDark 
                 variant="secondary"
                 size="base"
                 icon="left"
                 iconElement={<Sparkles className="w-4 h-4" />}
               >
                 Portfolio entdecken
-              </Button>
+              </SpecialButtonDark>
               
-              <Button 
+              <SpecialButtonDark 
                 variant="primary"
                 size="base"
                 onClick={() => { 
@@ -610,7 +611,7 @@ export default function ArtPageDark(): React.JSX.Element {
                 }}
               >
                 Zusammenarbeiten
-              </Button>
+              </SpecialButtonDark>
             </motion.div>
           </motion.div>
         </div>

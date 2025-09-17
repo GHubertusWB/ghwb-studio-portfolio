@@ -9,6 +9,7 @@ import SkillsCircleChartDark from './SkillsCircleChartDark'
 import MobileSkills from './MobileSkills'
 import TechStackSectionDark from './TechStackSectionDark'
 import { Button } from '@/components/ui/Button'
+import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 
 export default function UXUIPageDark() {
   const [currentTime, setCurrentTime] = useState('')
@@ -107,19 +108,19 @@ export default function UXUIPageDark() {
               Digitale Erlebnisse, die begeistern. Von Research bis Prototyping – nutzerzentriert, modern, wirkungsvoll.
             </motion.p>
             <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 1.6 }} className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
+              <SpecialButtonDark
                 variant="secondary"
                 size="base"
+                icon="left"
+                iconElement={<Sparkles className="w-4 h-4" />}
                 onClick={() => { 
                   const skills = document.getElementById('skills-section'); 
                   if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) 
                 }}
-                icon="left"
-              iconElement={<Sparkles className="w-4 h-4" />}
               >
                 Meine Skills
-              </Button>
-              <Button
+              </SpecialButtonDark>
+              <SpecialButtonDark
                 variant="primary"
                 size="base"
                 onClick={() => { 
@@ -128,7 +129,7 @@ export default function UXUIPageDark() {
                 }}
               >
                 Kontakt
-              </Button>
+              </SpecialButtonDark>
             </motion.div>
           </motion.div>
         </div>

@@ -61,36 +61,58 @@ const Services = () => {
   }
 
   return (
-    <section id="services" className="pt-20 pb-20 lg:pb-32 bg-muted/30 relative overflow-hidden">
-      {/* Floating Clouds Background - hellblau eingefärbt */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Clouds mit hellblauer Einfärbung */}
+    <section id="services" className="py-20 bg-muted/30 relative overflow-visible" style={{ height: '80vh' }}>
+      {/* Floating Clouds Background - hellblau eingefärbt und reduziert */}
+      <div className="absolute pointer-events-none z-0" style={{ 
+        top: '-100px', 
+        left: '-50px', 
+        right: '-50px', 
+        bottom: '-100px' 
+      }}>
+        {/* Clouds links oben */}
         <div 
-          className="absolute inset-0"
+          className="absolute w-1/3 h-1/2"
           style={{
+            top: '100px',
+            left: '50px',
             filter: 'sepia(100%) saturate(200%) hue-rotate(180deg) brightness(0.8) contrast(1.2)',
-            opacity: 0.6
+            opacity: 0.3
+          }}
+        >
+          <FloatingClouds />
+        </div>
+        
+        {/* Clouds rechts unten */}
+        <div 
+          className="absolute w-1/3 h-1/2"
+          style={{
+            bottom: '100px',
+            right: '50px',
+            filter: 'sepia(100%) saturate(200%) hue-rotate(180deg) brightness(0.6) contrast(1.4)',
+            opacity: 0.3,
+            transform: 'scale(-1, -1)'
           }}
         >
           <FloatingClouds />
         </div>
       </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-            Meine Services
-          </h2>
-          <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-            Drei kreative Disziplinen, unendliche Möglichkeiten
-          </p>
-        </motion.div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col">
+        <div className="flex-1 flex flex-col justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-24"
+          >
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
+              Meine Services
+            </h2>
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
+              Drei kreative Disziplinen, unendliche Möglichkeiten
+            </p>
+          </motion.div>
 
         <motion.div
           variants={containerVariants}
@@ -111,56 +133,30 @@ const Services = () => {
                 className="group h-full"
               >
                 <Link href={service.href}>
+                  <div className="relative">
+                    {/* Eckige Border für Dark Mode */}
+                    {theme === 'dark' && (
+                      <div className="absolute inset-0 border border-white/20 pointer-events-none z-10" />
+                    )}
+                    
                     <motion.div
-                      className={`relative p-8 h-full cursor-pointer transform-gpu flex flex-col overflow-visible ${
-                        theme === 'dark' 
-                          ? 'rounded-2xl bg-transparent border-none' 
-                          : 'rounded-2xl backdrop-blur-md border'
+                      className={`relative p-8 h-full cursor-pointer transform-gpu flex flex-col overflow-visible backdrop-blur-md border border-white/20 ${
+                        theme === 'dark' ? '' : 'rounded-2xl backdrop-blur-3xl'
                       }`}
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
-                    style={theme === 'dark' ? {
-                      background: 'transparent'
-                    } : {
-                      background: `
-                        rgba(255, 255, 255, 0.1),
-                        linear-gradient(145deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%)
-                      `,
-                      boxShadow: `
-                        -6px -6px 18px rgba(255, 255, 255, 0.8),
-                        6px 6px 18px rgba(0, 0, 0, 0.15),
-                        0 0 0 1px rgba(255, 255, 255, 0.2),
-                        inset 2px 2px 6px rgba(0, 0, 0, 0.08),
-                        inset -2px -2px 6px rgba(255, 255, 255, 0.3)
-                      `,
+                      style={{
+                        background: theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.07)',
+                        backdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(30px)',
+                        WebkitBackdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(30px)',
+                      }}
+                    whileHover={theme === 'dark' ? {} : { 
+                      y: -4, 
+                      scale: 1.03
                     }}
-                    whileHover={theme === 'dark' ? { 
-                      y: -2, 
-                      scale: 1.02
-                    } : { 
-                      y: -2, 
-                      scale: 1.05,
-                      boxShadow: `
-                        -12px -12px 48px rgba(255, 255, 255, 0.9),
-                        12px 12px 48px rgba(0, 0, 0, 0.18),
-                        0 0 0 1px rgba(255, 255, 255, 0.18),
-                        inset 2px 2px 6px rgba(135, 206, 235, 0.12),
-                        inset -2px -2px 6px rgba(255, 255, 255, 0.4)
-                      `
-                    }}
-                    whileTap={theme === 'dark' ? {
+                    whileTap={{
                       scale: 0.98,
                       y: 0
-                    } : {
-                      scale: 0.998,
-                      y: 0,
-                      boxShadow: `
-                        -3px -3px 9px rgba(255, 255, 255, 0.6),
-                        3px 3px 9px rgba(0, 0, 0, 0.12),
-                        0 0 0 1px rgba(255, 255, 255, 0.08),
-                        inset 4px 4px 8px rgba(0, 0, 0, 0.12),
-                        inset -4px -4px 8px rgba(255, 255, 255, 0.25)
-                      `
                     }}
                     transition={{ 
                       type: "spring", 
@@ -324,19 +320,30 @@ const Services = () => {
                     <div className="relative z-10 flex flex-col flex-1">
                       <motion.div
                         className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6 transition-all duration-300"
-                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        whileHover={theme === 'dark' ? {} : { scale: 1.1, rotate: 5 }}
                         transition={{ type: "spring", stiffness: 400 }}
                       >
-                        <Icon className="w-8 h-8 group-hover:drop-shadow-[0_0_16px_rgba(135,206,235,1)] group-hover:animate-pulse" />
+                        <Icon className={`w-8 h-8 transition-colors duration-300 ${
+                          theme === 'dark' 
+                            ? 'group-hover:text-orange-500' 
+                            : 'group-hover:drop-shadow-[0_0_16px_rgba(135,206,235,1)] group-hover:animate-pulse'
+                        }`} />
                       </motion.div>
 
                       <h3 
-                        className="text-2xl font-semibold text-foreground leading-tight mb-4 md:text-xl opacity-85 transition-all duration-300"
+                        className={`text-2xl font-semibold text-foreground leading-tight mb-4 md:text-xl opacity-85 transition-all duration-300 ${
+                          theme === 'dark' 
+                            ? 'group-hover:text-orange-500' 
+                            : ''
+                        }`}
                         style={{
                           textShadow: '0 1px 2px rgba(0,0,0,0.1)',
                         }}
                       >
-                        <span className="group-hover:drop-shadow-[0_0_20px_rgba(135,206,235,1)] group-hover:animate-pulse">
+                        <span className={theme === 'dark' 
+                          ? '' 
+                          : 'group-hover:drop-shadow-[0_0_20px_rgba(135,206,235,1)] group-hover:animate-pulse'
+                        }>
                           {service.title}
                         </span>
                       </h3>
@@ -369,48 +376,50 @@ const Services = () => {
                       ))}
                     </div>
                   </motion.div>
+                  </div>
                 </Link>
               </motion.div>
             )
           })}
         </motion.div>
 
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="w-full"
-          style={{ 
-            marginTop: 'calc(var(--spacing) * 4)'
-          }}
-        >
-          <Link href="/about" className="block w-full">
-            {theme === 'dark' ? (
-              <SpecialButtonDark
-                variant="secondary"
-                size="base"
-                icon="right"
-                iconElement={<ArrowRight className="w-4 h-4" />}
-                className="flex items-center justify-center"
-              >
-                Mehr über mich erfahren
-              </SpecialButtonDark>
-            ) : (
-              <SpecialButton
-                variant="secondary"
-                size="variabel"
-                className="flex items-center justify-center"
-              >
-                <span className="flex items-center gap-3">
+          {/* Call to Action */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="w-full"
+            style={{ 
+              marginTop: 'calc(var(--spacing) * 4)'
+            }}
+          >
+            <Link href="/about" className="block w-full">
+              {theme === 'dark' ? (
+                <SpecialButtonDark
+                  variant="secondary"
+                  size="base"
+                  icon="right"
+                  iconElement={<ArrowRight className="w-4 h-4" />}
+                  className="flex items-center justify-center"
+                >
                   Mehr über mich erfahren
-                  <ArrowRight className="w-4 h-4" />
-                </span>
-              </SpecialButton>
-            )}
-          </Link>
-        </motion.div>
+                </SpecialButtonDark>
+              ) : (
+                <SpecialButton
+                  variant="secondary"
+                  size="variabel"
+                  className="flex items-center justify-center"
+                >
+                  <span className="flex items-center gap-3">
+                    Mehr über mich erfahren
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </SpecialButton>
+              )}
+            </Link>
+          </motion.div>
+        </div>
       </div>
     </section>
   )

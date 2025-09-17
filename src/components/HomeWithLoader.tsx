@@ -7,6 +7,7 @@ import LoadingScreen from '@/components/LoadingScreen'
 import Hero from "@/components/Hero";
 import Philosophy from "@/components/Philosophy/index";
 import Services from "@/components/Services";
+import Divider from '@/components/ui/Divider';
 
 import Footer from "@/components/Footer";
 import FloatingContactButton from "@/components/FloatingContactButton";
@@ -81,16 +82,26 @@ export default function HomeWithLoader() {
     <AnimatePresence>
       {showContent && (
         <motion.div 
-          className="overflow-x-hidden"
+          className="overflow-x-hidden relative"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <Hero />
-          <Philosophy />
-          <Services />
-
-          <Footer />
+          <div className="relative z-10">
+            <Hero />
+          </div>
+          <div className="relative z-10">
+            <Philosophy />
+          </div>
+          <div className="relative z-10">
+            <Divider variant="comet" paddingY="py-20" />
+          </div>
+          <div className="relative z-10">
+            <Services />
+          </div>
+          <div className="relative z-10">
+            <Footer />
+          </div>
 
           {/* Floating Contact Button System */}
           <FloatingContactButton />

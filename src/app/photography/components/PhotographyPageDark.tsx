@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import { photographyImages } from '@/data/gallery'
 import { Button } from '@/components/ui/Button'
+import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 
 // TypeScript Interfaces
 interface PortfolioWork {
@@ -505,7 +506,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
               transition={{ duration: 0.8, delay: 1.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center relative"
             >
-              <Button
+              <SpecialButtonDark
                 variant="secondary"
                 size="base"
                 className="font-mono"
@@ -513,8 +514,8 @@ export default function PhotographyPageDark(): React.JSX.Element {
                 iconElement={<Sparkles className="w-4 h-4" />}
               >
                 SERVICES.EXPLORE
-              </Button>
-              <Button
+              </SpecialButtonDark>
+              <SpecialButtonDark
                 variant="primary"
                 size="base"
                 onClick={() => { 
@@ -524,7 +525,7 @@ export default function PhotographyPageDark(): React.JSX.Element {
                 className="font-mono"
               >
                 BOOKING.REQUEST
-              </Button>
+              </SpecialButtonDark>
             </motion.div>
           </motion.div>
         </div>

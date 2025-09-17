@@ -10,6 +10,8 @@ import SkillsCircleChart from './SkillsCircleChart'
 import MobileSkills from './MobileSkills'
 import TechStackSection from './TechStackSection'
 import { Button } from '@/components/ui/Button'
+import { SpecialButton } from '@/components/ui/SpecialButton'
+
 
 export default function UXUIPageLight() {
   const [currentTime, setCurrentTime] = useState('')
@@ -187,7 +189,7 @@ export default function UXUIPageLight() {
               transition={{ duration: 0.8, delay: 1.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <Button 
+              <SpecialButton 
                 variant="secondary"
                 size="base"
                 onClick={() => { const skills = document.getElementById('skills-section'); if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
@@ -195,9 +197,9 @@ export default function UXUIPageLight() {
               iconElement={<Sparkles className="w-4 h-4" />}
               >
                 Meine Skills
-              </Button>
-              
-              <Button 
+              </SpecialButton>
+
+              <SpecialButton 
                 variant="primary"
                 size="base"
                 onClick={() => { 
@@ -206,7 +208,7 @@ export default function UXUIPageLight() {
                 }}
               >
                 Kontakt
-              </Button>
+              </SpecialButton>
             </motion.div>
           </motion.div>
         </div>
