@@ -2,10 +2,13 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Target, Minimize2, Heart, Users, Leaf, ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Target, Minimize2, Heart, Users, Leaf } from 'lucide-react'
 import { SpecialButton } from '@/components/ui/SpecialButton'
+import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
+import { useTheme } from '@/contexts/ThemeContext'
 
 const Philosophy = () => {
+  const { theme } = useTheme()
   const [activeIndex, setActiveIndex] = useState(0)
   
   // Kreis-Radius für gleichmäßige Verteilung
@@ -149,25 +152,45 @@ const Philosophy = () => {
 
           {/* Active Principle Details */}
           <div className="relative">
-            {/* Navigation Buttons - SpecialButton Secondary - hidden on mobile */}
+            {/* Navigation Buttons - Theme-aware - hidden on mobile */}
             <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden md:block">
-              <SpecialButton
-                variant="secondary"
-                size="sm"
-                icon="only"
-                iconElement={<ArrowLeft className="w-4 h-4" />}
-                onClick={prevPrinciple}
-              />
+              {theme === 'dark' ? (
+                <SpecialButtonDark
+                  variant="secondary"
+                  size="sm"
+                  icon="only"
+                  iconElement={<ArrowLeft className="w-3 h-3" />}
+                  onClick={prevPrinciple}
+                />
+              ) : (
+                <SpecialButton
+                  variant="secondary"
+                  size="sm"
+                  icon="only"
+                  iconElement={<ArrowLeft className="w-4 h-4" />}
+                  onClick={prevPrinciple}
+                />
+              )}
             </div>
             
             <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:block">
-              <SpecialButton
-                variant="secondary"
-                size="sm"
-                icon="only"
-                iconElement={<ArrowRight className="w-4 h-4" />}
-                onClick={nextPrinciple}
-              />
+              {theme === 'dark' ? (
+                <SpecialButtonDark
+                  variant="secondary"
+                  size="sm"
+                  icon="only"
+                  iconElement={<ArrowRight className="w-3 h-3" />}
+                  onClick={nextPrinciple}
+                />
+              ) : (
+                <SpecialButton
+                  variant="secondary"
+                  size="sm"
+                  icon="only"
+                  iconElement={<ArrowRight className="w-4 h-4" />}
+                  onClick={nextPrinciple}
+                />
+              )}
             </div>
 
             <motion.div
@@ -191,23 +214,43 @@ const Philosophy = () => {
                 </p>
               </div>
 
-              {/* Mobile Navigation Buttons - SpecialButton Secondary - visible only on mobile */}
+              {/* Mobile Navigation Buttons - Theme-aware - visible only on mobile */}
               <div className="flex justify-center space-x-4 mb-8 md:hidden">
-                <SpecialButton
+                {theme === 'dark' ? (
+                  <>
+                <SpecialButtonDark
                   variant="secondary"
                   size="sm"
                   icon="only"
-                  iconElement={<ArrowLeft className="w-4 h-4" />}
+                  iconElement={<ArrowLeft className="w-3 h-3" />}
                   onClick={prevPrinciple}
-                />
-                
-                <SpecialButton
-                  variant="secondary"
-                  size="sm"
-                  icon="only"
-                  iconElement={<ArrowRight className="w-4 h-4" />}
-                  onClick={nextPrinciple}
-                />
+                />                    <SpecialButtonDark
+                      variant="secondary"
+                      size="sm"
+                      icon="only"
+                      iconElement={<ArrowRight className="w-3 h-3" />}
+                      onClick={nextPrinciple}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <SpecialButton
+                      variant="secondary"
+                      size="sm"
+                      icon="only"
+                      iconElement={<ArrowLeft className="w-4 h-4" />}
+                      onClick={prevPrinciple}
+                    />
+                    
+                    <SpecialButton
+                      variant="secondary"
+                      size="sm"
+                      icon="only"
+                      iconElement={<ArrowRight className="w-3 h-3" />}
+                      onClick={nextPrinciple}
+                    />
+                  </>
+                )}
               </div>
             
               {/* Progress Indicator */}

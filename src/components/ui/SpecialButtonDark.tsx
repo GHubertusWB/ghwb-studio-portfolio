@@ -63,26 +63,29 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
       primary: {
         textColor: 'text-orange-400',
         borderColor: '#fb923c', // Orange
-        secondaryColor: '#3b82f6', // Blau
-        glowColor: 'rgba(251, 146, 60, 0.6)',
-        secondaryGlow: 'rgba(59, 130, 246, 0.4)',
-        bgHover: 'linear-gradient(135deg, rgba(251, 146, 60, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)'
+        secondaryColor: '#fb923c', // Blau
+        glowColor: 'rgba(255, 162, 0, 1)',
+        secondaryGlow: 'rgba(255, 162, 0, 1)',
+        bgHover: 'linear-gradient(135deg, rgba(251, 146, 60, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)',
+        fontWeight: 'font-semibold' // Höheres Font-Weight für Primary
       },
       secondary: {
-        textColor: 'text-gray-300',
-        borderColor: '#9ca3af', // Grau
-        secondaryColor: '#6b7280', // Dunkelgrau
-        glowColor: 'rgba(156, 163, 175, 0.5)',
-        secondaryGlow: 'rgba(107, 114, 128, 0.3)',
-        bgHover: 'linear-gradient(135deg, rgba(156, 163, 175, 0.1) 0%, rgba(107, 114, 128, 0.1) 100%)'
+        textColor: 'text-white',
+        borderColor: '#ffffffff', // Grau
+        secondaryColor: '#ffffffff', // Dunkelgrau
+        glowColor: 'rgba(63, 223, 255, 0.63)',
+        secondaryGlow: 'rgba(63, 223, 255, 0.63)',
+        bgHover: 'linear-gradient(135deg, rgba(156, 163, 175, 0.1) 0%, rgba(107, 114, 128, 0.1) 100%)',
+        fontWeight: 'font-medium' // Standard Font-Weight für Secondary
       },
       tertiary: {
-        textColor: 'text-gray-500',
-        borderColor: '#6b7280', // Dunkelgrau
-        secondaryColor: '#4b5563', // Sehr dunkelgrau
+        textColor: 'text-white',
+        borderColor: '#6b7280', // Dunkelgrau (nur beim Hover sichtbar)
+        secondaryColor: '#4b5563', // Sehr dunkelgrau (nur beim Hover sichtbar)
         glowColor: 'rgba(107, 114, 128, 0.4)',
         secondaryGlow: 'rgba(75, 85, 99, 0.2)',
-        bgHover: 'linear-gradient(135deg, rgba(107, 114, 128, 0.08) 0%, rgba(75, 85, 99, 0.08) 100%)'
+        bgHover: 'linear-gradient(135deg, rgba(107, 114, 128, 0.08) 0%, rgba(75, 85, 99, 0.08) 100%)',
+        fontWeight: 'font-medium' // Standard Font-Weight für Tertiary
       }
     };
 
@@ -186,7 +189,9 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
         }}
         className={cn(
           "relative inline-flex items-center justify-center",
-          "font-medium tracking-wide transition-colors duration-300",
+          config.fontWeight, // Variantenspezifisches Font-Weight
+          "tracking-wide transition-colors duration-300",
+          "font-[var(--font-poppins)]", // Explizit Poppins für Buttons
           "focus:outline-none select-none bg-transparent border-none",
           "transform-gpu overflow-visible", // overflow-visible für die Border-Effekte
           currentSize.padding,
@@ -231,8 +236,8 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
           style={{
             top: '-2px',
             left: '-2px',
-            borderTop: `2px solid ${config.borderColor}`,
-            borderLeft: `2px solid ${config.borderColor}`,
+            borderTop: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
+            borderLeft: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
             filter: `drop-shadow(0 0 6px ${config.glowColor})`,
           }}
           initial={{ width: '8px', height: '8px' }}
@@ -252,8 +257,8 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
           style={{
             top: '-2px',
             right: '-2px',
-            borderTop: `2px solid ${config.secondaryColor}`,
-            borderRight: `2px solid ${config.secondaryColor}`,
+            borderTop: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
+            borderRight: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
             filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
           }}
           initial={{ width: '8px', height: '8px' }}
@@ -273,8 +278,8 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
           style={{
             bottom: '-2px',
             left: '-2px',
-            borderBottom: `2px solid ${config.borderColor}`,
-            borderLeft: `2px solid ${config.borderColor}`,
+            borderBottom: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
+            borderLeft: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
             filter: `drop-shadow(0 0 6px ${config.glowColor})`,
           }}
           initial={{ width: '8px', height: '8px' }}
@@ -294,8 +299,8 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
           style={{
             bottom: '-2px',
             right: '-2px',
-            borderBottom: `2px solid ${config.secondaryColor}`,
-            borderRight: `2px solid ${config.secondaryColor}`,
+            borderBottom: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
+            borderRight: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
             filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
           }}
           initial={{ width: '8px', height: '8px' }}

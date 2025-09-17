@@ -1,12 +1,17 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Palette, Camera, Layers, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { SpecialButton } from '@/components/ui/SpecialButton'
+import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
+import { useTheme } from '@/contexts/ThemeContext'
 import FloatingClouds from '@/components/FloatingClouds'
 
 const Services = () => {
+  const { theme } = useTheme()
+  
   const services = [
     {
       icon: Layers,
@@ -97,6 +102,8 @@ const Services = () => {
         >
           {services.map((service, index) => {
             const Icon = service.icon
+            const [isHovered, setIsHovered] = useState(false)
+            
             return (
               <motion.div
                 key={service.title}
@@ -105,8 +112,16 @@ const Services = () => {
               >
                 <Link href={service.href}>
                     <motion.div
-                      className="relative p-8 rounded-2xl h-full cursor-pointer transform-gpu flex flex-col backdrop-blur-md"
-                    style={{
+                      className={`relative p-8 h-full cursor-pointer transform-gpu flex flex-col overflow-visible ${
+                        theme === 'dark' 
+                          ? 'rounded-2xl bg-transparent border-none' 
+                          : 'rounded-2xl backdrop-blur-md border'
+                      }`}
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                    style={theme === 'dark' ? {
+                      background: 'transparent'
+                    } : {
                       background: `
                         rgba(255, 255, 255, 0.1),
                         linear-gradient(145deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%)
@@ -119,7 +134,10 @@ const Services = () => {
                         inset -2px -2px 6px rgba(255, 255, 255, 0.3)
                       `,
                     }}
-                    whileHover={{ 
+                    whileHover={theme === 'dark' ? { 
+                      y: -2, 
+                      scale: 1.02
+                    } : { 
                       y: -2, 
                       scale: 1.05,
                       boxShadow: `
@@ -130,7 +148,10 @@ const Services = () => {
                         inset -2px -2px 6px rgba(255, 255, 255, 0.4)
                       `
                     }}
-                    whileTap={{
+                    whileTap={theme === 'dark' ? {
+                      scale: 0.98,
+                      y: 0
+                    } : {
                       scale: 0.998,
                       y: 0,
                       boxShadow: `
@@ -153,6 +174,130 @@ const Services = () => {
                          style={{
                            background: `radial-gradient(circle at center, rgba(135, 206, 235, 0.1), transparent 70%)`
                          }} />
+
+                    {/* Dark Mode: SpecialButtonDark Corner Border Animation */}
+                    {theme === 'dark' && (
+                      <>
+                        {/* Hover Background für Dark Mode */}
+                        <motion.div
+                          className="absolute inset-0 -z-10 rounded-2xl"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(156, 163, 175, 0.1) 0%, rgba(107, 114, 128, 0.1) 100%)',
+                          }}
+                          initial={{ opacity: 0 }}
+                          animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                        />
+
+                        {/* Top-Left Corner */}
+                        <motion.div
+                          className="absolute pointer-events-none"
+                          style={{
+                            top: '-2px',
+                            left: '-2px',
+                            borderTop: '2px solid #ffffff',
+                            borderLeft: '2px solid #ffffff',
+                            filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
+                          }}
+                          initial={{ width: '8px', height: '8px' }}
+                          animate={isHovered ? {
+                            width: '50%',
+                            height: '50%'
+                          } : {
+                            width: '8px',
+                            height: '8px'
+                          }}
+                          transition={{ duration: 1, ease: "easeInOut" }}
+                        />
+
+                        {/* Top-Right Corner */}
+                        <motion.div
+                          className="absolute pointer-events-none"
+                          style={{
+                            top: '-2px',
+                            right: '-2px',
+                            borderTop: '2px solid #ffffff',
+                            borderRight: '2px solid #ffffff',
+                            filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
+                          }}
+                          initial={{ width: '8px', height: '8px' }}
+                          animate={isHovered ? {
+                            width: '50%',
+                            height: '50%'
+                          } : {
+                            width: '8px',
+                            height: '8px'
+                          }}
+                          transition={{ duration: 1, ease: "easeInOut" }}
+                        />
+
+                        {/* Bottom-Left Corner */}
+                        <motion.div
+                          className="absolute pointer-events-none"
+                          style={{
+                            bottom: '-2px',
+                            left: '-2px',
+                            borderBottom: '2px solid #ffffff',
+                            borderLeft: '2px solid #ffffff',
+                            filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
+                          }}
+                          initial={{ width: '8px', height: '8px' }}
+                          animate={isHovered ? {
+                            width: '50%',
+                            height: '50%'
+                          } : {
+                            width: '8px',
+                            height: '8px'
+                          }}
+                          transition={{ duration: 1, ease: "easeInOut" }}
+                        />
+
+                        {/* Bottom-Right Corner */}
+                        <motion.div
+                          className="absolute pointer-events-none"
+                          style={{
+                            bottom: '-2px',
+                            right: '-2px',
+                            borderBottom: '2px solid #ffffff',
+                            borderRight: '2px solid #ffffff',
+                            filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
+                          }}
+                          initial={{ width: '8px', height: '8px' }}
+                          animate={isHovered ? {
+                            width: '50%',
+                            height: '50%'
+                          } : {
+                            width: '8px',
+                            height: '8px'
+                          }}
+                          transition={{ duration: 1, ease: "easeInOut" }}
+                        />
+
+                        {/* Center Glow für Dark Mode */}
+                        <motion.div
+                          className="absolute pointer-events-none"
+                          style={{
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            background: 'radial-gradient(ellipse, rgba(63, 223, 255, 0.63) 0%, rgba(63, 223, 255, 0.63) 30%, transparent 70%)',
+                            filter: 'blur(6px)',
+                            mixBlendMode: 'screen',
+                          }}
+                          initial={{ width: '0px', height: '0px', opacity: 0 }}
+                          animate={isHovered ? {
+                            width: '60%',
+                            height: '60%',
+                            opacity: 0.3
+                          } : {
+                            width: '0px',
+                            height: '0px',
+                            opacity: 0
+                          }}
+                          transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
+                        />
+                      </>
+                    )}
                     
                     {/* Arrow on the right side - same height as icon */}
                     <motion.div
@@ -236,23 +381,34 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
-          className="w-full backdrop-blur-md rounded-2xl"
+          className="w-full"
           style={{ 
-            marginTop: 'calc(var(--spacing) * 4)',
-            background: 'rgba(255, 255, 255, 0.1)'
+            marginTop: 'calc(var(--spacing) * 4)'
           }}
         >
           <Link href="/about" className="block w-full">
-            <SpecialButton
-              variant="secondary"
-              size="variabel"
-              className="flex items-center justify-center"
-            >
-              <span className="flex items-center gap-3">
+            {theme === 'dark' ? (
+              <SpecialButtonDark
+                variant="secondary"
+                size="base"
+                icon="right"
+                iconElement={<ArrowRight className="w-4 h-4" />}
+                className="flex items-center justify-center"
+              >
                 Mehr über mich erfahren
-                <ArrowRight className="w-4 h-4" />
-              </span>
-            </SpecialButton>
+              </SpecialButtonDark>
+            ) : (
+              <SpecialButton
+                variant="secondary"
+                size="variabel"
+                className="flex items-center justify-center"
+              >
+                <span className="flex items-center gap-3">
+                  Mehr über mich erfahren
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </SpecialButton>
+            )}
           </Link>
         </motion.div>
       </div>

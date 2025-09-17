@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
 import { Button } from './ui/Button'
 import { SpecialButton } from './ui/SpecialButton'
+import { SpecialButtonDark } from './ui/SpecialButtonDark'
 import ContactModal from './ContactModal'
 import { useTheme } from '@/contexts/ThemeContext'
 
@@ -41,8 +42,8 @@ export default function FloatingContactButton({
       const scrollPosition = window.scrollY
       const windowHeight = window.innerHeight
       const documentHeight = document.documentElement.scrollHeight
-      const footerHeight = 400 // Geschätzte Footer-Höhe
-      const baseOffset = 16 // 1rem in px
+      const footerHeight = 530 // Geschätzte Footer-Höhe
+      const baseOffset = 18 // 1rem in px
 
       // Button erscheint nach dem Hero
       const shouldShow = scrollPosition > heroHeight * 0.8
@@ -119,17 +120,30 @@ export default function FloatingContactButton({
               damping: 30
             }}
           >
-            <SpecialButton
-              variant="primary"
-              size="lg"
-              onClick={openContactModal}
-              icon="left"
-              iconElement={<MessageCircle className="w-5 h-5" />}
-              className="shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-full"
-              style={{ borderRadius: '9999px' }}
-            >
-              Kontakt
-            </SpecialButton>
+            {theme === 'dark' ? (
+              <SpecialButtonDark
+                variant="primary"
+                size="lg"
+                onClick={openContactModal}
+                icon="left"
+                iconElement={<MessageCircle className="w-5 h-5" />}
+                className="rounded-full"
+              >
+                Kontakt
+              </SpecialButtonDark>
+            ) : (
+              <SpecialButton
+                variant="primary"
+                size="lg"
+                onClick={openContactModal}
+                icon="left"
+                iconElement={<MessageCircle className="w-5 h-5" />}
+                className="rounded-full"
+                style={{ borderRadius: '9999px' }}
+              >
+                Kontakt
+              </SpecialButton>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

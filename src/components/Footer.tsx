@@ -5,8 +5,12 @@ import { Linkedin, Mail, ArrowUp } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { SpecialButton } from '@/components/ui/SpecialButton'
+import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
+import { useTheme } from '@/contexts/ThemeContext'
 
 const Footer = () => {
+  const { theme } = useTheme()
+  
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -59,12 +63,21 @@ const Footer = () => {
           >
             {footerLinks.map((link) => (
               <Link key={link.href} href={link.href}>
-                <SpecialButton
-                  variant="secondary"
-                  size="sm"
-                >
-                  {link.label}
-                </SpecialButton>
+                {theme === 'dark' ? (
+                  <SpecialButtonDark
+                    variant="secondary"
+                    size="sm"
+                  >
+                    {link.label}
+                  </SpecialButtonDark>
+                ) : (
+                  <SpecialButton
+                    variant="secondary"
+                    size="sm"
+                  >
+                    {link.label}
+                  </SpecialButton>
+                )}
               </Link>
             ))}
           </motion.div>
@@ -86,12 +99,21 @@ const Footer = () => {
                   rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   aria-label={social.label}
                 >
-                  <SpecialButton
-                    variant="secondary"
-                    size="base"
-                    icon="only"
-                    iconElement={<Icon className="w-5 h-5" />}
-                  />
+                  {theme === 'dark' ? (
+                    <SpecialButtonDark
+                      variant="secondary"
+                      size="base"
+                      icon="only"
+                      iconElement={<Icon className="w-5 h-5" />}
+                    />
+                  ) : (
+                    <SpecialButton
+                      variant="secondary"
+                      size="base"
+                      icon="only"
+                      iconElement={<Icon className="w-5 h-5" />}
+                    />
+                  )}
                 </motion.a>
               )
             })}
@@ -111,22 +133,42 @@ const Footer = () => {
           
           <div className="flex space-x-4">
             <Link href="/impressum">
-              <SpecialButton
-                variant="secondary"
-                size="sm"
-                className="text-sm"
-              >
-                Impressum
-              </SpecialButton>
+              {theme === 'dark' ? (
+                <SpecialButtonDark
+                  variant="secondary"
+                  size="sm"
+                  className="text-sm"
+                >
+                  Impressum
+                </SpecialButtonDark>
+              ) : (
+                <SpecialButton
+                  variant="secondary"
+                  size="sm"
+                  className="text-sm"
+                >
+                  Impressum
+                </SpecialButton>
+              )}
             </Link>
             <Link href="/datenschutz">
-              <SpecialButton
-                variant="secondary"
-                size="sm"
-                className="text-sm"
-              >
-                Datenschutz
-              </SpecialButton>
+              {theme === 'dark' ? (
+                <SpecialButtonDark
+                  variant="secondary"
+                  size="sm"
+                  className="text-sm"
+                >
+                  Datenschutz
+                </SpecialButtonDark>
+              ) : (
+                <SpecialButton
+                  variant="secondary"
+                  size="sm"
+                  className="text-sm"
+                >
+                  Datenschutz
+                </SpecialButton>
+              )}
             </Link>
           </div>
         </motion.div>
@@ -141,13 +183,23 @@ const Footer = () => {
         transition={{ type: "spring", stiffness: 400 }}
         className="absolute top-8 right-8"
       >
-        <SpecialButton
-          variant="secondary"
-          size="base"
-          onClick={scrollToTop}
-          icon="only"
-          iconElement={<ArrowUp className="w-5 h-5" />}
-        />
+        {theme === 'dark' ? (
+          <SpecialButtonDark
+            variant="secondary"
+            size="base"
+            onClick={scrollToTop}
+            icon="only"
+            iconElement={<ArrowUp className="w-5 h-5" />}
+          />
+        ) : (
+          <SpecialButton
+            variant="secondary"
+            size="base"
+            onClick={scrollToTop}
+            icon="only"
+            iconElement={<ArrowUp className="w-5 h-5" />}
+          />
+        )}
       </motion.div>
     </footer>
   )
