@@ -106,7 +106,7 @@ export default function TechStackSectionDark() {
                 iconElement={<IconComponent className="w-4 h-4" />}
                 className={`transition-all duration-300 ${
                   activeTab === tab.id 
-                    ? 'bg-cyan-400/20 text-cyan-400 border-cyan-400/30 shadow-lg shadow-cyan-400/20' 
+                    ? 'bg-orange-500/20 text-orange-400 border-orange-400/30 shadow-lg shadow-orange-400/20' 
                     : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20'
                 }`}
               >
@@ -131,18 +131,103 @@ export default function TechStackSectionDark() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="group relative p-8 text-center cursor-pointer rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300 w-32"
-                whileHover={{ y: -5 }}
+                className="group relative p-8 text-center cursor-pointer rounded-lg w-32 
+                          bg-white/[0.02] border border-white/10 
+                          hover:border-white/30 hover:bg-white/[0.05]
+                          transition-all duration-300"
                 style={{ 
-                  boxShadow: '0 0 20px rgba(255, 255, 255, 0.05)',
+                  boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
                   backdropFilter: 'blur(10px)'
                 }}
               >
+                {/* Animated border effect - SpecialButtonDark style */}
+                <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 rounded-lg border border-white/20 animate-pulse" />
+                  <div className="absolute -inset-[1px] rounded-lg bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+
+                {/* Animated corner lines - SpecialButtonDark style */}
+                <>
+                  {/* Top-Left Corner */}
+                  <motion.div
+                    className="absolute pointer-events-none"
+                    style={{
+                      top: '-2px',
+                      left: '-2px',
+                      borderTop: '2px solid rgba(255, 255, 255, 0.6)',
+                      borderLeft: '2px solid rgba(255, 255, 255, 0.6)',
+                      filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.4))',
+                    }}
+                    initial={{ width: '8px', height: '8px' }}
+                    animate={{ width: '8px', height: '8px' }}
+                    whileHover={{
+                      width: '50%',
+                      height: '50%'
+                    }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                  />
+
+                  {/* Top-Right Corner */}
+                  <motion.div
+                    className="absolute pointer-events-none"
+                    style={{
+                      top: '-2px',
+                      right: '-2px',
+                      borderTop: '2px solid rgba(255, 255, 255, 0.6)',
+                      borderRight: '2px solid rgba(255, 255, 255, 0.6)',
+                      filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.4))',
+                    }}
+                    initial={{ width: '8px', height: '8px' }}
+                    animate={{ width: '8px', height: '8px' }}
+                    whileHover={{
+                      width: '50%',
+                      height: '50%'
+                    }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                  />
+
+                  {/* Bottom-Left Corner */}
+                  <motion.div
+                    className="absolute pointer-events-none"
+                    style={{
+                      bottom: '-2px',
+                      left: '-2px',
+                      borderBottom: '2px solid rgba(255, 255, 255, 0.6)',
+                      borderLeft: '2px solid rgba(255, 255, 255, 0.6)',
+                      filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.4))',
+                    }}
+                    initial={{ width: '8px', height: '8px' }}
+                    animate={{ width: '8px', height: '8px' }}
+                    whileHover={{
+                      width: '50%',
+                      height: '50%'
+                    }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                  />
+
+                  {/* Bottom-Right Corner */}
+                  <motion.div
+                    className="absolute pointer-events-none"
+                    style={{
+                      bottom: '-2px',
+                      right: '-2px',
+                      borderBottom: '2px solid rgba(255, 255, 255, 0.6)',
+                      borderRight: '2px solid rgba(255, 255, 255, 0.6)',
+                      filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.4))',
+                    }}
+                    initial={{ width: '8px', height: '8px' }}
+                    animate={{ width: '8px', height: '8px' }}
+                    whileHover={{
+                      width: '50%',
+                      height: '50%'
+                    }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                  />
+                </>
+
                 {/* Logo - wird beim Hover ausgeblendet */}
                 <motion.div
-                  className="flex items-center justify-center mb-2 group-hover:opacity-0 transition-opacity duration-300"
-                  initial={{ scale: 1 }}
-                  whileHover={{ scale: 1.1 }}
+                  className="flex items-center justify-center mb-2 group-hover:opacity-0 transition-opacity duration-300 relative z-10"
                 >
                   <img 
                     src={tool.logo} 
@@ -156,9 +241,7 @@ export default function TechStackSectionDark() {
 
                 {/* Name - erscheint beim Hover */}
                 <motion.div
-                  className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  initial={{ scale: 0.9 }}
-                  whileHover={{ scale: 1 }}
+                  className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
                 >
                   <h3 className="font-semibold text-white text-lg px-2" style={{ 
                     textShadow: '0 0 20px rgba(255, 255, 255, 0.5)' 
@@ -166,15 +249,6 @@ export default function TechStackSectionDark() {
                     {tool.name}
                   </h3>
                 </motion.div>
-
-                {/* Glowing border effect */}
-                <div 
-                  className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                  style={{
-                    background: 'linear-gradient(45deg, transparent, rgba(100, 255, 255, 0.1), transparent)',
-                    border: '1px solid rgba(100, 255, 255, 0.2)'
-                  }}
-                />
               </motion.div>
             ))}
           </motion.div>

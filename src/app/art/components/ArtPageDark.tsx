@@ -7,7 +7,7 @@ import FloatingContactButton from '@/components/FloatingContactButton'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/Button'
 import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
-import { artImages } from '@/data/gallery'
+import { artGroups, type GalleryGroup } from '@/data/gallery'
 
 // TypeScript Interfaces (same as light version)
 interface Artwork {
@@ -53,6 +53,7 @@ interface CollaborationCard {
 
 export default function ArtPageDark(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
+  const [activeGroupIndex, setActiveGroupIndex] = useState(0)
   const [galleryImages, setGalleryImages] = useState<string[]>([])
 
   
@@ -137,10 +138,21 @@ export default function ArtPageDark(): React.JSX.Element {
     0  // 1x1 - Quadrat klein
   ]
 
-  // Statische Galerie-Bilder laden
+  // Load gallery images for active group
   useEffect(() => {
-    setGalleryImages(artImages)
-  }, [])
+    if (artGroups && artGroups[activeGroupIndex]) {
+      setGalleryImages(artGroups[activeGroupIndex].images)
+    }
+  }, [activeGroupIndex])
+
+  // Group navigation functions
+  const handlePreviousGroup = () => {
+    setActiveGroupIndex(prev => prev > 0 ? prev - 1 : artGroups.length - 1)
+  }
+
+  const handleNextGroup = () => {
+    setActiveGroupIndex(prev => prev < artGroups.length - 1 ? prev + 1 : 0)
+  }
 
   // Same content as light version
   const artwork: Artwork = {
@@ -722,11 +734,51 @@ export default function ArtPageDark(): React.JSX.Element {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6 text-white" style={{ fontFamily: 'monospace', textShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}>
-              PORTFOLIO ARBEITEN
+              {artGroups[activeGroupIndex]?.title.toUpperCase() || 'PORTFOLIO ARBEITEN'}
             </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Eine Auswahl meiner aktuellen Kunstwerke und Projekte.
+            <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
+              {artGroups[activeGroupIndex]?.description || 'Eine Auswahl meiner aktuellen Kunstwerke und Projekte.'}
             </p>
+            
+            {/* Group Navigation Buttons */}
+            <div className="relative flex items-center justify-between mb-8 px-8">
+              {/* Left Button */}
+              <SpecialButtonDark
+                variant="secondary"
+                size="base"
+                icon="left"
+                iconElement={<ArrowLeft className="w-4 h-4" />}
+                onClick={handlePreviousGroup}
+              >
+                {artGroups[(activeGroupIndex - 1 + artGroups.length) % artGroups.length]?.title}
+              </SpecialButtonDark>
+              
+              {/* Center Dot Indicators */}
+              <div className="flex items-center gap-2 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                {artGroups.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveGroupIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === activeGroupIndex 
+                        ? 'bg-orange-500 w-8' 
+                        : 'bg-white/30 hover:bg-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+              
+              {/* Right Button */}
+              <SpecialButtonDark
+                variant="secondary"
+                size="base"
+                icon="right"
+                iconElement={<ArrowRight className="w-4 h-4" />}
+                onClick={handleNextGroup}
+              >
+                {artGroups[(activeGroupIndex + 1) % artGroups.length]?.title}
+              </SpecialButtonDark>
+            </div>
           </motion.div>
 
           {/* Portfolio Grid - Photography Seite Style mit Variierenden Größen */}
@@ -749,12 +801,12 @@ export default function ArtPageDark(): React.JSX.Element {
               
               return (
                 <motion.div
-                  key={src}
+                  key={`${activeGroupIndex}-${src}`}
                   className={`relative overflow-hidden ${layout.className}`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: (index * 0.05) }}
-                  viewport={{ once: true }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 relative overflow-hidden shadow-sm">
                     {/* Bild aus Galerie */}

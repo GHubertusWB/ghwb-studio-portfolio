@@ -6,7 +6,7 @@ import { ArrowRight, ArrowLeft, Camera, User, Heart, Sparkles, Eye } from 'lucid
 import Footer from '@/components/Footer'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
 import FloatingContactButton from '@/components/FloatingContactButton'
-import { photographyImages } from '@/data/gallery'
+import { photographyGroups } from '@/data/gallery'
 import { Button } from '@/components/ui/Button'
 import { SpecialButton } from '@/components/ui/SpecialButton'
 
@@ -25,10 +25,24 @@ import { SpecialButton } from '@/components/ui/SpecialButton'
 export default function PhotographyPageLight(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
   const [galleryImages, setGalleryImages] = useState<string[]>([])
+  const [activeGroupIndex, setActiveGroupIndex] = useState(0)
   
   // Refs for scroll animations
   const servicesRef = useRef<HTMLElement>(null)
   const portfolioRef = useRef<HTMLElement>(null)
+
+  // Group navigation functions
+  const handlePreviousGroup = () => {
+    setActiveGroupIndex((prevIndex) => 
+      prevIndex === 0 ? photographyGroups.length - 1 : prevIndex - 1
+    )
+  }
+
+  const handleNextGroup = () => {
+    setActiveGroupIndex((prevIndex) => 
+      (prevIndex + 1) % photographyGroups.length
+    )
+  }
 
   // Vordefiniertes Raster-Muster - zufällig aber ausgewogen, jede Zeile summiert sich zu 3 Spalten
   const predefinedGridPattern = [
@@ -109,10 +123,12 @@ export default function PhotographyPageLight(): React.JSX.Element {
 
 
 
-  // Statische Galerie-Bilder laden
+  // Load images from current group
   useEffect(() => {
-    setGalleryImages(photographyImages)
-  }, [])
+    if (photographyGroups[activeGroupIndex]) {
+      setGalleryImages(photographyGroups[activeGroupIndex].images)
+    }
+  }, [activeGroupIndex])
 
 
 
@@ -256,11 +272,51 @@ export default function PhotographyPageLight(): React.JSX.Element {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              Ausgewählte Arbeiten
+              {photographyGroups[activeGroupIndex]?.title || 'Ausgewählte Arbeiten'}
             </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Ein kleiner Einblick in meine fotografische Welt – authentische Momente, liebevoll festgehalten
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto mb-8">
+              {photographyGroups[activeGroupIndex]?.description || 'Ein kleiner Einblick in meine fotografische Welt – authentische Momente, liebevoll festgehalten'}
             </p>
+            
+            {/* Group Navigation Buttons */}
+            <div className="relative flex items-center justify-between mb-8 px-8">
+              {/* Left Button */}
+              <SpecialButton
+                variant="secondary"
+                size="base"
+                icon="left"
+                iconElement={<ArrowLeft className="w-4 h-4" />}
+                onClick={handlePreviousGroup}
+              >
+                {photographyGroups[(activeGroupIndex - 1 + photographyGroups.length) % photographyGroups.length]?.title}
+              </SpecialButton>
+              
+              {/* Center Dot Indicators */}
+              <div className="flex items-center gap-2 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                {photographyGroups.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveGroupIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === activeGroupIndex 
+                        ? 'bg-orange-500 w-8' 
+                        : 'bg-gray-400 hover:bg-gray-600'
+                    }`}
+                  />
+                ))}
+              </div>
+              
+              {/* Right Button */}
+              <SpecialButton
+                variant="secondary"
+                size="base"
+                icon="right"
+                iconElement={<ArrowRight className="w-4 h-4" />}
+                onClick={handleNextGroup}
+              >
+                {photographyGroups[(activeGroupIndex + 1) % photographyGroups.length]?.title}
+              </SpecialButton>
+            </div>
           </motion.div>
 
           {/* Portfolio Grid - Varierende Größen mit mehr Weißraum */}
@@ -283,12 +339,12 @@ export default function PhotographyPageLight(): React.JSX.Element {
               
               return (
                 <motion.div
-                  key={src}
+                  key={`${activeGroupIndex}-${src}`}
                   className={`relative overflow-hidden ${layout.className}`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: (index * 0.05) }}
-                  viewport={{ once: true }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <div className="w-full h-full bg-white border border-gray-200 relative overflow-hidden shadow-sm">
                     {/* Bild aus Galerie */}
