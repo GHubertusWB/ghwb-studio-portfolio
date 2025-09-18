@@ -9,6 +9,7 @@ import FloatingContactButton from '@/components/FloatingContactButton'
 import FloatingClouds from '@/components/FloatingClouds'
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/Button'
+import { SpecialButton } from '@/components/ui/SpecialButton'
 
 // Timeline Item Component
 const TimelineItem = ({ item, index }: { item: any, index: number }) => {
@@ -349,7 +350,7 @@ export default function AboutPageLight() {
               transition={{ duration: 0.8, delay: 1.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <Button 
+              <SpecialButton 
                 variant="secondary"
                 size="base"
                 icon="left"
@@ -360,9 +361,9 @@ export default function AboutPageLight() {
                 }}
               >
                 Meine Geschichte
-              </Button>
-              
-              <Button 
+              </SpecialButton>
+
+              <SpecialButton 
                 variant="primary"
                 size="base"
                 onClick={() => { 
@@ -371,7 +372,7 @@ export default function AboutPageLight() {
                 }}
               >
                 Kontakt aufnehmen
-              </Button>
+              </SpecialButton>
             </motion.div>
           </motion.div>
         </div>
@@ -428,8 +429,8 @@ export default function AboutPageLight() {
               Hast du ein spannendes Projekt oder möchtest mehr über meine Arbeit erfahren? 
               Ich freue mich auf deine Nachricht!
             </p>
-            <Button 
-              variant="primary" 
+            <SpecialButton
+              variant="primary"
               size="base"
               icon="left"
               iconElement={<Users className="w-4 h-4" />}
@@ -439,7 +440,7 @@ export default function AboutPageLight() {
               }}
             >
               Kontakt aufnehmen
-            </Button>
+            </SpecialButton>
           </motion.div>
         </div>
       </section>
