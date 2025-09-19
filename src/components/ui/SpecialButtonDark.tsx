@@ -30,27 +30,29 @@ const DarkLoadingSpinner = ({ size }: { size: 'sm' | 'base' | 'lg' }) => {
 export interface SpecialButtonDarkProps {
   variant?: 'primary' | 'secondary' | 'tertiary';
   size?: 'sm' | 'base' | 'lg';
-  icon?: 'none' | 'left' | 'right' | 'only';
-  iconElement?: React.ReactNode;
   children?: React.ReactNode;
   disabled?: boolean;
   loading?: boolean;
   rounded?: boolean; // Für maximal abgerundete Ecken beim Primary-Button
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  // Legacy props die ignoriert werden
+  icon?: any;
+  iconElement?: any;
 }
 
 const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
   ({ 
     variant = 'primary', 
     size = 'base', 
-    icon = 'none',
-    iconElement,
     children,
     disabled = false,
     loading = false,
     rounded = false,
     className = '',
+    // Legacy props die ignoriert werden
+    icon,
+    iconElement,
     ...props 
   }, ref) => {
     
@@ -97,7 +99,7 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
     // Size Variants
     const sizeVariants = {
       sm: {
-        padding: icon === 'only' ? 'p-2' : 'px-3 py-2',
+        padding: 'px-3 py-2',
         text: 'text-sm',
         gap: 'gap-1.5',
         iconSize: 'w-3 h-3',
@@ -105,7 +107,7 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
         buttonHeight: 35
       },
       base: {
-        padding: icon === 'only' ? 'p-3' : 'px-4 py-3',
+        padding: 'px-4 py-3',
         text: 'text-base',
         gap: 'gap-2',
         iconSize: 'w-4 h-4',
@@ -113,7 +115,7 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
         buttonHeight: 50
       },
       lg: {
-        padding: icon === 'only' ? 'p-4' : 'px-6 py-4',
+        padding: 'px-6 py-4',
         text: 'text-lg',
         gap: 'gap-2.5',
         iconSize: 'w-5 h-5',
@@ -124,24 +126,9 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
 
     const currentSize = sizeVariants[size];
 
-    // Icon rendern
-    const renderIcon = () => {
-      if (!iconElement || icon === 'none') return null;
-      
-      return (
-        <span className={currentSize.iconSize}>
-          {iconElement}
-        </span>
-      );
-    };
-
     // Content mit Loading-State
     const renderContent = () => {
       if (loading) {
-        if (icon === 'only') {
-          return <DarkLoadingSpinner size={size} />;
-        }
-        
         return (
           <div className={cn("flex items-center justify-center", currentSize.gap)}>
             <DarkLoadingSpinner size={size} />
@@ -150,31 +137,11 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
         );
       }
       
-      const iconComponent = renderIcon();
-      
-      if (icon === 'only') {
-        return iconComponent;
-      }
-      
-      if (icon === 'left') {
-        return (
-          <div className={cn("flex items-center justify-center", currentSize.gap)}>
-            {iconComponent}
-            <span className="flex items-center">{children}</span>
-          </div>
-        );
-      }
-      
-      if (icon === 'right') {
-        return (
-          <div className={cn("flex items-center justify-center", currentSize.gap)}>
-            <span className="flex items-center">{children}</span>
-            {iconComponent}
-          </div>
-        );
-      }
-      
-      return <span>{children}</span>;
+      return (
+        <div className="flex items-center justify-center">
+          {children}
+        </div>
+      );
     };
 
     return (

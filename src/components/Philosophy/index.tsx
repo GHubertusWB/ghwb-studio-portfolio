@@ -115,10 +115,10 @@ const Philosophy = () => {
                 <SpecialButtonDark
                   variant="secondary"
                   size="lg"
-                  icon="only"
-                  iconElement={<ArrowLeft className="w-5 h-5" />}
                   onClick={prevPrinciple}
-                />
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </SpecialButtonDark>
               ) : (
                 <SpecialButton
                   variant="secondary"
@@ -135,10 +135,10 @@ const Philosophy = () => {
                 <SpecialButtonDark
                   variant="secondary"
                   size="lg"
-                  icon="only"
-                  iconElement={<ArrowRight className="w-5 h-5" />}
                   onClick={nextPrinciple}
-                />
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </SpecialButtonDark>
               ) : (
                 <SpecialButton
                   variant="secondary"
@@ -175,19 +175,21 @@ const Philosophy = () => {
               <div className="flex justify-center space-x-4 mb-8 md:hidden mt-12">
                 {theme === 'dark' ? (
                   <>
-                <SpecialButtonDark
-                  variant="secondary"
-                  size="lg"
-                  icon="only"
-                  iconElement={<ArrowLeft className="w-5 h-5" />}
-                  onClick={prevPrinciple}
-                />                    <SpecialButtonDark
+                    <SpecialButtonDark
                       variant="secondary"
                       size="lg"
-                      icon="only"
-                      iconElement={<ArrowRight className="w-5 h-5" />}
+                      onClick={prevPrinciple}
+                    >
+                      <ArrowLeft className="w-5 h-5" />
+                    </SpecialButtonDark>
+                    
+                    <SpecialButtonDark
+                      variant="secondary"
+                      size="lg"
                       onClick={nextPrinciple}
-                    />
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </SpecialButtonDark>
                   </>
                 ) : (
                   <>
