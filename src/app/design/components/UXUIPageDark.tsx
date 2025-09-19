@@ -168,22 +168,24 @@ export default function UXUIPageDark() {
               hoveredSkill={hoveredSkill}
             />
 
-            {/* Skill Details Display - erscheint langsam bei Hover */}
+            {/* Skill Details Display - feste Höhe Container */}
             <div 
               className="flex justify-center items-start"
-              style={{ marginTop: '24px' }}
+              style={{ 
+                marginTop: '32px',
+                minHeight: '180px' // Feste Höhe um Layout-Shifts zu vermeiden
+              }}
             >
               <AnimatePresence mode="wait">
                 {hoveredSkill !== null && (
                   <motion.div
                     key={hoveredSkill} // Key für Re-Animation bei Skill-Wechsel
-                    initial={{ opacity: 0, y: 20, height: 0 }}
-                    animate={{ opacity: 1, y: 0, height: 'auto' }}
-                    exit={{ opacity: 0, y: -15, height: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
                     transition={{ 
-                      duration: 0.5,
-                      ease: [0.23, 1, 0.32, 1], // Smooth easing für langsames Erscheinen
-                      height: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } // Separate height transition
+                      duration: 0.15, // Schnellere Animation für bessere UX
+                      ease: "easeOut"
                     }}
                     className="max-w-3xl text-center px-6"
                   >

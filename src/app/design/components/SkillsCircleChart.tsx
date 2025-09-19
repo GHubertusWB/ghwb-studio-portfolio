@@ -40,22 +40,22 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
 
     // All segments in orange like SpecialButton
     const getSkillColor = () => {
-      return '#ffae00ff' // Same orange as SpecialButton
+      return '#ffc800ff' // Same orange as SpecialButton
     }
 
     const width = 500
     const height = 500
     const centerX = width / 2
     const centerY = height / 2
-    const innerRadius = 32 // Etwas größerer Innenradius
+    const innerRadius = 30 // Etwas größerer Innenradius
     const maxRadius = 200 // Größerer Außenradius
-    const segmentHeight = 130 // Größere Segmente
+    const segmentHeight = 150 // Größere Segmente
 
     svg.attr('width', width).attr('height', height)
 
     // Create pie layout with padding for white space
     const pie = d3.pie<Skill>()
-      .padAngle(0.06) // Increased padding for 2px white space
+      .padAngle(0.08) // Increased padding for 2px white space
       .value(() => 1) // Equal segments
       .sort(null)
 
@@ -157,7 +157,7 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
         
         // Calculate middle angle of the segment
         const middleAngle = (pieSlice.startAngle + pieSlice.endAngle) / 2 - Math.PI / 2
-        const labelRadius = innerRadius + segmentHeight + 55
+        const labelRadius = innerRadius + segmentHeight + 75
         const x = centerX + labelRadius * Math.cos(middleAngle)
         const y = centerY + labelRadius * Math.sin(middleAngle)
         
@@ -208,6 +208,16 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
         }
       })
     }
+
+    // Add lemonzest.png as background image behind the chart
+    svg.append('image')
+      .attr('href', '/images/Lemon and leafs/lemonzest.png')
+      .attr('x', centerX - 220) // Center the image (assuming 440px width)
+      .attr('y', centerY - 220) // Center the image (assuming 440px height)
+      .attr('width', 440)
+      .attr('height', 440)
+      .style('opacity', 0.3) // Semi-transparent background
+      .style('pointer-events', 'none')
 
     // Add center circle - ohne schwarze Border
     svg.append('circle')

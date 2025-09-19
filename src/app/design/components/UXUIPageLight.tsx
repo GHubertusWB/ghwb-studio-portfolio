@@ -240,18 +240,21 @@ export default function UXUIPageLight() {
               hoveredSkill={hoveredSkill}
             />
 
-            {/* Skill Details Display - erscheint langsam bei Hover */}
+            {/* Skill Details Display - feste Höhe Container */}
             <div 
               className="flex justify-center items-start"
-              style={{ marginTop: '24px' }}
+              style={{ 
+                marginTop: '32px',
+                minHeight: '180px' // Feste Höhe um Layout-Shifts zu vermeiden
+              }}
             >
               <AnimatePresence mode="wait">
                 {hoveredSkill !== null && (
                   <motion.div
                     key={hoveredSkill} // Key für Re-Animation bei Skill-Wechsel
-                    initial={{ opacity: 0, y: 20, height: 0 }}
-                    animate={{ opacity: 1, y: 0, height: 'auto' }}
-                    exit={{ opacity: 0, y: -15, height: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
                     transition={{ 
                       duration: 0.15, // Gleiche Dauer wie Ring-Animation
                       ease: "easeOut"
