@@ -72,13 +72,12 @@ const Hero = ({ onContactClick }: HeroProps) => {
               <SpecialButtonDark
                 variant="secondary"
                 size="base"
-                icon="left"
-                iconElement={<Sparkles className="w-4 h-4" />}
                 onClick={() => {
                   const services = document.getElementById('services');
                   if (services) services.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
+                <Sparkles className="w-4 h-4" />
                 Meine Services
               </SpecialButtonDark>
 
@@ -98,20 +97,19 @@ const Hero = ({ onContactClick }: HeroProps) => {
             <>
               <SpecialButton
                 variant="secondary"
-                size="base"
-                icon="left"
-                iconElement={<Sparkles className="w-4 h-4" />}
+                size="medium"
                 onClick={() => {
                   const services = document.getElementById('services');
                   if (services) services.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
+                <Sparkles className="w-4 h-4" />
                 Meine Services
               </SpecialButton>
 
               <SpecialButton
                 variant="primary"
-                size="base"
+                size="medium"
                 onClick={onContactClick || (() => {
                   // Global event to open contact modal
                   const event = new CustomEvent('openContactModal');
@@ -150,8 +148,8 @@ const Hero = ({ onContactClick }: HeroProps) => {
             </SpecialButtonDark>
           ) : (
             <SpecialButton
-              variant="secondary"
-              size="base"
+              variant="tertiary"
+              size="medium"
               onClick={scrollToNext}
               className="p-4"
             >

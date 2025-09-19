@@ -236,16 +236,15 @@ export default function PhotographyPageLight(): React.JSX.Element {
             >
               <SpecialButton 
                 variant="secondary"
-                size="base"
-                icon="left"
-              iconElement={<Camera className="w-4 h-4" />}
+                size="medium"
               >
+                <Camera className="w-4 h-4 mr-2" />
                 Portfolio entdecken
               </SpecialButton>
 
               <SpecialButton 
                 variant="primary"
-                size="base"
+                size="medium"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);
@@ -283,11 +282,10 @@ export default function PhotographyPageLight(): React.JSX.Element {
               {/* Left Button */}
               <SpecialButton
                 variant="secondary"
-                size="base"
-                icon="left"
-                iconElement={<ArrowLeft className="w-4 h-4" />}
+                size="medium"
                 onClick={handlePreviousGroup}
               >
+                <ArrowLeft className="w-4 h-4 mr-2" />
                 {photographyGroups[(activeGroupIndex - 1 + photographyGroups.length) % photographyGroups.length]?.title}
               </SpecialButton>
               
@@ -309,12 +307,11 @@ export default function PhotographyPageLight(): React.JSX.Element {
               {/* Right Button */}
               <SpecialButton
                 variant="secondary"
-                size="base"
-                icon="right"
-                iconElement={<ArrowRight className="w-4 h-4" />}
+                size="medium"
                 onClick={handleNextGroup}
               >
                 {photographyGroups[(activeGroupIndex + 1) % photographyGroups.length]?.title}
+                <ArrowRight className="w-4 h-4 ml-2" />
               </SpecialButton>
             </div>
           </motion.div>

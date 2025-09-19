@@ -98,10 +98,11 @@ export default function FloatingContactButton({
       />
 
       {/* Sticky Contact Button */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {showStickyButton && (
           <motion.div
-            className="fixed right-4 z-50 transition-all duration-300 ease-out"
+            key="floating-button"
+            className="fixed right-4 z-50"
             style={{
               bottom: `${buttonBottomOffset}px`
             }}
@@ -114,10 +115,7 @@ export default function FloatingContactButton({
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ 
               duration: 0.3, 
-              ease: "easeOut",
-              type: "spring",
-              stiffness: 300,
-              damping: 30
+              ease: "easeOut"
             }}
           >
             {theme === 'dark' ? (
@@ -129,21 +127,19 @@ export default function FloatingContactButton({
                 icon="left"
                 iconElement={<MessageCircle className="w-5 h-5" />}
                 className="rounded-full"
-                
               >
                 Kontakt
               </SpecialButtonDark>
             ) : (
               <SpecialButton
                 variant="primary"
-                size="lg"
+                size="medium"
                 onClick={openContactModal}
-                icon="left"
-                iconElement={<MessageCircle className="w-5 h-5" />}
-                className="rounded-full"
-                style={{ borderRadius: '9999px' }}
               >
-                Kontakt
+                <div className="flex items-center">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Kontakt
+                </div>
               </SpecialButton>
             )}
           </motion.div>

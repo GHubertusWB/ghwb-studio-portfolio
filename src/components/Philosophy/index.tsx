@@ -138,10 +138,10 @@ const Philosophy = () => {
                 <SpecialButton
                   variant="secondary"
                   size="sm"
-                  icon="only"
-                  iconElement={<ArrowLeft className="w-4 h-4" />}
                   onClick={prevPrinciple}
-                />
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </SpecialButton>
               )}
             </div>
             
@@ -158,10 +158,10 @@ const Philosophy = () => {
                 <SpecialButton
                   variant="secondary"
                   size="sm"
-                  icon="only"
-                  iconElement={<ArrowRight className="w-4 h-4" />}
                   onClick={nextPrinciple}
-                />
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </SpecialButton>
               )}
             </div>
 
@@ -209,18 +209,18 @@ const Philosophy = () => {
                     <SpecialButton
                       variant="secondary"
                       size="sm"
-                      icon="only"
-                      iconElement={<ArrowLeft className="w-4 h-4" />}
                       onClick={prevPrinciple}
-                    />
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                    </SpecialButton>
                     
                     <SpecialButton
                       variant="secondary"
                       size="sm"
-                      icon="only"
-                      iconElement={<ArrowRight className="w-3 h-3" />}
                       onClick={nextPrinciple}
-                    />
+                    >
+                      <ArrowRight className="w-4 h-4" />
+                    </SpecialButton>
                   </>
                 )}
               </div>

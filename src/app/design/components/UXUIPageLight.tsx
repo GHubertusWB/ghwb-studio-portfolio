@@ -191,17 +191,16 @@ export default function UXUIPageLight() {
             >
               <SpecialButton 
                 variant="secondary"
-                size="base"
+                size="medium"
                 onClick={() => { const skills = document.getElementById('skills-section'); if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
-                icon="left"
-              iconElement={<Sparkles className="w-4 h-4" />}
               >
+                <Sparkles className="w-4 h-4 mr-2" />
                 Meine Skills
               </SpecialButton>
 
               <SpecialButton 
                 variant="primary"
-                size="base"
+                size="medium"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);
@@ -219,33 +218,21 @@ export default function UXUIPageLight() {
         {/* Desktop Version */}
         <div className="hidden md:block py-32 px-6">
           <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-20"
-            >
+            <div className="text-center mb-20">
               <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
                 Meine Skills
               </h2>
               <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
                 Kompetenzprofil im UX/UI Design – von Research bis Rollout
               </p>
-            </motion.div>
+            </div>
 
             {/* Permanent Label über dem Diagramm */}
-            <motion.div 
-              className="text-center mb-2"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              viewport={{ once: true }}
-            >
+            <div className="text-center mb-2">
               <p className="text-sm text-muted-foreground/70 font-medium">
                 Bewegen Sie die Maus über ein Segment für Details
               </p>
-            </motion.div>
+            </div>
 
             {/* Skills Circle Chart */}
             <SkillsCircleChart 
@@ -266,9 +253,8 @@ export default function UXUIPageLight() {
                     animate={{ opacity: 1, y: 0, height: 'auto' }}
                     exit={{ opacity: 0, y: -15, height: 0 }}
                     transition={{ 
-                      duration: 0.5,
-                      ease: [0.23, 1, 0.32, 1], // Smooth easing für langsames Erscheinen
-                      height: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } // Separate height transition
+                      duration: 0.15, // Gleiche Dauer wie Ring-Animation
+                      ease: "easeOut"
                     }}
                     className="max-w-3xl text-center px-6"
                   >
@@ -276,7 +262,7 @@ export default function UXUIPageLight() {
                     className="text-2xl font-medium text-foreground mb-2"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
+                    transition={{ delay: 0, duration: 0.15 }}
                   >
                     {[
                       'Accessibility',
@@ -296,7 +282,7 @@ export default function UXUIPageLight() {
                     className="text-sm text-primary font-medium mb-4 tracking-wide"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
+                    transition={{ delay: 0, duration: 0.15 }}
                   >
                     Erfahrungslevel: {[
                       '8/10',
@@ -316,7 +302,7 @@ export default function UXUIPageLight() {
                     className="text-base text-muted-foreground leading-relaxed"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.5 }}
+                    transition={{ delay: 0, duration: 0.15 }}
                   >
                     {[
                       'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung',
@@ -347,29 +333,17 @@ export default function UXUIPageLight() {
       {/* WORKFLOW SECTION - NEUE WORKFLOW DARSTELLUNG */}
       <section className="py-32 px-6 relative z-10 bg-white">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
+          <div className="text-center mb-20">
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Workflow
             </h2>
             <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
               Kreativ, flexibel, interdisziplinär: so begleite ich den agilen Weg zu Produkten mit Sinn und Wirkung.
             </p>
-          </motion.div>
+          </div>
 
           {/* Light Mode SVG - Desktop and Mobile versions */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center"
-          >
+          <div className="flex flex-col items-center">
             {/* Desktop SVG - hidden on mobile */}
             <img
               src="/images/Light-workflow.svg"
@@ -383,7 +357,7 @@ export default function UXUIPageLight() {
               alt="UX Design Workflow Mobile"
               className="block md:hidden w-full h-auto"
             />
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -393,44 +367,43 @@ export default function UXUIPageLight() {
       {/* PROJEKTE SECTION - MINIMAL GRID LAYOUT */}
       <section className="py-32 px-6 relative z-10 bg-white">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
+          <div className="text-center mb-20">
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Ausgewählte Arbeiten
             </h2>
             <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
               Ein Einblick in meine UX/UI Design Arbeiten
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projekte.map((project, index) => (
               <motion.div 
                 key={project.title} 
-                initial={{ opacity: 0, y: 50 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                transition={{ duration: 0.8, delay: index * 0.1 }} 
-                viewport={{ once: true }} 
-                whileHover={{ y: -10 }} 
-                className="group cursor-pointer relative border border-border bg-white shadow-lg rounded-lg overflow-hidden hover:border-foreground/20 transition-all duration-300"
+                className="group cursor-pointer relative border border-border bg-white overflow-hidden transition-all duration-300"
               >
                 <div className="aspect-[4/3] bg-muted/30 overflow-hidden">
                   <div className="w-full h-full bg-gradient-to-br from-muted via-background to-transparent flex items-center justify-center">
                     <Layers className="w-12 h-12 text-muted-foreground/30" />
                   </div>
                 </div>
-                <div className="p-6 space-y-3">
+                <div className="p-6 space-y-4">
                   <span className="text-sm font-medium text-muted-foreground">{project.category}</span>
                   <h3 className="text-lg font-semibold group-hover:text-muted-foreground transition-colors text-foreground">{project.title}</h3>
                   <p className="text-muted-foreground leading-relaxed text-sm">{project.description}</p>
                   {project.details && (
-                    <div className="pt-2 border-t border-border">
-                      <p className="text-xs text-muted-foreground/80 font-medium">{project.details}</p>
+                    <div className="pt-3 border-t border-border">
+                      <h4 className="text-sm font-semibold text-foreground mb-3">Meine Aufgaben:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {project.details.split(', ').map((task, taskIndex) => (
+                          <span 
+                            key={taskIndex}
+                            className="px-2 py-1 text-xs font-medium text-foreground bg-white border border-black"
+                          >
+                            {task}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>

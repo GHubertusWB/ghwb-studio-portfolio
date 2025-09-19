@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { SpecialButton } from '@/components/ui/SpecialButton'
 import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 import { useTheme } from '@/contexts/ThemeContext'
-import FloatingClouds from '@/components/FloatingClouds'
 
 const Services = () => {
   const { theme } = useTheme()
@@ -62,63 +61,18 @@ const Services = () => {
 
   return (
     <section id="services" className="py-20 bg-muted/30 relative overflow-visible" style={{ height: '80vh' }}>
-      {/* Floating Clouds Background - hellblau eingefärbt und reduziert */}
-      <div className="absolute pointer-events-none z-0" style={{ 
-        top: '-100px', 
-        left: '-50px', 
-        right: '-50px', 
-        bottom: '-100px' 
-      }}>
-        {/* Clouds links oben */}
-        <div 
-          className="absolute w-1/3 h-1/2"
-          style={{
-            top: '100px',
-            left: '50px',
-            filter: 'sepia(100%) saturate(200%) hue-rotate(180deg) brightness(0.8) contrast(1.2)',
-            opacity: 0.3
-          }}
-        >
-          <FloatingClouds />
-        </div>
-        
-        {/* Clouds rechts unten */}
-        <div 
-          className="absolute w-1/3 h-1/2"
-          style={{
-            bottom: '100px',
-            right: '50px',
-            filter: 'sepia(100%) saturate(200%) hue-rotate(180deg) brightness(0.6) contrast(1.4)',
-            opacity: 0.3,
-            transform: 'scale(-1, -1)'
-          }}
-        >
-          <FloatingClouds />
-        </div>
-      </div>
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col">
         <div className="flex-1 flex flex-col justify-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-24"
-          >
+          <div className="text-center mb-24">
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Meine Services
             </h2>
             <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
               Drei kreative Disziplinen, unendliche Möglichkeiten
             </p>
-          </motion.div>
+          </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+        <div
           className="grid grid-cols-1 md:grid-cols-3 md:items-stretch"
           style={{ gap: 'calc(var(--spacing) * 4)' }}
         >
@@ -127,33 +81,51 @@ const Services = () => {
             const [isHovered, setIsHovered] = useState(false)
             
             return (
-              <motion.div
+              <div
                 key={service.title}
-                variants={itemVariants}
                 className="group h-full"
               >
                 <Link href={service.href}>
                   <div className="relative">
+                    {/* Light Mode: Fester Schatten-Container (bleibt immer an der gleichen Position) */}
+                    {theme === 'light' && (
+                      <div 
+                        className="absolute inset-0 bg-black"
+                        style={{
+                          transform: 'translate(0px, -3px)',
+                          zIndex: 1
+                        }}
+                      />
+                    )}
+                    
                     {/* Eckige Border für Dark Mode */}
                     {theme === 'dark' && (
                       <div className="absolute inset-0 border border-white/20 pointer-events-none z-10" />
                     )}
                     
                     <motion.div
-                      className={`relative p-8 h-full cursor-pointer transform-gpu flex flex-col overflow-visible backdrop-blur-md border border-white/20 ${
-                        theme === 'dark' ? '' : 'rounded-2xl backdrop-blur-3xl'
+                      className={`relative p-8 h-full cursor-pointer transform-gpu flex flex-col overflow-visible backdrop-blur-md ${
+                        theme === 'dark' ? 'border border-white/20' : 'backdrop-blur-3xl'
                       }`}
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
                       style={{
-                        background: theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.07)',
+                        background: theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 1)',
                         backdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(30px)',
                         WebkitBackdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(30px)',
+                        borderRadius: theme === 'dark' ? '16px' : '0px',
+                        border: theme === 'dark' 
+                          ? '1px solid rgba(255, 255, 255, 0.2)' 
+                          : '1px solid #000000',
+                        transform: theme === 'dark' 
+                          ? 'none'
+                          : isHovered 
+                            ? 'translateY(-8px)'
+                            : 'translateY(-3px)',
+                        transition: 'transform 0.3s ease',
+                        zIndex: 2
                       }}
-                    whileHover={theme === 'dark' ? {} : { 
-                      y: -4, 
-                      scale: 1.03
-                    }}
+                    whileHover={theme === 'dark' ? {} : {}}
                     whileTap={{
                       scale: 0.98,
                       y: 0
@@ -165,10 +137,14 @@ const Services = () => {
                       mass: 1.3
                     }}
                   >
-                    {/* Subtle glow overlay on hover */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
+                    {/* Glow overlay on hover - different for light/dark mode */}
+                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                      theme === 'dark' ? 'rounded-2xl' : ''
+                    }`}
                          style={{
-                           background: `radial-gradient(circle at center, rgba(135, 206, 235, 0.1), transparent 70%)`
+                           background: theme === 'dark' 
+                             ? `radial-gradient(circle at center, rgba(135, 206, 235, 0.1), transparent 70%)`
+                             : `radial-gradient(circle at center, rgba(255, 165, 0, 0.15), transparent 70%)`
                          }} />
 
                     {/* Dark Mode: SpecialButtonDark Corner Border Animation */}
@@ -320,13 +296,13 @@ const Services = () => {
                     <div className="relative z-10 flex flex-col flex-1">
                       <motion.div
                         className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6 transition-all duration-300"
-                        whileHover={theme === 'dark' ? {} : { scale: 1.1, rotate: 5 }}
+                        whileHover={theme === 'dark' ? {} : {}}
                         transition={{ type: "spring", stiffness: 400 }}
                       >
                         <Icon className={`w-8 h-8 transition-colors duration-300 ${
                           theme === 'dark' 
                             ? 'group-hover:text-orange-500' 
-                            : 'group-hover:drop-shadow-[0_0_16px_rgba(135,206,235,1)] group-hover:animate-pulse'
+                            : ''
                         }`} />
                       </motion.div>
 
@@ -340,10 +316,7 @@ const Services = () => {
                           textShadow: '0 1px 2px rgba(0,0,0,0.1)',
                         }}
                       >
-                        <span className={theme === 'dark' 
-                          ? '' 
-                          : 'group-hover:drop-shadow-[0_0_20px_rgba(135,206,235,1)] group-hover:animate-pulse'
-                        }>
+                        <span>
                           {service.title}
                         </span>
                       </h3>
@@ -378,17 +351,13 @@ const Services = () => {
                   </motion.div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             )
           })}
-        </motion.div>
+        </div>
 
           {/* Call to Action */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
+          <div
             className="w-full"
             style={{ 
               marginTop: 'calc(var(--spacing) * 4)'
@@ -399,16 +368,15 @@ const Services = () => {
                 <SpecialButtonDark
                   variant="secondary"
                   size="base"
-                  icon="right"
-                  iconElement={<ArrowRight className="w-4 h-4" />}
                   className="flex items-center justify-center"
                 >
                   Mehr über mich erfahren
+                  <ArrowRight className="w-4 h-4" />
                 </SpecialButtonDark>
               ) : (
                 <SpecialButton
                   variant="secondary"
-                  size="variabel"
+                  size="medium"
                   className="flex items-center justify-center"
                 >
                   <span className="flex items-center gap-3">
@@ -418,7 +386,7 @@ const Services = () => {
                 </SpecialButton>
               )}
             </Link>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

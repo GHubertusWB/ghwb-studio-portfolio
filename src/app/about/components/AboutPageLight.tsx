@@ -352,20 +352,19 @@ export default function AboutPageLight() {
             >
               <SpecialButton 
                 variant="secondary"
-                size="base"
-                icon="left"
-                iconElement={<Sparkles className="w-4 h-4" />}
+                size="medium"
                 onClick={() => {
                   const aboutSection = document.querySelector('.about-section');
                   if (aboutSection) aboutSection.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
+                <Sparkles className="w-4 h-4 mr-2" />
                 Meine Geschichte
               </SpecialButton>
 
               <SpecialButton 
                 variant="primary"
-                size="base"
+                size="medium"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);
@@ -431,14 +430,13 @@ export default function AboutPageLight() {
             </p>
             <SpecialButton
               variant="primary"
-              size="base"
-              icon="left"
-              iconElement={<Users className="w-4 h-4" />}
+              size="medium"
               onClick={() => { 
                 const event = new CustomEvent('openContactModal');
                 window.dispatchEvent(event);
               }}
             >
+              <Users className="w-4 h-4 mr-2" />
               Kontakt aufnehmen
             </SpecialButton>
           </motion.div>

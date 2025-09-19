@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { motion, px } from 'framer-motion'
 import * as d3 from 'd3'
 
 type Skill = {
@@ -38,23 +38,18 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
     const svg = d3.select(svgRef.current)
     svg.selectAll("*").remove()
 
-    // Function to get color for ring level (1-10) from light blue to pink
-    const getRingColor = (ringLevel: number) => {
-      const ratio = (ringLevel - 1) / 9 // 0 to 1
-      // Interpolate from light blue to pink
-      const r = Math.round(135 + ratio * (255 - 135)) // 135 to 255
-      const g = Math.round(206 - ratio * (206 - 192)) // 206 to 192
-      const b = Math.round(235 - ratio * (235 - 203)) // 235 to 203
-      return `rgb(${r}, ${g}, ${b})`
+    // All segments in orange like SpecialButton
+    const getSkillColor = () => {
+      return '#ffae00ff' // Same orange as SpecialButton
     }
 
-    const width = 600
-    const height = 600
+    const width = 500
+    const height = 500
     const centerX = width / 2
     const centerY = height / 2
-    const innerRadius = 20 // Halbiert von 40 auf 20
-    const maxRadius = 200
-    const ringHeight = 16
+    const innerRadius = 32 // Etwas größerer Innenradius
+    const maxRadius = 200 // Größerer Außenradius
+    const segmentHeight = 130 // Größere Segmente
 
     svg.attr('width', width).attr('height', height)
 
@@ -95,78 +90,65 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       .attr('transform', `translate(${centerX}, ${centerY})`)
       .attr('data-index', (d: any, i: number) => i)
 
-    // Create rings for each segment
+    // Create segments for each skill - background + filled segment
     pieData.forEach((pieSlice, segmentIndex) => {
       const skill = pieSlice.data
       const segmentGroup = d3.select(segmentGroups.nodes()[segmentIndex])
-      // Ensure exactly skill.value rings (max 10), each ring has exactly ringHeight size
-      const skillRings = Math.min(skill.value, 10) // Max 10 rings
       
-      console.log(`Segment ${segmentIndex}: ${skill.name}, value: ${skill.value}, rings: ${skillRings}`)
-
-      for (let ringIndex = 0; ringIndex < skillRings; ringIndex++) {
-        const ringInnerRadius = innerRadius + ringIndex * ringHeight
-        const ringOuterRadius = innerRadius + (ringIndex + 1) * ringHeight
-        
-        const ringLevel = ringIndex + 1 // Ring level 1-10
-        const ringColor = getRingColor(ringLevel)
-        
-        console.log(`Ring ${ringIndex}: inner=${ringInnerRadius}, outer=${ringOuterRadius}, level=${ringLevel}, color=${ringColor}`)
-
-        const arc = d3.arc<any>()
-          .innerRadius(ringInnerRadius)
-          .outerRadius(ringOuterRadius)
-          .startAngle(pieSlice.startAngle)
-          .endAngle(pieSlice.endAngle)
-
-        const pathData = arc({} as any)
-
-        segmentGroup.append('path')
-          .attr('class', `ring ring-${ringIndex}`)
-          .attr('d', pathData)
-          .attr('fill', ringColor)
-          .attr('stroke', 'none')
-          .style('opacity', 0.5) // 50% transparency by default
-          .style('cursor', 'pointer')
-          .transition()
-          .delay(ringIndex * 150 + segmentIndex * 50) // Ring-für-Ring Animation
-          .duration(600)
-          .style('opacity', 0.5)
-      }
-    })
-
-    // Add 10 black grid circles with alternating stroke widths (AFTER segments for proper layering)
-    // Calculate exact grid radii to match ring positions: innerRadius + ringHeight * level
-    const gridCircles = Array.from({length: 10}, (_, i) => innerRadius + ringHeight * (i + 1))
-    gridCircles.forEach((radius, index) => {
-      const strokeWidth = index % 2 === 0 ? 1 : 0.5 // Every second ring: 1px, between steps: 0.5px
-      svg.append('circle')
-        .attr('cx', centerX)
-        .attr('cy', centerY)
-        .attr('r', radius)
-        .attr('fill', 'none')
-        .attr('stroke', '#000000')
-        .attr('stroke-width', strokeWidth)
-        .style('pointer-events', 'none') // Grid should not interfere with interactions
-    })
-
-    // Add radial grid lines (1px black) AFTER segments
-    skillsData.forEach((_, i) => {
-      const angle = (i * 2 * Math.PI) / skillsData.length - Math.PI / 2
-      const x1 = centerX + innerRadius * Math.cos(angle)
-      const y1 = centerY + innerRadius * Math.sin(angle)
-      const x2 = centerX + maxRadius * Math.cos(angle)
-      const y2 = centerY + maxRadius * Math.sin(angle)
+      // Calculate the radius based on skill level (0-10)
+      const skillRadius = innerRadius + (skill.value / 10) * segmentHeight
+      const maxSkillRadius = innerRadius + segmentHeight // Maximum radius for background
+      const segmentColor = getSkillColor()
       
-      svg.append('line')
-        .attr('x1', x1)
-        .attr('y1', y1)
-        .attr('x2', x2)
-        .attr('y2', y2)
-        .attr('stroke', '#000000')
-        .attr('stroke-width', 1)
-        .style('pointer-events', 'none') // Grid should not interfere with interactions
+      console.log(`Segment ${segmentIndex}: ${skill.name}, value: ${skill.value}, radius: ${skillRadius}`)
+
+      // Background segment (hellblau, 10% opacity, max radius)
+      const backgroundArc = d3.arc<any>()
+        .innerRadius(innerRadius)
+        .outerRadius(maxSkillRadius)
+        .startAngle(pieSlice.startAngle)
+        .endAngle(pieSlice.endAngle)
+        .cornerRadius(16) // Stärkere Abrundung
+
+      const backgroundPathData = backgroundArc({} as any)
+
+      segmentGroup.append('path')
+        .attr('class', 'background-segment')
+        .attr('d', backgroundPathData)
+        .attr('fill', '#ebde87ff') // Light blue background
+        .attr('stroke', '#ffffff') // White border
+        .attr('stroke-width', 3)
+        .style('opacity', 0.25) // 10% opacity
+        .style('pointer-events', 'none')
+
+      // Foreground segment (orange, skill-based radius)
+      const foregroundArc = d3.arc<any>()
+        .innerRadius(innerRadius)
+        .outerRadius(skillRadius)
+        .startAngle(pieSlice.startAngle)
+        .endAngle(pieSlice.endAngle)
+        .cornerRadius(16) // Stärkere Abrundung
+
+      const foregroundPathData = foregroundArc({} as any)
+
+      segmentGroup.append('path')
+        .attr('class', 'skill-segment')
+        .attr('d', foregroundPathData)
+        .attr('fill', segmentColor)
+        .attr('stroke', '#ffffff') // White border for orange segment
+        .attr('stroke-width', 3)
+        .style('opacity', 0.5) // 50% opacity by default
+        .style('cursor', 'pointer')
+        .transition()
+        .delay(segmentIndex * 100) // Staggered animation
+        .duration(800)
+        .style('opacity', 0.5)
     })
+
+    // Entferne gestrichelte Kreise komplett
+
+    // Entferne radiale Linien für cleaneren Look wie im Referenzbild
+    // Das Referenzbild hat keine sichtbaren Trennlinien zwischen Segmenten
 
     // Add skill labels - positioned correctly at segment centers (only if not hidden)
     if (!hideLabels) {
@@ -175,7 +157,7 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
         
         // Calculate middle angle of the segment
         const middleAngle = (pieSlice.startAngle + pieSlice.endAngle) / 2 - Math.PI / 2
-        const labelRadius = maxRadius + 30
+        const labelRadius = innerRadius + segmentHeight + 55
         const x = centerX + labelRadius * Math.cos(middleAngle)
         const y = centerY + labelRadius * Math.sin(middleAngle)
         
@@ -227,48 +209,43 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       })
     }
 
-    // Add center circle
+    // Add center circle - ohne schwarze Border
     svg.append('circle')
       .attr('cx', centerX)
       .attr('cy', centerY)
       .attr('r', innerRadius)
-      .attr('fill', '#f8fafc')
-      .attr('stroke', '#000000')
-      .attr('stroke-width', 1)
+      .attr('fill', '#ffffff')
+      .attr('stroke', 'none')
 
     // Create hover function for reuse
     const handleMouseEnter = function(event: any, d: any) {
       const index = skillsData.indexOf(d.data)
       if (onSegmentHover) onSegmentHover(index)
       
-      // Find corresponding segment group and animate its rings
+      // Find corresponding segment and animate it
       const segmentGroup = d3.select(segmentGroups.nodes()[index])
-      const rings = segmentGroup.selectAll('.ring')
+      const segment = segmentGroup.select('.skill-segment')
       
-      rings.each(function(_, ringIndex) {
-        d3.select(this)
-          .transition()
-          .delay(ringIndex * 50) // Von innen nach außen
-          .duration(200)
-          .style('opacity', 1) // Remove transparency (0% opacity means fully visible)
-      })
+      segment
+        .transition()
+        .duration(200)
+        .style('opacity', 1) // 100% opacity on hover
+        .style('filter', 'drop-shadow(0 0 20px rgba(255, 174, 0, 0.6))') // Leuchten-Effekt
     }
 
     const handleMouseLeave = function(event: any, d: any) {
       const index = skillsData.indexOf(d.data)
       if (onSegmentHover) onSegmentHover(null)
       
-      // Find corresponding segment group and return to normal transparency
+      // Find corresponding segment and return to normal state
       const segmentGroup = d3.select(segmentGroups.nodes()[index])
-      const rings = segmentGroup.selectAll('.ring')
+      const segment = segmentGroup.select('.skill-segment')
       
-      rings.each(function(_, ringIndex) {
-        d3.select(this)
-          .transition()
-          .delay(ringIndex * 50)
-          .duration(200)
-          .style('opacity', 0.5) // Back to 50% transparency
-      })
+      segment
+        .transition()
+        .duration(200)
+        .style('opacity', 0.5) // Back to 50% transparency
+        .style('filter', 'none') // Entferne Leuchten-Effekt
     }
 
     // Add hover effects to invisible hover areas (full segments)
@@ -291,38 +268,27 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
     
     segmentGroups.each(function(_, i) {
       const segmentGroup = d3.select(this)
-      const rings = segmentGroup.selectAll('.ring')
+      const segment = segmentGroup.select('.skill-segment')
       
       if (hoveredSkill === i) {
-        // Apply hover state: full opacity from inside to outside
-        rings.each(function(_, ringIndex) {
-          d3.select(this)
-            .transition()
-            .delay(ringIndex * 50)
-            .duration(200)
-            .style('opacity', 1) // Full opacity
-        })
+        // Apply hover state
+        segment
+          .transition()
+          .duration(200)
+          .style('opacity', 1)
       } else {
-        // Return to normal state (50% transparency)
-        rings.each(function() {
-          d3.select(this)
-            .transition()
-            .duration(200)
-            .style('opacity', 0.5) // Normal 50% transparency
-        })
+        // Return to normal state
+        segment
+          .transition()
+          .duration(200)
+          .style('opacity', 0.5)
       }
     })
   }, [hoveredSkill])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1 }}
-      viewport={{ once: true }}
-      className="flex justify-center items-center"
-    >
+    <div className="flex justify-center items-center">
       <svg ref={svgRef} className="max-w-full h-auto" />
-    </motion.div>
+    </div>
   )
 }

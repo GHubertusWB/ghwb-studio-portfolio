@@ -325,16 +325,15 @@ export default function ArtPageLight(): React.JSX.Element {
             >
               <SpecialButton 
                 variant="secondary"
-                size="base"
-                icon="left"
-                iconElement={<Sparkles className="w-4 h-4" />}
+                size="medium"
               >
+                <Sparkles className="w-4 h-4 mr-2" />
                 Portfolio entdecken
               </SpecialButton>
 
               <SpecialButton 
                 variant="primary"
-                size="base"
+                size="medium"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);
@@ -350,23 +349,12 @@ export default function ArtPageLight(): React.JSX.Element {
       {/* 2. FEATURED ARTWORK - STARTSEITE LIGHT MODE STYLING */}
       <section className="py-32 px-6 relative z-10 bg-white">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="grid lg:grid-cols-2 gap-16 items-center"
-          >
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - Minimalist Image Display */}
+                        {/* Left Side - Minimalist Image Display */}
             <div className="relative">
               {/* Clean Image Display - startseite style */}
-              <motion.div 
-                className="relative h-full"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.4 }}
-                viewport={{ once: true }}
-              >
+              <div className="relative h-full">
                 <div className="relative w-full h-full overflow-hidden">
                   <img 
                     src="/gallery/art/0C0FF1CB-BB55-4087-B418-A7D493B5EC7F_1_105_c.jpeg"
@@ -374,42 +362,25 @@ export default function ArtPageLight(): React.JSX.Element {
                     className="w-full h-full object-cover"
                   />
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             {/* Right Side - Clean Content */}
             <div className="space-y-8">
               {/* Title Section - startseite typography */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                viewport={{ once: true }}
-              >
+              <div>
                 <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-4 md:text-3xl">
                   {artwork.title}
                 </h2>
-              </motion.div>
+              </div>
 
               {/* Description - startseite style */}
-              <motion.p 
-                className="text-xl text-muted-foreground leading-7"
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                viewport={{ once: true }}
-              >
+              <p className="text-xl text-muted-foreground leading-7">
                 {artwork.description}
-              </motion.p>
+              </p>
 
               {/* Technical Specifications - clean grid */}
-              <motion.div 
-                className="grid grid-cols-2 gap-6 pt-6 border-t border-border"
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                viewport={{ once: true }}
-              >
+              <div className="grid grid-cols-2 gap-6 pt-6 border-t border-border">
                 <div>
                   <div className="text-muted-foreground mb-2 text-sm">Medium</div>
                   <div className="font-medium text-foreground text-sm">{artwork.medium}</div>
@@ -429,9 +400,9 @@ export default function ArtPageLight(): React.JSX.Element {
                     Verfügbar
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -441,13 +412,7 @@ export default function ArtPageLight(): React.JSX.Element {
         className="py-32 px-6 relative z-10 bg-white"
       >
         <div className="max-w-none mx-auto"> {/* Full width container */}
-          <motion.div 
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
+          <div className="text-center mb-20">
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               {artGroups[activeGroupIndex]?.title || 'Portfolio Arbeiten'}
             </h2>
@@ -460,11 +425,10 @@ export default function ArtPageLight(): React.JSX.Element {
               {/* Left Button */}
               <SpecialButton
                 variant="secondary"
-                size="base"
-                icon="left"
-                iconElement={<ArrowLeft className="w-4 h-4" />}
+                size="medium"
                 onClick={handlePreviousGroup}
               >
+                <ArrowLeft className="w-4 h-4 mr-2" />
                 {artGroups[(activeGroupIndex - 1 + artGroups.length) % artGroups.length]?.title}
               </SpecialButton>
               
@@ -486,15 +450,14 @@ export default function ArtPageLight(): React.JSX.Element {
               {/* Right Button */}
               <SpecialButton
                 variant="secondary"
-                size="base"
-                icon="right"
-                iconElement={<ArrowRight className="w-4 h-4" />}
+                size="medium"
                 onClick={handleNextGroup}
               >
                 {artGroups[(activeGroupIndex + 1) % artGroups.length]?.title}
+                <ArrowRight className="w-4 h-4 ml-2" />
               </SpecialButton>
             </div>
-          </motion.div>
+          </div>
 
           {/* Portfolio Grid - Photography Seite Style mit Variierenden Größen */}
           <div className="grid grid-cols-3 gap-8 px-6" style={{ gridAutoRows: '33.33vw' }}>
@@ -515,13 +478,9 @@ export default function ArtPageLight(): React.JSX.Element {
               const layout = layouts[predefinedGridPattern[index % predefinedGridPattern.length]];
               
               return (
-                <motion.div
+                <div
                   key={`${activeGroupIndex}-${src}`}
                   className={`relative overflow-hidden ${layout.className}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
                 >
                   <div className="w-full h-full bg-white border border-gray-200 relative overflow-hidden shadow-sm">
                     {/* Bild aus Galerie */}
@@ -531,7 +490,7 @@ export default function ArtPageLight(): React.JSX.Element {
                       className="object-cover w-full h-full" 
                     />
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>

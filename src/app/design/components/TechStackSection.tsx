@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Palette, Zap, PenTool, FileText, Users } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import SpecialButton from '@/components/ui/SpecialButton'
 
 export default function TechStackSection() {
   const [activeTab, setActiveTab] = useState(0)
@@ -86,7 +87,7 @@ export default function TechStackSection() {
           </p>
         </motion.div>
 
-        {/* Tabs Navigation mit globaler Button Komponente */}
+        {/* Tabs Navigation mit SpecialButton */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -97,16 +98,15 @@ export default function TechStackSection() {
           {tabs.map((tab) => {
             const IconComponent = tab.icon
             return (
-              <Button
+              <SpecialButton
                 key={tab.id}
                 variant={activeTab === tab.id ? "primary" : "secondary"}
-                size="sm"
+                size="xs"
                 onClick={() => setActiveTab(tab.id)}
-                icon="left"
-                iconElement={<IconComponent className="w-4 h-4" />}
               >
+                <IconComponent className="w-4 h-4 mr-2" />
                 {tab.label}
-              </Button>
+              </SpecialButton>
             )
           })}
         </motion.div>

@@ -72,7 +72,7 @@ const Footer = () => {
                   </SpecialButtonDark>
                 ) : (
                   <SpecialButton
-                    variant="secondary"
+                    variant="tertiary"
                     size="sm"
                   >
                     {link.label}
@@ -108,11 +108,11 @@ const Footer = () => {
                     />
                   ) : (
                     <SpecialButton
-                      variant="secondary"
-                      size="base"
-                      icon="only"
-                      iconElement={<Icon className="w-5 h-5" />}
-                    />
+                      variant="tertiary"
+                      size="medium"
+                    >
+                      <Icon className="w-5 h-5" />
+                    </SpecialButton>
                   )}
                 </motion.a>
               )
@@ -137,15 +137,13 @@ const Footer = () => {
                 <SpecialButtonDark
                   variant="tertiary"
                   size="sm"
-                  className="text-sm"
                 >
                   Impressum
                 </SpecialButtonDark>
               ) : (
                 <SpecialButton
-                  variant="secondary"
+                  variant="tertiary"
                   size="sm"
-                  className="text-sm"
                 >
                   Impressum
                 </SpecialButton>
@@ -156,15 +154,13 @@ const Footer = () => {
                 <SpecialButtonDark
                   variant="tertiary"
                   size="sm"
-                  className="text-sm"
                 >
                   Datenschutz
                 </SpecialButtonDark>
               ) : (
                 <SpecialButton
-                  variant="secondary"
+                  variant="tertiary"
                   size="sm"
-                  className="text-sm"
                 >
                   Datenschutz
                 </SpecialButton>
@@ -193,12 +189,12 @@ const Footer = () => {
           />
         ) : (
           <SpecialButton
-            variant="secondary"
-            size="base"
+            variant="tertiary"
+            size="medium"
             onClick={scrollToTop}
-            icon="only"
-            iconElement={<ArrowUp className="w-5 h-5" />}
-          />
+          >
+            <ArrowUp className="w-5 h-5" />
+          </SpecialButton>
         )}
       </motion.div>
     </footer>
