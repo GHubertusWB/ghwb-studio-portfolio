@@ -28,7 +28,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="relative border-t border-border/50" style={{
+    <footer className="relative border-t border-border/50 mt-16 clear-both" style={{
       background: `
         linear-gradient(135deg, 
           rgba(173, 216, 230, 0.15) 0%, 
@@ -151,7 +151,7 @@ const Footer = () => {
         whileHover={{ scale: 1.1, y: -2 }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400 }}
-        className="absolute top-8 right-8"
+        className="absolute top-4 right-4 md:top-8 md:right-8"
       >
         {theme === 'dark' ? (
           <SpecialButtonDark

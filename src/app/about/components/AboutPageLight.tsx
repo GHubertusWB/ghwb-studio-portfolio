@@ -352,7 +352,7 @@ export default function AboutPageLight() {
             >
               <SpecialButton 
                 variant="secondary"
-                size="medium"
+                size="sm"
                 onClick={() => {
                   const aboutSection = document.querySelector('.about-section');
                   if (aboutSection) aboutSection.scrollIntoView({ behavior: 'smooth' });
@@ -364,7 +364,7 @@ export default function AboutPageLight() {
 
               <SpecialButton 
                 variant="primary"
-                size="medium"
+                size="sm"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);
@@ -430,7 +430,7 @@ export default function AboutPageLight() {
             </p>
             <SpecialButton
               variant="primary"
-              size="medium"
+              size="sm"
               onClick={() => { 
                 const event = new CustomEvent('openContactModal');
                 window.dispatchEvent(event);

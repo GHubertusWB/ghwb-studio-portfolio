@@ -81,7 +81,7 @@ export default function HomeWithLoader() {
   return (
     <>
       {showContent && (
-        <div className="overflow-x-hidden relative">
+        <div className="relative min-h-screen">
           <div className="relative z-10">
             <Hero />
           </div>

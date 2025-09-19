@@ -38,9 +38,9 @@ const Services = () => {
 
 
   return (
-    <section id="services" className="py-20 bg-muted/30 relative overflow-visible" style={{ height: '80vh' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex flex-col">
-        <div className="flex-1 flex flex-col justify-center">
+    <section id="services" className="py-20 bg-muted/30 relative overflow-visible min-h-[80vh]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col justify-center min-h-[calc(80vh-10rem)]">
+        <div className="flex flex-col justify-center">
           <div className="text-center mb-24">
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
               Meine Services
@@ -57,6 +57,7 @@ const Services = () => {
           {services.map((service, index) => {
             const Icon = service.icon
             const [isHovered, setIsHovered] = useState(false)
+            const [isPressed, setIsPressed] = useState(false)
             
             return (
               <div
@@ -64,50 +65,60 @@ const Services = () => {
                 className="group h-full"
               >
                 <Link href={service.href}>
-                  <div className="relative">
-                    {/* Light Mode: Fester Schatten-Container (bleibt immer an der gleichen Position) */}
-                    {theme === 'light' && (
-                      <div 
-                        className="absolute inset-0 bg-black"
-                        style={{
-                          transform: 'translate(0px, -3px)',
-                          zIndex: 1
-                        }}
-                      />
-                    )}
-                    
-                    {/* Eckige Border für Dark Mode */}
-                    {theme === 'dark' && (
-                      <div className="absolute inset-0 border border-white/20 pointer-events-none z-10" />
-                    )}
-                    
-                    <motion.div
-                      className={`relative p-8 h-full cursor-pointer transform-gpu flex flex-col overflow-visible backdrop-blur-md ${
-                        theme === 'dark' ? 'border border-white/20' : 'backdrop-blur-3xl'
-                      }`}
-                      onMouseEnter={() => setIsHovered(true)}
-                      onMouseLeave={() => setIsHovered(false)}
-                      style={{
-                        background: 'rgba(255, 255, 255, 0)',
-                        backdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(30px)',
-                        WebkitBackdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(30px)',
-                        borderRadius: '0px',
-                        border: theme === 'dark' 
-                          ? '1px solid rgba(255, 255, 255, 0.2)' 
-                          : '1px solid #000000',
-                        transform: theme === 'dark' 
-                          ? 'none'
-                          : isHovered 
-                            ? 'translateY(-8px)'
-                            : 'translateY(-3px)',
-                        transition: 'transform 0.3s ease',
-                        zIndex: 2
-                      }}
-                    whileHover={theme === 'dark' ? {} : {}}
-                    whileTap={{
-                      scale: 0.98,
-                      y: 0
+                  <div
+                    className="relative"
+                    style={{
+                      padding: theme === 'light' ? '0 0 4px 0' : '0'
                     }}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    onMouseDown={() => setIsPressed(true)}
+                    onMouseUp={() => setIsPressed(false)}
+                  >
+                    <motion.div
+                      className={`relative p-8 h-full cursor-pointer transform-gpu flex flex-col overflow-visible ${
+                        theme === 'dark' ? 'border border-white/20 backdrop-blur-md' : ''
+                      }`}
+                    style={{
+                      background: theme === 'dark' ? 'rgba(255, 255, 255, 0)' : 'rgba(255, 255, 255, 1)',
+                      backdropFilter: theme === 'dark' ? 'blur(8px)' : 'none',
+                      WebkitBackdropFilter: theme === 'dark' ? 'blur(8px)' : 'none',
+                      borderRadius: '0px',
+                      borderTop: theme === 'dark' 
+                        ? '1px solid rgba(255, 255, 255, 0.2)' 
+                        : '1px solid #000000',
+                      borderLeft: theme === 'dark' 
+                        ? '1px solid rgba(255, 255, 255, 0.2)' 
+                        : '1px solid #000000',
+                      borderRight: theme === 'dark' 
+                        ? '1px solid rgba(255, 255, 255, 0.2)' 
+                        : '1px solid #000000',
+                      borderBottom: theme === 'dark' 
+                        ? '1px solid rgba(255, 255, 255, 0.2)' 
+                        : '1px solid #000000',
+                      boxShadow: theme === 'light' 
+                        ? (isPressed 
+                            ? 'none' 
+                            : isHovered 
+                              ? '0 4px 0 0 #000000' 
+                              : 'none')
+                        : 'none',
+                      transform: theme === 'dark' 
+                        ? 'none'
+                        : isPressed 
+                          ? 'translateY(0px)'
+                          : isHovered 
+                            ? 'translateY(-4px)'
+                            : 'translateY(0px)',
+                      transition: theme === 'light' 
+                        ? 'transform 0.3s ease, box-shadow 0.3s ease'
+                        : 'none',
+                      zIndex: 2
+                    }}
+                    whileHover={theme === 'dark' ? {} : {}}
+                    whileTap={theme === 'dark' ? {
+                      scale: 0.98
+                    } : {}}
                     transition={{ 
                       type: "spring", 
                       stiffness: 180, 
@@ -115,13 +126,7 @@ const Services = () => {
                       mass: 1.3
                     }}
                   >
-                    {/* Glow overlay on hover - only for light mode */}
-                    {theme === 'light' && (
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                           style={{
-                             background: `radial-gradient(circle at center, rgba(255, 165, 0, 0.15), transparent 70%)`
-                           }} />
-                    )}
+
 
                     {/* Dark Mode: SpecialButtonDark Corner Border Animation */}
                     {theme === 'dark' && (
@@ -249,7 +254,7 @@ const Services = () => {
                     {/* Content */}
                     <div className="relative z-10 flex flex-col flex-1">
                       <motion.div
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6 transition-all duration-300"
+                        className="hidden md:inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6 transition-all duration-300"
                         whileHover={theme === 'dark' ? {} : {}}
                         transition={{ type: "spring", stiffness: 400 }}
                       >

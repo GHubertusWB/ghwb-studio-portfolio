@@ -49,26 +49,36 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
     const getBackgroundColor = () => {
       if (variant === 'primary') {
         return isPressed ? '#e69500' : '#ffae00ff'; // Dunkler beim Click
-      } else if (variant === 'secondary' || variant === 'tertiary') {
+      } else if (variant === 'secondary') {
         return isPressed ? '#d0d0d0' : '#ffffffff'; // Dunkler beim Click
+      } else if (variant === 'tertiary') {
+        return isPressed ? 'rgba(0, 0, 0, 0.1)' : 'transparent'; // Leichte Füllung beim Click, sonst transparent
       }
       return 'transparent';
     };
 
     const getBoxShadow = () => {
-      if (variant === 'primary' && isHovered && !isPressed) {
-        return '0 0 20px rgba(255, 174, 0, 0.6), 0 0 40px rgba(255, 174, 0, 0.4), 0 0 60px rgba(255, 174, 0, 0.2)';
+      const baseOffset = isPressed ? '0px 0px' : (isHovered ? '0px 5px' : '0px 0px');
+      const shadowColor = 'rgba(0, 0, 0, 1)';
+      
+      if (variant === 'primary') {
+        const glowShadow = isHovered && !isPressed 
+          ? ', 0 0 20px rgba(255, 174, 0, 0.6), 0 0 40px rgba(255, 174, 0, 0.4), 0 0 60px rgba(255, 174, 0, 0.2)' 
+          : '';
+        return `${baseOffset} ${shadowColor}${glowShadow}`;
+      } else if (variant === 'secondary' || variant === 'tertiary') {
+        return `${baseOffset} ${shadowColor}`;
       }
       return 'none';
     };
 
     const getTransform = () => {
       if (isPressed) {
-        return 'translateY(-3px)'; // Ganz nach unten beim Click
+        return 'translateY(0px)'; // Ganz nach unten beim Click
       } else if (isHovered) {
-        return 'translateY(-8px)'; // Hover Position
+        return 'translateY(-5px)'; // Hover Position
       }
-      return 'translateY(-3px)'; // Default Position
+      return 'translateY(0px)'; // Default Position
     };
 
     return (
@@ -79,27 +89,18 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
           setIsHovered(false);
           setIsPressed(false);
         }}
-        style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+        style={{ 
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          paddingTop: (variant === 'primary' || variant === 'secondary' || variant === 'tertiary') ? '5px' : '0px',
+          paddingBottom: (variant === 'primary' || variant === 'secondary' || variant === 'tertiary') ? '5px' : '0px'
+        }}
       >
-        {/* Fester Schatten-Container für primary, secondary und tertiary - jetzt hoverbar */}
-        {(variant === 'primary' || variant === 'secondary' || variant === 'tertiary') && (
-          <div 
-            className="absolute inset-0 bg-black"
-            style={{
-              transform: 'translate(0px, -3px)',
-              zIndex: 1
-            }}
-          />
-        )}
-        
         <button
           className={cn('flex items-center justify-center', className)}
           style={{
             opacity: disabled ? 0.5 : 1,
-            position: 'relative',
-            zIndex: 2,
             background: getBackgroundColor(),
-            border: variant === 'tertiary' ? 'none' : '1px solid #000000',
+            border: '1px solid #000000',
             borderRadius: '0px',
             color: '#000000',
             fontWeight: 'bold',
@@ -108,7 +109,7 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
             fontSize: currentSize.fontSize,
             transform: getTransform(),
             boxShadow: getBoxShadow(),
-            transition: 'transform 0.1s ease, background-color 0.1s ease, box-shadow 0.3s ease',
+            transition: 'transform 0.1s ease, background-color 0.1s ease, box-shadow 0.1s ease',
             overflow: 'visible' // Button selbst soll nicht abschneiden
           }}
           onMouseDown={() => setIsPressed(true)}

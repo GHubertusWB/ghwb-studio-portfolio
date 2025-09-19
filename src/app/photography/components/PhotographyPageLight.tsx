@@ -236,7 +236,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
             >
               <SpecialButton 
                 variant="secondary"
-                size="medium"
+                size="sm"
               >
                 <Camera className="w-4 h-4 mr-2" />
                 Portfolio entdecken
@@ -244,7 +244,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
 
               <SpecialButton 
                 variant="primary"
-                size="medium"
+                size="sm"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);
@@ -277,12 +277,12 @@ export default function PhotographyPageLight(): React.JSX.Element {
               {photographyGroups[activeGroupIndex]?.description || 'Ein kleiner Einblick in meine fotografische Welt – authentische Momente, liebevoll festgehalten'}
             </p>
             
-            {/* Group Navigation Buttons */}
-            <div className="relative flex items-center justify-between mb-8 px-8">
+            {/* Group Navigation Buttons - Desktop */}
+            <div className="relative hidden sm:flex items-center justify-between mb-8 px-8">
               {/* Left Button */}
               <SpecialButton
                 variant="secondary"
-                size="medium"
+                size="sm"
                 onClick={handlePreviousGroup}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -307,12 +307,60 @@ export default function PhotographyPageLight(): React.JSX.Element {
               {/* Right Button */}
               <SpecialButton
                 variant="secondary"
-                size="medium"
+                size="sm"
                 onClick={handleNextGroup}
               >
                 {photographyGroups[(activeGroupIndex + 1) % photographyGroups.length]?.title}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </SpecialButton>
+            </div>
+
+            {/* Group Navigation - Mobile */}
+            <div className="sm:hidden mb-8 px-4">
+              {/* Current Group Title */}
+              <div className="text-center mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {photographyGroups[activeGroupIndex]?.title}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {activeGroupIndex + 1} von {photographyGroups.length}
+                </p>
+              </div>
+              
+              {/* Navigation Arrows */}
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <button
+                  onClick={handlePreviousGroup}
+                  className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  aria-label="Vorherige Gruppe"
+                >
+                  <ArrowLeft className="w-5 h-5 text-gray-700" />
+                </button>
+                
+                <button
+                  onClick={handleNextGroup}
+                  className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  aria-label="Nächste Gruppe"
+                >
+                  <ArrowRight className="w-5 h-5 text-gray-700" />
+                </button>
+              </div>
+              
+              {/* Dot Indicators */}
+              <div className="flex items-center justify-center gap-2">
+                {photographyGroups.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveGroupIndex(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === activeGroupIndex 
+                        ? 'bg-orange-500 scale-125' 
+                        : 'bg-gray-400 hover:bg-gray-600'
+                    }`}
+                    aria-label={`Gruppe ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </motion.div>
 

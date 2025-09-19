@@ -102,7 +102,7 @@ export default function FloatingContactButton({
         {showStickyButton && (
           <motion.div
             key="floating-button"
-            className="fixed right-4 z-50"
+            className="fixed right-4 z-50 hidden sm:block"
             style={{
               bottom: `${buttonBottomOffset}px`
             }}

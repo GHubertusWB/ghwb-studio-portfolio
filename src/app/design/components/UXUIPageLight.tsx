@@ -191,7 +191,7 @@ export default function UXUIPageLight() {
             >
               <SpecialButton 
                 variant="secondary"
-                size="medium"
+                size="sm"
                 onClick={() => { const skills = document.getElementById('skills-section'); if (skills) skills.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
               >
                 <Sparkles className="w-4 h-4 mr-2" />
@@ -200,7 +200,7 @@ export default function UXUIPageLight() {
 
               <SpecialButton 
                 variant="primary"
-                size="medium"
+                size="sm"
                 onClick={() => { 
                   const event = new CustomEvent('openContactModal');
                   window.dispatchEvent(event);

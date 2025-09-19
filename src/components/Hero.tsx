@@ -65,7 +65,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 2 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4"
+          className="flex flex-col sm:flex-row gap-4 justify-center items-stretch mt-4 w-full max-w-md mx-auto sm:max-w-none sm:w-auto"
         >
           {theme === 'dark' ? (
             <>
@@ -97,7 +97,8 @@ const Hero = ({ onContactClick }: HeroProps) => {
             <>
               <SpecialButton
                 variant="secondary"
-                size="medium"
+                size="sm"
+                className="w-full sm:w-auto"
                 onClick={() => {
                   const services = document.getElementById('services');
                   if (services) services.scrollIntoView({ behavior: 'smooth' });
@@ -109,7 +110,8 @@ const Hero = ({ onContactClick }: HeroProps) => {
 
               <SpecialButton
                 variant="primary"
-                size="medium"
+                size="sm"
+                className="w-full sm:w-auto"
                 onClick={onContactClick || (() => {
                   // Global event to open contact modal
                   const event = new CustomEvent('openContactModal');
@@ -128,7 +130,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2.5 }}
           whileHover={{ scale: 1.1 }}
-          className="mt-16"
+          className="mt-16 hidden sm:block"
         >
           {theme === 'dark' ? (
             <SpecialButtonDark
@@ -149,7 +151,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
           ) : (
             <SpecialButton
               variant="tertiary"
-              size="medium"
+              size="sm"
               onClick={scrollToNext}
               className="p-4"
             >
