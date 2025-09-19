@@ -58,8 +58,8 @@ const Philosophy = () => {
   }
 
   return (
-    <section className="bg-muted/30 flex items-center justify-center" style={{ height: '80vh' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <section className="bg-muted/30 flex items-center justify-center" style={{ height: '60vh' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-2">
         
         {/* Header */}
         <div className="text-center mb-16">
@@ -72,7 +72,7 @@ const Philosophy = () => {
         </div>
 
         {/* Icon Navigation - horizontale Reihe */}
-        <div className="flex justify-center items-center space-x-8 mb-16 h-16">
+        <div className="flex justify-center items-center space-x-8 mt-16 h-16">
           {principles.map((principle, index) => {
             const Icon = principle.icon
             const isActive = index === activeIndex
@@ -89,13 +89,11 @@ const Philosophy = () => {
                     opacity: isActive ? 1 : 0.6
                   }}
                   transition={{ duration: 0.3 }}
-                  className={`flex items-center justify-center ${
-                    isActive ? 'drop-shadow-lg' : ''
-                  }`}
+                  className="flex items-center justify-center"
                 >
                   <Icon className={`transition-all duration-300 ${
                     isActive 
-                      ? 'w-10 h-10 text-foreground drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]' 
+                      ? 'w-10 h-10 text-orange-500' 
                       : 'w-8 h-8 text-muted-foreground hover:text-foreground'
                   }`} />
                 </motion.div>
@@ -110,7 +108,7 @@ const Philosophy = () => {
           {/* Active Principle Details */}
           <div className="relative">
             {/* Navigation Buttons - Theme-aware - hidden on mobile */}
-            <div className="absolute -left-8 top-1/2 -translate-y-1/2 z-20 hidden md:block">
+            <div className="absolute -left-12 top-1/2 -translate-y-1/2 z-20 hidden md:block">
               {theme === 'dark' ? (
                 <SpecialButtonDark
                   variant="secondary"
@@ -130,7 +128,7 @@ const Philosophy = () => {
               )}
             </div>
             
-            <div className="absolute -right-8 top-1/2 -translate-y-1/2 z-20 hidden md:block">
+            <div className="absolute -right-12 top-1/2 -translate-y-1/2 z-20 hidden md:block">
               {theme === 'dark' ? (
                 <SpecialButtonDark
                   variant="secondary"

@@ -89,7 +89,7 @@ export default function HomeWithLoader() {
             <Philosophy />
           </div>
           <div className="relative z-10">
-            <Divider variant="comet" paddingY="py-20" />
+            <Divider />
           </div>
           <div className="relative z-10">
             <Services />

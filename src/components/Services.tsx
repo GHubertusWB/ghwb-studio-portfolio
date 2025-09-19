@@ -88,10 +88,10 @@ const Services = () => {
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
                       style={{
-                        background: theme === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 1)',
+                        background: 'rgba(255, 255, 255, 0)',
                         backdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(30px)',
                         WebkitBackdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(30px)',
-                        borderRadius: theme === 'dark' ? '16px' : '0px',
+                        borderRadius: '0px',
                         border: theme === 'dark' 
                           ? '1px solid rgba(255, 255, 255, 0.2)' 
                           : '1px solid #000000',
@@ -115,22 +115,20 @@ const Services = () => {
                       mass: 1.3
                     }}
                   >
-                    {/* Glow overlay on hover - different for light/dark mode */}
-                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                      theme === 'dark' ? 'rounded-2xl' : ''
-                    }`}
-                         style={{
-                           background: theme === 'dark' 
-                             ? `radial-gradient(circle at center, rgba(135, 206, 235, 0.1), transparent 70%)`
-                             : `radial-gradient(circle at center, rgba(255, 165, 0, 0.15), transparent 70%)`
-                         }} />
+                    {/* Glow overlay on hover - only for light mode */}
+                    {theme === 'light' && (
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                           style={{
+                             background: `radial-gradient(circle at center, rgba(255, 165, 0, 0.15), transparent 70%)`
+                           }} />
+                    )}
 
                     {/* Dark Mode: SpecialButtonDark Corner Border Animation */}
                     {theme === 'dark' && (
                       <>
                         {/* Hover Background für Dark Mode */}
                         <motion.div
-                          className="absolute inset-0 -z-10 rounded-2xl"
+                          className="absolute inset-0 -z-10"
                           style={{
                             background: 'linear-gradient(135deg, rgba(156, 163, 175, 0.1) 0%, rgba(107, 114, 128, 0.1) 100%)',
                           }}
@@ -223,29 +221,7 @@ const Services = () => {
                           transition={{ duration: 1, ease: "easeInOut" }}
                         />
 
-                        {/* Center Glow für Dark Mode */}
-                        <motion.div
-                          className="absolute pointer-events-none"
-                          style={{
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            background: 'radial-gradient(ellipse, rgba(63, 223, 255, 0.63) 0%, rgba(63, 223, 255, 0.63) 30%, transparent 70%)',
-                            filter: 'blur(6px)',
-                            mixBlendMode: 'screen',
-                          }}
-                          initial={{ width: '0px', height: '0px', opacity: 0 }}
-                          animate={isHovered ? {
-                            width: '60%',
-                            height: '60%',
-                            opacity: 0.3
-                          } : {
-                            width: '0px',
-                            height: '0px',
-                            opacity: 0
-                          }}
-                          transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
-                        />
+
                       </>
                     )}
                     

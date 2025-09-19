@@ -40,27 +40,15 @@ const Footer = () => {
     }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <h3 className="text-2xl font-bold tracking-wider mb-4">GHWB STUDIO</h3>
             <p className="text-muted-foreground max-w-md mx-auto">
               Kreative Lösungen für digitale Erlebnisse, 
               unvergessliche Momente und innovative Kunst.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="flex flex-wrap justify-center gap-4 mb-12"
-          >
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
             {footerLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 {theme === 'dark' ? (
@@ -80,15 +68,9 @@ const Footer = () => {
                 )}
               </Link>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="flex justify-center space-x-6 mb-12"
-          >
+          <div className="flex justify-center space-x-6 mb-12">
             {socialLinks.map((social) => {
               const Icon = social.icon
               return (
@@ -117,16 +99,10 @@ const Footer = () => {
                 </motion.a>
               )
             })}
-          </motion.div>
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="border-t border-border/50 py-8 flex flex-col sm:flex-row justify-between items-center"
-        >
+        <div className="border-t border-border/50 py-8 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground mb-4 sm:mb-0">
             © 2025 GHWB Studio. Alle Rechte vorbehalten.
           </p>
@@ -167,13 +143,11 @@ const Footer = () => {
               )}
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll to top button */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
         whileHover={{ scale: 1.1, y: -2 }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400 }}
