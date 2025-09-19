@@ -143,9 +143,9 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
         }
         
         return (
-          <div className={cn("flex items-center", currentSize.gap)}>
+          <div className={cn("flex items-center justify-center", currentSize.gap)}>
             <DarkLoadingSpinner size={size} />
-            {children && <span>{children}</span>}
+            {children && <span className="flex items-center">{children}</span>}
           </div>
         );
       }
@@ -158,17 +158,17 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
       
       if (icon === 'left') {
         return (
-          <div className={cn("flex items-center", currentSize.gap)}>
+          <div className={cn("flex items-center justify-center", currentSize.gap)}>
             {iconComponent}
-            <span>{children}</span>
+            <span className="flex items-center">{children}</span>
           </div>
         );
       }
       
       if (icon === 'right') {
         return (
-          <div className={cn("flex items-center", currentSize.gap)}>
-            <span>{children}</span>
+          <div className={cn("flex items-center justify-center", currentSize.gap)}>
+            <span className="flex items-center">{children}</span>
             {iconComponent}
           </div>
         );

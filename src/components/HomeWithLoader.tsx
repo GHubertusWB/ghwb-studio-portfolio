@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle } from 'lucide-react'
+
+
 import LoadingScreen from '@/components/LoadingScreen'
 import Hero from "@/components/Hero";
 import Philosophy from "@/components/Philosophy/index";
@@ -79,14 +79,9 @@ export default function HomeWithLoader() {
   }
 
   return (
-    <AnimatePresence>
+    <>
       {showContent && (
-        <motion.div 
-          className="overflow-x-hidden relative"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
+        <div className="overflow-x-hidden relative">
           <div className="relative z-10">
             <Hero />
           </div>
@@ -105,8 +100,8 @@ export default function HomeWithLoader() {
 
           {/* Floating Contact Button System */}
           <FloatingContactButton />
-        </motion.div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   )
 }

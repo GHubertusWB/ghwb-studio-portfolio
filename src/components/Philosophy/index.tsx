@@ -62,20 +62,14 @@ const Philosophy = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
             Design Philosophie
           </h2>
           <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
             Wie sich mein Verständnis von gutem Design zusammensetzt
           </p>
-        </motion.div>
+        </div>
 
         {/* Icon Navigation - horizontale Reihe */}
         <div className="flex justify-center items-center space-x-8 mb-16 h-16">
@@ -84,17 +78,8 @@ const Philosophy = () => {
             const isActive = index === activeIndex
             
             return (
-              <motion.button
+              <button
                 key={principle.id}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 20,
-                  delay: 0.2 + index * 0.1 
-                }}
-                viewport={{ once: true }}
                 onClick={() => setActiveIndex(index)}
                 className="cursor-pointer flex items-center justify-center transition-all duration-300"
               >
@@ -114,7 +99,7 @@ const Philosophy = () => {
                       : 'w-8 h-8 text-muted-foreground hover:text-foreground'
                   }`} />
                 </motion.div>
-              </motion.button>
+              </button>
             )
           })}
         </div>
