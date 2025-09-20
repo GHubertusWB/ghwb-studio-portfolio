@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SpecialButton from '@/components/ui/SpecialButton'
+import SpecialButtonDark from '@/components/ui/SpecialButtonDark'
 import * as d3 from 'd3'
 
 interface MobileSkillsProps {
@@ -39,9 +40,9 @@ const MobileSkillsDiagram = ({ activeSkill, isDark }: { activeSkill: number, isD
     const svg = d3.select(svgRef.current)
     svg.selectAll("*").remove()
 
-    // All segments in orange like SpecialButton
+    // Color based on dark mode - mint green for dark, orange for light
     const getSkillColor = () => {
-      return '#ffc800ff' // Same orange as SpecialButton
+      return isDark ? '#9AFFB5' : '#ffc800ff' // Mint green for dark mode, orange for light
     }
 
     const width = 300 // Smaller size for mobile
@@ -99,7 +100,7 @@ const MobileSkillsDiagram = ({ activeSkill, isDark }: { activeSkill: number, isD
       const maxSkillRadius = innerRadius + segmentHeight // Maximum radius for background
       const segmentColor = getSkillColor()
       
-      // Background segment (light yellow, 25% opacity, max radius)
+      // Background segment - dark gray for dark mode, light yellow for light mode
       const backgroundArc = d3.arc<any>()
         .innerRadius(innerRadius)
         .outerRadius(maxSkillRadius)
@@ -112,13 +113,13 @@ const MobileSkillsDiagram = ({ activeSkill, isDark }: { activeSkill: number, isD
       segmentGroup.append('path')
         .attr('class', 'background-segment')
         .attr('d', backgroundPathData)
-        .attr('fill', '#ebde87ff') // Light yellow background
-        .attr('stroke', '#ffffff') // White border
-        .attr('stroke-width', 2)
+        .attr('fill', isDark ? '#374151' : '#ebde87ff') // Dark gray for dark mode, light yellow for light mode
+        .attr('stroke', isDark ? '#1f2937' : '#ffffff') // Dark border for dark mode, white for light mode
+        .attr('stroke-width', isDark ? 3 : 2) // Thicker border for dark mode
         .style('opacity', 0.25) // 25% opacity
         .style('pointer-events', 'none')
 
-      // Foreground segment (orange, skill-based radius)
+      // Foreground segment - mint green for dark mode, orange for light mode
       const foregroundArc = d3.arc<any>()
         .innerRadius(innerRadius)
         .outerRadius(skillRadius)
@@ -134,33 +135,38 @@ const MobileSkillsDiagram = ({ activeSkill, isDark }: { activeSkill: number, isD
         .attr('class', 'skill-segment')
         .attr('d', foregroundPathData)
         .attr('fill', segmentColor)
-        .attr('stroke', '#ffffff') // White border for orange segment
-        .attr('stroke-width', 2)
+        .attr('stroke', isDark ? '#1f2937' : '#ffffff') // Dark border for dark mode, white for light mode
+        .attr('stroke-width', isDark ? 3 : 2) // Thicker border for dark mode
         .style('opacity', isActive ? 1 : 0.5) // Full opacity for active, 50% for others
         .style('cursor', 'pointer')
-        .style('filter', isActive ? 'drop-shadow(0 0 15px rgba(255, 174, 0, 0.6))' : 'none')
+        .style('filter', isActive ? 
+          (isDark ? 'drop-shadow(0 0 15px rgba(154, 255, 181, 0.6))' : 'drop-shadow(0 0 15px rgba(255, 174, 0, 0.6))') 
+          : 'none')
         .transition()
         .delay(segmentIndex * 100) // Staggered animation
         .duration(800)
     })
 
-    // Add lemonzest.png as background image behind the chart
-    svg.append('image')
-      .attr('href', '/images/Lemon and leafs/lemonzest.png')
-      .attr('x', centerX - 150) // Center the image (300px width)
-      .attr('y', centerY - 150) // Center the image (300px height)
-      .attr('width', 300)
-      .attr('height', 300)
-      .style('opacity', 0.8) // Semi-transparent background
-      .style('pointer-events', 'none')
+    // Add lemonzest.png as background image behind the chart (only in light mode)
+    if (!isDark) {
+      svg.append('image')
+        .attr('href', '/images/Lemon and leafs/lemonzest.png')
+        .attr('x', centerX - 150) // Center the image (300px width)
+        .attr('y', centerY - 150) // Center the image (300px height)
+        .attr('width', 300)
+        .attr('height', 300)
+        .style('opacity', 0.8) // Semi-transparent background
+        .style('pointer-events', 'none')
+    }
 
-    // Add center circle
+    // Add center circle with dark mode support
     svg.append('circle')
       .attr('cx', centerX)
       .attr('cy', centerY)
       .attr('r', innerRadius)
-      .attr('fill', '#ffffff')
-      .attr('stroke', 'none')
+      .attr('fill', isDark ? '#1a1d23' : '#ffffff') // Dark background for dark mode
+      .attr('stroke', isDark ? '#374151' : 'none') // Dark border for dark mode
+      .attr('stroke-width', isDark ? 2 : 0)
 
   }, [activeSkill])
 
@@ -175,7 +181,7 @@ export default function MobileSkills({ isDark = false }: MobileSkillsProps) {
   const [activeSkill, setActiveSkill] = useState(0)
 
   return (
-    <div className={`py-16 ${isDark ? 'bg-[#1a1d23]' : 'bg-white'}`}>
+    <div className={`py-16 ${isDark ? '' : 'bg-white'}`}>
       {/* Header */}
       <div className="text-center px-6">
         <motion.h2 
@@ -217,17 +223,33 @@ export default function MobileSkills({ isDark = false }: MobileSkillsProps) {
       {/* Tab Navigation */}
       <div className="px-4 mb-8">
         <div className="flex flex-wrap gap-2 justify-center max-w-4xl mx-auto">
-          {skillsData.map((skill, index) => (
-            <SpecialButton
-              key={index}
-              variant={index === activeSkill ? "primary" : "secondary"}
-              size="xs"
-              onClick={() => setActiveSkill(index)}
-              className="whitespace-nowrap"
-            >
-              {skill.shortName}
-            </SpecialButton>
-          ))}
+          {skillsData.map((skill, index) => {
+            if (isDark) {
+              return (
+                <SpecialButtonDark
+                  key={index}
+                  variant={index === activeSkill ? "primary" : "secondary"}
+                  size="sm"
+                  onClick={() => setActiveSkill(index)}
+                  className="whitespace-nowrap"
+                >
+                  {skill.shortName}
+                </SpecialButtonDark>
+              )
+            } else {
+              return (
+                <SpecialButton
+                  key={index}
+                  variant={index === activeSkill ? "primary" : "secondary"}
+                  size="xs"
+                  onClick={() => setActiveSkill(index)}
+                  className="whitespace-nowrap"
+                >
+                  {skill.shortName}
+                </SpecialButton>
+              )
+            }
+          })}
         </div>
       </div>
 

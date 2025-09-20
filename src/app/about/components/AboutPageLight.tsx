@@ -100,17 +100,6 @@ const AboutSection = () => {
                 className="w-full h-auto object-cover"
               />
             </div>
-            {/* Floating Elements */}
-            <motion.div 
-              className="absolute -top-4 -right-4 w-8 h-8 bg-gray-400 rounded-full shadow-lg shadow-gray-400/50"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <motion.div 
-              className="absolute -bottom-4 -left-4 w-6 h-6 bg-gray-500 rounded-full shadow-lg shadow-gray-500/50"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity }}
-            />
           </motion.div>
           
           {/* About Text */}
@@ -321,9 +310,9 @@ export default function AboutPageLight() {
               UX/UI-Design • Fotografie • Kunst
             </motion.p>
 
-            {/* Main Title - startpage style */}
+            {/* Main Title - responsive wie Dark Mode */}
             <motion.h1 
-              className="text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-4"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-4"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 1.4 }}
@@ -339,7 +328,7 @@ export default function AboutPageLight() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.6 }}
             >
-              Entdecke meine Reise als UX/UI Designer und die Erfahrungen,<br/>
+              Entdecke meine Reise als UX/UI Designer und die Erfahrungen,
               die mich zu dem gemacht haben, was ich heute bin.
             </motion.p>
 

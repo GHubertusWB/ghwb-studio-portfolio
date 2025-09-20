@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Palette, Zap, PenTool, FileText, Users } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import SpecialButtonDark from '@/components/ui/SpecialButtonDark'
 
 export default function TechStackSectionDark() {
   const [activeTab, setActiveTab] = useState(0)
@@ -71,50 +71,31 @@ export default function TechStackSectionDark() {
   return (
     <section className="py-20 px-6 relative z-10">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-white leading-tight tracking-tight md:text-3xl mb-6">
             Tech-Stack Command Center
           </h2>
-          <p className="text-lg text-white/70 max-w-prose mx-auto">
+          <p className="text-lg text-white font-medium max-w-prose mx-auto">
             Professionelle Interface-Tools für jeden Bereich des Design-Prozesses
           </p>
-        </motion.div>
+        </div>
 
-        {/* Tabs Navigation mit globaler Button Komponente - Dark Mode angepasst */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-3 mb-16"
-        >
+        {/* Tabs Navigation mit SpecialButtonDark */}
+        <div className="flex flex-wrap justify-center gap-3 mb-16">
           {tabs.map((tab) => {
-            const IconComponent = tab.icon
             return (
-              <Button
+              <SpecialButtonDark
                 key={tab.id}
                 variant={activeTab === tab.id ? "primary" : "secondary"}
                 size="sm"
                 onClick={() => setActiveTab(tab.id)}
-                icon="left"
-                iconElement={<IconComponent className="w-4 h-4" />}
-                className={`transition-all duration-300 ${
-                  activeTab === tab.id 
-                    ? 'bg-orange-500/20 text-orange-400 border-orange-400/30 shadow-lg shadow-orange-400/20' 
-                    : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20'
-                }`}
+                className="transition-all duration-300"
               >
                 {tab.label}
-              </Button>
+              </SpecialButtonDark>
             )
           })}
-        </motion.div>
+        </div>
 
         {/* Tools Grid - vertikal zentriert mit Dark Mode Styling */}
         <div className="flex items-center justify-center min-h-[300px]">

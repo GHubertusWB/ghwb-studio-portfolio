@@ -228,17 +228,6 @@ const AboutSection = () => {
                 className="w-full h-auto object-cover"
               />
             </div>
-            {/* Floating Elements */}
-            <motion.div 
-              className="absolute -top-4 -right-4 w-8 h-8 bg-cyan-500 rounded-full shadow-lg shadow-cyan-500/50"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <motion.div 
-              className="absolute -bottom-4 -left-4 w-6 h-6 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity }}
-            />
           </motion.div>
           
           {/* About Text */}

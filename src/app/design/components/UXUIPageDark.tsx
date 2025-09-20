@@ -10,6 +10,7 @@ import MobileSkills from './MobileSkills'
 import TechStackSectionDark from './TechStackSectionDark'
 import { Button } from '@/components/ui/Button'
 import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
+import Divider from '@/components/ui/Divider'
 
 export default function UXUIPageDark() {
   const [currentTime, setCurrentTime] = useState('')
@@ -140,27 +141,16 @@ export default function UXUIPageDark() {
         {/* Desktop Version */}
         <div className="hidden md:block py-20 px-6">
           <div className="max-w-7xl mx-auto">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
+            <div className="text-center mb-16">
               <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
                 Meine UX/UI Expertise
               </h2>
               <p className="text-lg text-white/70 max-w-2xl mx-auto">
                 Kompetenzprofil im UX/UI Design – von Research bis Rollout
               </p>
-            </motion.div>
+            </div>
 
-            {/* Permanent Label über dem Diagramm */}
-            <motion.div 
-              className="text-center mb-2"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <p className="text-sm text-white/50 font-medium">
-                Bewegen Sie die Maus über ein Segment für Details
-              </p>
-            </motion.div>
+
 
             {/* Skills Circle Chart */}
             <SkillsCircleChartDark 
@@ -168,90 +158,7 @@ export default function UXUIPageDark() {
               hoveredSkill={hoveredSkill}
             />
 
-            {/* Skill Details Display - feste Höhe Container */}
-            <div 
-              className="flex justify-center items-start"
-              style={{ 
-                marginTop: '32px',
-                minHeight: '180px' // Feste Höhe um Layout-Shifts zu vermeiden
-              }}
-            >
-              <AnimatePresence mode="wait">
-                {hoveredSkill !== null && (
-                  <motion.div
-                    key={hoveredSkill} // Key für Re-Animation bei Skill-Wechsel
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ 
-                      duration: 0.15, // Schnellere Animation für bessere UX
-                      ease: "easeOut"
-                    }}
-                    className="max-w-3xl text-center px-6"
-                  >
-                  <motion.h3 
-                    className="text-2xl font-medium text-white mb-2"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                  >
-                    {[
-                      'Accessibility',
-                      'Product Owner', 
-                      'Requirements Engineering',
-                      'Wireframing',
-                      'Prototyping',
-                      'Design Systems',
-                      'Development',
-                      'Rollout Planning',
-                      'Workshops',
-                      'UI Design'
-                    ][hoveredSkill]}
-                  </motion.h3>
-                  
-                  <motion.p 
-                    className="text-sm text-cyan-400 font-medium mb-4 tracking-wide"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    Erfahrungslevel: {[
-                      '8/10',
-                      '6/10',
-                      '8/10', 
-                      '10/10',
-                      '9/10',
-                      '10/10',
-                      '4/10',
-                      '7/10',
-                      '9/10',
-                      '9/10'
-                    ][hoveredSkill]}
-                  </motion.p>
-                  
-                  <motion.p 
-                    className="text-base text-white/80 leading-relaxed"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.5 }}
-                  >
-                    {[
-                      'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung',
-                      'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten',
-                      'User Research, Workshops und stakeholder-orientierte Analyse',
-                      'Strukturierung und erste visuelle Konzepte für komplexe Systeme',
-                      'Interaktive Prototypen und User Testing für optimale UX',
-                      'Skalierbare Komponenten-Bibliotheken und Style Guides',
-                      'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit',
-                      'Strategische Einführung und Change Management für neue Systeme',
-                      'Moderation und Durchführung von Design Thinking Workshops',
-                      'Visuelle Gestaltung und Interface Design für digitale Produkte'
-                    ][hoveredSkill]}
-                  </motion.p>
-                </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+
           </div>
         </div>
 
@@ -262,9 +169,9 @@ export default function UXUIPageDark() {
       </section>
 
       {/* WORKFLOW SECTION */}
-      <section className="py-20 px-6 relative z-10">
+      <section className="py-40 px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
+          <div>
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
               Workflow
             </h2>
@@ -273,13 +180,7 @@ export default function UXUIPageDark() {
             </p>
 
             {/* Dark Mode SVG */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="flex justify-center mt-16"
-            >
+            <div className="flex justify-center mt-16">
               {/* Desktop SVG - hidden on mobile */}
               <img
                 src="/images/Dark-workflow.svg"
@@ -293,28 +194,31 @@ export default function UXUIPageDark() {
                 alt="UX Design Workflow Mobile"
                 className="block md:hidden w-full h-auto"
               />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* TECH STACK SECTION */}
       <TechStackSectionDark />
 
+      {/* DIVIDER */}
+      <Divider />
+
       {/* PROJEKTE SECTION */}
       <section className="py-20 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center mb-16">
+          <div className="text-center mb-16">
             <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl mb-6">
               Beispielprojekte
             </h2>
             <p className="text-lg text-white/70 max-w-2xl mx-auto">
               Ein Einblick in meine UX/UI Design Arbeiten
             </p>
-          </motion.div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {projekte.map((project, index) => (
-              <motion.div key={project.title} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: index * 0.2 }} viewport={{ once: true }} whileHover={{ y: -10 }} className="group cursor-pointer">
+              <motion.div key={project.title} whileHover={{ y: -10 }} className="group cursor-pointer">
                 <div className="overflow-hidden rounded-2xl bg-white/5 mb-6 aspect-[4/3]">
                   <div className="w-full h-full bg-gradient-to-br from-white/10 via-white/5 to-transparent flex items-center justify-center">
                     <Layers className="w-12 h-12 text-white/30" />
