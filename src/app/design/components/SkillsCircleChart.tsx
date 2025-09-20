@@ -341,7 +341,7 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
     { name: 'UI Design', level: '9/10', description: 'Visuelle Gestaltung und Interface Design für digitale Produkte mit modernen Design-Trends. Expertise in Typography, Color Theory, Layout-Prinzipien und Visual Hierarchy für verschiedene Plattformen.' }
   ]
 
-  const currentSkill = skillsInfo[hoveredSkill !== null ? hoveredSkill : selectedSkill]
+  const currentSkill = skillsInfo[hoveredSkill !== null && hoveredSkill !== undefined ? hoveredSkill : selectedSkill]
 
   return (
     <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8 lg:gap-16">
