@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, px } from 'framer-motion'
 import * as d3 from 'd3'
+import SpecialButton from '@/components/ui/SpecialButton'
 
 type Skill = {
   name: string
@@ -18,6 +19,7 @@ interface SkillsCircleChartProps {
 
 export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLabels = false }: SkillsCircleChartProps) {
   const svgRef = useRef<SVGSVGElement>(null)
+  const [selectedSkill, setSelectedSkill] = useState<number>(0) // Start with first segment
 
   const skillsData = [
     { name: 'Accessibility', value: 8, shortName: 'Accessibility' },
@@ -43,8 +45,8 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       return '#ffc800ff' // Same orange as SpecialButton
     }
 
-    const width = 500
-    const height = 500
+    const width = 450
+    const height = 450
     const centerX = width / 2
     const centerY = height / 2
     const innerRadius = 30 // Etwas größerer Innenradius
@@ -150,62 +152,55 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
     // Entferne radiale Linien für cleaneren Look wie im Referenzbild
     // Das Referenzbild hat keine sichtbaren Trennlinien zwischen Segmenten
 
-    // Add skill labels - positioned correctly at segment centers (only if not hidden)
+    // Add skill labels - positioned on segment centers (only if not hidden)
     if (!hideLabels) {
+      // Mobile-style abbreviated labels
+      const mobileLabels = [
+        'A11Y',        // Accessibility
+        'PO',          // Product Owner
+        'RE',          // Requirements Engineering
+        'Wire',        // Wireframing
+        'Proto',       // Prototyping
+        'DS',          // Design Systems
+        'Dev',         // Development
+        'Roll',        // Rollout Planning
+        'Work',        // Workshops
+        'UI'           // UI Design
+      ]
+
       pieData.forEach((pieSlice, i) => {
         const skill = pieSlice.data
         
-        // Calculate middle angle of the segment
+        // Calculate middle angle and position in center of the actual skill segment (orange part)
         const middleAngle = (pieSlice.startAngle + pieSlice.endAngle) / 2 - Math.PI / 2
-        const labelRadius = innerRadius + segmentHeight + 75
+        const skillRadius = innerRadius + (skill.value / 10) * segmentHeight
+        
+        // Position label in the middle of the filled (orange) segment
+        const labelRadius = innerRadius + (skillRadius - innerRadius) * 0.5
         const x = centerX + labelRadius * Math.cos(middleAngle)
         const y = centerY + labelRadius * Math.sin(middleAngle)
         
-        // Split skill name into words for two-line layout if needed
-        const words = skill.shortName.split(' ')
+        // Calculate rotation angle in degrees (convert from radians) + 90 degrees
+        const rotationAngle = (middleAngle + Math.PI / 2) * (180 / Math.PI) + 90
         
-        if (words.length === 1 || skill.shortName.length <= 12) {
-          // Single line for short text
-          svg.append('text')
-            .attr('x', x)
-            .attr('y', y)
-            .attr('text-anchor', 'middle')
-            .attr('dominant-baseline', 'middle')
-            .style('font-size', '12px')
-            .style('font-weight', '500')
-            .style('fill', '#374151')
-            .style('pointer-events', 'none')
-            .text(skill.shortName)
-        } else {
-          // Two lines for longer text
-          const midPoint = Math.ceil(words.length / 2)
-          const firstLine = words.slice(0, midPoint).join(' ')
-          const secondLine = words.slice(midPoint).join(' ')
-          
-          // First line (slightly above center)
-          svg.append('text')
-            .attr('x', x)
-            .attr('y', y - 8)
-            .attr('text-anchor', 'middle')
-            .attr('dominant-baseline', 'middle')
-            .style('font-size', '11px')
-            .style('font-weight', '500')
-            .style('fill', '#374151')
-            .style('pointer-events', 'none')
-            .text(firstLine)
-          
-          // Second line (slightly below center)
-          svg.append('text')
-            .attr('x', x)
-            .attr('y', y + 8)
-            .attr('text-anchor', 'middle')
-            .attr('dominant-baseline', 'middle')
-            .style('font-size', '11px')
-            .style('font-weight', '500')
-            .style('fill', '#374151')
-            .style('pointer-events', 'none')
-            .text(secondLine)
-        }
+        // Adjust rotation for better readability (flip text if it would be upside down)
+        const adjustedRotation = rotationAngle > 90 && rotationAngle < 270 
+          ? rotationAngle + 180 
+          : rotationAngle
+        
+        // Single line with mobile abbreviation
+        svg.append('text')
+          .attr('x', x)
+          .attr('y', y)
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'middle')
+          .attr('transform', `rotate(${adjustedRotation}, ${x}, ${y})`)
+          .style('font-family', 'Poppins, sans-serif')
+          .style('font-size', '16px')
+          .style('font-weight', 'bold')
+          .style('fill', '#ffffff')
+          .style('pointer-events', 'none')
+          .text(mobileLabels[i])
       })
     }
 
@@ -216,7 +211,7 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       .attr('y', centerY - 220) // Center the image (assuming 440px height)
       .attr('width', 440)
       .attr('height', 440)
-      .style('opacity', 0.3) // Semi-transparent background
+      .style('opacity', 0.8) // Semi-transparent background
       .style('pointer-events', 'none')
 
     // Add center circle - ohne schwarze Border
@@ -227,7 +222,13 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       .attr('fill', '#ffffff')
       .attr('stroke', 'none')
 
-    // Create hover function for reuse
+    // Create click and hover functions
+    const handleClick = function(event: any, d: any) {
+      const index = skillsData.indexOf(d.data)
+      setSelectedSkill(index)
+      if (onSegmentHover) onSegmentHover(index)
+    }
+
     const handleMouseEnter = function(event: any, d: any) {
       const index = skillsData.indexOf(d.data)
       if (onSegmentHover) onSegmentHover(index)
@@ -245,28 +246,43 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
 
     const handleMouseLeave = function(event: any, d: any) {
       const index = skillsData.indexOf(d.data)
-      if (onSegmentHover) onSegmentHover(null)
-      
-      // Find corresponding segment and return to normal state
-      const segmentGroup = d3.select(segmentGroups.nodes()[index])
+      // Keep selected skill highlighted
+      if (index !== selectedSkill) {
+        if (onSegmentHover) onSegmentHover(selectedSkill)
+        
+        // Find corresponding segment and return to normal state
+        const segmentGroup = d3.select(segmentGroups.nodes()[index])
+        const segment = segmentGroup.select('.skill-segment')
+        
+        segment
+          .transition()
+          .duration(200)
+          .style('opacity', 0.5) // Back to 50% transparency
+          .style('filter', 'none') // Entferne Leuchten-Effekt
+      }
+    }
+
+    // Add click and hover effects to invisible hover areas (full segments)
+    hoverAreas
+      .on('click', handleClick)
+      .on('mouseenter', handleMouseEnter)
+      .on('mouseleave', handleMouseLeave)
+
+    // Add click and hover effects to segment groups (colored parts)
+    segmentGroups
+      .on('click', handleClick)
+      .on('mouseenter', handleMouseEnter)
+      .on('mouseleave', handleMouseLeave)
+
+    // Initialize first segment as selected
+    if (selectedSkill !== null) {
+      const segmentGroup = d3.select(segmentGroups.nodes()[selectedSkill])
       const segment = segmentGroup.select('.skill-segment')
       
       segment
-        .transition()
-        .duration(200)
-        .style('opacity', 0.5) // Back to 50% transparency
-        .style('filter', 'none') // Entferne Leuchten-Effekt
+        .style('opacity', 1)
+        .style('filter', 'drop-shadow(0 0 20px rgba(255, 174, 0, 0.6))')
     }
-
-    // Add hover effects to invisible hover areas (full segments)
-    hoverAreas
-      .on('mouseenter', handleMouseEnter)
-      .on('mouseleave', handleMouseLeave)
-
-    // Add hover effects to segment groups (colored parts)
-    segmentGroups
-      .on('mouseenter', handleMouseEnter)
-      .on('mouseleave', handleMouseLeave)
   }, [onSegmentHover])
 
   // Handle external hover state changes
@@ -280,25 +296,98 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       const segmentGroup = d3.select(this)
       const segment = segmentGroup.select('.skill-segment')
       
-      if (hoveredSkill === i) {
-        // Apply hover state
+      if (hoveredSkill === i || selectedSkill === i) {
+        // Apply hover/selected state
         segment
           .transition()
           .duration(200)
           .style('opacity', 1)
+          .style('filter', 'drop-shadow(0 0 20px rgba(255, 174, 0, 0.6))')
       } else {
         // Return to normal state
         segment
           .transition()
           .duration(200)
           .style('opacity', 0.5)
+          .style('filter', 'none')
       }
     })
-  }, [hoveredSkill])
+  }, [hoveredSkill, selectedSkill])
+
+  // Initialize first skill on mount
+  useEffect(() => {
+    if (onSegmentHover) onSegmentHover(selectedSkill)
+  }, [])
+
+  const navigateSkills = (direction: 'prev' | 'next') => {
+    const newIndex = direction === 'next' 
+      ? (selectedSkill + 1) % skillsData.length
+      : (selectedSkill - 1 + skillsData.length) % skillsData.length
+    
+    setSelectedSkill(newIndex)
+    if (onSegmentHover) onSegmentHover(newIndex)
+  }
+
+  const skillsInfo = [
+    { name: 'Accessibility', level: '8/10', description: 'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung in digitaler Inklusion. Erfahrung in ARIA-Standards, Screenreader-Optimierung und benutzerfreundlichen Interfaces für Menschen mit Behinderungen.' },
+    { name: 'Product Owner', level: '6/10', description: 'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten mit Fokus auf agile Produktentwicklung. Verantwortung für Backlog-Management, Stakeholder-Kommunikation und strategische Roadmap-Planung.' },
+    { name: 'Requirements Engineering', level: '8/10', description: 'User Research, Workshops und stakeholder-orientierte Analyse mit systematischer Herangehensweise. Expertise in der Erhebung, Dokumentation und Validierung von Anforderungen durch verschiedene Methoden.' },
+    { name: 'Wireframing', level: '10/10', description: 'Strukturierung und erste visuelle Konzepte für komplexe Systeme mit präziser Informationsarchitektur. Expertise in Low-Fi und High-Fi Wireframes, User Journey Mapping und Navigation Design.' },
+    { name: 'Prototyping', level: '9/10', description: 'Interaktive Prototypen und User Testing für optimale UX mit fokussiertem Feedback-Management. Erfahrung in Rapid Prototyping, A/B Testing und Usability Studies für bessere Nutzererfahrungen.' },
+    { name: 'Design Systems', level: '10/10', description: 'Skalierbare Komponenten-Bibliotheken und Style Guides für konsistente Markenführung. Aufbau von Design Tokens, UI-Komponenten und Dokumentation für cross-funktionale Teams.' },
+    { name: 'Development', level: '4/10', description: 'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit mit Grundlagen in HTML, CSS und JavaScript. Verständnis für technische Constraints und Machbarkeit von Design-Entscheidungen.' },
+    { name: 'Rollout Planning', level: '7/10', description: 'Strategische Einführung und Change Management für neue Systeme mit strukturierter Herangehensweise. Erfahrung in Pilot-Programmen, Schulungskonzepten und sukzessiver Feature-Einführung.' },
+    { name: 'Workshops', level: '9/10', description: 'Moderation und Durchführung von Design Thinking Workshops mit kreativen Problemlösungsansätzen. Erfahrung in der Leitung von interdisziplinären Teams und Collaborative Design Sprints.' },
+    { name: 'UI Design', level: '9/10', description: 'Visuelle Gestaltung und Interface Design für digitale Produkte mit modernen Design-Trends. Expertise in Typography, Color Theory, Layout-Prinzipien und Visual Hierarchy für verschiedene Plattformen.' }
+  ]
+
+  const currentSkill = skillsInfo[hoveredSkill !== null ? hoveredSkill : selectedSkill]
 
   return (
-    <div className="flex justify-center items-center">
-      <svg ref={svgRef} className="max-w-full h-auto" />
+    <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8 lg:gap-16">
+      {/* Chart */}
+      <div className="flex justify-center items-center">
+        <svg ref={svgRef} className="max-w-full h-auto" />
+      </div>
+      
+      {/* Info Panel - responsive height */}
+      <div className="w-full lg:w-80 lg:pt-4 lg:pb-4" >
+        <div className="bg-white border-1 border-black shadow-sm flex flex-col relative h-auto lg:h-[410px] min-h-[300px]">
+          <div className="p-6 pb-20 flex-1 overflow-hidden">
+            <h3 className="text-2xl font-medium text-gray-900 mb-2 text-left">
+              {currentSkill.name}
+            </h3>
+            
+            <p className="text-sm text-orange-400 font-medium mb-4 tracking-wide text-left">
+              Erfahrungslevel: {currentSkill.level}
+            </p>
+            
+            <p className="text-base text-gray-600 leading-relaxed text-left">
+              {currentSkill.description}
+            </p>
+          </div>
+          
+          {/* Navigation Buttons - fixed at bottom */}
+          <div className="absolute left-6 right-6 flex justify-between gap-4" style={{ bottom: '22px' }}>
+            <SpecialButton
+              variant="secondary"
+              size="sm"
+              onClick={() => navigateSkills('prev')}
+              className="flex-1"
+            >
+              ← Vorherige
+            </SpecialButton>
+            <SpecialButton
+              variant="primary"
+              size="sm"
+              onClick={() => navigateSkills('next')}
+              className="flex-1"
+            >
+              Nächste →
+            </SpecialButton>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

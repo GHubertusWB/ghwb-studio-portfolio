@@ -227,103 +227,11 @@ export default function UXUIPageLight() {
               </p>
             </div>
 
-            {/* Permanent Label über dem Diagramm */}
-            <div className="text-center mb-2">
-              <p className="text-sm text-muted-foreground/70 font-medium">
-                Bewegen Sie die Maus über ein Segment für Details
-              </p>
-            </div>
-
             {/* Skills Circle Chart */}
             <SkillsCircleChart 
               onSegmentHover={setHoveredSkill}
               hoveredSkill={hoveredSkill}
             />
-
-            {/* Skill Details Display - feste Höhe Container */}
-            <div 
-              className="flex justify-center items-start"
-              style={{ 
-                marginTop: '32px',
-                minHeight: '180px' // Feste Höhe um Layout-Shifts zu vermeiden
-              }}
-            >
-              <AnimatePresence mode="wait">
-                {hoveredSkill !== null && (
-                  <motion.div
-                    key={hoveredSkill} // Key für Re-Animation bei Skill-Wechsel
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ 
-                      duration: 0.15, // Gleiche Dauer wie Ring-Animation
-                      ease: "easeOut"
-                    }}
-                    className="max-w-3xl text-center px-6"
-                  >
-                  <motion.h3 
-                    className="text-2xl font-medium text-foreground mb-2"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0, duration: 0.15 }}
-                  >
-                    {[
-                      'Accessibility',
-                      'Product Owner', 
-                      'Requirements Engineering',
-                      'Wireframing',
-                      'Prototyping',
-                      'Design Systems',
-                      'Development',
-                      'Rollout Planning',
-                      'Workshops',
-                      'UI Design'
-                    ][hoveredSkill]}
-                  </motion.h3>
-                  
-                  <motion.p 
-                    className="text-sm text-primary font-medium mb-4 tracking-wide"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0, duration: 0.15 }}
-                  >
-                    Erfahrungslevel: {[
-                      '8/10',
-                      '6/10',
-                      '8/10', 
-                      '10/10',
-                      '9/10',
-                      '10/10',
-                      '4/10',
-                      '7/10',
-                      '9/10',
-                      '9/10'
-                    ][hoveredSkill]}
-                  </motion.p>
-                  
-                  <motion.p 
-                    className="text-base text-muted-foreground leading-relaxed"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0, duration: 0.15 }}
-                  >
-                    {[
-                      'WCAG-konforme Barrierefreiheit mit 3+ Jahren Spezialisierung',
-                      'Scrum Product Owner Erfahrung in 21 Mio. Euro Großprojekten',
-                      'User Research, Workshops und stakeholder-orientierte Analyse',
-                      'Strukturierung und erste visuelle Konzepte für komplexe Systeme',
-                      'Interaktive Prototypen und User Testing für optimale UX',
-                      'Skalierbare Komponenten-Bibliotheken und Style Guides',
-                      'Frontend-Kenntnisse für bessere Designer-Developer Zusammenarbeit',
-                      'Strategische Einführung und Change Management für neue Systeme',
-                      'Moderation und Durchführung von Design Thinking Workshops',
-                      'Visuelle Gestaltung und Interface Design für digitale Produkte'
-                    ][hoveredSkill]}
-                  </motion.p>
-                </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
           </div>
         </div>
 
