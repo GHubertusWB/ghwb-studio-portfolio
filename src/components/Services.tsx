@@ -68,7 +68,7 @@ const Services = () => {
                   <div
                     className="relative"
                     style={{
-                      padding: theme === 'light' ? '0 0 4px 0' : '0'
+                      padding: '0'
                     }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
@@ -80,38 +80,40 @@ const Services = () => {
                         theme === 'dark' ? 'border border-white/20 backdrop-blur-md' : ''
                       }`}
                     style={{
-                      background: theme === 'dark' ? 'rgba(255, 255, 255, 0)' : 'rgba(255, 255, 255, 1)',
-                      backdropFilter: theme === 'dark' ? 'blur(8px)' : 'none',
-                      WebkitBackdropFilter: theme === 'dark' ? 'blur(8px)' : 'none',
-                      borderRadius: '0px',
-                      borderTop: theme === 'dark' 
+                      background: theme === 'dark' 
+                        ? 'rgba(255, 255, 255, 0)' 
+                        : isPressed 
+                          ? 'rgba(255, 255, 255, 0.6)' 
+                          : 'rgba(255, 255, 255, 0.15)',
+                      backdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(20px) saturate(180%)',
+                      WebkitBackdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(20px) saturate(180%)',
+                      borderRadius: theme === 'dark' ? '0px' : '24px',
+                      border: theme === 'dark' 
                         ? '1px solid rgba(255, 255, 255, 0.2)' 
-                        : '1px solid #000000',
-                      borderLeft: theme === 'dark' 
-                        ? '1px solid rgba(255, 255, 255, 0.2)' 
-                        : '1px solid #000000',
-                      borderRight: theme === 'dark' 
-                        ? '1px solid rgba(255, 255, 255, 0.2)' 
-                        : '1px solid #000000',
-                      borderBottom: theme === 'dark' 
-                        ? '1px solid rgba(255, 255, 255, 0.2)' 
-                        : '1px solid #000000',
+                        : '1px solid rgba(255, 255, 255, 1)',
                       boxShadow: theme === 'light' 
                         ? (isPressed 
-                            ? 'none' 
+                            ? '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
                             : isHovered 
-                              ? '0 4px 0 0 #000000' 
-                              : 'none')
+                              ? '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7)'
+                              : '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)')
+                        : 'none',
+                      filter: theme === 'light'
+                        ? (isPressed
+                            ? 'drop-shadow(0 6px 80px rgba(60, 60, 60, 0.4))'
+                            : isHovered
+                              ? 'drop-shadow(0 16px 100px rgba(60, 60, 60, 0.5))'
+                              : 'drop-shadow(0 12px 90px rgba(60, 60, 60, 0.45))')
                         : 'none',
                       transform: theme === 'dark' 
                         ? 'none'
                         : isPressed 
-                          ? 'translateY(0px)'
+                          ? 'translateY(2px) scale(0.98)'
                           : isHovered 
-                            ? 'translateY(-4px)'
-                            : 'translateY(0px)',
+                            ? 'translateY(-2px) scale(1.02)'
+                            : 'translateY(0px) scale(1)',
                       transition: theme === 'light' 
-                        ? 'transform 0.3s ease, box-shadow 0.3s ease'
+                        ? 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                         : 'none',
                       zIndex: 2
                     }}

@@ -46,7 +46,7 @@ export default function UXUIPageLight() {
       title: 'MD-IT GmbH - Medizinische Dienste',
       category: 'Enterprise Software',
       image: '/placeholder-project-1.jpg',
-      description: '21 Mio. Euro Großprojekt: Neue Branchensoftware für 15 Medizinische Dienste mit komplexen Beratungs- und Gutachterdiensten.',
+      description: 'Im Rahmen dieses Projekts wurde eine neue, bundesweit einsetzbare Branchensoftware für die Medizinischen Dienste konzipiert und gestaltet. Ziel war die Unterstützung komplexer Beratungs- und Gutachterprozesse durch eine moderne, konsistente und nutzerfreundliche Anwendung. Kernbestandteile des Projekts waren die Einführung eines zentralen Designsystems sowie die Überführung umfangreicher fachlicher Richtlinien in klar strukturierte, barrierearme Formulare und digitale Prozesse. Dabei lag der Fokus auf hoher Usability, Konsistenz über verschiedene Anwendungsfälle hinweg und der Entlastung der Anwender:innen im täglichen Arbeitsablauf.',
       details: 'UX/UI Design, Usability Testing, Design System, Scrum Product Owner'
     },
     {
@@ -287,29 +287,44 @@ export default function UXUIPageLight() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="columns-1 md:columns-3 lg:columns-3 gap-8">
             {projekte.map((project, index) => (
               <motion.div 
                 key={project.title} 
-                className="group cursor-pointer relative border border-border bg-white overflow-hidden transition-all duration-300"
+                className="group relative overflow-hidden mb-8 break-inside-avoid"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  backdropFilter: 'blur(20px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                  border: '1px solid rgba(255, 255, 255, 1)',
+                  borderRadius: '24px',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
+                  filter: 'drop-shadow(0 12px 90px rgba(60, 60, 60, 0.45))'
+                }}
               >
-                <div className="aspect-[4/3] bg-muted/30 overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-muted via-background to-transparent flex items-center justify-center">
-                    <Layers className="w-12 h-12 text-muted-foreground/30" />
-                  </div>
-                </div>
                 <div className="p-6 space-y-4">
                   <span className="text-sm font-medium text-muted-foreground">{project.category}</span>
                   <h3 className="text-lg font-semibold group-hover:text-muted-foreground transition-colors text-foreground">{project.title}</h3>
                   <p className="text-muted-foreground leading-relaxed text-sm">{project.description}</p>
                   {project.details && (
-                    <div className="pt-3 border-t border-border">
+                    <div className="pt-3 border-t border-border/30">
                       <h4 className="text-sm font-semibold text-foreground mb-3">Meine Aufgaben:</h4>
                       <div className="flex flex-wrap gap-2">
                         {project.details.split(', ').map((task, taskIndex) => (
                           <span 
                             key={taskIndex}
-                            className="px-2 py-1 text-xs font-medium text-foreground bg-white border border-black"
+                            className="px-3 py-1.5 text-xs font-medium"
+                            style={{
+                              background: 'rgba(191, 219, 254, 0.4)',
+                              color: '#475569',
+                              border: 'none',
+                              borderRadius: '9999px',
+                              backdropFilter: 'blur(10px)'
+                            }}
                           >
                             {task}
                           </span>

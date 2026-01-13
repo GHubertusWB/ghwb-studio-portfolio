@@ -226,7 +226,6 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
     const handleClick = function(event: any, d: any) {
       const index = skillsData.indexOf(d.data)
       setSelectedSkill(index)
-      if (onSegmentHover) onSegmentHover(index)
     }
 
     const handleMouseEnter = function(event: any, d: any) {
@@ -245,21 +244,7 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
     }
 
     const handleMouseLeave = function(event: any, d: any) {
-      const index = skillsData.indexOf(d.data)
-      // Keep selected skill highlighted
-      if (index !== selectedSkill) {
-        if (onSegmentHover) onSegmentHover(selectedSkill)
-        
-        // Find corresponding segment and return to normal state
-        const segmentGroup = d3.select(segmentGroups.nodes()[index])
-        const segment = segmentGroup.select('.skill-segment')
-        
-        segment
-          .transition()
-          .duration(200)
-          .style('opacity', 0.5) // Back to 50% transparency
-          .style('filter', 'none') // Entferne Leuchten-Effekt
-      }
+      if (onSegmentHover) onSegmentHover(null)
     }
 
     // Add click and hover effects to invisible hover areas (full segments)
@@ -283,7 +268,7 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
         .style('opacity', 1)
         .style('filter', 'drop-shadow(0 0 20px rgba(255, 174, 0, 0.6))')
     }
-  }, [onSegmentHover])
+  }, [onSegmentHover, selectedSkill])
 
   // Handle external hover state changes
   useEffect(() => {
@@ -296,7 +281,10 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       const segmentGroup = d3.select(this)
       const segment = segmentGroup.select('.skill-segment')
       
-      if (hoveredSkill === i || selectedSkill === i) {
+      // Priority: hoveredSkill if exists, otherwise selectedSkill
+      const activeSkill = hoveredSkill !== null && hoveredSkill !== undefined ? hoveredSkill : selectedSkill
+      
+      if (i === activeSkill) {
         // Apply hover/selected state
         segment
           .transition()
@@ -352,17 +340,28 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       
       {/* Info Panel - responsive height */}
       <div className="w-full lg:w-80 lg:pt-4 lg:pb-4" >
-        <div className="bg-white border-1 border-black shadow-sm flex flex-col relative h-auto lg:h-[410px] min-h-[300px]">
+        <div 
+          className="flex flex-col relative h-auto lg:h-[410px] min-h-[300px]"
+          style={{
+            background: 'rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 1)',
+            borderRadius: '24px',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
+            filter: 'drop-shadow(0 12px 90px rgba(60, 60, 60, 0.45))'
+          }}
+        >
           <div className="p-6 pb-20 flex-1 overflow-hidden">
-            <h3 className="text-2xl font-medium text-gray-900 mb-2 text-left">
+            <h3 className="text-2xl font-medium text-foreground mb-2 text-left">
               {currentSkill.name}
             </h3>
             
-            <p className="text-sm text-orange-400 font-medium mb-4 tracking-wide text-left">
+            <p className="text-sm text-muted-foreground font-medium mb-4 tracking-wide text-left">
               Erfahrungslevel: {currentSkill.level}
             </p>
             
-            <p className="text-base text-gray-600 leading-relaxed text-left">
+            <p className="text-base text-muted-foreground leading-relaxed text-left">
               {currentSkill.description}
             </p>
           </div>

@@ -48,37 +48,50 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
 
     const getBackgroundColor = () => {
       if (variant === 'primary') {
-        return isPressed ? '#e69500' : '#ffae00ff'; // Dunkler beim Click
+        return isPressed ? 'rgba(255, 174, 0, 0.6)' : 'rgba(255, 255, 255, 0.15)';
       } else if (variant === 'secondary') {
-        return isPressed ? '#d0d0d0' : '#ffffffff'; // Dunkler beim Click
+        return isPressed ? 'rgba(255, 255, 255, 0.35)' : 'rgba(255, 255, 255, 0.12)';
       } else if (variant === 'tertiary') {
-        return isPressed ? 'rgba(0, 0, 0, 0.1)' : 'transparent'; // Leichte Füllung beim Click, sonst transparent
+        return isPressed ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.08)';
       }
       return 'transparent';
     };
 
     const getBoxShadow = () => {
-      const baseOffset = isPressed ? '0px 0px' : (isHovered ? '0px 5px' : '0px 0px');
-      const shadowColor = 'rgba(0, 0, 0, 1)';
-      
       if (variant === 'primary') {
-        const glowShadow = isHovered && !isPressed 
-          ? ', 0 0 20px rgba(255, 174, 0, 0.6), 0 0 40px rgba(255, 174, 0, 0.4), 0 0 60px rgba(255, 174, 0, 0.2)' 
-          : '';
-        return `${baseOffset} ${shadowColor}${glowShadow}`;
+        const glassShadow = isPressed 
+          ? '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5)'
+          : isHovered
+            ? '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 0 1px rgba(255, 174, 0, 0.3)'
+            : '0 4px 16px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.5)';
+        return glassShadow;
       } else if (variant === 'secondary' || variant === 'tertiary') {
-        return `${baseOffset} ${shadowColor}`;
+        const glassShadow = isPressed
+          ? '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
+          : isHovered
+            ? '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7)'
+            : '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)';
+        return glassShadow;
       }
       return 'none';
     };
 
+    const getContainerShadow = () => {
+      // Extrem weicher Schatten hinter dem Button, sichtbar durch transparenten Button
+      return isPressed
+        ? '0 6px 80px rgba(60, 60, 60, 0.4)'
+        : isHovered
+          ? '0 16px 100px rgba(60, 60, 60, 0.5)'
+          : '0 12px 90px rgba(60, 60, 60, 0.45)';
+    };
+
     const getTransform = () => {
       if (isPressed) {
-        return 'translateY(0px)'; // Ganz nach unten beim Click
+        return 'translateY(2px) scale(0.98)';
       } else if (isHovered) {
-        return 'translateY(-5px)'; // Hover Position
+        return 'translateY(-2px) scale(1.02)';
       }
-      return 'translateY(0px)'; // Default Position
+      return 'translateY(0px) scale(1)';
     };
 
     return (
@@ -91,8 +104,9 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
         }}
         style={{ 
           cursor: disabled ? 'not-allowed' : 'pointer',
-          paddingTop: (variant === 'primary' || variant === 'secondary' || variant === 'tertiary') ? '5px' : '0px',
-          paddingBottom: (variant === 'primary' || variant === 'secondary' || variant === 'tertiary') ? '5px' : '0px'
+          paddingTop: '0px',
+          paddingBottom: '0px',
+          filter: `drop-shadow(${getContainerShadow()})`
         }}
       >
         <button
@@ -100,17 +114,20 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
           style={{
             opacity: disabled ? 0.5 : 1,
             background: getBackgroundColor(),
-            border: '1px solid #000000',
-            borderRadius: '0px',
-            color: '#000000',
-            fontWeight: 'bold',
-            cursor: 'inherit', // Erbt vom Container
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 1)',
+            borderRadius: '9999px',
+            color: variant === 'primary' ? '#ff8c00' : '#1e293b',
+            fontWeight: '600',
+            cursor: 'inherit',
             padding: currentSize.padding,
             fontSize: currentSize.fontSize,
             transform: getTransform(),
             boxShadow: getBoxShadow(),
-            transition: 'transform 0.1s ease, background-color 0.1s ease, box-shadow 0.1s ease',
-            overflow: 'visible' // Button selbst soll nicht abschneiden
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            overflow: 'visible',
+            letterSpacing: '0.01em'
           }}
           onMouseDown={() => setIsPressed(true)}
           onMouseUp={() => setIsPressed(false)}

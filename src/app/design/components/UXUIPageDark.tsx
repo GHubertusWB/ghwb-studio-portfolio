@@ -35,7 +35,7 @@ export default function UXUIPageDark() {
       title: 'MD-IT GmbH - Medizinische Dienste',
       category: 'Enterprise Mission',
       image: '/placeholder-project-1.jpg',
-      description: '21 Mio. Euro Großprojekt: Neue Branchensoftware für 15 Medizinische Dienste mit komplexen Beratungs- und Gutachterdiensten.',
+      description: 'Im Rahmen dieses Projekts wurde eine neue, bundesweit einsetzbare Branchensoftware für die Medizinischen Dienste konzipiert und gestaltet. Ziel war die Unterstützung komplexer Beratungs- und Gutachterprozesse durch eine moderne, konsistente und nutzerfreundliche Anwendung. Kernbestandteile des Projekts waren die Einführung eines zentralen Designsystems sowie die Überführung umfangreicher fachlicher Richtlinien in klar strukturierte, barrierearme Formulare und digitale Prozesse. Dabei lag der Fokus auf hoher Usability, Konsistenz über verschiedene Anwendungsfälle hinweg und der Entlastung der Anwender:innen im täglichen Arbeitsablauf.',
       details: 'UX/UI Design, Usability Testing, Design System, Scrum Product Owner'
     },
     {
@@ -216,18 +216,51 @@ export default function UXUIPageDark() {
               Ein Einblick in meine UX/UI Design Arbeiten
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="columns-1 md:columns-3 lg:columns-3 gap-8">
             {projekte.map((project, index) => (
-              <motion.div key={project.title} whileHover={{ y: -10 }} className="group cursor-pointer">
-                <div className="overflow-hidden rounded-2xl bg-white/5 mb-6 aspect-[4/3]">
-                  <div className="w-full h-full bg-gradient-to-br from-white/10 via-white/5 to-transparent flex items-center justify-center">
-                    <Layers className="w-12 h-12 text-white/30" />
-                  </div>
-                </div>
-                <div className="space-y-3">
+              <motion.div 
+                key={project.title} 
+                className="group relative overflow-hidden mb-8 break-inside-avoid"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                style={{
+                  background: 'rgba(20, 25, 35, 0.6)',
+                  backdropFilter: 'blur(20px) saturate(150%)',
+                  WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+                  border: '1px solid rgba(100, 150, 200, 0.3)',
+                  borderRadius: '0',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                  filter: 'drop-shadow(0 12px 60px rgba(0, 150, 255, 0.15))'
+                }}
+              >
+                <div className="p-6 space-y-4">
                   <span className="text-sm font-medium text-cyan-400 font-mono">{project.category}</span>
-                  <h3 className="text-xl font-semibold group-hover:text-white/80 transition-colors text-white">{project.title}</h3>
-                  <p className="text-white/70 leading-relaxed">{project.description}</p>
+                  <h3 className="text-lg font-semibold text-white">{project.title}</h3>
+                  <p className="text-white/70 leading-relaxed text-sm">{project.description}</p>
+                  {project.details && (
+                    <div className="pt-3 border-t border-white/10">
+                      <h4 className="text-sm font-semibold text-white mb-3">Meine Aufgaben:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {project.details.split(', ').map((task, taskIndex) => (
+                          <span 
+                            key={taskIndex}
+                            className="px-3 py-1.5 text-xs font-medium"
+                            style={{
+                              background: 'rgba(30, 58, 138, 0.4)',
+                              color: '#93c5fd',
+                              border: 'none',
+                              borderRadius: '9999px',
+                              backdropFilter: 'blur(10px)'
+                            }}
+                          >
+                            {task}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}

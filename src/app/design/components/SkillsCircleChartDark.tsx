@@ -251,7 +251,6 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill, hi
     const handleClick = function(event: any, d: any) {
       const index = skillsData.indexOf(d.data)
       setSelectedSkill(index)
-      if (onSegmentHover) onSegmentHover(index)
     }
 
     const handleMouseEnter = function(event: any, d: any) {
@@ -270,21 +269,7 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill, hi
     }
 
     const handleMouseLeave = function(event: any, d: any) {
-      const index = skillsData.indexOf(d.data)
-      // Keep selected skill highlighted
-      if (index !== selectedSkill) {
-        if (onSegmentHover) onSegmentHover(selectedSkill)
-        
-        // Find corresponding segment and return to normal state
-        const segmentGroup = d3.select(segmentGroups.nodes()[index])
-        const segment = segmentGroup.select('.skill-segment')
-        
-        segment
-          .transition()
-          .duration(200)
-          .style('opacity', 0.5) // Back to 50% transparency
-          .style('filter', 'none') // Remove glow effect
-      }
+      if (onSegmentHover) onSegmentHover(null)
     }
 
     // Add click and hover effects to invisible hover areas (full segments)
@@ -347,7 +332,10 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill, hi
       const whiteBackgroundBorder = whiteBorderGroup.select('.white-background-border')
       const whiteSkillBorder = whiteBorderGroup.select('.white-skill-border')
       
-      if (hoveredSkill === i || selectedSkill === i) {
+      // Priority: hoveredSkill if exists, otherwise selectedSkill
+      const activeSkill = hoveredSkill !== null && hoveredSkill !== undefined ? hoveredSkill : selectedSkill
+      
+      if (i === activeSkill) {
         // Apply hover/selected state
         segment
           .transition()
@@ -564,17 +552,28 @@ export default function SkillsCircleChartDark({ onSegmentHover, hoveredSkill, hi
       
       {/* Info Panel - responsive height */}
       <div className="w-full lg:w-80 lg:pt-4 lg:pb-4" >
-        <div className="bg-white/10 backdrop-blur-md border-2 border-white/20 shadow-sm flex flex-col relative h-auto lg:h-[410px] min-h-[300px]">
+        <div 
+          className="flex flex-col relative h-auto lg:h-[410px] min-h-[300px]"
+          style={{
+            background: 'rgba(20, 25, 35, 0.6)',
+            backdropFilter: 'blur(20px) saturate(150%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+            border: '1px solid rgba(100, 150, 200, 0.3)',
+            borderRadius: '0',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+            filter: 'drop-shadow(0 12px 60px rgba(0, 150, 255, 0.15))'
+          }}
+        >
           <div className="p-6 pb-20 flex-1 overflow-hidden">
             <h3 className="text-2xl font-bold text-white mb-2 text-left">
               {currentSkill.name}
             </h3>
             
-            <p className="text-sm text-cyan-300 font-bold mb-4 tracking-wide text-left">
+            <p className="text-sm text-white/70 font-medium mb-4 tracking-wide text-left">
               Erfahrungslevel: {currentSkill.level}
             </p>
             
-            <p className="text-base text-white leading-relaxed text-left">
+            <p className="text-base text-white/70 leading-relaxed text-left">
               {currentSkill.description}
             </p>
           </div>
