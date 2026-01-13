@@ -55,9 +55,38 @@ export const photographyGroups: GalleryGroup[] = [
 // Art Gruppen
 export const artGroups: GalleryGroup[] = [
   {
-    id: 'abstrakt',
-    title: 'Abstrakte Werke',
-    description: 'Experimentelle und abstrakte Kompositionen',
+    id: 'leinwaende',
+    title: 'Leinwände',
+    description: 'Klassische Malerei auf Leinwand',
+    images: [
+      '/gallery/art/276978157_2151325001689082_4554386259994847710_n.jpg',
+      '/gallery/art/277112623_365261895528667_8618673296825249071_n.jpg',
+      '/gallery/art/277115346_365186875527721_6944956018215836686_n.jpg',
+      '/gallery/art/277116953_2633713603439940_5567031316271926133_n.jpg',
+      '/gallery/art/277146706_952139549001862_8625110162078269767_n.jpg',
+      '/gallery/art/277150484_165558015829388_690578249072834079_n.jpg',
+      '/gallery/art/277151002_129046586360490_3499358518634205765_n.jpg',
+      '/gallery/art/277215437_706567053685650_9050058375445279400_n.jpg',
+      '/gallery/art/277216951_926003048079210_1502436782965493203_n.jpg',
+      '/gallery/art/277217118_1145694299530737_5721185692071360096_n.jpg',
+      '/gallery/art/277243093_1248748055533077_1369662099054558820_n.jpg',
+      '/gallery/art/277243653_777330239907739_4675723590761473877_n.jpg',
+      '/gallery/art/277243830_1414959182258562_8940340388106365620_n.jpg',
+      '/gallery/art/277245074_3139111506404515_8161765070889220654_n.jpg',
+      '/gallery/art/277251408_331523955498707_7237743588803408990_n.jpg',
+      '/gallery/art/277255518_1000239017265117_680864452724461122_n.jpg',
+      '/gallery/art/277293148_1598356407200102_239692606235846820_n.jpg',
+      '/gallery/art/277317970_2341734385980566_3538565766485004224_n.jpg',
+      '/gallery/art/277321724_987458655308497_2472807721105867412_n.jpg',
+      '/gallery/art/277325496_397953058823402_5282921994824053370_n.jpg',
+      '/gallery/art/277364421_2194885440676474_6891500588507266767_n.jpg',
+      '/gallery/art/60172564_429516391175437_1885654865181764035_n.jpg',
+    ]
+  },
+  {
+    id: 'digiducks',
+    title: 'Digiducks',
+    description: 'Digitale Entchen-Kunst',
     images: [
       '/gallery/art/0C0FF1CB-BB55-4087-B418-A7D493B5EC7F_1_105_c.jpeg',
       '/gallery/art/0E4EC7D6-556E-4732-B9BB-6C2861557E36_1_105_c.jpeg',
@@ -69,30 +98,23 @@ export const artGroups: GalleryGroup[] = [
       '/gallery/art/3EEB194F-AFEC-4264-A8C8-403B5E3EE764_1_105_c.jpeg',
       '/gallery/art/42018879-4B58-4455-BC72-53C072806449_1_105_c.jpeg',
       '/gallery/art/4D5D8262-2FC9-4D92-BDDF-CC7937346020_1_105_c.jpeg',
-    ]
-  },
-  {
-    id: 'figurativ',
-    title: 'Figurative Malerei',
-    description: 'Realistische und figurative Darstellungen',
-    images: [
       '/gallery/art/4E5E9ECA-63E4-489C-B850-C9F30C046F77_1_105_c.jpeg',
       '/gallery/art/4E65B280-9DA5-4397-9003-0FC80A93C13B_1_105_c.jpeg',
       '/gallery/art/5D89E4F3-E1CF-44C9-A62B-E5D67FC312AE_1_105_c.jpeg',
       '/gallery/art/6E2DD651-ABAB-4561-A7D7-EE776C7698D3_1_105_c.jpeg',
       '/gallery/art/7167E6A9-AB85-43B8-B6B0-2FBAF06111AC_1_105_c.jpeg',
+    ]
+  },
+  {
+    id: 'semantic-ducks',
+    title: 'Semantic Ducks',
+    description: 'Semantische Entchen-Interpretationen',
+    images: [
       '/gallery/art/76825CEC-4305-466A-B431-EFD7F61DA8AC_1_105_c.jpeg',
       '/gallery/art/881F527F-9EB2-4F86-988A-CB7C0F2A2BB7_1_105_c.jpeg',
       '/gallery/art/881F7165-B85A-474D-B816-AE4E2ED1222A_1_105_c.jpeg',
       '/gallery/art/96014BAB-DF07-4A60-A2EB-FDE1D39EDBE7_1_105_c.jpeg',
       '/gallery/art/9C0842D7-02E4-4582-9C0D-662C20886B88_1_105_c.jpeg',
-    ]
-  },
-  {
-    id: 'mixed',
-    title: 'Mixed Media',
-    description: 'Experimentelle Techniken und Materialien',
-    images: [
       '/gallery/art/9F135F71-8C67-463D-A9FD-4EC30C11A694_1_105_c.jpeg',
       '/gallery/art/A6ED9672-C13E-41D6-8279-63E9B1E60A76_1_105_c.jpeg',
       '/gallery/art/B7E0B83B-4387-4DD8-A041-69A6DBCF1618_1_105_c.jpeg',

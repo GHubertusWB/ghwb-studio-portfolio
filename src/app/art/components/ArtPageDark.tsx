@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
@@ -720,12 +721,12 @@ export default function ArtPageDark(): React.JSX.Element {
         </div>
       </section>
 
-      {/* 3. PORTFOLIO GRID - MASONRY LAYOUT */}
+      {/* 3. PORTFOLIO GRID - 5 COLUMN LAYOUT */}
       <section 
         ref={portfolioRef}
         className="py-32 px-6 relative z-10"
       >
-        <div className="max-w-none mx-auto"> {/* Full width container */}
+        <div className="max-w-none mx-auto">
           <motion.div 
             className="text-center mb-20"
             initial={{ opacity: 0, y: 30 }}
@@ -734,139 +735,45 @@ export default function ArtPageDark(): React.JSX.Element {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6 text-white" style={{ fontFamily: 'monospace', textShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}>
-              {artGroups[activeGroupIndex]?.title.toUpperCase() || 'PORTFOLIO ARBEITEN'}
+              PORTFOLIO
             </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
-              {artGroups[activeGroupIndex]?.description || 'Eine Auswahl meiner aktuellen Kunstwerke und Projekte.'}
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+              Eine Auswahl meiner aktuellen Kunstwerke und Projekte.
             </p>
-            
-            {/* Group Navigation Buttons - Desktop */}
-            <div className="relative hidden sm:flex items-center justify-between mb-8 px-8">
-              {/* Left Button */}
-              <SpecialButtonDark
-                variant="secondary"
-                size="base"
-                icon="left"
-                iconElement={<ArrowLeft className="w-4 h-4" />}
-                onClick={handlePreviousGroup}
-              >
-                {artGroups[(activeGroupIndex - 1 + artGroups.length) % artGroups.length]?.title}
-              </SpecialButtonDark>
-              
-              {/* Center Dot Indicators */}
-              <div className="flex items-center gap-2 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                {artGroups.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveGroupIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === activeGroupIndex 
-                        ? 'bg-orange-500 w-8' 
-                        : 'bg-white/30 hover:bg-white/50'
-                    }`}
-                  />
-                ))}
-              </div>
-              
-              {/* Right Button */}
-              <SpecialButtonDark
-                variant="secondary"
-                size="base"
-                icon="right"
-                iconElement={<ArrowRight className="w-4 h-4" />}
-                onClick={handleNextGroup}
-              >
-                {artGroups[(activeGroupIndex + 1) % artGroups.length]?.title}
-              </SpecialButtonDark>
-            </div>
-
-            {/* Group Navigation - Mobile */}
-            <div className="sm:hidden mb-8 px-4">
-              {/* Current Group Title */}
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-white">
-                  {artGroups[activeGroupIndex]?.title}
-                </h3>
-                <p className="text-sm text-white/70">
-                  {activeGroupIndex + 1} von {artGroups.length}
-                </p>
-              </div>
-              
-              {/* Navigation Arrows */}
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <button
-                  onClick={handlePreviousGroup}
-                  className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  aria-label="Vorherige Gruppe"
-                >
-                  <ArrowLeft className="w-5 h-5 text-white" />
-                </button>
-                
-                <button
-                  onClick={handleNextGroup}
-                  className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  aria-label="Nächste Gruppe"
-                >
-                  <ArrowRight className="w-5 h-5 text-white" />
-                </button>
-              </div>
-              
-              {/* Dot Indicators */}
-              <div className="flex items-center justify-center gap-2">
-                {artGroups.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveGroupIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === activeGroupIndex 
-                        ? 'bg-orange-500 scale-125' 
-                        : 'bg-white/30 hover:bg-white/50'
-                    }`}
-                    aria-label={`Gruppe ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
           </motion.div>
 
-          {/* Portfolio Grid - Photography Seite Style mit Variierenden Größen */}
-          <div className="grid grid-cols-3 gap-8 px-6" style={{ gridAutoRows: '33.33vw' }}>
-            {galleryImages.length === 0 && (
-              <div className="col-span-3 text-center text-white/40 py-20">Noch keine Bilder im Galerie-Ordner.</div>
-            )}
-            {galleryImages.map((src, index) => {
-              // Layout-Definitionen - statisch definiert
-              const layouts = [
-                { colSpan: 1, rowSpan: 1, className: 'col-span-1 row-span-1' }, // 1x1 - Quadrat klein
-                { colSpan: 2, rowSpan: 1, className: 'col-span-2 row-span-1' }, // 2x1 - Querformat
-                { colSpan: 3, rowSpan: 1, className: 'col-span-3 row-span-1' }, // 3x1 - Panorama
-                { colSpan: 1, rowSpan: 2, className: 'col-span-1 row-span-2' }, // 1x2 - Hochformat
-                { colSpan: 2, rowSpan: 2, className: 'col-span-2 row-span-2' }  // 2x2 - Quadrat groß
-              ];
-
-              // Verwendung des vordefinierten Raster-Musters
-              const layout = layouts[predefinedGridPattern[index % predefinedGridPattern.length]];
-              
-              return (
-                <motion.div
-                  key={`${activeGroupIndex}-${src}`}
-                  className={`relative overflow-hidden ${layout.className}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 relative overflow-hidden shadow-sm">
-                    {/* Bild aus Galerie */}
-                    <img 
-                      src={src} 
-                      alt={`Kunstwerk ${index + 1}`} 
-                      className="object-cover w-full h-full" 
-                    />
-                  </div>
-                </motion.div>
-              );
-            })}
+          {/* Portfolio Grid - 5 Columns with Category Headers */}
+          <div className="grid grid-cols-5 gap-4 px-6" style={{ gridAutoRows: '20vw' }}>
+            {artGroups.map((group, groupIndex) => (
+              <React.Fragment key={group.id}>
+                {/* Category Header - takes 1 grid space */}
+                <div className="col-span-1 row-span-1 flex items-center justify-center bg-gradient-to-br from-orange-500/20 to-blue-600/20 border border-orange-500/30">
+                  <h3 className="text-xl font-bold text-white text-center px-4">
+                    {group.title}
+                  </h3>
+                </div>
+                
+                {/* Images for this group */}
+                {group.images.map((src, index) => (
+                  <motion.div
+                    key={`${groupIndex}-${index}`}
+                    className="col-span-1 row-span-1 relative overflow-hidden"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 relative overflow-hidden shadow-sm hover:shadow-2xl hover:border-orange-500/50 transition-all duration-300">
+                      <img 
+                        src={src} 
+                        alt={`${group.title} ${index + 1}`} 
+                        className="object-cover w-full h-full hover:scale-105 transition-transform duration-300" 
+                      />
+                    </div>
+                  </motion.div>
+                ))}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </section>

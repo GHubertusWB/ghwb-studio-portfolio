@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 
 import LoadingScreen from '@/components/LoadingScreen'
 import Hero from "@/components/Hero";
-import Philosophy from "@/components/Philosophy/index";
+import Introduction from "@/components/Introduction";
 import Services from "@/components/Services";
 import Divider from '@/components/ui/Divider';
 
@@ -86,7 +86,7 @@ export default function HomeWithLoader() {
             <Hero />
           </div>
           <div className="relative z-10">
-            <Philosophy />
+            <Introduction />
           </div>
           <div className="relative z-10">
             <Divider />

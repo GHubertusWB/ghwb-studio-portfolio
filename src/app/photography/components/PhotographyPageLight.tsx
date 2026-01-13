@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import { ArrowRight, ArrowLeft, Camera, User, Heart, Sparkles, Eye } from 'lucide-react'
 import Footer from '@/components/Footer'
 import FloatingCloudsArt from '@/app/art/components/FloatingCloudsArt'
@@ -133,7 +134,7 @@ export default function PhotographyPageLight(): React.JSX.Element {
 
 
   return (
-    <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
+    <div className="min-h-screen text-gray-900 relative overflow-hidden bg-white">
       
       {/* 1. HERO SECTION - BAUHAUS LIGHT MODE STYLING */}
       <motion.section 
@@ -257,154 +258,53 @@ export default function PhotographyPageLight(): React.JSX.Element {
         </div>
       </motion.section>
 
-      {/* 2. PORTFOLIO GRID - MINIMAL MASONRY LAYOUT */}
-      <section 
-        ref={portfolioRef}
-        className="py-32 px-6 relative z-10 bg-white"
-      >
-        <div className="max-w-none mx-auto">
-          <motion.div 
-            className="text-center mb-24"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              {photographyGroups[activeGroupIndex]?.title || 'Ausgewählte Arbeiten'}
-            </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto mb-8">
-              {photographyGroups[activeGroupIndex]?.description || 'Ein kleiner Einblick in meine fotografische Welt – authentische Momente, liebevoll festgehalten'}
-            </p>
-            
-            {/* Group Navigation Buttons - Desktop */}
-            <div className="relative hidden sm:flex items-center justify-between mb-8 px-8">
-              {/* Left Button */}
-              <SpecialButton
-                variant="secondary"
-                size="sm"
-                onClick={handlePreviousGroup}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                {photographyGroups[(activeGroupIndex - 1 + photographyGroups.length) % photographyGroups.length]?.title}
-              </SpecialButton>
-              
-              {/* Center Dot Indicators */}
-              <div className="flex items-center gap-2 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                {photographyGroups.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveGroupIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === activeGroupIndex 
-                        ? 'bg-orange-500 w-8' 
-                        : 'bg-gray-400 hover:bg-gray-600'
-                    }`}
-                  />
-                ))}
-              </div>
-              
-              {/* Right Button */}
-              <SpecialButton
-                variant="secondary"
-                size="sm"
-                onClick={handleNextGroup}
-              >
-                {photographyGroups[(activeGroupIndex + 1) % photographyGroups.length]?.title}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </SpecialButton>
-            </div>
+      {/* 2. PORTFOLIO SECTIONS - HAUSTIERE, LANDSCHAFT, MENSCHEN */}
+      
+      {/* Section 1: Haustiere - Text Links, Bilder Rechts */}
+      <ParallaxSection 
+        textPosition="left"
+        title="Haustiere"
+        description="Treue Begleiter mit einzigartiger Persönlichkeit – ich fange die besonderen Momente 
+          mit Ihren geliebten Haustieren ein. Von verspielten Welpen bis zu majestätischen 
+          Katzen, jedes Tier hat seine eigene Geschichte zu erzählen."
+        images={[
+          "/gallery/photography/Haustier1.jpeg",
+          "/gallery/photography/Haustier2.jpeg",
+          "/gallery/photography/Haustier3.jpeg"
+        ]}
+        bgColor=""
+      />
 
-            {/* Group Navigation - Mobile */}
-            <div className="sm:hidden mb-8 px-4">
-              {/* Current Group Title */}
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {photographyGroups[activeGroupIndex]?.title}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {activeGroupIndex + 1} von {photographyGroups.length}
-                </p>
-              </div>
-              
-              {/* Navigation Arrows */}
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <button
-                  onClick={handlePreviousGroup}
-                  className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                  aria-label="Vorherige Gruppe"
-                >
-                  <ArrowLeft className="w-5 h-5 text-gray-700" />
-                </button>
-                
-                <button
-                  onClick={handleNextGroup}
-                  className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                  aria-label="Nächste Gruppe"
-                >
-                  <ArrowRight className="w-5 h-5 text-gray-700" />
-                </button>
-              </div>
-              
-              {/* Dot Indicators */}
-              <div className="flex items-center justify-center gap-2">
-                {photographyGroups.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveGroupIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === activeGroupIndex 
-                        ? 'bg-orange-500 scale-125' 
-                        : 'bg-gray-400 hover:bg-gray-600'
-                    }`}
-                    aria-label={`Gruppe ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </motion.div>
+      {/* Section 2: Landschaft - Text Rechts, Bilder Links */}
+      <ParallaxSection 
+        textPosition="right"
+        title="Landschaft"
+        description="Die Schönheit der Natur in all ihren Facetten – von atemberaubenden Panoramen 
+          bis zu intimen Naturaufnahmen. Jede Landschaft erzählt ihre eigene Geschichte 
+          von Licht, Schatten und natürlicher Harmonie."
+        images={[
+          "/gallery/photography/Landschaft1.jpeg",
+          "/gallery/photography/Landschaft2.jpeg",
+          "/gallery/photography/Landschaft3.jpeg"
+        ]}
+        bgColor=""
+        imageLayout="landscape"
+      />
 
-          {/* Portfolio Grid - Varierende Größen mit mehr Weißraum */}
-          <div className="grid grid-cols-3 gap-8 px-6" style={{ gridAutoRows: '33.33vw' }}>
-            {galleryImages.length === 0 && (
-              <div className="col-span-3 text-center text-gray-400 py-20">Noch keine Bilder im Galerie-Ordner.</div>
-            )}
-{galleryImages.map((src, index) => {
-              // Layout-Definitionen - statisch definiert
-              const layouts = [
-                { colSpan: 1, rowSpan: 1, className: 'col-span-1 row-span-1' }, // 1x1 - Quadrat klein
-                { colSpan: 2, rowSpan: 1, className: 'col-span-2 row-span-1' }, // 2x1 - Querformat
-                { colSpan: 3, rowSpan: 1, className: 'col-span-3 row-span-1' }, // 3x1 - Panorama
-                { colSpan: 1, rowSpan: 2, className: 'col-span-1 row-span-2' }, // 1x2 - Hochformat
-                { colSpan: 2, rowSpan: 2, className: 'col-span-2 row-span-2' }  // 2x2 - Quadrat groß
-              ];
-
-              // Verwendung des vordefinierten Raster-Musters
-              const layout = layouts[predefinedGridPattern[index % predefinedGridPattern.length]];
-              
-              return (
-                <motion.div
-                  key={`${activeGroupIndex}-${src}`}
-                  className={`relative overflow-hidden ${layout.className}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="w-full h-full bg-white border border-gray-200 relative overflow-hidden shadow-sm">
-                    {/* Bild aus Galerie */}
-                    <img 
-                      src={src} 
-                      alt={`Fotografische Arbeit ${index + 1}`} 
-                      className="object-cover w-full h-full" 
-                    />
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* Section 3: Menschen - Text Links, Bilder Rechts */}
+      <ParallaxSection 
+        textPosition="left"
+        title="Menschen"
+        description="Authentische Porträts, die Persönlichkeit und Charakter einfangen. Ob professionelle 
+          Business-Aufnahmen oder emotionale Familienporträts – ich schaffe Bilder, die 
+          die Essenz jedes Menschen zum Ausdruck bringen."
+        images={[
+          "/gallery/photography/Menschen1.jpeg",
+          "/gallery/photography/Menschen2.jpeg",
+          "/gallery/photography/Menschen3.jpeg"
+        ]}
+        bgColor=""
+      />
 
       <Footer />
 
@@ -413,3 +313,125 @@ export default function PhotographyPageLight(): React.JSX.Element {
     </div>
   )
 }
+
+/**
+ * ParallaxSection Component
+ * Creates a section with parallax scroll effects
+ */
+interface ParallaxSectionProps {
+  textPosition: 'left' | 'right'
+  title: string
+  description: string
+  images: string[]
+  bgColor: string
+  imageLayout?: 'default' | 'landscape'
+}
+
+const ParallaxSection: React.FC<ParallaxSectionProps> = 
+  ({ textPosition, title, description, images, bgColor, imageLayout = 'default' }) => {
+    const sectionRef = useRef<HTMLElement>(null)
+    const { scrollYProgress } = useScroll({
+      target: sectionRef,
+      offset: ["start end", "end start"]
+    })
+
+    // Parallax transforms für Bilder - vergrößert und smooth
+    const imageY1 = useTransform(scrollYProgress, [0, 1], ['10%', '-10%'])
+    const imageY2 = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
+    const imageY3 = useTransform(scrollYProgress, [0, 1], ['12%', '-12%'])
+
+    return (
+      <section 
+        ref={sectionRef}
+        className={`py-32 px-6 relative z-10 overflow-hidden ${bgColor}`}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: textPosition === 'left' ? -100 : 100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
+              className={`space-y-6 ${textPosition === 'right' ? 'order-1 lg:order-2' : ''}`}
+            >
+              <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl">
+                {title}
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                {description}
+              </p>
+            </motion.div>
+
+            {/* Image Grid with Parallax */}
+            <motion.div
+              initial={{ opacity: 0, x: textPosition === 'left' ? 100 : -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
+              className={`grid grid-cols-2 gap-4 ${textPosition === 'right' ? 'order-2 lg:order-1' : ''}`}
+            >
+              {imageLayout === 'landscape' ? (
+                <>
+                  {/* Landscape Layout: Wide image first */}
+                  <div className="col-span-2 aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                    <motion.img 
+                      src={images[0]} 
+                      alt={`${title} 1`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY1, scale: 1.2 }}
+                    />
+                  </div>
+                  <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
+                    <motion.img 
+                      src={images[1]} 
+                      alt={`${title} 2`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY2, scale: 1.2 }}
+                    />
+                  </div>
+                  <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
+                    <motion.img 
+                      src={images[2]} 
+                      alt={`${title} 3`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY3, scale: 1.2 }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Default Layout: Two squares, then wide */}
+                  <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
+                    <motion.img 
+                      src={images[0]} 
+                      alt={`${title} 1`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY1, scale: 1.2 }}
+                    />
+                  </div>
+                  <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
+                    <motion.img 
+                      src={images[1]} 
+                      alt={`${title} 2`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY2, scale: 1.2 }}
+                    />
+                  </div>
+                  <div className="col-span-2 aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                    <motion.img 
+                      src={images[2]} 
+                      alt={`${title} 3`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY3, scale: 1.2 }}
+                    />
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+

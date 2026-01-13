@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
@@ -411,136 +412,44 @@ export default function ArtPageLight(): React.JSX.Element {
         ref={portfolioRef}
         className="py-32 px-6 relative z-10 bg-white"
       >
-        <div className="max-w-none mx-auto"> {/* Full width container */}
+        <div className="max-w-none mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-6 md:text-3xl">
-              {artGroups[activeGroupIndex]?.title || 'Portfolio Arbeiten'}
+              Portfolio
             </h2>
-            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto mb-8">
-              {artGroups[activeGroupIndex]?.description || 'Eine Auswahl meiner aktuellen Kunstwerke und Projekte.'}
+            <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
+              Eine Auswahl meiner aktuellen Kunstwerke und Projekte.
             </p>
-            
-            {/* Group Navigation Buttons - Desktop */}
-            <div className="relative hidden sm:flex items-center justify-between mb-8 px-8">
-              {/* Left Button */}
-              <SpecialButton
-                variant="secondary"
-                size="sm"
-                onClick={handlePreviousGroup}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                {artGroups[(activeGroupIndex - 1 + artGroups.length) % artGroups.length]?.title}
-              </SpecialButton>
-              
-              {/* Center Dot Indicators */}
-              <div className="flex items-center gap-2 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                {artGroups.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveGroupIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === activeGroupIndex 
-                        ? 'bg-orange-500 w-8' 
-                        : 'bg-gray-400 hover:bg-gray-600'
-                    }`}
-                  />
-                ))}
-              </div>
-              
-              {/* Right Button */}
-              <SpecialButton
-                variant="secondary"
-                size="sm"
-                onClick={handleNextGroup}
-              >
-                {artGroups[(activeGroupIndex + 1) % artGroups.length]?.title}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </SpecialButton>
-            </div>
-
-            {/* Group Navigation - Mobile */}
-            <div className="sm:hidden mb-8 px-4">
-              {/* Current Group Title */}
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {artGroups[activeGroupIndex]?.title}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {activeGroupIndex + 1} von {artGroups.length}
-                </p>
-              </div>
-              
-              {/* Navigation Arrows */}
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <button
-                  onClick={handlePreviousGroup}
-                  className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                  aria-label="Vorherige Gruppe"
-                >
-                  <ArrowLeft className="w-5 h-5 text-gray-700" />
-                </button>
-                
-                <button
-                  onClick={handleNextGroup}
-                  className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                  aria-label="Nächste Gruppe"
-                >
-                  <ArrowRight className="w-5 h-5 text-gray-700" />
-                </button>
-              </div>
-              
-              {/* Dot Indicators */}
-              <div className="flex items-center justify-center gap-2">
-                {artGroups.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveGroupIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === activeGroupIndex 
-                        ? 'bg-orange-500 scale-125' 
-                        : 'bg-gray-400 hover:bg-gray-600'
-                    }`}
-                    aria-label={`Gruppe ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
           </div>
 
-          {/* Portfolio Grid - Photography Seite Style mit Variierenden Größen */}
-          <div className="grid grid-cols-3 gap-8 px-6" style={{ gridAutoRows: '33.33vw' }}>
-            {galleryImages.length === 0 && (
-              <div className="col-span-3 text-center text-gray-400 py-20">Noch keine Bilder im Galerie-Ordner.</div>
-            )}
-            {galleryImages.map((src, index) => {
-              // Layout-Definitionen - statisch definiert
-              const layouts = [
-                { colSpan: 1, rowSpan: 1, className: 'col-span-1 row-span-1' }, // 1x1 - Quadrat klein
-                { colSpan: 2, rowSpan: 1, className: 'col-span-2 row-span-1' }, // 2x1 - Querformat
-                { colSpan: 3, rowSpan: 1, className: 'col-span-3 row-span-1' }, // 3x1 - Panorama
-                { colSpan: 1, rowSpan: 2, className: 'col-span-1 row-span-2' }, // 1x2 - Hochformat
-                { colSpan: 2, rowSpan: 2, className: 'col-span-2 row-span-2' }  // 2x2 - Quadrat groß
-              ];
-
-              // Verwendung des vordefinierten Raster-Musters
-              const layout = layouts[predefinedGridPattern[index % predefinedGridPattern.length]];
-              
-              return (
-                <div
-                  key={`${activeGroupIndex}-${src}`}
-                  className={`relative overflow-hidden ${layout.className}`}
-                >
-                  <div className="w-full h-full bg-white border border-gray-200 relative overflow-hidden shadow-sm">
-                    {/* Bild aus Galerie */}
-                    <img 
-                      src={src} 
-                      alt={`Kunstwerk ${index + 1}`} 
-                      className="object-cover w-full h-full" 
-                    />
-                  </div>
+          {/* Portfolio Grid - 5 Columns with Category Headers */}
+          <div className="grid grid-cols-5 gap-4 px-6" style={{ gridAutoRows: '20vw' }}>
+            {artGroups.map((group, groupIndex) => (
+              <React.Fragment key={group.id}>
+                {/* Category Header - takes 1 grid space */}
+                <div className="col-span-1 row-span-1 flex items-center justify-center bg-gradient-to-br from-orange-500/10 to-blue-600/10 border border-orange-500/20">
+                  <h3 className="text-xl font-bold text-foreground text-center px-4">
+                    {group.title}
+                  </h3>
                 </div>
-              );
-            })}
+                
+                {/* Images for this group */}
+                {group.images.map((src, index) => (
+                  <div
+                    key={`${groupIndex}-${index}`}
+                    className="col-span-1 row-span-1 relative overflow-hidden"
+                  >
+                    <div className="w-full h-full bg-white border border-gray-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+                      <img 
+                        src={src} 
+                        alt={`${group.title} ${index + 1}`} 
+                        className="object-cover w-full h-full hover:scale-105 transition-transform duration-300" 
+                      />
+                    </div>
+                  </div>
+                ))}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </section>
