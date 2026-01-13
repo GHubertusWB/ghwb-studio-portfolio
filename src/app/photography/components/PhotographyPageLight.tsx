@@ -374,7 +374,7 @@ const ParallaxSection: React.FC<ParallaxSectionProps> =
               {imageLayout === 'landscape' ? (
                 <>
                   {/* Landscape Layout: Wide image first */}
-                  <div className="col-span-2 aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                  <div className="col-span-2 aspect-video bg-gray-200 overflow-hidden">
                     <motion.img 
                       src={images[0]} 
                       alt={`${title} 1`} 
@@ -382,7 +382,7 @@ const ParallaxSection: React.FC<ParallaxSectionProps> =
                       style={{ y: imageY1, scale: 1.2 }}
                     />
                   </div>
-                  <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
+                  <div className="aspect-square bg-gray-200 overflow-hidden">
                     <motion.img 
                       src={images[1]} 
                       alt={`${title} 2`} 
@@ -390,7 +390,7 @@ const ParallaxSection: React.FC<ParallaxSectionProps> =
                       style={{ y: imageY2, scale: 1.2 }}
                     />
                   </div>
-                  <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
+                  <div className="aspect-square bg-gray-200 overflow-hidden">
                     <motion.img 
                       src={images[2]} 
                       alt={`${title} 3`} 
@@ -402,7 +402,7 @@ const ParallaxSection: React.FC<ParallaxSectionProps> =
               ) : (
                 <>
                   {/* Default Layout: Two squares, then wide */}
-                  <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
+                  <div className="aspect-square bg-gray-200 overflow-hidden">
                     <motion.img 
                       src={images[0]} 
                       alt={`${title} 1`} 
@@ -410,7 +410,7 @@ const ParallaxSection: React.FC<ParallaxSectionProps> =
                       style={{ y: imageY1, scale: 1.2 }}
                     />
                   </div>
-                  <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden">
+                  <div className="aspect-square bg-gray-200 overflow-hidden">
                     <motion.img 
                       src={images[1]} 
                       alt={`${title} 2`} 
@@ -418,7 +418,7 @@ const ParallaxSection: React.FC<ParallaxSectionProps> =
                       style={{ y: imageY2, scale: 1.2 }}
                     />
                   </div>
-                  <div className="col-span-2 aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                  <div className="col-span-2 aspect-video bg-gray-200 overflow-hidden">
                     <motion.img 
                       src={images[2]} 
                       alt={`${title} 3`} 
