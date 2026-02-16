@@ -20,6 +20,7 @@ const Navigation = () => {
   const menuItems = [
     { href: '/', label: 'Home' },
     { href: '/design', label: 'UX/UI Design' },
+    { href: '/ai-integration', label: 'AI Integration' },
     { href: '/photography', label: 'Fotografie' },
     { href: '/art', label: 'Kunst' },
     { href: '/about', label: 'Über mich' },
