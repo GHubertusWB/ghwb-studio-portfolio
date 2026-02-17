@@ -1,29 +1,16 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowLeft, Lightbulb, Zap, Users, TrendingUp, CheckCircle, Brain, Target, Code, BookOpen } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { Lightbulb, Zap, Users, TrendingUp, CheckCircle, Brain, Target, Code, BookOpen, Sparkles, Clock, BarChart3, Rocket, Smile, ArrowUpRight } from 'lucide-react'
+import { useState } from 'react'
 import Footer from '@/components/Footer'
 import FloatingClouds from '@/components/FloatingClouds'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import WorkshopScrollytelling from '@/components/WorkshopScrollytelling'
-import { Button } from '@/components/ui/Button'
 import { SpecialButton } from '@/components/ui/SpecialButton'
-import Link from 'next/link'
 
 export default function AIIntegrationPageLight() {
-  const [currentTime, setCurrentTime] = useState('')
   const [hoveredService, setHoveredService] = useState<number | null>(null)
-  
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date()
-      setCurrentTime(now.toLocaleTimeString('de-DE', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }))
-    }
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   const services = [
     { 
@@ -59,12 +46,12 @@ export default function AIIntegrationPageLight() {
   ]
 
   const benefits = [
-    { title: 'Effizienzsteigerung', description: 'Automatisierung repetitiver Aufgaben spart Zeit und Kosten' },
-    { title: 'Bessere Entscheidungen', description: 'Datengestützte Insights und Prognosen für strategische Entscheidungen' },
-    { title: 'Innovation & Wettbewerb', description: 'Neue Geschäftsmöglichkeiten durch KI-gestützte Features' },
-    { title: 'Mitarbeiter-Empowerment', description: 'Ihr Team fokussiert auf strategische, kreative Aufgaben' },
-    { title: 'Skalierbarkeit', description: 'Wachstum ohne proportionalen Anstieg der Kosten' },
-    { title: 'Kundenerlebnis', description: 'Personalisierte, schnellere und bessere Services' }
+    { icon: Clock, title: 'Effizienzsteigerung', description: 'Automatisierung repetitiver Aufgaben spart Zeit und Kosten', color: '#3b82f6' },
+    { icon: BarChart3, title: 'Bessere Entscheidungen', description: 'Datengestützte Insights und Prognosen für strategische Entscheidungen', color: '#8b5cf6' },
+    { icon: Rocket, title: 'Innovation & Wettbewerb', description: 'Neue Geschäftsmöglichkeiten durch KI-gestützte Features', color: '#ec4899' },
+    { icon: Sparkles, title: 'Mitarbeiter-Empowerment', description: 'Ihr Team fokussiert auf strategische, kreative Aufgaben', color: '#14b8a6' },
+    { icon: ArrowUpRight, title: 'Skalierbarkeit', description: 'Wachstum ohne proportionalen Anstieg der Kosten', color: '#f59e0b' },
+    { icon: Smile, title: 'Kundenerlebnis', description: 'Personalisierte, schnellere und bessere Services', color: '#10b981' }
   ]
 
   return (
@@ -183,45 +170,37 @@ export default function AIIntegrationPageLight() {
       </motion.section>
 
       {/* SERVICES SECTION */}
-      <section id="services-section" className="relative py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section id="services-section" className="relative py-32 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl font-bold mb-4">Unsere Leistungen</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-5xl font-bold mb-6">Meine Leistungen</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Von der Analyse über Workshops bis zur praktischen Implementierung
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {services.map((service, index) => {
               const Icon = service.icon
               return (
                 <motion.div
                   key={index}
-                  className="p-6 rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-200 hover:border-blue-500 transition-all cursor-pointer"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  onMouseEnter={() => setHoveredService(index)}
-                  onMouseLeave={() => setHoveredService(null)}
-                  whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(74, 144, 226, 0.15)' }}
                 >
-                  <motion.div
-                    className="p-3 bg-blue-100 rounded-lg w-fit mb-4"
-                    animate={{ 
-                      scale: hoveredService === index ? 1.1 : 1,
-                      rotate: hoveredService === index ? 5 : 0
-                    }}
-                  >
-                    <Icon className="w-6 h-6 text-blue-600" />
-                  </motion.div>
-                  <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                  <p className="text-gray-600">{service.description}</p>
+                  <div className="flex flex-col items-center text-center gap-4">
+                    <Icon className="w-10 h-10" style={{ color: '#3b82f6' }} />
+                    <div>
+                      <h3 className="text-lg font-bold mb-2">{service.title}</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
+                    </div>
+                  </div>
                 </motion.div>
               )
             })}
@@ -230,7 +209,7 @@ export default function AIIntegrationPageLight() {
       </section>
 
       {/* BENEFITS SECTION */}
-      <section className="relative py-20 px-4 bg-gray-50">
+      <section className="relative py-32 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -244,89 +223,31 @@ export default function AIIntegrationPageLight() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                className="p-6 rounded-lg bg-white border border-gray-200"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <motion.div
-                  className="flex items-center gap-3 mb-4"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: index * 0.1 + 0.3 }}
-                >
-                  <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
-                  <h3 className="text-lg font-bold">{benefit.title}</h3>
-                </motion.div>
-                <p className="text-gray-600">{benefit.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WORKSHOP SCROLLYTELLING SECTION */}
-      <section id="workshop-section" className="relative py-20 px-4 bg-white">
-        <WorkshopScrollytelling />
-      </section>
-
-      {/* WHY ME SECTION */}
-      <section className="relative py-20 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl font-bold mb-4">Warum mit mir?</h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              {
-                icon: Brain,
-                title: 'Technical Expertise',
-                description: 'Tiefes Verständnis von AI, Machine Learning und praktischer Integration in bestehende Systeme'
-              },
-              {
-                icon: Users,
-                title: 'Change Leadership',
-                description: 'Erfahrung in der Führung von Transformationsprozessen und Change Management in großen Organisationen'
-              },
-              {
-                icon: BookOpen,
-                title: 'Workshop-Profi',
-                description: 'Strukturierte, ergebnisorientierte Workshops mit bewährten Methoden und praktischen Outcomes'
-              },
-              {
-                icon: Target,
-                title: 'Business Focus',
-                description: 'Alles mit Fokus auf ROI und messbare Business-Impact, nicht nur Tech für Tech'
-              }
-            ].map((item, idx) => {
-              const Icon = item.icon
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {benefits.map((benefit, index) => {
+              const Icon = benefit.icon
               return (
                 <motion.div
-                  key={idx}
-                  className="p-6 bg-white rounded-lg border border-gray-200"
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  whileHover={{ boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
+                  key={index}
+                  className="p-6"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.15)',
+                    backdropFilter: 'blur(20px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                    border: '1px solid rgba(255, 255, 255, 1)',
+                    borderRadius: '24px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
+                    filter: 'drop-shadow(0 12px 90px rgba(60, 60, 60, 0.45))'
+                  }}
                 >
                   <div className="flex items-start gap-4">
-                    <div className="p-3 bg-blue-100 rounded-lg flex-shrink-0">
-                      <Icon className="w-6 h-6 text-blue-600" />
-                    </div>
+                    <Icon className="w-6 h-6 flex-shrink-0" style={{ color: benefit.color }} />
                     <div>
-                      <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                      <p className="text-gray-600">{item.description}</p>
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">{benefit.title}</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">{benefit.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -336,8 +257,13 @@ export default function AIIntegrationPageLight() {
         </div>
       </section>
 
+      {/* WORKSHOP SCROLLYTELLING SECTION */}
+      <section id="workshop-section" className="relative py-32 px-4 bg-white">
+        <WorkshopScrollytelling />
+      </section>
+
       {/* CONTACT SECTION */}
-      <section className="relative py-20 px-4 bg-white">
+      <section className="relative py-32 px-4 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
