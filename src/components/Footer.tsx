@@ -25,6 +25,7 @@ const Footer = () => {
       href: '/design', 
       label: 'UX/UI Design',
       subLinks: [
+        { href: '/ux-design-muenchen', label: 'UX Design München' },
         { href: '/webdesign-holzkirchen', label: 'Webdesign Holzkirchen' }
       ]
     },
