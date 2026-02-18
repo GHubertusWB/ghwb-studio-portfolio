@@ -170,7 +170,7 @@ export default function AIIntegrationPageLight() {
       </motion.section>
 
       {/* SERVICES SECTION */}
-      <section id="services-section" className="relative py-32 px-4 bg-white">
+      <section id="services-section" className="relative py-32 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -209,7 +209,7 @@ export default function AIIntegrationPageLight() {
       </section>
 
       {/* BENEFITS SECTION */}
-      <section className="relative py-32 px-4 bg-white">
+      <section className="relative py-32 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -240,7 +240,7 @@ export default function AIIntegrationPageLight() {
                     border: '1px solid rgba(255, 255, 255, 1)',
                     borderRadius: '24px',
                     boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
-                    filter: 'drop-shadow(0 12px 90px rgba(60, 60, 60, 0.45))'
+                    filter: 'drop-shadow(0 2px 4px rgba(60, 60, 60, 0.05))'
                   }}
                 >
                   <div className="flex items-start gap-4">
@@ -258,12 +258,12 @@ export default function AIIntegrationPageLight() {
       </section>
 
       {/* WORKSHOP SCROLLYTELLING SECTION */}
-      <section id="workshop-section" className="relative py-32 px-4 bg-white">
+      <section id="workshop-section" className="relative py-32 px-6 bg-white">
         <WorkshopScrollytelling />
       </section>
 
       {/* CONTACT SECTION */}
-      <section className="relative py-32 px-4 bg-white">
+      <section className="relative py-32 px-6 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

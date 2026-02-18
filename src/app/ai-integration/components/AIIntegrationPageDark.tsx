@@ -115,7 +115,7 @@ export default function AIIntegrationPageDark() {
       </motion.section>
 
       {/* SERVICES SECTION */}
-      <section id="services-section" className="relative py-32 px-4">
+      <section id="services-section" className="relative py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -154,7 +154,7 @@ export default function AIIntegrationPageDark() {
       </section>
 
       {/* BENEFITS SECTION */}
-      <section className="relative py-32 px-4">
+      <section className="relative py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -202,12 +202,12 @@ export default function AIIntegrationPageDark() {
       </section>
 
       {/* WORKSHOP SCROLLYTELLING SECTION */}
-      <section id="workshop-section" className="relative py-32 px-4">
+      <section id="workshop-section" className="relative py-32 px-6">
         <WorkshopScrollytelling />
       </section>
 
       {/* CONTACT SECTION */}
-      <section className="relative py-32 px-4">
+      <section className="relative py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

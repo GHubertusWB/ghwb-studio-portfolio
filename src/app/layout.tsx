@@ -28,6 +28,11 @@ export const metadata: Metadata = {
   keywords: ["UX/UI Design", "Fotografie", "Kunst", "Portfolio", "Kreativ", "AR", "Gerd-Hubertus Weidenbrücher-Britze"],
   authors: [{ name: "Gerd-Hubertus Weidenbrücher-Britze" }],
   creator: "Gerd-Hubertus Weidenbrücher-Britze",
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
   openGraph: {
     type: "website",
     locale: "de_DE",

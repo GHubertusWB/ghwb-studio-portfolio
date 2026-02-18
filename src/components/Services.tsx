@@ -2,10 +2,8 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Palette, Camera, Layers, ArrowRight } from 'lucide-react'
+import { Palette, Camera, Layers, ArrowRight, Brain } from 'lucide-react'
 import Link from 'next/link'
-import { SpecialButton } from '@/components/ui/SpecialButton'
-import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 import { useTheme } from '@/contexts/ThemeContext'
 
 const Services = () => {
@@ -17,25 +15,26 @@ const Services = () => {
       title: 'UX/UI Design',
       description: 'Intuitive und benutzerfreundliche digitale Erlebnisse, die Ihre Zielgruppe begeistern.',
       href: '/design',
-      color: 'from-blue-500/20 to-purple-500/20'
     },
     {
       icon: Camera,
       title: 'Fotografie',
       description: 'Porträts, Produkt- und Ambientfotos, die Geschichten erzählen und Emotionen wecken.',
       href: '/photography',
-      color: 'from-green-500/20 to-teal-500/20'
     },
     {
       icon: Palette,
       title: 'Kunst',
       description: 'Innovative Kunstwerke, die klassische Malerei mit modernen AR-Technologien verbinden.',
       href: '/art',
-      color: 'from-orange-500/20 to-red-500/20'
+    },
+    {
+      icon: Brain,
+      title: 'AI Integration',
+      description: 'KI-Strategien und -Lösungen, die Ihre Geschäftsprozesse optimieren und Innovation treiben.',
+      href: '/ai-integration',
     }
   ]
-
-
 
   return (
     <section id="services" className="py-20 bg-muted/30 relative overflow-visible min-h-[80vh]">
@@ -46,93 +45,39 @@ const Services = () => {
               Meine Services
             </h2>
             <p className="text-xl text-muted-foreground leading-7 max-w-prose mx-auto">
-              Drei kreative Disziplinen, unendliche Möglichkeiten
+              Vier kreative Disziplinen, unendliche Möglichkeiten
             </p>
           </div>
 
-        <div
-          className="grid grid-cols-1 md:grid-cols-3 md:items-stretch"
-          style={{ gap: 'calc(var(--spacing) * 4)' }}
-        >
-          {services.map((service, index) => {
-            const Icon = service.icon
-            const [isHovered, setIsHovered] = useState(false)
-            const [isPressed, setIsPressed] = useState(false)
-            
-            return (
-              <div
-                key={service.title}
-                className="group h-full"
-              >
-                <Link href={service.href}>
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:items-stretch"
+            style={{ gap: 'calc(var(--spacing) * 4)' }}
+          >
+            {services.map((service) => {
+              const Icon = service.icon
+              const [isHovered, setIsHovered] = useState(false)
+              
+              if (theme === 'dark') {
+                return (
                   <div
-                    className="relative"
-                    style={{
-                      padding: '0'
-                    }}
+                    key={service.title}
+                    className="group relative"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    onMouseDown={() => setIsPressed(true)}
-                    onMouseUp={() => setIsPressed(false)}
                   >
-                    <motion.div
-                      className={`relative p-8 h-full cursor-pointer transform-gpu flex flex-col overflow-visible ${
-                        theme === 'dark' ? 'border border-white/20 backdrop-blur-md' : ''
-                      }`}
-                    style={{
-                      background: theme === 'dark' 
-                        ? 'rgba(255, 255, 255, 0)' 
-                        : isPressed 
-                          ? 'rgba(255, 255, 255, 0.6)' 
-                          : 'rgba(255, 255, 255, 0.15)',
-                      backdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(20px) saturate(180%)',
-                      WebkitBackdropFilter: theme === 'dark' ? 'blur(8px)' : 'blur(20px) saturate(180%)',
-                      borderRadius: theme === 'dark' ? '0px' : '24px',
-                      border: theme === 'dark' 
-                        ? '1px solid rgba(255, 255, 255, 0.2)' 
-                        : '1px solid rgba(255, 255, 255, 1)',
-                      boxShadow: theme === 'light' 
-                        ? (isPressed 
-                            ? '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
-                            : isHovered 
-                              ? '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7)'
-                              : '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)')
-                        : 'none',
-                      filter: theme === 'light'
-                        ? (isPressed
-                            ? 'drop-shadow(0 6px 80px rgba(60, 60, 60, 0.4))'
-                            : isHovered
-                              ? 'drop-shadow(0 16px 100px rgba(60, 60, 60, 0.5))'
-                              : 'drop-shadow(0 12px 90px rgba(60, 60, 60, 0.45))')
-                        : 'none',
-                      transform: theme === 'dark' 
-                        ? 'none'
-                        : isPressed 
-                          ? 'translateY(2px) scale(0.98)'
-                          : isHovered 
-                            ? 'translateY(-2px) scale(1.02)'
-                            : 'translateY(0px) scale(1)',
-                      transition: theme === 'light' 
-                        ? 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                        : 'none',
-                      zIndex: 2
-                    }}
-                    whileHover={theme === 'dark' ? {} : {}}
-                    whileTap={theme === 'dark' ? {
-                      scale: 0.98
-                    } : {}}
-                    transition={{ 
-                      type: "spring", 
-                      stiffness: 180, 
-                      damping: 28,
-                      mass: 1.3
-                    }}
-                  >
-
-
-                    {/* Dark Mode: SpecialButtonDark Corner Border Animation */}
-                    {theme === 'dark' && (
-                      <>
+                    <Link href={service.href}>
+                      <motion.div
+                        className="relative p-8 h-full border border-white/20 backdrop-blur-md flex flex-col overflow-visible"
+                        style={{
+                          borderRadius: '0px',
+                        }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 180, 
+                          damping: 28,
+                          mass: 1.3
+                        }}
+                      >
                         {/* Hover Background für Dark Mode */}
                         <motion.div
                           className="absolute inset-0 -z-10"
@@ -228,125 +173,61 @@ const Services = () => {
                           transition={{ duration: 1, ease: "easeInOut" }}
                         />
 
+                        {/* Content */}
+                        <div className="relative z-10 flex flex-col flex-1">
+                          <div className="hidden md:flex items-center justify-center w-16 h-16 rounded-full bg-gray-700/30 mb-6">
+                            <Icon className="w-8 h-8 text-white group-hover:text-orange-500 transition-colors" />
+                          </div>
 
-                      </>
-                    )}
-                    
-                    {/* Arrow on the right side - same height as icon */}
-                    <motion.div
-                      className="absolute top-8 right-8 flex items-center justify-center w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                      style={{
-                        filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))',
-                        transition: 'filter 0.3s ease'
-                      }}
-                      animate={{
-                        x: [0, 6, 0]
-                      }}
-                      transition={{
-                        x: {
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }
-                      }}
-                    >
-                      <ArrowRight className="w-5 h-5 text-foreground group-hover:drop-shadow-[0_0_16px_rgba(135,206,235,1)] group-hover:animate-pulse" />
-                    </motion.div>
-                    
-                    {/* Content */}
-                    <div className="relative z-10 flex flex-col flex-1">
-                      <motion.div
-                        className="hidden md:inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted mb-6 transition-all duration-300"
-                        whileHover={theme === 'dark' ? {} : {}}
-                        transition={{ type: "spring", stiffness: 400 }}
-                      >
-                        <Icon className={`w-8 h-8 transition-colors duration-300 ${
-                          theme === 'dark' 
-                            ? 'group-hover:text-orange-500' 
-                            : ''
-                        }`} />
-                      </motion.div>
+                          <h3 className="text-xl font-semibold text-white group-hover:text-orange-500 transition-colors mb-3">
+                            {service.title}
+                          </h3>
 
-                      <h3 
-                        className={`text-2xl font-semibold text-foreground leading-tight mb-4 md:text-xl opacity-85 transition-all duration-300 ${
-                          theme === 'dark' 
-                            ? 'group-hover:text-orange-500' 
-                            : ''
-                        }`}
-                        style={{
-                          textShadow: '0 1px 2px rgba(0,0,0,0.1)',
-                        }}
-                      >
-                        <span>
-                          {service.title}
-                        </span>
-                      </h3>
+                          <p className="text-gray-300 text-sm leading-relaxed flex-1">
+                            {service.description}
+                          </p>
+                        </div>
 
-                      <p className="text-base text-muted-foreground leading-7 flex-1">
-                        {service.description}
-                      </p>
-                    </div>
-
-                    {/* Floating elements */}
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
-                      {[...Array(3)].map((_, i) => (
+                        {/* Arrow */}
                         <motion.div
-                          key={i}
-                          className="absolute w-1 h-1 rounded-full bg-foreground"
-                          style={{
-                            top: i * 10,
-                            right: i * 8,
-                          }}
-                          animate={{
-                            opacity: [0, 1, 0],
-                            scale: [0, 1, 0],
-                          }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            delay: i * 0.3,
-                          }}
-                        />
-                      ))}
+                          className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                          animate={isHovered ? { x: 6 } : { x: 0 }}
+                        >
+                          <ArrowRight className="w-5 h-5 text-white" />
+                        </motion.div>
+                      </motion.div>
+                    </Link>
+                  </div>
+                )
+              }
+
+              // Light Mode - einfach
+              return (
+                <Link href={service.href} key={service.title}>
+                  <div className="group relative bg-white border border-gray-200 rounded-lg p-8 h-full hover:shadow-sm hover:-translate-y-1 transition-all duration-200 cursor-pointer">
+                    {/* Icon */}
+                    <div className="hidden md:flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-6">
+                      <Icon className="w-8 h-8 text-gray-700" />
                     </div>
-                  </motion.div>
+
+                    {/* Title */}
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      {service.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      {service.description}
+                    </p>
+
+                    {/* Arrow */}
+                    <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ArrowRight className="w-5 h-5 text-gray-700" />
+                    </div>
                   </div>
                 </Link>
-              </div>
-            )
-          })}
-        </div>
-
-          {/* Call to Action */}
-          <div
-            className="w-full"
-            style={{ 
-              marginTop: 'calc(var(--spacing) * 4)'
-            }}
-          >
-            <Link href="/about" className="block w-full">
-              {theme === 'dark' ? (
-                <SpecialButtonDark
-                  variant="secondary"
-                  size="base"
-                  className="flex items-center justify-center"
-                >
-                  Mehr über mich erfahren
-                  <ArrowRight className="w-4 h-4" />
-                </SpecialButtonDark>
-              ) : (
-                <SpecialButton
-                  variant="secondary"
-                  size="medium"
-                  className="flex items-center justify-center"
-                >
-                  <span className="flex items-center gap-3">
-                    Mehr über mich erfahren
-                    <ArrowRight className="w-4 h-4" />
-                  </span>
-                </SpecialButton>
-              )}
-            </Link>
+              )
+            })}
           </div>
         </div>
       </div>

@@ -349,7 +349,7 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
             border: '1px solid rgba(255, 255, 255, 1)',
             borderRadius: '24px',
             boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
-            filter: 'drop-shadow(0 12px 90px rgba(60, 60, 60, 0.45))'
+            filter: 'drop-shadow(0 2px 4px rgba(60, 60, 60, 0.05))'
           }}
         >
           <div className="p-6 pb-20 flex-1 overflow-hidden">

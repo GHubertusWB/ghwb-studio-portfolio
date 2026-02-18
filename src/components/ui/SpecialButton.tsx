@@ -48,11 +48,11 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
 
     const getBackgroundColor = () => {
       if (variant === 'primary') {
-        return isPressed ? 'rgba(255, 174, 0, 0.6)' : 'rgba(255, 255, 255, 0.15)';
+        return isPressed ? 'rgba(255, 174, 0, 0.6)' : 'rgba(255, 174, 0, 0.2)';
       } else if (variant === 'secondary') {
-        return isPressed ? 'rgba(255, 255, 255, 0.35)' : 'rgba(255, 255, 255, 0.12)';
+        return isPressed ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.3)';
       } else if (variant === 'tertiary') {
-        return isPressed ? 'rgba(255, 255, 255, 0.25)' : 'rgba(255, 255, 255, 0.08)';
+        return isPressed ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)';
       }
       return 'transparent';
     };
@@ -104,28 +104,23 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
         }}
         style={{ 
           cursor: disabled ? 'not-allowed' : 'pointer',
-          paddingTop: '0px',
-          paddingBottom: '0px',
-          filter: `drop-shadow(${getContainerShadow()})`
         }}
       >
         <button
           className={cn('flex items-center justify-center', className)}
           style={{
             opacity: disabled ? 0.5 : 1,
-            background: getBackgroundColor(),
-            backdropFilter: 'blur(20px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-            border: '1px solid rgba(255, 255, 255, 1)',
+            background: variant === 'primary' ? '#FFAE00' : '#f0f9ff',
+            border: variant === 'primary' ? '1px solid #ff8c00' : '1px solid #d1d5db',
             borderRadius: '9999px',
-            color: variant === 'primary' ? '#ff8c00' : '#1e293b',
+            color: variant === 'primary' ? '#ffffff' : '#1e293b',
             fontWeight: '600',
             cursor: 'inherit',
             padding: currentSize.padding,
             fontSize: currentSize.fontSize,
-            transform: getTransform(),
-            boxShadow: getBoxShadow(),
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            boxShadow: isHovered ? '0 4px 12px rgba(0, 0, 0, 0.15)' : '0 2px 4px rgba(0, 0, 0, 0.1)',
+            transform: isPressed ? 'scale(0.98)' : isHovered ? 'scale(1.02)' : 'scale(1)',
+            transition: 'all 0.2s ease-out',
             overflow: 'visible',
             letterSpacing: '0.01em'
           }}

@@ -37,10 +37,10 @@ const Introduction = () => {
           className="mb-16 text-center"
         >
           <h2 
-            className={`font-bold leading-tight whitespace-nowrap ${
+            className={`font-bold leading-tight whitespace-normal ${
               theme === 'light' ? 'text-foreground' : 'text-foreground'
             } transition-colors duration-300`}
-            style={{ fontSize: 'clamp(0.75rem, 2.5vw, 4rem)' }}
+            style={{ fontSize: 'clamp(1.875rem, 3.5vw, 4rem)' }}
           >
             Gerd-Hubertus Weidenbrücher-Britze
           </h2>
