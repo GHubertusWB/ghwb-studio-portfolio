@@ -8,6 +8,7 @@ import FloatingContactButton from '@/components/FloatingContactButton'
 import SkillsCircleChartDark from './SkillsCircleChartDark'
 import MobileSkills from './MobileSkills'
 import TechStackSectionDark from './TechStackSectionDark'
+import UXServicesGrid from './UXServicesGrid'
 import { Button } from '@/components/ui/Button'
 import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 import Divider from '@/components/ui/Divider'
@@ -198,6 +199,8 @@ export default function UXUIPageDark() {
           </div>
         </div>
       </section>
+
+      <UXServicesGrid variant="dark" />
 
       {/* TECH STACK SECTION */}
       <TechStackSectionDark />

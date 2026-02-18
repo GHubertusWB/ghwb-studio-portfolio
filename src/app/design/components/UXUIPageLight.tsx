@@ -9,6 +9,7 @@ import FloatingContactButton from '@/components/FloatingContactButton'
 import SkillsCircleChart from './SkillsCircleChart'
 import MobileSkills from './MobileSkills'
 import TechStackSection from './TechStackSection'
+import UXServicesGrid from './UXServicesGrid'
 import { Button } from '@/components/ui/Button'
 import { SpecialButton } from '@/components/ui/SpecialButton'
 
@@ -271,6 +272,8 @@ export default function UXUIPageLight() {
           </div>
         </div>
       </section>
+
+      <UXServicesGrid />
 
       {/* TOOLS & TECHNOLOGIEN SECTION */}
       <TechStackSection />
