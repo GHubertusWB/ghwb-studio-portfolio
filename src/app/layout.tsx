@@ -29,9 +29,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Gerd-Hubertus Weidenbrücher-Britze" }],
   creator: "Gerd-Hubertus Weidenbrücher-Britze",
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: '/icons/logo/logo.svg',
+    shortcut: '/icons/logo/logo.svg',
+    apple: '/icons/logo/logo.svg',
   },
   openGraph: {
     type: "website",
