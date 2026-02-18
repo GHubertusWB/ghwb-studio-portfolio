@@ -20,11 +20,18 @@ const Footer = () => {
     { icon: Mail, href: 'mailto:office@ghwbstudio.de', label: 'E-Mail' }
   ]
 
-  const footerLinks = [
-    { href: '/design', label: 'UX/UI Design' },
-    { href: '/photography', label: 'Fotografie' },
-    { href: '/art', label: 'Kunst' },
-    { href: '/about', label: 'Über mich' }
+  const footerSections = [
+    { 
+      href: '/design', 
+      label: 'UX/UI Design',
+      subLinks: [
+        { href: '/webdesign-holzkirchen', label: 'Webdesign Holzkirchen' }
+      ]
+    },
+    { href: '/ai-integration', label: 'AI Integration', subLinks: [] },
+    { href: '/photography', label: 'Fotografie', subLinks: [] },
+    { href: '/art', label: 'Kunst', subLinks: [] },
+    { href: '/about', label: 'Über mich', subLinks: [] }
   ]
 
   return (
@@ -48,25 +55,39 @@ const Footer = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {footerLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                {theme === 'dark' ? (
-                  <SpecialButtonDark
-                    variant="tertiary"
-                    size="sm"
-                  >
-                    {link.label}
-                  </SpecialButtonDark>
-                ) : (
-                  <SpecialButton
-                    variant="tertiary"
-                    size="sm"
-                  >
-                    {link.label}
-                  </SpecialButton>
+          <div className="flex flex-wrap justify-center gap-8 mb-12">
+            {footerSections.map((section) => (
+              <div key={section.href} className="flex flex-col items-center sm:items-start">
+                <Link 
+                  href={section.href}
+                  className={`font-bold mb-2 transition-colors ${
+                    theme === 'dark' 
+                      ? 'text-gray-200 hover:text-blue-400' 
+                      : 'text-gray-800 hover:text-blue-600'
+                  }`}
+                >
+                  {section.label}
+                </Link>
+                {section.subLinks && section.subLinks.length > 0 && (
+                  <div className={`flex flex-col space-y-1.5 border-l pl-3 ${
+                    theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
+                  }`}>
+                    {section.subLinks.map((subLink) => (
+                      <Link
+                        key={subLink.href}
+                        href={subLink.href}
+                        className={`text-sm transition-colors ${
+                          theme === 'dark'
+                            ? 'text-gray-400 hover:text-blue-400'
+                            : 'text-gray-600 hover:text-blue-600'
+                        }`}
+                      >
+                        {subLink.label}
+                      </Link>
+                    ))}
+                  </div>
                 )}
-              </Link>
+              </div>
             ))}
           </div>
 
