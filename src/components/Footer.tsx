@@ -30,7 +30,10 @@ const Footer = () => {
       ]
     },
     { href: '/ai-integration', label: 'AI Integration', subLinks: [] },
-    { href: '/photography', label: 'Fotografie', subLinks: [] },
+    { href: '/photography', label: 'Fotografie', subLinks: [
+        { href: '/hundefotografie-holzkirchen', label: 'Hundefotografie Holzkirchen' }
+      ]
+    },
     { href: '/art', label: 'Kunst', subLinks: [] },
     { href: '/about', label: 'Über mich', subLinks: [] }
   ]
