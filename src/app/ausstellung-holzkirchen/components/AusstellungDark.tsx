@@ -224,7 +224,7 @@ export default function AusstellungDark() {
   const atriumWerke = artworks.filter(a => a.location === 'atrium')
 
   return (
-    <div className="min-h-screen text-gray-100 relative overflow-hidden bg-gray-950">
+    <div className="min-h-screen text-gray-100 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--background), var(--background), rgba(42, 47, 54, 0.2))' }}>
       {/* HERO SECTION */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -357,7 +357,7 @@ export default function AusstellungDark() {
       </motion.section>
 
       {/* ÜBER DIE AUSSTELLUNG */}
-      <section className="relative py-32 px-4 bg-gray-950">
+      <section className="relative py-32 px-4">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -401,7 +401,7 @@ export default function AusstellungDark() {
       </section>
 
       {/* GALERIE / WERKE SECTION */}
-      <section id="galerie-section" className="relative py-32 px-4 bg-gray-950">
+      <section id="galerie-section" className="relative py-32 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -482,7 +482,7 @@ export default function AusstellungDark() {
       </section>
 
       {/* FAQ SECTION */}
-      <section className="relative py-32 px-4 bg-gray-950">
+      <section className="relative py-32 px-4">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -532,7 +532,7 @@ export default function AusstellungDark() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="relative py-32 px-4 bg-gray-950">
+      <section className="relative py-32 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -567,7 +567,7 @@ export default function AusstellungDark() {
       </section>
 
       {/* Footer mit internen Links */}
-      <section className="relative py-16 px-4 bg-gray-950 border-t border-gray-800">
+      <section className="relative py-16 px-4 border-t border-gray-800">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
