@@ -34,7 +34,10 @@ const Footer = () => {
         { href: '/hundefotografie-holzkirchen', label: 'Hundefotografie Holzkirchen' }
       ]
     },
-    { href: '/art', label: 'Kunst', subLinks: [] },
+    { href: '/art', label: 'Kunst', subLinks: [
+        { href: '/ausstellung-holzkirchen', label: 'Ausstellung Holzkirchen' }
+      ]
+    },
     { href: '/about', label: 'Über mich', subLinks: [] }
   ]
 

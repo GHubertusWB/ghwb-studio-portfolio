@@ -4,6 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
+import Link from 'next/link'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import FloatingCloudsArt from './FloatingCloudsArt'
 import Footer from '@/components/Footer'
@@ -346,6 +347,51 @@ export default function ArtPageLight(): React.JSX.Element {
           </motion.div>
         </div>
       </motion.section>
+
+      {/* AKTUELLE AUSSTELLUNG BANNER */}
+      <section className="py-16 px-6 relative z-10 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="relative overflow-hidden rounded-2xl border border-orange-200 bg-gradient-to-r from-orange-50 via-amber-50 to-sky-50 p-8 md:p-10 shadow-sm"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-sky-200/30 rounded-full translate-y-1/2 -translate-x-1/2" />
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="inline-block w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                <span className="text-sm font-medium text-orange-600 uppercase tracking-wider">Aktuelle Ausstellung</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-3">
+                Kunst im Schaufenster &amp; Entenjagd
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-2xl leading-relaxed">
+                Noch bis 5. April 2026 in Holzkirchen: Fünf großformatige Acrylgemälde in der Raiffeisenbank 
+                und acht kleine Entenbüsten-Miniaturgemälde im Atrium Gesundheitszentrum — eine interaktive 
+                Entenjagd durch die Marktgemeinde.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link href="/ausstellung-holzkirchen">
+                  <SpecialButton size="sm">
+                    Zur Ausstellung →
+                  </SpecialButton>
+                </Link>
+                <a
+                  href="https://www.holzkirchen.de/kunst-im-schaufenster"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-full hover:bg-gray-100 transition-colors"
+                >
+                  holzkirchen.de ↗
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* 2. FEATURED ARTWORK - STARTSEITE LIGHT MODE STYLING */}
       <section className="py-32 px-6 relative z-10 bg-white">
