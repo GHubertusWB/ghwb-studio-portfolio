@@ -1,14 +1,66 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
+// --- Rate Limiting ---
+const rateLimitMap = new Map<string, { count: number; firstRequest: number }>()
+const RATE_LIMIT_WINDOW = 15 * 60 * 1000 // 15 Minuten
+const RATE_LIMIT_MAX = 5 // max 5 Anfragen pro IP pro Fenster
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+  if (!entry || now - entry.firstRequest > RATE_LIMIT_WINDOW) {
+    rateLimitMap.set(ip, { count: 1, firstRequest: now })
+    return false
+  }
+  entry.count++
+  return entry.count > RATE_LIMIT_MAX
+}
+
+// --- HTML Escaping ---
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // Rate Limiting
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.' },
+        { status: 429 }
+      )
+    }
+
     const { name, email, message, selectedSubjects, variant } = await request.json()
 
     // Validierung der erforderlichen Felder
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: 'Name, E-Mail und Nachricht sind erforderlich' },
+        { status: 400 }
+      )
+    }
+
+    // E-Mail-Validierung
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.' },
+        { status: 400 }
+      )
+    }
+
+    // Eingabelängen begrenzen
+    if (name.length > 200 || email.length > 320 || message.length > 5000) {
+      return NextResponse.json(
+        { error: 'Eingabe zu lang.' },
         { status: 400 }
       )
     }
@@ -71,10 +123,17 @@ ${message}
 Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesendet.
     `.trim()
 
+    // HTML-escaped Werte für sichere E-Mail
+    const safeName = escapeHtml(name)
+    const safeEmail = escapeHtml(email)
+    const safeMessage = escapeHtml(message).replace(/\n/g, '<br>')
+    const safeSubjects = selectedSubjects?.map((s: string) => escapeHtml(s))
+
     // E-Mail senden
     const mailOptions = {
-      from: `"${name}" <${process.env.SMTP_USER}>`,
+      from: `"Kontaktformular" <${process.env.SMTP_USER}>`,
       to: 'office@ghwbstudio.de',
+      replyTo: email,
       subject: subject,
       text: emailContent,
       html: `
@@ -84,22 +143,22 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
           </h2>
           
           <div style="background-color: #f8f9fa; padding: 15px; margin: 20px 0; border-left: 4px solid #06b6d4;">
-            <strong>Variante:</strong> ${subjectPrefix}<br>
-            ${selectedSubjects && selectedSubjects.length > 0 
-              ? `<strong>Ausgewählte Themen:</strong> ${selectedSubjects.join(', ')}<br>` 
+            <strong>Variante:</strong> ${escapeHtml(subjectPrefix)}<br>
+            ${safeSubjects && safeSubjects.length > 0 
+              ? `<strong>Ausgewählte Themen:</strong> ${safeSubjects.join(', ')}<br>` 
               : ''
             }
           </div>
 
           <div style="margin: 20px 0;">
-            <strong>Name:</strong> ${name}<br>
-            <strong>E-Mail:</strong> <a href="mailto:${email}">${email}</a>
+            <strong>Name:</strong> ${safeName}<br>
+            <strong>E-Mail:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a>
           </div>
 
           <div style="margin: 20px 0;">
             <strong>Nachricht:</strong>
             <div style="background-color: #f8f9fa; padding: 15px; margin-top: 10px; border-radius: 5px;">
-              ${message.replace(/\n/g, '<br>')}
+              ${safeMessage}
             </div>
           </div>
 
@@ -119,11 +178,9 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
     )
 
   } catch (error) {
+    console.error('E-Mail-Fehler:', error)
     return NextResponse.json(
-      { 
-        error: 'Fehler beim Senden der E-Mail',
-        details: error instanceof Error ? error.message : 'Unbekannter Fehler'
-      },
+      { error: 'Fehler beim Senden der E-Mail. Bitte versuchen Sie es später erneut.' },
       { status: 500 }
     )
   }
