@@ -356,50 +356,6 @@ export default function AusstellungDark() {
         </div>
       </motion.section>
 
-      {/* ÜBER DIE AUSSTELLUNG */}
-      <section className="relative py-32 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight mb-6">
-              Fünf Werke. Acht Enten. Ihre Wahl.
-            </h2>
-            <p className="text-xl text-gray-400 leading-7 max-w-2xl mx-auto">
-              Im Rahmen der Aktion „Kunst im Schaufenster" zeigt GHWB Studio Werke an zwei Standorten in Holzkirchen – und eine interaktive Entenjagd im Atrium.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="prose prose-lg prose-invert max-w-none text-gray-300 leading-relaxed"
-          >
-            <p className="text-base mb-6">
-              Fünf Werke erwarten Sie im <strong className="text-white">Schaufenster der Raiffeisenbank</strong> am Marktplatz 11 – sichtbar rund um die Uhr, auch außerhalb der Öffnungszeiten.
-            </p>
-            <p className="text-base mb-6">
-              Im <strong className="text-white">Atrium Gesundheitszentrum Holzkirchen</strong> sind acht kleine Entenbüsten-Miniaturen (10 × 10 cm, Acryl auf Holz) im Gebäude verteilt. Finden Sie alle acht! Neben jedem Bild führt ein QR-Code direkt auf diese Seite.
-            </p>
-            <p className="text-base mb-6">
-              Die Arbeiten bewegen sich zwischen <strong className="text-white">naturalistischer Tiermalerei</strong> und expressiver Farbgebung. Acryl auf Papier trifft auf Acryl mit Blattgold – jedes Werk ein Original, jedes ein Unikat.
-            </p>
-            <p className="text-base mb-6">
-              Wenn Ihnen ein Werk gefällt, können Sie es direkt auf dieser Seite reservieren. Sie erhalten umgehend eine Bestätigung und wir klären die Details persönlich.
-            </p>
-            <p className="text-base">
-              Mehr über die Aktion und die weiteren teilnehmenden Künstler erfahren Sie auf der <a href="https://www.holzkirchen.de/kunst-im-schaufenster" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors">offiziellen Seite der Marktgemeinde Holzkirchen</a>.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
       {/* GALERIE / WERKE SECTION */}
       <section id="galerie-section" className="relative py-32 px-4">
         <div className="max-w-6xl mx-auto">
@@ -465,7 +421,7 @@ export default function AusstellungDark() {
               Acht kleine Entenbüsten (10 × 10 cm, Acryl auf Holz) sind im Atrium verteilt. Finden Sie alle acht! Neben jedem Bild führt ein QR-Code hierher.
             </motion.p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
               {atriumWerke.map((artwork, index) => (
                 <ArtworkCard
                   key={artwork.id}
@@ -478,6 +434,50 @@ export default function AusstellungDark() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ÜBER DIE AUSSTELLUNG */}
+      <section className="relative py-32 px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight mb-6">
+              Fünf Werke. Acht Enten. Ihre Wahl.
+            </h2>
+            <p className="text-xl text-gray-400 leading-7 max-w-2xl mx-auto">
+              Im Rahmen der Aktion „Kunst im Schaufenster" zeigt GHWB Studio Werke an zwei Standorten in Holzkirchen – und eine interaktive Entenjagd im Atrium.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="prose prose-lg prose-invert max-w-none text-gray-300 leading-relaxed"
+          >
+            <p className="text-base mb-6">
+              Fünf Werke erwarten Sie im <strong className="text-white">Schaufenster der Raiffeisenbank</strong> am Marktplatz 11 – sichtbar rund um die Uhr, auch außerhalb der Öffnungszeiten.
+            </p>
+            <p className="text-base mb-6">
+              Im <strong className="text-white">Atrium Gesundheitszentrum Holzkirchen</strong> sind acht kleine Entenbüsten-Miniaturen (10 × 10 cm, Acryl auf Holz) im Gebäude verteilt. Finden Sie alle acht! Neben jedem Bild führt ein QR-Code direkt auf diese Seite.
+            </p>
+            <p className="text-base mb-6">
+              Die Arbeiten bewegen sich zwischen <strong className="text-white">naturalistischer Tiermalerei</strong> und expressiver Farbgebung. Acryl auf Papier trifft auf Acryl mit Blattgold – jedes Werk ein Original, jedes ein Unikat.
+            </p>
+            <p className="text-base mb-6">
+              Wenn Ihnen ein Werk gefällt, können Sie es direkt auf dieser Seite reservieren. Sie erhalten umgehend eine Bestätigung und wir klären die Details persönlich.
+            </p>
+            <p className="text-base">
+              Mehr über die Aktion und die weiteren teilnehmenden Künstler erfahren Sie auf der <a href="https://www.holzkirchen.de/kunst-im-schaufenster" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors">offiziellen Seite der Marktgemeinde Holzkirchen</a>.
+            </p>
+          </motion.div>
         </div>
       </section>
 
