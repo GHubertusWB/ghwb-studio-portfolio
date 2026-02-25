@@ -226,17 +226,20 @@ export default function AusstellungLight() {
 
   return (
     <div className="min-h-screen text-gray-900 relative overflow-hidden bg-white">
-      {/* HERO SECTION */}
-      <motion.section
+      {/* HERO SECTION - EXACTLY LIKE OTHER LIGHT PAGES */}
+      <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
         style={{ zIndex: 20 }}
       >
+        {/* Floating Clouds */}
         <FloatingClouds />
+        {/* Background gradient - matching other pages */}
         <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-white" />
 
+        {/* Subtle geometric background elements */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
           <motion.div
             className="relative w-full h-full"
@@ -244,18 +247,33 @@ export default function AusstellungLight() {
             animate={{ opacity: 0.06, scale: 1 }}
             transition={{ duration: 3, delay: 1 }}
           >
-            <motion.div
+            {/* Minimale geometrische Formen */}
+            <motion.div 
               className="absolute top-20 left-20 w-32 h-32 border-2 border-gray-300"
               style={{ transform: 'rotate(45deg)' }}
               initial={{ rotate: 0, scale: 0 }}
               animate={{ rotate: 45, scale: 1 }}
               transition={{ duration: 2, delay: 1.5 }}
             />
-            <motion.div
+            
+            <motion.div 
               className="absolute bottom-32 right-32 w-24 h-24 bg-gray-200 rounded-full"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 1.5, delay: 2 }}
+            />
+            
+            <motion.div 
+              className="absolute top-32 right-20 w-40 h-1 bg-gray-200"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.5, delay: 1.8 }}
+            />
+            <motion.div 
+              className="absolute bottom-40 left-32 w-1 h-40 bg-gray-200"
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: 1.5, delay: 2.2 }}
             />
           </motion.div>
         </div>
@@ -267,7 +285,8 @@ export default function AusstellungLight() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
           >
-            <motion.p
+            {/* Subtitle */}
+            <motion.p 
               className="text-base text-muted-foreground leading-7 mb-2"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -277,8 +296,8 @@ export default function AusstellungLight() {
               27. Februar – 5. April 2026
             </motion.p>
 
-            <motion.p
-              className="text-sm text-muted-foreground leading-7 mb-6"
+            <motion.p 
+              className="text-base text-muted-foreground leading-7 mb-6"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.3 }}
@@ -287,8 +306,9 @@ export default function AusstellungLight() {
               Raiffeisenbank Holzkirchen · Marktplatz 11
             </motion.p>
 
-            <motion.h1
-              className="text-5xl md:text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-4"
+            {/* Main Title */}
+            <motion.h1 
+              className="text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-4"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 1.4 }}
@@ -296,7 +316,8 @@ export default function AusstellungLight() {
               Kunst im Schaufenster
             </motion.h1>
 
-            <motion.p
+            {/* Description */}
+            <motion.p 
               className="text-base text-muted-foreground leading-7 max-w-2xl mx-auto mb-16"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -305,13 +326,14 @@ export default function AusstellungLight() {
               Fünf Originalwerke im Schaufenster der Raiffeisenbank und acht versteckte Entenbüsten-Miniaturen im Atrium Gesundheitszentrum – entdecken Sie Kunst von GHWB Studio in Holzkirchen. Reservieren Sie Ihr Lieblingsstück direkt hier.
             </motion.p>
 
+            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 1.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <SpecialButton
+              <SpecialButton 
                 variant="secondary"
                 size="sm"
                 onClick={() => {
@@ -319,11 +341,11 @@ export default function AusstellungLight() {
                   if (galerie) galerie.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }}
               >
-                <ImageIcon className="w-4 h-4 mr-2" />
+                <Sparkles className="w-4 h-4 mr-2" />
                 Werke ansehen
               </SpecialButton>
 
-              <SpecialButton
+              <SpecialButton 
                 variant="primary"
                 size="sm"
                 onClick={() => {

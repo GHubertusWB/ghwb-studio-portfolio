@@ -226,35 +226,45 @@ export default function AusstellungDark() {
   return (
     <div className="min-h-screen text-gray-100 relative overflow-hidden bg-gray-950">
       {/* HERO SECTION */}
-      <motion.section
+      <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
         style={{ zIndex: 20 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-950 to-gray-950" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20" />
 
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
-          <motion.div
-            className="relative w-full h-full"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.06, scale: 1 }}
-            transition={{ duration: 3, delay: 1 }}
+        {/* HUD Overlay */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 15 }}>
+          <motion.div 
+            className="relative w-full h-full" 
+            initial={{ opacity: 0, scale: 0.8 }} 
+            animate={{ opacity: 0.4, scale: 1 }} 
+            transition={{ duration: 2, delay: 1 }}
           >
-            <motion.div
-              className="absolute top-20 left-20 w-32 h-32 border-2 border-gray-600"
-              style={{ transform: 'rotate(45deg)' }}
-              initial={{ rotate: 0, scale: 0 }}
-              animate={{ rotate: 45, scale: 1 }}
-              transition={{ duration: 2, delay: 1.5 }}
-            />
-            <motion.div
-              className="absolute bottom-32 right-32 w-24 h-24 bg-gray-800 rounded-full"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.5, delay: 2 }}
-            />
+            <svg width="100vw" height="100vh" viewBox="0 0 1920 1080" className="drop-shadow-lg" style={{ filter: `drop-shadow(0 0 20px white)` }}>
+              <motion.path 
+                d="M 520 540 A 440 440 0 1 1 1400 540" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="1.5" 
+                strokeDasharray="5,10" 
+                initial={{ pathLength: 0 }} 
+                animate={{ pathLength: 1 }} 
+                transition={{ duration: 3, delay: 1.5 }} 
+              />
+              <motion.path 
+                d="M 560 540 A 400 400 0 1 1 1360 540" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="1" 
+                strokeOpacity="0.6" 
+                initial={{ pathLength: 0 }} 
+                animate={{ pathLength: 1 }} 
+                transition={{ duration: 2.5, delay: 2 }} 
+              />
+            </svg>
           </motion.div>
         </div>
 
@@ -265,18 +275,27 @@ export default function AusstellungDark() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
           >
-            <motion.p
-              className="text-base text-gray-400 leading-7 mb-2"
+            <motion.p 
+              className="text-base text-cyan-400/80 leading-7 mb-2 tracking-widest font-mono"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
+            >
+              GHWB.AUSSTELLUNG.SYSTEM:
+            </motion.p>
+
+            <motion.p 
+              className="text-base text-gray-400 leading-7 mb-2"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.25 }}
             >
               <Calendar className="w-4 h-4 inline mr-2" />
               27. Februar – 5. April 2026
             </motion.p>
 
-            <motion.p
-              className="text-sm text-gray-400 leading-7 mb-6"
+            <motion.p 
+              className="text-base text-gray-400 leading-7 mb-6"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.3 }}
@@ -285,17 +304,18 @@ export default function AusstellungDark() {
               Raiffeisenbank Holzkirchen · Marktplatz 11
             </motion.p>
 
-            <motion.h1
-              className="text-5xl md:text-6xl font-extrabold text-white leading-tight tracking-tight mb-4"
+            <motion.h1 
+              className="text-5xl md:text-7xl font-extrabold text-white leading-tight tracking-tight mb-6"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 1.4 }}
+              style={{ textShadow: '0 0 30px rgba(255, 255, 255, 0.4)' }}
             >
               Kunst im Schaufenster
             </motion.h1>
 
-            <motion.p
-              className="text-base text-gray-400 leading-7 max-w-2xl mx-auto mb-16"
+            <motion.p 
+              className="text-base text-gray-400 leading-7 max-w-2xl mx-auto mb-8"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.6 }}
@@ -306,30 +326,30 @@ export default function AusstellungDark() {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 1.8 }}
+              transition={{ duration: 0.8, delay: 2 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <SpecialButtonDark
-                variant="secondary"
-                size="sm"
+              <SpecialButtonDark 
+                variant="primary"
+                size="base"
                 onClick={() => {
                   const galerie = document.getElementById('galerie-section')
                   if (galerie) galerie.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }}
               >
-                <ImageIcon className="w-4 h-4 mr-2" />
-                Werke ansehen
+                <Sparkles className="w-4 h-4" />
+                Jetzt reservieren
               </SpecialButtonDark>
 
-              <SpecialButtonDark
-                variant="primary"
-                size="sm"
+              <SpecialButtonDark 
+                variant="secondary"
+                size="base"
                 onClick={() => {
                   const galerie = document.getElementById('galerie-section')
                   if (galerie) galerie.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }}
               >
-                Jetzt reservieren
+                Werke ansehen
               </SpecialButtonDark>
             </motion.div>
           </motion.div>
