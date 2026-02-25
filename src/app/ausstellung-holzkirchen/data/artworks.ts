@@ -1,0 +1,145 @@
+export interface Artwork {
+  id: string
+  title: string
+  technique: string
+  dimensions: string
+  location: 'schaufenster' | 'atrium'
+  price: number
+  image: string
+  alt: string
+  placeholder?: boolean
+}
+
+export const artworks: Artwork[] = [
+  {
+    id: 'ente',
+    title: 'Ente',
+    technique: 'Acryl auf Papier',
+    dimensions: '50 × 70 cm',
+    location: 'schaufenster',
+    price: 500,
+    image: '/gallery/art/ente.jpg',
+    alt: 'Acrylgemälde einer Ente von GHWB Studio – ausgestellt bei Kunst im Schaufenster Holzkirchen',
+  },
+  {
+    id: 'purpurkranich',
+    title: 'Purpurkranich',
+    technique: 'Acryl auf Papier',
+    dimensions: '50 × 70 cm',
+    location: 'schaufenster',
+    price: 500,
+    image: '/gallery/art/purpurkranich.jpg',
+    alt: 'Acrylgemälde eines Purpurkranichs von GHWB Studio – Kunst im Schaufenster Holzkirchen',
+  },
+  {
+    id: 'uferschnepfe',
+    title: 'Uferschnepfe',
+    technique: 'Acryl auf Papier',
+    dimensions: '40 × 50 cm',
+    location: 'schaufenster',
+    price: 290,
+    image: '/gallery/art/uferschnepfe.jpg',
+    alt: 'Acrylgemälde einer Uferschnepfe von GHWB Studio – Kunst im Schaufenster Holzkirchen',
+  },
+  {
+    id: 'entenbuesten-dschungel',
+    title: 'Entenbüsten im Dschungel',
+    technique: 'Acryl mit Blattgold auf Papier',
+    dimensions: '50 × 70 cm',
+    location: 'schaufenster',
+    price: 650,
+    image: '/gallery/art/entenbuesten-dschungel.jpg',
+    alt: 'Acryl mit Blattgold auf Papier – Entenbüsten im Dschungel von GHWB Studio – Kunst im Schaufenster Holzkirchen',
+  },
+  {
+    id: 'entenbuesten-pilzwald',
+    title: 'Entenbüsten im Pilzwald',
+    technique: 'Acryl mit Blattgold auf Papier',
+    dimensions: '50 × 70 cm',
+    location: 'schaufenster',
+    price: 650,
+    image: '/gallery/art/entenbuesten-pilzwald.jpg',
+    alt: 'Acryl mit Blattgold auf Papier – Entenbüsten im Pilzwald von GHWB Studio – Kunst im Schaufenster Holzkirchen',
+  },
+  // ─── Atrium Gesundheitszentrum: 8 Entenbüsten-Miniaturen ───
+  {
+    id: 'ente-mini-1',
+    title: 'Entenbüste Gelb-Grün',
+    technique: 'Acryl auf Holz',
+    dimensions: '10 × 10 cm',
+    location: 'atrium',
+    price: 50,
+    image: '/gallery/art/ente-gelb-gruen.jpg',
+    alt: 'Entenbüste Gelb-Grün – Acryl auf Holz, 10×10 cm – Entenjagd im Atrium Gesundheitszentrum Holzkirchen',
+  },
+  {
+    id: 'ente-mini-2',
+    title: 'Entenbüste Lila-Orange',
+    technique: 'Acryl auf Holz',
+    dimensions: '10 × 10 cm',
+    location: 'atrium',
+    price: 50,
+    image: '/gallery/art/ente-lila-orange.jpg',
+    alt: 'Entenbüste Lila-Orange – Acryl auf Holz, 10×10 cm – Entenjagd im Atrium Gesundheitszentrum Holzkirchen',
+  },
+  {
+    id: 'ente-mini-3',
+    title: 'Entenbüste Oliv-Blau',
+    technique: 'Acryl auf Holz',
+    dimensions: '10 × 10 cm',
+    location: 'atrium',
+    price: 50,
+    image: '/gallery/art/ente-oliv-blau.jpg',
+    alt: 'Entenbüste Oliv-Blau – Acryl auf Holz, 10×10 cm – Entenjagd im Atrium Gesundheitszentrum Holzkirchen',
+  },
+  {
+    id: 'ente-mini-4',
+    title: 'Entenbüste Pink-Türkis',
+    technique: 'Acryl auf Holz',
+    dimensions: '10 × 10 cm',
+    location: 'atrium',
+    price: 50,
+    image: '/gallery/art/ente-pink-tuerkis.jpg',
+    alt: 'Entenbüste Pink-Türkis – Acryl auf Holz, 10×10 cm – Entenjagd im Atrium Gesundheitszentrum Holzkirchen',
+  },
+  {
+    id: 'ente-mini-5',
+    title: 'Entenbüste Pink-Blau',
+    technique: 'Acryl auf Holz',
+    dimensions: '10 × 10 cm',
+    location: 'atrium',
+    price: 50,
+    image: '/gallery/art/ente-pink-blau.jpg',
+    alt: 'Entenbüste Pink-Blau – Acryl auf Holz, 10×10 cm – Entenjagd im Atrium Gesundheitszentrum Holzkirchen',
+  },
+  {
+    id: 'ente-mini-6',
+    title: 'Entenbüste Gelb-Blau',
+    technique: 'Acryl auf Holz',
+    dimensions: '10 × 10 cm',
+    location: 'atrium',
+    price: 50,
+    image: '/gallery/art/ente-gelb-blau.jpg',
+    alt: 'Entenbüste Gelb-Blau – Acryl auf Holz, 10×10 cm – Entenjagd im Atrium Gesundheitszentrum Holzkirchen',
+  },
+  {
+    id: 'ente-mini-7',
+    title: 'Entenbüste Blau-Grün',
+    technique: 'Acryl auf Holz',
+    dimensions: '10 × 10 cm',
+    location: 'atrium',
+    price: 50,
+    image: '/gallery/art/ente-blau-gruen.jpg',
+    alt: 'Entenbüste Blau-Grün – Acryl auf Holz, 10×10 cm – Entenjagd im Atrium Gesundheitszentrum Holzkirchen',
+  },
+  {
+    id: 'ente-mini-8',
+    title: 'Entenbüste Rot-Lila',
+    technique: 'Acryl auf Holz',
+    dimensions: '10 × 10 cm',
+    location: 'atrium',
+    price: 50,
+    image: '/gallery/art/ente-rot-lila.jpg',
+    alt: 'Entenbüste Rot-Lila – Acryl auf Holz, 10×10 cm – Entenjagd im Atrium Gesundheitszentrum Holzkirchen',
+  },
+]
