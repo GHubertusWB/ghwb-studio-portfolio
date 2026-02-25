@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { MapPin, Calendar, Image as ImageIcon, Sparkles, X, Send, Check, AlertCircle } from 'lucide-react'
+import { MapPin, Calendar, Image as ImageIcon, Sparkles, X, Send, Check, AlertCircle, ShoppingBag } from 'lucide-react'
 import { useEffect, useState, useCallback } from 'react'
 import Footer from '@/components/Footer'
 import FloatingClouds from '@/components/FloatingClouds'
@@ -800,10 +800,10 @@ function ArtworkCard({
       className="group"
     >
       <div
-        className={`rounded-2xl overflow-hidden transition-all duration-300 ${
+        className={`overflow-hidden transition-all duration-300 ${
           isLight
-            ? 'bg-white border border-gray-200 shadow-sm hover:shadow-lg'
-            : 'bg-gray-800/40 border border-gray-700 hover:border-gray-600'
+            ? 'rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-lg'
+            : 'rounded-none bg-gray-800/40 border border-gray-700 hover:border-gray-600'
         } ${isReserved ? 'opacity-60' : ''}`}
         style={
           isLight
@@ -847,7 +847,7 @@ function ArtworkCard({
         </div>
 
         {/* Info */}
-        <div className="p-5">
+        <div className="p-5 text-center">
           <h3 className={`text-lg font-semibold mb-1 ${isLight ? 'text-gray-900' : 'text-white'}`}>
             {artwork.title}
           </h3>
@@ -883,6 +883,7 @@ function ArtworkCard({
               onClick={() => onReserve(artwork)}
               className="w-full"
             >
+              <ShoppingBag className="w-4 h-4 mr-2" />
               Reservieren
             </SpecialButton>
           )}
