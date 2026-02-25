@@ -875,16 +875,14 @@ function ArtworkCard({
               Wird noch bekannt gegeben
             </div>
           ) : (
-            <button
+            <SpecialButtonDark
+              variant="primary"
+              size="sm"
               onClick={() => onReserve(artwork)}
-              className={`w-full py-2 px-4 rounded-full text-sm font-semibold transition-all duration-200 ${
-                isLight
-                  ? 'bg-gray-900 text-white hover:bg-gray-800 active:scale-[0.98]'
-                  : 'bg-white text-gray-900 hover:bg-gray-100 active:scale-[0.98]'
-              }`}
+              className="w-full"
             >
               Reservieren
-            </button>
+            </SpecialButtonDark>
           )}
         </div>
       </div>
