@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Lock, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react'
+import { Lock, Eye, EyeOff, AlertCircle, Loader2, CheckCircle, Send, PenLine, X } from 'lucide-react'
 
 export default function AngebotPage() {
   const params = useParams()
@@ -15,6 +15,16 @@ export default function AngebotPage() {
   const [loading, setLoading] = useState(false)
   const [embedUrl, setEmbedUrl] = useState<string | null>(null)
   const [kunde, setKunde] = useState('')
+
+  // Action states
+  const [actionLoading, setActionLoading] = useState(false)
+  const [accepted, setAccepted] = useState(false)
+  const [revisionSent, setRevisionSent] = useState(false)
+  const [showRevisionForm, setShowRevisionForm] = useState(false)
+  const [showAcceptConfirm, setShowAcceptConfirm] = useState(false)
+  const [revisionMessage, setRevisionMessage] = useState('')
+  const [actionError, setActionError] = useState('')
+  const [actionSuccess, setActionSuccess] = useState('')
 
   // Session-Check: embedUrl im sessionStorage behalten
   useEffect(() => {
@@ -60,6 +70,58 @@ export default function AngebotPage() {
       setError('Verbindungsfehler. Bitte versuchen Sie es erneut.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleAccept = async () => {
+    setActionLoading(true)
+    setActionError('')
+    try {
+      const res = await fetch('/api/angebot/respond', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ angebotId: id, action: 'accept' }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setActionError(data.error || 'Fehler beim Senden.')
+      } else {
+        setAccepted(true)
+        setShowAcceptConfirm(false)
+        setActionSuccess('Beauftragung erfolgreich gesendet!')
+      }
+    } catch {
+      setActionError('Verbindungsfehler. Bitte versuchen Sie es erneut.')
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
+  const handleRevision = async () => {
+    if (!revisionMessage.trim()) {
+      setActionError('Bitte geben Sie Ihre Änderungswünsche ein.')
+      return
+    }
+    setActionLoading(true)
+    setActionError('')
+    try {
+      const res = await fetch('/api/angebot/respond', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ angebotId: id, action: 'revision', message: revisionMessage }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setActionError(data.error || 'Fehler beim Senden.')
+      } else {
+        setRevisionSent(true)
+        setShowRevisionForm(false)
+        setActionSuccess('Änderungswünsche erfolgreich gesendet!')
+      }
+    } catch {
+      setActionError('Verbindungsfehler. Bitte versuchen Sie es erneut.')
+    } finally {
+      setActionLoading(false)
     }
   }
 
@@ -176,6 +238,145 @@ export default function AngebotPage() {
           loading="lazy"
           title={`Angebot für ${kunde}`}
         />
+      </div>
+
+      {/* Action Bar */}
+      <div className="border-t border-white/5 bg-gray-900/90 backdrop-blur-lg px-6 py-4">
+        {/* Success Message */}
+        <AnimatePresence>
+          {actionSuccess && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="flex items-center gap-2 text-emerald-400 text-sm mb-3 justify-center"
+            >
+              <CheckCircle className="w-4 h-4" />
+              <span>{actionSuccess}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Error Message */}
+        <AnimatePresence>
+          {actionError && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="flex items-center gap-2 text-red-400 text-sm mb-3 justify-center"
+            >
+              <AlertCircle className="w-4 h-4" />
+              <span>{actionError}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Accept Confirmation Dialog */}
+        <AnimatePresence>
+          {showAcceptConfirm && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mb-4 overflow-hidden"
+            >
+              <div className="bg-emerald-950/50 border border-emerald-800/50 rounded-xl p-4 max-w-lg mx-auto">
+                <p className="text-sm text-emerald-200 mb-3 text-center">
+                  Möchten Sie dieses Angebot verbindlich beauftragen?
+                </p>
+                <div className="flex gap-3 justify-center">
+                  <button
+                    onClick={handleAccept}
+                    disabled={actionLoading}
+                    className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-all disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+                    Ja, verbindlich beauftragen
+                  </button>
+                  <button
+                    onClick={() => { setShowAcceptConfirm(false); setActionError('') }}
+                    className="px-5 py-2 bg-white/5 hover:bg-white/10 text-gray-300 text-sm rounded-lg transition-all"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Revision Form */}
+        <AnimatePresence>
+          {showRevisionForm && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mb-4 overflow-hidden"
+            >
+              <div className="bg-amber-950/30 border border-amber-800/40 rounded-xl p-4 max-w-lg mx-auto">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-sm text-amber-200 font-medium">Änderungswünsche mitteilen</p>
+                  <button
+                    onClick={() => { setShowRevisionForm(false); setActionError('') }}
+                    className="text-gray-500 hover:text-gray-300 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <textarea
+                  value={revisionMessage}
+                  onChange={(e) => { setRevisionMessage(e.target.value); setActionError('') }}
+                  placeholder="Beschreiben Sie Ihre gewünschten Änderungen..."
+                  rows={4}
+                  maxLength={5000}
+                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/30 resize-none"
+                />
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-xs text-gray-600">{revisionMessage.length}/5000</span>
+                  <button
+                    onClick={handleRevision}
+                    disabled={actionLoading || !revisionMessage.trim()}
+                    className="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-lg transition-all disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                    Absenden
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Action Buttons */}
+        <div className="flex gap-3 justify-center">
+          <button
+            onClick={() => { setShowAcceptConfirm(true); setShowRevisionForm(false); setActionError(''); setActionSuccess('') }}
+            disabled={accepted || actionLoading}
+            className={`px-6 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center gap-2 ${
+              accepted
+                ? 'bg-emerald-900/50 text-emerald-400 cursor-default'
+                : 'bg-emerald-600 hover:bg-emerald-500 text-white'
+            } disabled:opacity-70`}
+          >
+            <CheckCircle className="w-4 h-4" />
+            {accepted ? 'Beauftragung gesendet ✓' : 'Angebot beauftragen'}
+          </button>
+
+          <button
+            onClick={() => { setShowRevisionForm(true); setShowAcceptConfirm(false); setActionError(''); setActionSuccess('') }}
+            disabled={revisionSent || actionLoading}
+            className={`px-6 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center gap-2 ${
+              revisionSent
+                ? 'bg-amber-900/50 text-amber-400 cursor-default'
+                : 'bg-amber-600 hover:bg-amber-500 text-white'
+            } disabled:opacity-70`}
+          >
+            <PenLine className="w-4 h-4" />
+            {revisionSent ? 'Änderungswünsche gesendet ✓' : 'Änderungswünsche'}
+          </button>
+        </div>
       </div>
     </div>
   )
