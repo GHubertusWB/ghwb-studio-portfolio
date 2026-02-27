@@ -1,10 +1,11 @@
 /**
- * MotionDetector — CPU-based motion detection via frame differencing.
+ * MotionDetector — CPU-based motion detection with water-like ripple propagation.
  *
  * Supports two modes:
  *   1. Camera: processVideoFrame(video) — compares consecutive webcam frames in luma space.
  *   2. Mouse fallback: processMouseMove(nx, ny) — creates a synthetic motion blob at cursor.
  *
+ * The motion map uses a wave equation for ripple spread + slow decay for lingering effect.
  * Outputs a Uint8Array (RGBA, 128×72) suitable for THREE.DataTexture.
  */
 
@@ -18,9 +19,18 @@ export class MotionDetector {
   private prevLuma: Float32Array
   private smoothed: Float32Array
 
+  // Wave simulation buffers (for ripple propagation)
+  private waveCurrent: Float32Array
+  private wavePrev: Float32Array
+
   // Mouse fallback state
   private prevMouseX = -1
   private prevMouseY = -1
+
+  // Wave parameters
+  private readonly DAMPING = 0.985       // How slowly waves die out (higher = longer)
+  private readonly PROPAGATION = 0.24    // Wave speed (how fast ripples spread)
+  private readonly INJECT_GAIN = 2.5     // How strongly new motion feeds into waves
 
   constructor(width = 128, height = 72) {
     this.width = width
@@ -34,6 +44,8 @@ export class MotionDetector {
     const size = width * height
     this.prevLuma = new Float32Array(size)
     this.smoothed = new Float32Array(size)
+    this.waveCurrent = new Float32Array(size)
+    this.wavePrev = new Float32Array(size)
     this.motionData = new Uint8Array(size * 4)
 
     // Init alpha channel to 255
@@ -57,19 +69,29 @@ export class MotionDetector {
     const data = imageData.data
     const size = this.width * this.height
 
+    // Compute raw frame diff and inject into wave system
     for (let i = 0; i < size; i++) {
       const idx = i * 4
       // BT.709 luma
       const luma = (0.2126 * data[idx] + 0.7152 * data[idx + 1] + 0.0722 * data[idx + 2]) / 255
 
       let diff = Math.abs(luma - this.prevLuma[i])
-      // Threshold (0.025) + gain (×4)
-      diff = Math.min(1.0, Math.max(0.0, diff - 0.025) * 4.0)
+      // Threshold (0.02) + gain (×5)
+      diff = Math.min(1.0, Math.max(0.0, diff - 0.02) * 5.0)
 
-      // Temporal smoothing (exponential)
-      this.smoothed[i] = this.smoothed[i] * 0.75 + diff * 0.25
+      // Inject new motion energy into the wave simulation
+      this.waveCurrent[i] += diff * this.INJECT_GAIN
 
       this.prevLuma[i] = luma
+    }
+
+    // Propagate waves (2D wave equation)
+    this.propagateWaves()
+
+    // Combine wave field into smoothed output with slow decay
+    for (let i = 0; i < size; i++) {
+      const waveVal = Math.min(1.0, Math.abs(this.waveCurrent[i]))
+      this.smoothed[i] = Math.max(this.smoothed[i] * 0.965, waveVal)
     }
 
     this.applyBlur()
@@ -81,15 +103,11 @@ export class MotionDetector {
   /* ------------------------------------------------------------------ */
 
   processMouseMove(normalizedX: number, normalizedY: number): void {
-    // Natural decay
-    const size = this.width * this.height
-    for (let i = 0; i < size; i++) {
-      this.smoothed[i] *= 0.90
-    }
-
     if (this.prevMouseX < 0) {
       this.prevMouseX = normalizedX
       this.prevMouseY = normalizedY
+      this.propagateWaves()
+      this.updateSmoothedFromWaves()
       this.writeMotionData()
       return
     }
@@ -100,9 +118,9 @@ export class MotionDetector {
 
     if (velocity > 0.001) {
       const cx = Math.floor(normalizedX * this.width)
-      const cy = Math.floor((1.0 - normalizedY) * this.height) // flip Y for texture coords
-      const radius = 18
-      const intensity = Math.min(1.0, velocity * 10.0)
+      const cy = Math.floor((1.0 - normalizedY) * this.height)
+      const radius = 22
+      const intensity = Math.min(1.5, velocity * 15.0)
 
       const x0 = Math.max(0, cx - radius)
       const x1 = Math.min(this.width - 1, cx + radius)
@@ -115,13 +133,18 @@ export class MotionDetector {
           const blob = Math.max(0.0, 1.0 - d / radius)
           const val = blob * blob * intensity
           const idx = y * this.width + x
-          this.smoothed[idx] = Math.max(this.smoothed[idx], val)
+          // Inject into wave system
+          this.waveCurrent[idx] += val * this.INJECT_GAIN
         }
       }
     }
 
     this.prevMouseX = normalizedX
     this.prevMouseY = normalizedY
+
+    // Propagate ripples
+    this.propagateWaves()
+    this.updateSmoothedFromWaves()
     this.writeMotionData()
   }
 
@@ -129,13 +152,46 @@ export class MotionDetector {
   /* Helpers                                                             */
   /* ------------------------------------------------------------------ */
 
-  /** Decay-only pass (for idle frames when mouse doesn't move) */
+  /** Decay-only pass — waves keep propagating even without new input */
   decay(): void {
+    this.propagateWaves()
+    this.updateSmoothedFromWaves()
+    this.writeMotionData()
+  }
+
+  /** 2D wave equation propagation with damping */
+  private propagateWaves(): void {
+    const { width, height, waveCurrent, wavePrev, DAMPING, PROPAGATION } = this
+    const next = new Float32Array(waveCurrent.length)
+
+    for (let y = 1; y < height - 1; y++) {
+      for (let x = 1; x < width - 1; x++) {
+        const i = y * width + x
+        // Laplacian (4-neighbor average minus center)
+        const laplacian =
+          waveCurrent[i - 1] +
+          waveCurrent[i + 1] +
+          waveCurrent[i - width] +
+          waveCurrent[i + width] -
+          4.0 * waveCurrent[i]
+
+        // Wave equation: next = 2*current - previous + propagation*laplacian
+        next[i] = (2.0 * waveCurrent[i] - wavePrev[i] + PROPAGATION * laplacian) * DAMPING
+      }
+    }
+
+    wavePrev.set(waveCurrent)
+    waveCurrent.set(next)
+  }
+
+  /** Transfer wave field amplitude to smoothed output buffer */
+  private updateSmoothedFromWaves(): void {
     const size = this.width * this.height
     for (let i = 0; i < size; i++) {
-      this.smoothed[i] *= 0.94
+      const waveVal = Math.min(1.0, Math.abs(this.waveCurrent[i]))
+      // Slow decay: smoothed retains 97% of previous value, takes max with wave
+      this.smoothed[i] = Math.max(this.smoothed[i] * 0.975, waveVal)
     }
-    this.writeMotionData()
   }
 
   /** 3×3 box blur on smoothed motion map */

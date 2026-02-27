@@ -210,7 +210,7 @@ export default function ArtTeaser() {
         uTex: { value: fallbackTex },
         uMotionTex: { value: motionTexture },
         uTime: { value: 0 },
-        uStrength: { value: strengthRef.current * 0.12 },
+        uStrength: { value: strengthRef.current * 0.35 },
         uMotionTexelSize: { value: new THREE.Vector2(1 / MOTION_W, 1 / MOTION_H) },
       },
     })
@@ -277,7 +277,7 @@ export default function ArtTeaser() {
 
       // Update uniforms
       material.uniforms.uTime.value = elapsed
-      material.uniforms.uStrength.value = strengthRef.current * 0.12
+      material.uniforms.uStrength.value = strengthRef.current * 0.35
 
       renderer.render(scene, camera)
     }
