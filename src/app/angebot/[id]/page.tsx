@@ -211,25 +211,6 @@ export default function AngebotPage() {
   // Canva Embed anzeigen
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col pt-16">
-      {/* Minimal Header */}
-      <div className="flex items-center justify-between px-6 py-3 bg-gray-900/80 backdrop-blur-lg border-b border-white/5">
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-white">GHWB Studio</span>
-          <span className="text-gray-600">·</span>
-          <span className="text-sm text-gray-400">Angebot für {kunde}</span>
-        </div>
-        <button
-          onClick={() => {
-            sessionStorage.removeItem(`angebot-${id}`)
-            setEmbedUrl(null)
-            setPassword('')
-          }}
-          className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-        >
-          Abmelden
-        </button>
-      </div>
-
       {/* Canva Embed */}
       <div className="flex-1 relative">
         <iframe
@@ -260,7 +241,7 @@ export default function AngebotPage() {
 
         {/* Error Message */}
         <AnimatePresence>
-          {actionError && (
+          {actionError && !showAcceptConfirm && !showRevisionForm && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -269,83 +250,6 @@ export default function AngebotPage() {
             >
               <AlertCircle className="w-4 h-4" />
               <span>{actionError}</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Accept Confirmation Dialog */}
-        <AnimatePresence>
-          {showAcceptConfirm && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mb-4 overflow-hidden"
-            >
-              <div className="bg-emerald-950/50 border border-emerald-800/50 rounded-xl p-4 max-w-lg mx-auto">
-                <p className="text-sm text-emerald-200 mb-3 text-center">
-                  Möchten Sie dieses Angebot verbindlich beauftragen?
-                </p>
-                <div className="flex gap-3 justify-center">
-                  <button
-                    onClick={handleAccept}
-                    disabled={actionLoading}
-                    className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-all disabled:opacity-50 flex items-center gap-2"
-                  >
-                    {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
-                    Ja, verbindlich beauftragen
-                  </button>
-                  <button
-                    onClick={() => { setShowAcceptConfirm(false); setActionError('') }}
-                    className="px-5 py-2 bg-white/5 hover:bg-white/10 text-gray-300 text-sm rounded-lg transition-all"
-                  >
-                    Abbrechen
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Revision Form */}
-        <AnimatePresence>
-          {showRevisionForm && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mb-4 overflow-hidden"
-            >
-              <div className="bg-amber-950/30 border border-amber-800/40 rounded-xl p-4 max-w-lg mx-auto">
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-sm text-amber-200 font-medium">Änderungswünsche mitteilen</p>
-                  <button
-                    onClick={() => { setShowRevisionForm(false); setActionError('') }}
-                    className="text-gray-500 hover:text-gray-300 transition-colors"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-                <textarea
-                  value={revisionMessage}
-                  onChange={(e) => { setRevisionMessage(e.target.value); setActionError('') }}
-                  placeholder="Beschreiben Sie Ihre gewünschten Änderungen..."
-                  rows={4}
-                  maxLength={5000}
-                  className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/30 resize-none"
-                />
-                <div className="flex items-center justify-between mt-3">
-                  <span className="text-xs text-gray-600">{revisionMessage.length}/5000</span>
-                  <button
-                    onClick={handleRevision}
-                    disabled={actionLoading || !revisionMessage.trim()}
-                    className="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-lg transition-all disabled:opacity-50 flex items-center gap-2"
-                  >
-                    {actionLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                    Absenden
-                  </button>
-                </div>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -373,6 +277,157 @@ export default function AngebotPage() {
           </SpecialButton>
         </div>
       </div>
+
+      {/* Accept Modal */}
+      <AnimatePresence>
+        {showAcceptConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center px-4"
+            onClick={() => { setShowAcceptConfirm(false); setActionError('') }}
+          >
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md rounded-2xl bg-gray-900/95 border border-gray-700/50 shadow-2xl shadow-black/50 backdrop-blur-xl p-6"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-white">Angebot beauftragen</h3>
+                <button
+                  onClick={() => { setShowAcceptConfirm(false); setActionError('') }}
+                  className="text-gray-500 hover:text-gray-300 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-sm text-gray-400 mb-2">
+                Möchten Sie dieses Angebot verbindlich beauftragen?
+              </p>
+              <p className="text-xs text-gray-500 mb-6">
+                Mit der Bestätigung erteilen Sie GHWB Studio den Auftrag gemäß den Konditionen des Angebots. Sie erhalten eine Bestätigung per E-Mail.
+              </p>
+
+              <AnimatePresence>
+                {actionError && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="flex items-center gap-2 text-red-400 text-sm mb-4"
+                  >
+                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                    <span>{actionError}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <div className="flex gap-3 justify-end">
+                <SpecialButton
+                  variant="secondary"
+                  size="xs"
+                  onClick={() => { setShowAcceptConfirm(false); setActionError('') }}
+                >
+                  Abbrechen
+                </SpecialButton>
+                <SpecialButton
+                  variant="primary"
+                  size="xs"
+                  onClick={handleAccept}
+                  disabled={actionLoading}
+                >
+                  {actionLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
+                  Ja, verbindlich beauftragen
+                </SpecialButton>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Revision Modal */}
+      <AnimatePresence>
+        {showRevisionForm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center px-4"
+            onClick={() => { setShowRevisionForm(false); setActionError('') }}
+          >
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md rounded-2xl bg-gray-900/95 border border-gray-700/50 shadow-2xl shadow-black/50 backdrop-blur-xl p-6"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-white">Änderungswünsche</h3>
+                <button
+                  onClick={() => { setShowRevisionForm(false); setActionError('') }}
+                  className="text-gray-500 hover:text-gray-300 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <p className="text-sm text-gray-400 mb-4">
+                Beschreiben Sie Ihre gewünschten Änderungen – wir passen das Angebot entsprechend an.
+              </p>
+
+              <textarea
+                value={revisionMessage}
+                onChange={(e) => { setRevisionMessage(e.target.value); setActionError('') }}
+                placeholder="Ihre Änderungswünsche..."
+                rows={5}
+                maxLength={5000}
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent resize-none mb-2"
+              />
+              <span className="text-xs text-gray-600 block mb-4">{revisionMessage.length}/5000</span>
+
+              <AnimatePresence>
+                {actionError && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="flex items-center gap-2 text-red-400 text-sm mb-4"
+                  >
+                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                    <span>{actionError}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <div className="flex gap-3 justify-end">
+                <SpecialButton
+                  variant="secondary"
+                  size="xs"
+                  onClick={() => { setShowRevisionForm(false); setActionError('') }}
+                >
+                  Abbrechen
+                </SpecialButton>
+                <SpecialButton
+                  variant="primary"
+                  size="xs"
+                  onClick={handleRevision}
+                  disabled={actionLoading || !revisionMessage.trim()}
+                >
+                  {actionLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                  Absenden
+                </SpecialButton>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

@@ -54,18 +54,28 @@ const Navigation = () => {
     return null
   }
 
-  // Minimale Nav auf Angebotsseiten: nur zentriertes Logo
+  // Minimale Nav auf Angebotsseiten: Logo links, Abmelden rechts
   if (pathname.startsWith('/angebot/')) {
+    const angebotId = pathname.split('/')[2]
     return (
       <nav className="fixed top-0 w-full z-50 bg-gray-950/80 backdrop-blur-md border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center items-center h-16">
+          <div className="flex justify-between items-center h-16">
             <NavigationLink href="/" className="text-xl tracking-wider">
               <span className="flex items-center">
                 <span className="font-bold text-white">GHWB</span>
                 <span className="font-medium ml-2 text-white">STUDIO</span>
               </span>
             </NavigationLink>
+            <button
+              onClick={() => {
+                if (angebotId) sessionStorage.removeItem(`angebot-${angebotId}`)
+                window.location.reload()
+              }}
+              className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+            >
+              Abmelden
+            </button>
           </div>
         </div>
       </nav>
