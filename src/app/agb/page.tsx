@@ -150,8 +150,8 @@ export default function AGB() {
                   sofern nicht anders vereinbart.
                 </p>
                 <p>
-                  (3) Mit Auftragserteilung wird eine Anzahlung in Höhe von 50 % des Gesamtbetrags 
-                  fällig. Die Restzahlung erfolgt nach Abschluss und Abnahme des Projekts.
+                  (3) Bei größeren Projekten kann eine Anzahlung von bis zu 50 % des Gesamtbetrags vor 
+                  Projektbeginn vereinbart werden.
                 </p>
                 <p>
                   (4) Bei Zahlungsverzug ist GHWB Studio berechtigt, Verzugszinsen in gesetzlicher Höhe 
