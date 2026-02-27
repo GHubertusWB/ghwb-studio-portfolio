@@ -15,12 +15,12 @@ const nextConfig: NextConfig = {
   // FINAL VERCEL FIX - ESLint komplett deaktiviert
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },
