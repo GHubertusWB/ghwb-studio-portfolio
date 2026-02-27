@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { angebotId, action, message } = body
+    const { angebotId, action, message, signaturName } = body
 
     // Validierung
     if (!angebotId || !action || typeof angebotId !== 'string' || typeof action !== 'string') {
@@ -49,6 +49,15 @@ export async function POST(request: NextRequest) {
 
     if (!['accept', 'revision'].includes(action)) {
       return NextResponse.json({ error: 'Ungültige Aktion.' }, { status: 400 })
+    }
+
+    if (action === 'accept') {
+      if (!signaturName || typeof signaturName !== 'string' || signaturName.trim().length < 2) {
+        return NextResponse.json({ error: 'Bitte geben Sie Ihren vollständigen Namen ein.' }, { status: 400 })
+      }
+      if (signaturName.length > 200) {
+        return NextResponse.json({ error: 'Name zu lang.' }, { status: 400 })
+      }
     }
 
     if (action === 'revision') {
@@ -96,6 +105,9 @@ export async function POST(request: NextRequest) {
       minute: '2-digit',
     })
 
+    // IP & User-Agent für Protokollierung
+    const userAgent = escapeHtml(request.headers.get('user-agent') || 'Unbekannt')
+
     const safeKunde = escapeHtml(angebot.kunde)
     const safeId = escapeHtml(angebot.id)
 
@@ -103,6 +115,7 @@ export async function POST(request: NextRequest) {
     let htmlBody: string
 
     if (action === 'accept') {
+      const safeName = escapeHtml(signaturName.trim())
       subject = `✅ Angebot beauftragt – ${angebot.kunde}`
       htmlBody = `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; background: #f8f9fa; border-radius: 12px;">
@@ -113,6 +126,15 @@ export async function POST(request: NextRequest) {
             <p style="margin: 0 0 12px; color: #374151;"><strong>Kunde:</strong> ${safeKunde}</p>
             <p style="margin: 0 0 12px; color: #374151;"><strong>Angebots-ID:</strong> <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 13px;">${safeId}</code></p>
             <p style="margin: 0 0 12px; color: #374151;"><strong>Zeitpunkt:</strong> ${escapeHtml(timestamp)}</p>
+            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;" />
+            <p style="margin: 0 0 8px; color: #374151; font-weight: 600;">Digitale Signatur:</p>
+            <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+              <p style="margin: 0 0 4px; color: #065f46; font-size: 18px; font-weight: 600;">${safeName}</p>
+              <p style="margin: 0; color: #6b7280; font-size: 12px;">AGB akzeptiert: Ja</p>
+            </div>
+            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;" />
+            <p style="margin: 0 0 4px; color: #6b7280; font-size: 12px;"><strong>IP-Adresse:</strong> ${escapeHtml(ip)}</p>
+            <p style="margin: 0 0 4px; color: #6b7280; font-size: 12px;"><strong>User-Agent:</strong> ${userAgent}</p>
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;" />
             <p style="margin: 0; color: #059669; font-weight: 600;">Das Angebot wurde vom Kunden verbindlich beauftragt.</p>
           </div>
@@ -146,6 +168,45 @@ export async function POST(request: NextRequest) {
       subject,
       html: htmlBody,
     })
+
+    // Bestätigungs-E-Mail an Kunden
+    if (action === 'accept' && angebot.kundeEmail) {
+      const safeName = escapeHtml(signaturName.trim())
+      const confirmationHtml = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; background: #f8f9fa; border-radius: 12px;">
+          <div style="background: #1a1a2e; color: white; padding: 20px 24px; border-radius: 8px; margin-bottom: 24px;">
+            <h1 style="margin: 0; font-size: 20px;">Auftragsbestätigung</h1>
+          </div>
+          <div style="background: white; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb;">
+            <p style="margin: 0 0 16px; color: #374151;">Hallo ${safeKunde},</p>
+            <p style="margin: 0 0 16px; color: #374151; line-height: 1.6;">vielen Dank für Ihre Beauftragung! Hiermit bestätigen wir den Eingang Ihres Auftrags.</p>
+            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+              <p style="margin: 0 0 8px; color: #374151;"><strong>Angebots-ID:</strong> <code style="background: #e5e7eb; padding: 2px 6px; border-radius: 4px; font-size: 13px;">${safeId}</code></p>
+              <p style="margin: 0 0 8px; color: #374151;"><strong>Digitale Signatur:</strong> ${safeName}</p>
+              <p style="margin: 0 0 8px; color: #374151;"><strong>Zeitpunkt:</strong> ${escapeHtml(timestamp)}</p>
+              <p style="margin: 0; color: #374151;"><strong>AGB akzeptiert:</strong> Ja</p>
+            </div>
+            <p style="margin: 0 0 16px; color: #374151; line-height: 1.6;">Wir werden uns in Kürze bei Ihnen melden, um die nächsten Schritte zu besprechen.</p>
+            <p style="margin: 0 0 4px; color: #374151;">Mit freundlichen Grüßen,</p>
+            <p style="margin: 0; color: #374151; font-weight: 600;">GHWB Studio</p>
+          </div>
+          <p style="margin: 16px 0 0; color: #9ca3af; font-size: 12px; text-align: center;">Diese E-Mail wurde automatisch generiert. Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+        </div>
+      `
+
+      try {
+        await transporter.sendMail({
+          from: `"GHWB Studio" <${process.env.SMTP_USER}>`,
+          to: angebot.kundeEmail,
+          replyTo: process.env.SMTP_USER || 'office@ghwbstudio.de',
+          subject: `Auftragsbestätigung – GHWB Studio`,
+          html: confirmationHtml,
+        })
+      } catch {
+        // Bestätigungsmail fehlgeschlagen – kein Abbruch, Studio wurde bereits benachrichtigt
+        console.error('Bestätigungs-E-Mail an Kunden fehlgeschlagen')
+      }
+    }
 
     return NextResponse.json({ success: true })
   } catch {

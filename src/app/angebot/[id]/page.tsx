@@ -27,6 +27,10 @@ export default function AngebotPage() {
   const [actionError, setActionError] = useState('')
   const [actionSuccess, setActionSuccess] = useState('')
 
+  // Signatur & AGB
+  const [signaturName, setSignaturName] = useState('')
+  const [agbAccepted, setAgbAccepted] = useState(false)
+
   // Session-Check: embedUrl im sessionStorage behalten
   useEffect(() => {
     const cached = sessionStorage.getItem(`angebot-${id}`)
@@ -75,13 +79,21 @@ export default function AngebotPage() {
   }
 
   const handleAccept = async () => {
+    if (!signaturName.trim()) {
+      setActionError('Bitte geben Sie Ihren vollständigen Namen ein.')
+      return
+    }
+    if (!agbAccepted) {
+      setActionError('Bitte akzeptieren Sie die AGB.')
+      return
+    }
     setActionLoading(true)
     setActionError('')
     try {
       const res = await fetch('/api/angebot/respond', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ angebotId: id, action: 'accept' }),
+        body: JSON.stringify({ angebotId: id, action: 'accept', signaturName: signaturName.trim() }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -259,7 +271,7 @@ export default function AngebotPage() {
           <SpecialButton
             variant="primary"
             size="sm"
-            onClick={() => { setShowAcceptConfirm(true); setShowRevisionForm(false); setActionError(''); setActionSuccess('') }}
+            onClick={() => { setShowAcceptConfirm(true); setShowRevisionForm(false); setActionError(''); setActionSuccess(''); setSignaturName(''); setAgbAccepted(false) }}
             disabled={accepted || actionLoading}
           >
             <CheckCircle className="w-4 h-4 mr-2" />
@@ -306,12 +318,38 @@ export default function AngebotPage() {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-sm text-gray-400 mb-2">
-                Möchten Sie dieses Angebot verbindlich beauftragen?
+              <p className="text-sm text-gray-400 mb-4">
+                Bitte geben Sie Ihren vollständigen Namen als digitale Signatur ein und bestätigen Sie die AGB.
               </p>
-              <p className="text-xs text-gray-500 mb-6">
-                Mit der Bestätigung erteilen Sie GHWB Studio den Auftrag gemäß den Konditionen des Angebots. Sie erhalten eine Bestätigung per E-Mail.
-              </p>
+
+              {/* Signatur-Feld */}
+              <div className="mb-4">
+                <label className="block text-xs text-gray-500 mb-1.5">Vollständiger Name (digitale Signatur)</label>
+                <input
+                  type="text"
+                  value={signaturName}
+                  onChange={(e) => { setSignaturName(e.target.value); setActionError('') }}
+                  placeholder="Vor- und Nachname"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent transition-all"
+                  autoComplete="name"
+                />
+              </div>
+
+              {/* AGB Checkbox */}
+              <label className="flex items-start gap-3 mb-6 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={agbAccepted}
+                  onChange={(e) => { setAgbAccepted(e.target.checked); setActionError('') }}
+                  className="mt-0.5 w-4 h-4 rounded border-gray-600 bg-white/5 text-amber-500 focus:ring-amber-500/50 focus:ring-offset-0 cursor-pointer"
+                />
+                <span className="text-xs text-gray-400 leading-relaxed">
+                  Ich beauftrage hiermit verbindlich gemäß den Konditionen des Angebots und akzeptiere die{' '}
+                  <a href="/agb" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 underline underline-offset-2">
+                    Allgemeinen Geschäftsbedingungen (AGB)
+                  </a>.
+                </span>
+              </label>
 
               <AnimatePresence>
                 {actionError && (
@@ -339,10 +377,10 @@ export default function AngebotPage() {
                   variant="primary"
                   size="xs"
                   onClick={handleAccept}
-                  disabled={actionLoading}
+                  disabled={actionLoading || !signaturName.trim() || !agbAccepted}
                 >
                   {actionLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
-                  Ja, verbindlich beauftragen
+                  Verbindlich beauftragen
                 </SpecialButton>
               </div>
             </motion.div>
