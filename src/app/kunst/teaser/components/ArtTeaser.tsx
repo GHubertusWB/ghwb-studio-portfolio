@@ -22,43 +22,40 @@ import UIOverlay from './UIOverlay'
 import styles from '../art-teaser.module.css'
 
 /* ------------------------------------------------------------------ */
-/* Placeholder texture (canvas gradient — no external file needed)     */
+/* Placeholder texture: load real artwork, canvas gradient fallback    */
 /* ------------------------------------------------------------------ */
-function createPlaceholderTexture(): THREE.CanvasTexture {
+function createFallbackTexture(): THREE.CanvasTexture {
   const c = document.createElement('canvas')
   c.width = 1920
   c.height = 1080
   const ctx = c.getContext('2d')!
 
-  // Dark base gradient
+  // Bright visible gradient
   const grad = ctx.createLinearGradient(0, 0, 1920, 1080)
-  grad.addColorStop(0, '#0a0a1a')
-  grad.addColorStop(0.25, '#1a0f2e')
-  grad.addColorStop(0.5, '#0f2040')
-  grad.addColorStop(0.75, '#1a1030')
-  grad.addColorStop(1, '#0d1520')
+  grad.addColorStop(0, '#2d1b69')
+  grad.addColorStop(0.3, '#1a3a5c')
+  grad.addColorStop(0.5, '#0d4f4f')
+  grad.addColorStop(0.7, '#4a2040')
+  grad.addColorStop(1, '#1a1040')
   ctx.fillStyle = grad
   ctx.fillRect(0, 0, 1920, 1080)
 
-  // Organic luminous circles
-  const palette = [
-    ['#e94560', 0.18], ['#533483', 0.22], ['#0f3460', 0.28],
-    ['#4ecdc4', 0.15], ['#ff6b6b', 0.12], ['#a855f7', 0.20],
-    ['#6366f1', 0.16], ['#14b8a6', 0.14], ['#f59e0b', 0.10],
-    ['#ec4899', 0.13], ['#8b5cf6', 0.18], ['#06b6d4', 0.15],
-  ] as const
+  // Bright organic blobs
+  const blobs: [string, number, number, number, number][] = [
+    ['#e94560', 400, 300, 320, 0.45],
+    ['#4ecdc4', 1200, 500, 280, 0.4],
+    ['#a855f7', 800, 200, 350, 0.35],
+    ['#f59e0b', 1500, 700, 250, 0.5],
+    ['#ec4899', 300, 700, 300, 0.4],
+    ['#6366f1', 1000, 800, 280, 0.38],
+    ['#14b8a6', 600, 500, 260, 0.42],
+    ['#f97316', 1600, 200, 220, 0.35],
+  ]
 
-  // Seeded "random" for deterministic output
-  let seed = 42
-  const rand = () => { seed = (seed * 16807 + 0) % 2147483647; return seed / 2147483647 }
-
-  for (const [hex, alpha] of palette) {
-    const x = rand() * 1920
-    const y = rand() * 1080
-    const r = 80 + rand() * 360
+  for (const [hex, x, y, r, a] of blobs) {
     const rg = ctx.createRadialGradient(x, y, 0, x, y, r)
-    rg.addColorStop(0, hex + Math.round(alpha * 255).toString(16).padStart(2, '0'))
-    rg.addColorStop(0.6, hex + '12')
+    rg.addColorStop(0, hex + Math.round(a * 255).toString(16).padStart(2, '0'))
+    rg.addColorStop(0.5, hex + '44')
     rg.addColorStop(1, hex + '00')
     ctx.fillStyle = rg
     ctx.beginPath()
@@ -66,21 +63,34 @@ function createPlaceholderTexture(): THREE.CanvasTexture {
     ctx.fill()
   }
 
-  // Soft horizontal bands
-  for (let i = 0; i < 4; i++) {
-    const y = rand() * 1080
-    const h = 40 + rand() * 120
-    const lg = ctx.createLinearGradient(0, y, 0, y + h)
-    lg.addColorStop(0, 'rgba(255,255,255,0)')
-    lg.addColorStop(0.5, `rgba(255,255,255,${0.015 + rand() * 0.02})`)
-    lg.addColorStop(1, 'rgba(255,255,255,0)')
-    ctx.fillStyle = lg
-    ctx.fillRect(0, y, 1920, h)
-  }
+  // Bright accent text
+  ctx.save()
+  ctx.globalAlpha = 0.06
+  ctx.fillStyle = '#ffffff'
+  ctx.font = 'bold 200px sans-serif'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillText('GHWB', 960, 540)
+  ctx.restore()
 
   const tex = new THREE.CanvasTexture(c)
   tex.colorSpace = THREE.SRGBColorSpace
   return tex
+}
+
+function loadArtworkTexture(): Promise<THREE.Texture> {
+  return new Promise((resolve, reject) => {
+    const loader = new THREE.TextureLoader()
+    loader.load(
+      '/gallery/art/ente-pink-tuerkis.jpg',
+      (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace
+        resolve(tex)
+      },
+      undefined,
+      () => reject(new Error('Image load failed'))
+    )
+  })
 }
 
 /* ------------------------------------------------------------------ */
@@ -167,8 +177,8 @@ export default function ArtTeaser() {
 
     // --- Scene & Camera ---
     const scene = new THREE.Scene()
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
-    camera.position.z = 0.5
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10)
+    camera.position.z = 1
 
     // --- Motion Detector ---
     const MOTION_W = 128
@@ -191,15 +201,13 @@ export default function ArtTeaser() {
     motionTexture.needsUpdate = true
     motionTextureRef.current = motionTexture
 
-    // --- Placeholder Texture ---
-    const placeholderTex = createPlaceholderTexture()
-
-    // --- Shader Material ---
+    // --- Shader Material (init with fallback, replace once image loads) ---
+    const fallbackTex = createFallbackTexture()
     const material = new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
       uniforms: {
-        uTex: { value: placeholderTex },
+        uTex: { value: fallbackTex },
         uMotionTex: { value: motionTexture },
         uTime: { value: 0 },
         uStrength: { value: strengthRef.current * 0.12 },
@@ -207,6 +215,18 @@ export default function ArtTeaser() {
       },
     })
     materialRef.current = material
+
+    // --- Try loading real artwork ---
+    let artworkTex: THREE.Texture | null = null
+    loadArtworkTexture()
+      .then((tex) => {
+        artworkTex = tex
+        material.uniforms.uTex.value = tex
+        material.needsUpdate = true
+      })
+      .catch(() => {
+        // Fallback already set — nothing to do
+      })
 
     // --- Fullscreen Quad ---
     const geometry = new THREE.PlaneGeometry(2, 2)
@@ -284,7 +304,8 @@ export default function ArtTeaser() {
       // Dispose Three.js
       geometry.dispose()
       material.dispose()
-      placeholderTex.dispose()
+      fallbackTex.dispose()
+      if (artworkTex) artworkTex.dispose()
       motionTexture.dispose()
       motionDetector.dispose()
       renderer.dispose()
