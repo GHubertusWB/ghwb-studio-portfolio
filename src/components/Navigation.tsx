@@ -54,6 +54,24 @@ const Navigation = () => {
     return null
   }
 
+  // Minimale Nav auf Angebotsseiten: nur zentriertes Logo
+  if (pathname.startsWith('/angebot/')) {
+    return (
+      <nav className="fixed top-0 w-full z-50 bg-gray-950/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center h-16">
+            <NavigationLink href="/" className="text-xl tracking-wider">
+              <span className="flex items-center">
+                <span className="font-bold text-white">GHWB</span>
+                <span className="font-medium ml-2 text-white">STUDIO</span>
+              </span>
+            </NavigationLink>
+          </div>
+        </div>
+      </nav>
+    )
+  }
+
   return (
     <>
       <motion.nav

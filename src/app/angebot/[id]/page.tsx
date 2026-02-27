@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Lock, Eye, EyeOff, AlertCircle, Loader2, CheckCircle, Send, PenLine, X } from 'lucide-react'
+import { SpecialButton } from '@/components/ui/SpecialButton'
 
 export default function AngebotPage() {
   const params = useParams()
@@ -351,31 +352,25 @@ export default function AngebotPage() {
 
         {/* Action Buttons */}
         <div className="flex gap-3 justify-center">
-          <button
+          <SpecialButton
+            variant="primary"
+            size="sm"
             onClick={() => { setShowAcceptConfirm(true); setShowRevisionForm(false); setActionError(''); setActionSuccess('') }}
             disabled={accepted || actionLoading}
-            className={`px-6 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center gap-2 ${
-              accepted
-                ? 'bg-emerald-900/50 text-emerald-400 cursor-default'
-                : 'bg-emerald-600 hover:bg-emerald-500 text-white'
-            } disabled:opacity-70`}
           >
-            <CheckCircle className="w-4 h-4" />
+            <CheckCircle className="w-4 h-4 mr-2" />
             {accepted ? 'Beauftragung gesendet ✓' : 'Angebot beauftragen'}
-          </button>
+          </SpecialButton>
 
-          <button
+          <SpecialButton
+            variant="secondary"
+            size="sm"
             onClick={() => { setShowRevisionForm(true); setShowAcceptConfirm(false); setActionError(''); setActionSuccess('') }}
             disabled={revisionSent || actionLoading}
-            className={`px-6 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center gap-2 ${
-              revisionSent
-                ? 'bg-amber-900/50 text-amber-400 cursor-default'
-                : 'bg-amber-600 hover:bg-amber-500 text-white'
-            } disabled:opacity-70`}
           >
-            <PenLine className="w-4 h-4" />
+            <PenLine className="w-4 h-4 mr-2" />
             {revisionSent ? 'Änderungswünsche gesendet ✓' : 'Änderungswünsche'}
-          </button>
+          </SpecialButton>
         </div>
       </div>
     </div>
