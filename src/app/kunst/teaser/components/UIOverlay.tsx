@@ -24,11 +24,11 @@ export default function UIOverlay({
     <div className={styles.overlay}>
       {/* Left panel: controls */}
       <div className={styles.panel}>
-        <p className={styles.title}>Interactive Art</p>
+        <p className={styles.title}>Wind & Wiese</p>
         <p className={styles.subtitle}>
           {cameraOn
-            ? 'Bewege dich vor der Kamera — das Bild reagiert auf deine Bewegung.'
-            : 'Aktiviere die Kamera oder bewege die Maus über das Bild.'}
+            ? 'Bewege dich vor der Kamera — dein Wind weht durch die Wiese.'
+            : 'Aktiviere die Kamera oder bewege die Maus, um Wind zu erzeugen.'}
         </p>
 
         {/* Camera status */}

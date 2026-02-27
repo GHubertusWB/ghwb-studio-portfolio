@@ -1,11 +1,11 @@
 /**
- * ArtTeaser — Main client component for /kunst/teaser
+ * ArtTeaser — Interactive grass meadow with motion-driven wind
  *
  * How to test:
  *   - Run `npm run dev` and open http://localhost:3000/kunst/teaser
  *   - Webcam requires HTTPS or localhost.
- *   - Without camera: move mouse/touch across the canvas for motion effect.
- *   - Adjust "Intensität" slider to control displacement strength.
+ *   - Without camera: move mouse/touch to create wind across the grass.
+ *   - Adjust "Intensität" slider to control wind strength.
  *
  * Framework: Next.js App Router (detected from /src/app/ structure).
  * Three.js loaded only on this page via dynamic import (no global impact).
@@ -16,81 +16,126 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react'
 import * as THREE from 'three'
-import { vertexShader, fragmentShader } from './shaders'
+import { grassVertexShader, grassFragmentShader, groundVertexShader, groundFragmentShader } from './shaders'
 import { MotionDetector } from './MotionDetector'
 import UIOverlay from './UIOverlay'
 import styles from '../art-teaser.module.css'
 
 /* ------------------------------------------------------------------ */
-/* Placeholder texture: load real artwork, canvas gradient fallback    */
+/* Constants                                                           */
 /* ------------------------------------------------------------------ */
-function createFallbackTexture(): THREE.CanvasTexture {
-  const c = document.createElement('canvas')
-  c.width = 1920
-  c.height = 1080
-  const ctx = c.getContext('2d')!
+const BLADE_COUNT = 100_000
+const FIELD_SIZE = 30
+const MOTION_W = 128
+const MOTION_H = 72
+const FOG_COLOR = new THREE.Color('#c8bda8')
 
-  // Bright visible gradient
-  const grad = ctx.createLinearGradient(0, 0, 1920, 1080)
-  grad.addColorStop(0, '#2d1b69')
-  grad.addColorStop(0.3, '#1a3a5c')
-  grad.addColorStop(0.5, '#0d4f4f')
-  grad.addColorStop(0.7, '#4a2040')
-  grad.addColorStop(1, '#1a1040')
-  ctx.fillStyle = grad
-  ctx.fillRect(0, 0, 1920, 1080)
-
-  // Bright organic blobs
-  const blobs: [string, number, number, number, number][] = [
-    ['#e94560', 400, 300, 320, 0.45],
-    ['#4ecdc4', 1200, 500, 280, 0.4],
-    ['#a855f7', 800, 200, 350, 0.35],
-    ['#f59e0b', 1500, 700, 250, 0.5],
-    ['#ec4899', 300, 700, 300, 0.4],
-    ['#6366f1', 1000, 800, 280, 0.38],
-    ['#14b8a6', 600, 500, 260, 0.42],
-    ['#f97316', 1600, 200, 220, 0.35],
-  ]
-
-  for (const [hex, x, y, r, a] of blobs) {
-    const rg = ctx.createRadialGradient(x, y, 0, x, y, r)
-    rg.addColorStop(0, hex + Math.round(a * 255).toString(16).padStart(2, '0'))
-    rg.addColorStop(0.5, hex + '44')
-    rg.addColorStop(1, hex + '00')
-    ctx.fillStyle = rg
-    ctx.beginPath()
-    ctx.arc(x, y, r, 0, Math.PI * 2)
-    ctx.fill()
+/* Deterministic random */
+function makeRandom(seed: number) {
+  return () => {
+    seed = (seed * 16807) % 2147483647
+    return (seed - 1) / 2147483646
   }
-
-  // Bright accent text
-  ctx.save()
-  ctx.globalAlpha = 0.06
-  ctx.fillStyle = '#ffffff'
-  ctx.font = 'bold 200px sans-serif'
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
-  ctx.fillText('GHWB', 960, 540)
-  ctx.restore()
-
-  const tex = new THREE.CanvasTexture(c)
-  tex.colorSpace = THREE.SRGBColorSpace
-  return tex
 }
 
-function loadArtworkTexture(): Promise<THREE.Texture> {
-  return new Promise((resolve, reject) => {
-    const loader = new THREE.TextureLoader()
-    loader.load(
-      '/gallery/art/ente-pink-tuerkis.jpg',
-      (tex) => {
-        tex.colorSpace = THREE.SRGBColorSpace
-        resolve(tex)
-      },
-      undefined,
-      () => reject(new Error('Image load failed'))
-    )
+/* ------------------------------------------------------------------ */
+/* Create instanced grass field                                        */
+/* ------------------------------------------------------------------ */
+function createGrassField(motionTexture: THREE.DataTexture) {
+  const rand = makeRandom(42)
+
+  // Blade template: 3 segments + tip = 7 vertices, 5 triangles
+  const W = 0.018
+  const SEGS = 3
+  const posArr: number[] = []
+  const heightArr: number[] = []
+  const idxArr: number[] = []
+
+  for (let i = 0; i <= SEGS; i++) {
+    const t = i / SEGS
+    if (i < SEGS) {
+      const w = W * (1 - t * 0.9)
+      posArr.push(-w, t, 0, w, t, 0)
+      heightArr.push(t, t)
+    } else {
+      posArr.push(0, 1, 0)
+      heightArr.push(1)
+    }
+  }
+
+  for (let i = 0; i < SEGS - 1; i++) {
+    const bl = i * 2, br = i * 2 + 1, tl = (i + 1) * 2, tr = (i + 1) * 2 + 1
+    idxArr.push(bl, br, tr, bl, tr, tl)
+  }
+  idxArr.push((SEGS - 1) * 2, (SEGS - 1) * 2 + 1, SEGS * 2) // tip triangle
+
+  const geom = new THREE.InstancedBufferGeometry()
+  geom.setAttribute('position', new THREE.Float32BufferAttribute(posArr, 3))
+  geom.setAttribute('bladeHeight', new THREE.Float32BufferAttribute(heightArr, 1))
+  geom.setIndex(idxArr)
+  geom.instanceCount = BLADE_COUNT
+
+  // Per-instance data
+  const offsets = new Float32Array(BLADE_COUNT * 3)
+  const scales = new Float32Array(BLADE_COUNT)
+  const phases = new Float32Array(BLADE_COUNT)
+  const angles = new Float32Array(BLADE_COUNT)
+  const colorVars = new Float32Array(BLADE_COUNT)
+
+  for (let i = 0; i < BLADE_COUNT; i++) {
+    offsets[i * 3]     = (rand() - 0.5) * FIELD_SIZE
+    offsets[i * 3 + 1] = 0
+    offsets[i * 3 + 2] = (rand() - 0.5) * FIELD_SIZE
+    scales[i]    = 0.4 + rand() * 0.9
+    phases[i]    = rand() * Math.PI * 2
+    angles[i]    = rand() * Math.PI * 2
+    colorVars[i] = (rand() - 0.5) * 0.6
+  }
+
+  geom.setAttribute('aOffset', new THREE.InstancedBufferAttribute(offsets, 3))
+  geom.setAttribute('aScale', new THREE.InstancedBufferAttribute(scales, 1))
+  geom.setAttribute('aPhase', new THREE.InstancedBufferAttribute(phases, 1))
+  geom.setAttribute('aAngle', new THREE.InstancedBufferAttribute(angles, 1))
+  geom.setAttribute('aColorVar', new THREE.InstancedBufferAttribute(colorVars, 1))
+
+  const material = new THREE.ShaderMaterial({
+    vertexShader: grassVertexShader,
+    fragmentShader: grassFragmentShader,
+    side: THREE.DoubleSide,
+    uniforms: {
+      uMotionTex: { value: motionTexture },
+      uTime: { value: 0 },
+      uStrength: { value: 0.175 },
+      uFieldSize: { value: FIELD_SIZE },
+      uMotionTexelSize: { value: new THREE.Vector2(1 / MOTION_W, 1 / MOTION_H) },
+      uFogColor: { value: FOG_COLOR },
+      uFogNear: { value: 14 },
+      uFogFar: { value: 32 },
+    },
   })
+
+  return { mesh: new THREE.Mesh(geom, material), material, geometry: geom }
+}
+
+/* ------------------------------------------------------------------ */
+/* Create ground plane                                                 */
+/* ------------------------------------------------------------------ */
+function createGround() {
+  const geometry = new THREE.PlaneGeometry(60, 60)
+  geometry.rotateX(-Math.PI / 2)
+  geometry.translate(0, -0.02, 0)
+
+  const material = new THREE.ShaderMaterial({
+    vertexShader: groundVertexShader,
+    fragmentShader: groundFragmentShader,
+    uniforms: {
+      uFogColor: { value: FOG_COLOR },
+      uFogNear: { value: 14 },
+      uFogFar: { value: 32 },
+    },
+  })
+
+  return { mesh: new THREE.Mesh(geometry, material), material, geometry }
 }
 
 /* ------------------------------------------------------------------ */
@@ -169,20 +214,20 @@ export default function ArtTeaser() {
     setIsSecure(secure)
 
     // --- Renderer ---
-    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false })
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.setSize(container.clientWidth, container.clientHeight)
-    renderer.outputColorSpace = THREE.SRGBColorSpace
+    renderer.setClearColor(FOG_COLOR)
     container.appendChild(renderer.domElement)
 
-    // --- Scene & Camera ---
+    // --- Scene & Perspective Camera ---
     const scene = new THREE.Scene()
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10)
-    camera.position.z = 1
+    const aspect = container.clientWidth / container.clientHeight
+    const camera = new THREE.PerspectiveCamera(50, aspect, 0.1, 80)
+    camera.position.set(0, 2.5, 13)
+    camera.lookAt(0, 0.3, -2)
 
     // --- Motion Detector ---
-    const MOTION_W = 128
-    const MOTION_H = 72
     const motionDetector = new MotionDetector(MOTION_W, MOTION_H)
     motionDetectorRef.current = motionDetector
 
@@ -201,43 +246,22 @@ export default function ArtTeaser() {
     motionTexture.needsUpdate = true
     motionTextureRef.current = motionTexture
 
-    // --- Shader Material (init with fallback, replace once image loads) ---
-    const fallbackTex = createFallbackTexture()
-    const material = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        uTex: { value: fallbackTex },
-        uMotionTex: { value: motionTexture },
-        uTime: { value: 0 },
-        uStrength: { value: strengthRef.current * 0.35 },
-        uMotionTexelSize: { value: new THREE.Vector2(1 / MOTION_W, 1 / MOTION_H) },
-      },
-    })
-    materialRef.current = material
+    // --- Grass Field ---
+    const grass = createGrassField(motionTexture)
+    scene.add(grass.mesh)
+    materialRef.current = grass.material
 
-    // --- Try loading real artwork ---
-    let artworkTex: THREE.Texture | null = null
-    loadArtworkTexture()
-      .then((tex) => {
-        artworkTex = tex
-        material.uniforms.uTex.value = tex
-        material.needsUpdate = true
-      })
-      .catch(() => {
-        // Fallback already set — nothing to do
-      })
-
-    // --- Fullscreen Quad ---
-    const geometry = new THREE.PlaneGeometry(2, 2)
-    const mesh = new THREE.Mesh(geometry, material)
-    scene.add(mesh)
+    // --- Ground ---
+    const ground = createGround()
+    scene.add(ground.mesh)
 
     // --- Resize ---
     const onResize = () => {
       const w = container.clientWidth
       const h = container.clientHeight
       renderer.setSize(w, h)
+      camera.aspect = w / h
+      camera.updateProjectionMatrix()
     }
     window.addEventListener('resize', onResize)
 
@@ -267,7 +291,7 @@ export default function ArtTeaser() {
         motionDetector.processMouseMove(mouseRef.current.x, mouseRef.current.y)
         mouseRef.current.moved = false
         lastMouseDecay = elapsed
-      } else if (elapsed - lastMouseDecay > 0.05) {
+      } else if (elapsed - lastMouseDecay > 0.03) {
         motionDetector.decay()
         lastMouseDecay = elapsed
       }
@@ -275,9 +299,12 @@ export default function ArtTeaser() {
       // Update texture data
       motionTexture.needsUpdate = true
 
-      // Update uniforms
-      material.uniforms.uTime.value = elapsed
-      material.uniforms.uStrength.value = strengthRef.current * 0.35
+      // Update grass uniforms
+      grass.material.uniforms.uTime.value = elapsed
+      grass.material.uniforms.uStrength.value = strengthRef.current * 0.35
+
+      // Gentle camera sway
+      camera.position.y = 2.5 + Math.sin(elapsed * 0.12) * 0.04
 
       renderer.render(scene, camera)
     }
@@ -302,10 +329,10 @@ export default function ArtTeaser() {
       }
 
       // Dispose Three.js
-      geometry.dispose()
-      material.dispose()
-      fallbackTex.dispose()
-      if (artworkTex) artworkTex.dispose()
+      grass.geometry.dispose()
+      grass.material.dispose()
+      ground.geometry.dispose()
+      ground.material.dispose()
       motionTexture.dispose()
       motionDetector.dispose()
       renderer.dispose()

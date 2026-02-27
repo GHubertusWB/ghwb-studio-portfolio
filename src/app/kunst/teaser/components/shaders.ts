@@ -1,96 +1,163 @@
 /**
- * GLSL Shaders for the Interactive Art Teaser
- * 
- * Fragment shader takes a placeholder image texture and a motion-map texture,
- * computes local gradients from the motion map for displacement direction,
- * and applies wind-like UV displacement + subtle chromatic aberration + vignette.
+ * GLSL Shaders for the Interactive Art Teaser — Grass Meadow
+ *
+ * Vertex shader: instanced grass blades bent by wind (motion-map driven).
+ * Fragment shader: natural grass color gradient with depth fog.
+ * Ground shaders: dark earth/moss floor with fog.
  */
 
-export const vertexShader = /* glsl */ `
-  varying vec2 vUv;
+export const grassVertexShader = /* glsl */ `
+  attribute float bladeHeight;
+  attribute vec3 aOffset;
+  attribute float aScale;
+  attribute float aPhase;
+  attribute float aAngle;
+  attribute float aColorVar;
 
-  void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`
-
-export const fragmentShader = /* glsl */ `
-  precision highp float;
-
-  uniform sampler2D uTex;
   uniform sampler2D uMotionTex;
   uniform float uTime;
   uniform float uStrength;
+  uniform float uFieldSize;
   uniform vec2 uMotionTexelSize;
 
-  varying vec2 vUv;
+  varying float vHeight;
+  varying float vColorVar;
+  varying float vFogDepth;
 
   void main() {
-    // --- Multi-scale motion sampling for smoother feel ---
-    float motion = texture2D(uMotionTex, vUv).r;
-    float motionWide = (
-      texture2D(uMotionTex, vUv + vec2(uMotionTexelSize.x * 3.0, 0.0)).r +
-      texture2D(uMotionTex, vUv - vec2(uMotionTexelSize.x * 3.0, 0.0)).r +
-      texture2D(uMotionTex, vUv + vec2(0.0, uMotionTexelSize.y * 3.0)).r +
-      texture2D(uMotionTex, vUv - vec2(0.0, uMotionTexelSize.y * 3.0)).r
-    ) * 0.25;
-    float motionBlend = mix(motion, motionWide, 0.35);
+    vHeight = bladeHeight;
+    vColorVar = aColorVar;
 
-    // --- Compute local gradient for displacement direction ---
-    float mL = texture2D(uMotionTex, vUv + vec2(-uMotionTexelSize.x * 2.0, 0.0)).r;
-    float mR = texture2D(uMotionTex, vUv + vec2( uMotionTexelSize.x * 2.0, 0.0)).r;
-    float mU = texture2D(uMotionTex, vUv + vec2(0.0,  uMotionTexelSize.y * 2.0)).r;
-    float mD = texture2D(uMotionTex, vUv + vec2(0.0, -uMotionTexelSize.y * 2.0)).r;
+    // Rotate blade around Y axis
+    float ca = cos(aAngle);
+    float sa = sin(aAngle);
+    vec3 pos = position;
+    float rx = pos.x * ca - pos.z * sa;
+    float rz = pos.x * sa + pos.z * ca;
+    pos.x = rx;
+    pos.z = rz;
 
-    vec2 gradient = vec2(mR - mL, mU - mD);
+    // Scale blade height
+    pos.y *= aScale;
 
-    // --- Swirl / rotation from gradient (water vortex) ---
-    vec2 swirl = vec2(-gradient.y, gradient.x) * 0.6;
+    // Map blade ground position to motion texture UV
+    float halfField = uFieldSize * 0.5;
+    vec2 motionUV = (aOffset.xz + halfField) / uFieldSize;
+    motionUV = clamp(motionUV, 0.01, 0.99);
 
-    // --- Water-like organic turbulence ---
-    float phase = uTime * 0.5;
-    vec2 turbulence = vec2(
-      sin(vUv.y * 12.0 + phase) * 0.25 +
-      cos(vUv.x * 8.0 + phase * 0.7) * 0.18 +
-      sin(vUv.y * 5.0 - phase * 0.3 + vUv.x * 3.0) * 0.12,
+    // Sample motion intensity
+    float motion = texture2D(uMotionTex, motionUV).r;
 
-      cos(vUv.x * 10.0 + phase * 0.9) * 0.22 +
-      sin(vUv.y * 6.0 + phase * 0.5) * 0.15 +
-      cos(vUv.x * 4.0 + phase * 0.2 - vUv.y * 7.0) * 0.10
-    );
+    // Wind direction from gradient (wider sampling)
+    float mL = texture2D(uMotionTex, motionUV + vec2(-uMotionTexelSize.x * 3.0, 0.0)).r;
+    float mR = texture2D(uMotionTex, motionUV + vec2( uMotionTexelSize.x * 3.0, 0.0)).r;
+    float mU = texture2D(uMotionTex, motionUV + vec2(0.0,  uMotionTexelSize.y * 3.0)).r;
+    float mD = texture2D(uMotionTex, motionUV + vec2(0.0, -uMotionTexelSize.y * 3.0)).r;
+    vec2 windDir = vec2(mR - mL, mU - mD);
 
-    // --- Subtle idle ripple (always active) ---
-    float breathe = sin(uTime * 0.25) * 0.001 + cos(uTime * 0.15 + vUv.x * 3.0) * 0.0006;
-    vec2 idle = vec2(breathe, breathe * 0.8);
+    // Fallback direction when no clear gradient
+    float dirLen = length(windDir);
+    if (dirLen < 0.001) {
+      windDir = vec2(sin(aPhase), cos(aPhase)) * motion;
+    }
 
-    // --- Combine: strong displacement with swirl + turbulence ---
-    float power = motionBlend * motionBlend; // quadratic for more dramatic peaks
-    vec2 displacement = (
-      gradient * 14.0 +
-      swirl * 8.0 +
-      turbulence * motionBlend * 1.5
-    ) * uStrength * power + idle;
+    // Multi-frequency natural sway (always active, gentle breeze)
+    float sway1 = sin(uTime * 1.0 + aPhase + aOffset.x * 0.15) * 0.12;
+    float sway2 = sin(uTime * 1.9 + aPhase * 1.4 + aOffset.z * 0.25) * 0.06;
+    float sway3 = cos(uTime * 0.45 + aOffset.x * 0.07 + aOffset.z * 0.1) * 0.09;
+    float sway = sway1 + sway2 + sway3;
 
-    vec2 uv = vUv + displacement;
+    // Bending: cubic falloff (tip bends most, base stays fixed)
+    float bend = bladeHeight * bladeHeight * bladeHeight;
+    float bendSoft = bladeHeight * bladeHeight;
 
-    // --- Chromatic aberration (stronger, water-like color split) ---
-    float aberration = motionBlend * uStrength * 0.02;
-    vec2 aberrDir = normalize(gradient + vec2(0.001)) * aberration;
-    float r = texture2D(uTex, uv + aberrDir).r;
-    float g = texture2D(uTex, uv).g;
-    float b = texture2D(uTex, uv - aberrDir).b;
+    // Apply wind force
+    float windForce = uStrength * 14.0;
+    pos.x += (windDir.x * windForce + sway * 0.5) * bend * aScale;
+    pos.z += (windDir.y * windForce + sway * 0.25) * bend * aScale;
 
-    vec3 color = vec3(r, g, b);
+    // Droop under wind (grass bends down when pushed)
+    pos.y -= motion * uStrength * bendSoft * aScale * 3.5;
 
-    // --- Subtle brightness boost in motion areas (wet highlight) ---
-    color += motionBlend * 0.04 * uStrength;
+    // World position
+    vec3 worldPos = pos + aOffset;
+    vec4 mvPos = modelViewMatrix * vec4(worldPos, 1.0);
+    vFogDepth = -mvPos.z;
 
-    // --- Vignette ---
-    float dist = length(vUv - 0.5);
-    float vignette = 1.0 - smoothstep(0.45, 0.95, dist);
-    color *= mix(1.0, vignette, 0.25);
+    gl_Position = projectionMatrix * mvPos;
+  }
+`
 
+export const grassFragmentShader = /* glsl */ `
+  precision highp float;
+
+  varying float vHeight;
+  varying float vColorVar;
+  varying float vFogDepth;
+
+  uniform vec3 uFogColor;
+  uniform float uFogNear;
+  uniform float uFogFar;
+
+  void main() {
+    // Rich grass color palette
+    vec3 rootColor = vec3(0.03, 0.10, 0.02);
+    vec3 baseColor = vec3(0.06, 0.22, 0.03);
+    vec3 midColor  = vec3(0.14, 0.44, 0.06);
+    vec3 tipColor  = vec3(0.38, 0.64, 0.12);
+
+    vec3 color = mix(rootColor, baseColor, smoothstep(0.0, 0.15, vHeight));
+    color = mix(color, midColor, smoothstep(0.15, 0.55, vHeight));
+    color = mix(color, tipColor, smoothstep(0.5, 1.0, vHeight));
+
+    // Per-blade color variation
+    color += vColorVar * vec3(0.05, 0.08, 0.02);
+
+    // Light catching on tips
+    float topLight = smoothstep(0.6, 1.0, vHeight) * 0.12;
+    color += vec3(0.10, 0.07, 0.02) * topLight;
+
+    // Ambient occlusion at base
+    float ao = smoothstep(0.0, 0.25, vHeight);
+    color *= mix(0.4, 1.0, ao);
+
+    // Depth fog
+    float fogFactor = smoothstep(uFogNear, uFogFar, vFogDepth);
+    color = mix(color, uFogColor, fogFactor);
+
+    gl_FragColor = vec4(color, 1.0);
+  }
+`
+
+export const groundVertexShader = /* glsl */ `
+  varying vec2 vUv;
+  varying float vFogDepth;
+
+  void main() {
+    vUv = uv;
+    vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+    vFogDepth = -mvPos.z;
+    gl_Position = projectionMatrix * mvPos;
+  }
+`
+
+export const groundFragmentShader = /* glsl */ `
+  precision highp float;
+
+  varying vec2 vUv;
+  varying float vFogDepth;
+
+  uniform vec3 uFogColor;
+  uniform float uFogNear;
+  uniform float uFogFar;
+
+  void main() {
+    vec3 color = vec3(0.03, 0.07, 0.02);
+    float n = fract(sin(dot(vUv * 40.0, vec2(12.9898, 78.233))) * 43758.5453);
+    color += n * 0.015;
+
+    float fogFactor = smoothstep(uFogNear, uFogFar, vFogDepth);
+    color = mix(color, uFogColor, fogFactor);
     gl_FragColor = vec4(color, 1.0);
   }
 `
