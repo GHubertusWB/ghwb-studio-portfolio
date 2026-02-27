@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: blob: https://images.unsplash.com",
               "font-src 'self'",
               "connect-src 'self'",
-              "frame-src 'self'",
+              "frame-src 'self' https://www.canva.com",
               "object-src 'none'",
               "base-uri 'self'"
             ].join('; ')
