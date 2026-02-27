@@ -13,6 +13,7 @@ import { SpecialButton } from './ui/SpecialButton'
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   const { theme, toggleTheme } = useTheme()
@@ -28,10 +29,23 @@ const Navigation = () => {
 
   useEffect(() => {
     setMounted(true)
+    let lastScrollY = window.scrollY
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      const currentScrollY = window.scrollY
+      setScrolled(currentScrollY > 50)
+
+      // Verstecken beim Runterscrollen, zeigen beim Hochscrollen
+      if (currentScrollY > 100) {
+        setHidden(currentScrollY > lastScrollY)
+      } else {
+        setHidden(false)
+      }
+
+      lastScrollY = currentScrollY
     }
-    window.addEventListener('scroll', handleScroll)
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -44,8 +58,8 @@ const Navigation = () => {
     <>
       <motion.nav
         initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        animate={{ y: hidden && !isOpen ? -100 : 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
         className={cn(
           "fixed top-0 w-full z-50 transition-all duration-500",
           scrolled 
