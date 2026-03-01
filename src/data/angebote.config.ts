@@ -7,6 +7,8 @@ export interface Angebot {
   passwordHash: string
   /** ISO date string – nach diesem Datum ist das Angebot nicht mehr erreichbar */
   expiresAt: string
+  /** Pfad zur PDF-Datei relativ zu /public (z.B. '/angebote/robin-ramm.pdf') */
+  pdfPath?: string
 }
 
 export const angebote: Angebot[] = [
@@ -17,5 +19,6 @@ export const angebote: Angebot[] = [
     embedUrl: 'https://www.canva.com/design/DAHCgKuc-5o/SQWvzv5ZdnOSgL-tv9F4VA/view?embed',
     passwordHash: '$2b$12$jRBlApj5/DEZf.B4A0nUdut/HolZ4G.NsAEhxcdUV8rgB/SdvbFmW',
     expiresAt: '2026-03-27T23:59:59.000Z',
+    pdfPath: '/angebote/robin-ramm-deal-flow.pdf',
   },
 ]

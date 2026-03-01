@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 import { angebote } from '@/data/angebote.config'
+import fs from 'fs'
+import path from 'path'
 
 // --- Rate Limiting ---
 const rateLimitMap = new Map<string, { count: number; firstRequest: number }>()
@@ -162,11 +164,23 @@ export async function POST(request: NextRequest) {
       `
     }
 
+    // PDF-Anhang vorbereiten (falls vorhanden)
+    let pdfAttachment: { filename: string; content: Buffer }[] = []
+    if (angebot.pdfPath) {
+      const pdfFullPath = path.join(process.cwd(), 'public', angebot.pdfPath)
+      if (fs.existsSync(pdfFullPath)) {
+        const pdfBuffer = fs.readFileSync(pdfFullPath)
+        const pdfFilename = `Angebot_${angebot.kunde.replace(/\s+/g, '_')}.pdf`
+        pdfAttachment = [{ filename: pdfFilename, content: pdfBuffer }]
+      }
+    }
+
     await transporter.sendMail({
       from: `"Angebotssystem" <${process.env.SMTP_USER}>`,
       to: process.env.SMTP_USER || 'office@ghwbstudio.de',
       subject,
       html: htmlBody,
+      attachments: pdfAttachment,
     })
 
     // Bestätigungs-E-Mail an Kunden
@@ -201,6 +215,7 @@ export async function POST(request: NextRequest) {
           replyTo: process.env.SMTP_USER || 'office@ghwbstudio.de',
           subject: `Auftragsbestätigung – GHWB Studio`,
           html: confirmationHtml,
+          attachments: pdfAttachment,
         })
       } catch {
         // Bestätigungsmail fehlgeschlagen – kein Abbruch, Studio wurde bereits benachrichtigt
