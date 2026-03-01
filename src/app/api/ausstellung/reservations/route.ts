@@ -29,7 +29,9 @@ function escapeHtml(str: string): string {
 
 // In-Memory Store für Reservierungen (wird bei Server-Neustart zurückgesetzt)
 // Für Produktion: Datenbank verwenden (z.B. Vercel KV, Supabase, etc.)
-const reservedArtworkIds = new Set<string>()
+// Fest reservierte Werke (manuell bestätigt — bleiben auch nach Neustart reserviert)
+const permanentlyReserved = ['ente-mini-1'] // Entenbüste Gelb-Grün
+const reservedArtworkIds = new Set<string>(permanentlyReserved)
 
 export async function GET() {
   return NextResponse.json({

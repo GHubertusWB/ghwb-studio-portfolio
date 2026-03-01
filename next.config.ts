@@ -76,16 +76,6 @@ const nextConfig: NextConfig = {
             value: 'on'
           }
         ]
-      },
-      // Allow camera only on /kunst/teaser (overrides global camera=() policy)
-      {
-        source: '/kunst/teaser',
-        headers: [
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(self), microphone=(), geolocation=(), interest-cohort=()'
-          }
-        ]
       }
     ]
   }
