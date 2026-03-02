@@ -1,15 +1,15 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import { ArrowRight, ArrowLeft, Layers, Heart, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/Button'
 import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
-import { artGroups, type GalleryGroup } from '@/data/gallery'
+import { artGroups } from '@/data/gallery'
 
 // TypeScript Interfaces (same as light version)
 interface Artwork {
@@ -55,8 +55,7 @@ interface CollaborationCard {
 
 export default function ArtPageDark(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
-  const [activeGroupIndex, setActiveGroupIndex] = useState(0)
-  const [galleryImages, setGalleryImages] = useState<string[]>([])
+
 
   
   // Refs for scroll animations
@@ -110,51 +109,6 @@ export default function ArtPageDark(): React.JSX.Element {
 
     return () => observer.disconnect()
   }, [])
-
-  // Vordefiniertes Raster-Muster - gleich wie Photography-Seite
-  const predefinedGridPattern = [
-    0, // 1x1 - Quadrat klein
-    1, // 2x1 - Querformat
-    1, // 2x1 - Querformat 
-    0, // 1x1 - Quadrat klein
-    3, // 1x2 - Hochformat
-    0, // 1x1 - Quadrat klein
-    0, // 1x1 - Quadrat klein
-    1, // 2x1 - Querformat
-    4, // 2x2 - Quadrat groß
-    0, // 1x1 - Quadrat klein
-    3, // 1x2 - Hochformat
-    1, // 2x1 - Querformat
-    0, // 1x1 - Quadrat klein
-    0, // 1x1 - Quadrat klein
-    0, // 1x1 - Quadrat klein
-    2, // 3x1 - Panorama (komplette Zeile)
-    0, // 1x1 - Quadrat klein
-    0, // 1x1 - Quadrat klein
-    0, // 1x1 - Quadrat klein
-    1, // 2x1 - Querformat
-    0, // 1x1 - Quadrat klein
-    3, // 1x2 - Hochformat
-    1, // 2x1 - Querformat
-    4, // 2x2 - Quadrat groß
-    0  // 1x1 - Quadrat klein
-  ]
-
-  // Load gallery images for active group
-  useEffect(() => {
-    if (artGroups && artGroups[activeGroupIndex]) {
-      setGalleryImages(artGroups[activeGroupIndex].images)
-    }
-  }, [activeGroupIndex])
-
-  // Group navigation functions
-  const handlePreviousGroup = () => {
-    setActiveGroupIndex(prev => prev > 0 ? prev - 1 : artGroups.length - 1)
-  }
-
-  const handleNextGroup = () => {
-    setActiveGroupIndex(prev => prev < artGroups.length - 1 ? prev + 1 : 0)
-  }
 
   // Same content as light version
   const artwork: Artwork = {
@@ -633,7 +587,7 @@ export default function ArtPageDark(): React.JSX.Element {
 
       {/* AKTUELLE AUSSTELLUNG BANNER */}
       <section className="py-16 px-6 relative z-10">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -768,62 +722,53 @@ export default function ArtPageDark(): React.JSX.Element {
         </div>
       </section>
 
-      {/* 3. PORTFOLIO GRID - 5 COLUMN LAYOUT */}
-      <section 
-        ref={portfolioRef}
-        className="py-32 px-6 relative z-10"
-      >
-        <div className="max-w-none mx-auto">
-          <motion.div 
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-6 text-white" style={{ fontFamily: 'monospace', textShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}>
-              PORTFOLIO
-            </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
-              Eine Auswahl meiner aktuellen Kunstwerke und Projekte.
-            </p>
-          </motion.div>
+      {/* 3. PORTFOLIO SECTIONS - DUX, BEDROHTE TIERE, AUGMENTED & DIGITAL ART */}
+      
+      {/* Section 1: Dux - Text Links, Bilder Rechts */}
+      <ParallaxSectionDark 
+        textPosition="left"
+        title="DUX"
+        description="Die Dux-Serie vereint digitale Ästhetik mit klassischer Formensprache. 
+          Jedes Werk interpretiert das Motiv der Ente als kulturelles Symbol neu — 
+          zwischen Pop Art, Street Art und zeitgenössischer Malerei."
+        images={[
+          artGroups.find(g => g.id === 'digiducks')?.images[0] || '/gallery/art/0C0FF1CB-BB55-4087-B418-A7D493B5EC7F_1_105_c.jpeg',
+          artGroups.find(g => g.id === 'digiducks')?.images[1] || '/gallery/art/0E4EC7D6-556E-4732-B9BB-6C2861557E36_1_105_c.jpeg',
+          artGroups.find(g => g.id === 'digiducks')?.images[2] || '/gallery/art/1A01DAE4-D2AA-4133-B425-238B102646DA_1_105_c.jpeg',
+        ]}
+        bgColor=""
+      />
 
-          {/* Portfolio Grid - 5 Columns with Category Headers */}
-          <div className="grid grid-cols-5 gap-4 px-6" style={{ gridAutoRows: '20vw' }}>
-            {artGroups.map((group, groupIndex) => (
-              <React.Fragment key={group.id}>
-                {/* Category Header - takes 1 grid space */}
-                <div className="col-span-1 row-span-1 flex items-center justify-center bg-gradient-to-br from-orange-500/20 to-blue-600/20 border border-orange-500/30">
-                  <h3 className="text-xl font-bold text-white text-center px-4">
-                    {group.title}
-                  </h3>
-                </div>
-                
-                {/* Images for this group */}
-                {group.images.map((src, index) => (
-                  <motion.div
-                    key={`${groupIndex}-${index}`}
-                    className="col-span-1 row-span-1 relative overflow-hidden"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="w-full h-full bg-gradient-to-br from-white/5 to-white/2 border border-white/20 relative overflow-hidden shadow-sm hover:shadow-2xl hover:border-orange-500/50 transition-all duration-300">
-                      <img 
-                        src={src} 
-                        alt={`${group.title} ${index + 1}`} 
-                        className="object-cover w-full h-full hover:scale-105 transition-transform duration-300" 
-                      />
-                    </div>
-                  </motion.div>
-                ))}
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Section 2: Bedrohte Tiere - Text Rechts, Bilder Links */}
+      <ParallaxSectionDark 
+        textPosition="right"
+        title="BEDROHTE TIERE"
+        description="Großformatige Acrylgemälde, die bedrohte Tierarten in expressiver 
+          Farbgebung porträtieren. Die Serie schafft Bewusstsein für den Artenschutz 
+          und verbindet emotionale Kraft mit künstlerischer Ausdrucksstärke."
+        images={[
+          artGroups.find(g => g.id === 'leinwaende')?.images[0] || '/gallery/art/276978157_2151325001689082_4554386259994847710_n.jpg',
+          artGroups.find(g => g.id === 'leinwaende')?.images[1] || '/gallery/art/277112623_365261895528667_8618673296825249071_n.jpg',
+          artGroups.find(g => g.id === 'leinwaende')?.images[2] || '/gallery/art/277115346_365186875527721_6944956018215836686_n.jpg',
+        ]}
+        bgColor=""
+        imageLayout="landscape"
+      />
+
+      {/* Section 3: Augmented & Digital Art - Text Links, Bilder Rechts */}
+      <ParallaxSectionDark 
+        textPosition="left"
+        title="AUGMENTED & DIGITAL ART"
+        description="An der Schnittstelle von Technologie und Kunst entstehen immersive 
+          Erlebnisse. Augmented Reality, generative Algorithmen und digitale Medien 
+          verschmelzen zu einer neuen Form der kreativen Expression."
+        images={[
+          artGroups.find(g => g.id === 'semantic-ducks')?.images[0] || '/gallery/art/76825CEC-4305-466A-B431-EFD7F61DA8AC_1_105_c.jpeg',
+          artGroups.find(g => g.id === 'semantic-ducks')?.images[1] || '/gallery/art/881F527F-9EB2-4F86-988A-CB7C0F2A2BB7_1_105_c.jpeg',
+          artGroups.find(g => g.id === 'semantic-ducks')?.images[2] || '/gallery/art/881F7165-B85A-474D-B816-AE4E2ED1222A_1_105_c.jpeg',
+        ]}
+        bgColor=""
+      />
 
       {/* FLOATING CONTACT BUTTON */}
       <FloatingContactButton />
@@ -832,3 +777,125 @@ export default function ArtPageDark(): React.JSX.Element {
     </div>
   )
 }
+
+/**
+ * ParallaxSectionDark Component
+ * Creates a section with parallax scroll effects for dark mode
+ */
+interface ParallaxSectionDarkProps {
+  textPosition: 'left' | 'right'
+  title: string
+  description: string
+  images: string[]
+  bgColor: string
+  imageLayout?: 'default' | 'landscape'
+}
+
+const ParallaxSectionDark: React.FC<ParallaxSectionDarkProps> = 
+  ({ textPosition, title, description, images, bgColor, imageLayout = 'default' }) => {
+    const sectionRef = useRef<HTMLElement>(null)
+    const { scrollYProgress } = useScroll({
+      target: sectionRef,
+      offset: ["start end", "end start"]
+    })
+
+    const imageY1 = useTransform(scrollYProgress, [0, 1], ['10%', '-10%'])
+    const imageY2 = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
+    const imageY3 = useTransform(scrollYProgress, [0, 1], ['12%', '-12%'])
+
+    return (
+      <section 
+        ref={sectionRef}
+        className={`py-32 px-6 relative z-10 overflow-hidden ${bgColor}`}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: textPosition === 'left' ? -100 : 100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
+              className={`space-y-6 ${textPosition === 'right' ? 'order-1 lg:order-2' : ''}`}
+            >
+              <div className="inline-flex items-center text-cyan-400 font-mono text-sm tracking-wider mb-4">
+                <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3" />
+                PORTFOLIO.SHOWCASE
+              </div>
+              <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight md:text-3xl">
+                {title}
+              </h2>
+              <p className="text-lg text-white/70 leading-relaxed">
+                {description}
+              </p>
+            </motion.div>
+
+            {/* Image Grid with Parallax */}
+            <motion.div
+              initial={{ opacity: 0, x: textPosition === 'left' ? 100 : -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
+              className={`grid grid-cols-2 gap-4 ${textPosition === 'right' ? 'order-2 lg:order-1' : ''}`}
+            >
+              {imageLayout === 'landscape' ? (
+                <>
+                  <div className="col-span-2 aspect-video bg-white/5 border border-white/10 overflow-hidden">
+                    <motion.img 
+                      src={images[0]} 
+                      alt={`${title} 1`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY1, scale: 1.2 }}
+                    />
+                  </div>
+                  <div className="aspect-square bg-white/5 border border-white/10 overflow-hidden">
+                    <motion.img 
+                      src={images[1]} 
+                      alt={`${title} 2`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY2, scale: 1.2 }}
+                    />
+                  </div>
+                  <div className="aspect-square bg-white/5 border border-white/10 overflow-hidden">
+                    <motion.img 
+                      src={images[2]} 
+                      alt={`${title} 3`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY3, scale: 1.2 }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="aspect-square bg-white/5 border border-white/10 overflow-hidden">
+                    <motion.img 
+                      src={images[0]} 
+                      alt={`${title} 1`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY1, scale: 1.2 }}
+                    />
+                  </div>
+                  <div className="aspect-square bg-white/5 border border-white/10 overflow-hidden">
+                    <motion.img 
+                      src={images[1]} 
+                      alt={`${title} 2`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY2, scale: 1.2 }}
+                    />
+                  </div>
+                  <div className="col-span-2 aspect-video bg-white/5 border border-white/10 overflow-hidden">
+                    <motion.img 
+                      src={images[2]} 
+                      alt={`${title} 3`} 
+                      className="w-full h-full object-cover"
+                      style={{ y: imageY3, scale: 1.2 }}
+                    />
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    )
+  }
