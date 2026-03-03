@@ -1,62 +1,25 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
 import { Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import FloatingCloudsArt from './FloatingCloudsArt'
 import Footer from '@/components/Footer'
-import { Button } from '@/components/ui/Button'
 import { artGroups } from '@/data/gallery'
 import { SpecialButton } from '@/components/ui/SpecialButton'
 
-
 // TypeScript Interfaces (same as dark version)
 interface Artwork {
-  title: string;
-  medium: string;
-  year: string;
-  description: string;
-  dimensions: string;
+  title: string
+  medium: string
+  year: string
+  description: string
+  dimensions: string
 }
-
-interface ProcessStep {
-  step: string;
-  title: string;
-  description: string;
-}
-
-interface PortfolioWork {
-  id: number;
-  title: string;
-  category: string;
-  medium: string;
-  year: string;
-  image: string;
-  gridSpan: string;
-  description: string;
-  tags: string[];
-}
-
-interface CollaborationCard {
-  title: string;
-  description: string;
-  partner: string;
-}
-
-/**
- * ArtPageLight Component (Page)
- * 
- * Light mode art portfolio page with minimalist Bauhaus design.
- * Uses the same content as the dark version but with clean, geometric styling.
- * 
- * @returns {JSX.Element} The complete light art page component
- */
 
 export default function ArtPageLight(): React.JSX.Element {
-  const [currentTime, setCurrentTime] = useState('')
   const [teilenIndex, setTeilenIndex] = useState(0)
 
   const teilenImages = [
@@ -64,25 +27,9 @@ export default function ArtPageLight(): React.JSX.Element {
     '/gallery/art/Teilen-Depressionen.jpeg',
     '/gallery/art/Teilen-Religionen.jpeg',
   ]
+
   const portfolioRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
-
-  // Real-time clock for consistency
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date()
-      setCurrentTime(now.toLocaleTimeString('de-DE', { 
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      }))
-    }
-
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   // Intersection Observer for performance-optimized animations
   useEffect(() => {
@@ -96,16 +43,16 @@ export default function ArtPageLight(): React.JSX.Element {
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -50px 0px',
       }
     )
 
     // Observe sections
     const sections = [portfolioRef, contactRef]
-    sections.forEach(ref => {
+    sections.forEach((ref) => {
       if (ref.current) {
         observer.observe(ref.current)
-        
+
         // Also observe child elements
         const children = ref.current.querySelectorAll('.bauhaus-animate, .bauhaus-portfolio-item')
         children.forEach((child: Element) => observer.observe(child))
@@ -117,74 +64,18 @@ export default function ArtPageLight(): React.JSX.Element {
 
   // Same content as dark version
   const artwork: Artwork = {
-    title: "Teilen - AR Canvas Serie",
-    medium: "Augmented Reality & Canvas",
-    year: "2024",
-    description: "Harmonie in der Gesellschaft wird schnell verdrängt, wenn es um stark diskutierte Themen geht. Die Serie 'Teilen' kritisiert dieses Verhalten und zeigt auf, dass eine bewusste Betrachtung beider Seiten erst das Gesamtbild erkennen gibt.",
-    dimensions: "Variable Dimensionen"
+    title: 'Teilen - AR Canvas Serie',
+    medium: 'Augmented Reality & Canvas',
+    year: '2024',
+    description:
+      "Harmonie in der Gesellschaft wird schnell verdrängt, wenn es um stark diskutierte Themen geht. Die Serie 'Teilen' kritisiert dieses Verhalten und zeigt auf, dass eine bewusste Betrachtung beider Seiten erst das Gesamtbild erkennen gibt.",
+    dimensions: 'Variable Dimensionen',
   }
-
-  const processSteps: ProcessStep[] = [
-    {
-      step: "01",
-      title: "Konzeption & Vision",
-      description: "Entwicklung der kreativen Vision und technischen Machbarkeitsstudie"
-    },
-    {
-      step: "02", 
-      title: "Iteration & Verfeinerung",
-      description: "Experimentelle Phase mit verschiedenen Ansätzen und Techniken"
-    },
-    {
-      step: "03",
-      title: "Umsetzung & Realisierung", 
-      description: "Finale Ausarbeitung und technische Implementierung"
-    },
-    {
-      step: "04",
-      title: "Präsentation & Installation",
-      description: "Aufbau und kuratorische Betreuung der finalen Installation"
-    }
-  ]
-
-  const collaborations: CollaborationCard[] = [
-    {
-      title: "Digital Art Festival",
-      partner: "Kunstmuseum Dresden",
-      description: "Kollaborative Installation zum Thema digitale Transformation in der zeitgenössischen Kunst."
-    },
-    {
-      title: "AR Workshop Series",
-      partner: "Goethe Institut",
-      description: "Bildungsprogramm zur Einführung von Augmented Reality in kreative Prozesse."
-    },
-    {
-      title: "Sustainable Art Initiative",
-      partner: "Greenpeace Deutschland",
-      description: "Gemeinsame Projekte zu Umweltbewusstsein und nachhaltiger Kunstproduktion."
-    },
-    {
-      title: "Tech Meets Art",
-      partner: "Berlin Art Week",
-      description: "Interdisziplinäre Ausstellung zwischen Technologie und traditioneller Kunst."
-    },
-    {
-      title: "Community Canvas",
-      partner: "Lokale Kunstvereine",
-      description: "Partizipative Kunstprojekte mit Bürgerbeteiligung in verschiedenen Stadtteilen."
-    },
-    {
-      title: "Future Visions",
-      partner: "TU Berlin",
-      description: "Forschungskooperation zu neuen Technologien in der Kunstpraxis."
-    }
-  ]
 
   return (
     <div className="min-h-screen text-gray-900 relative overflow-hidden bg-gray-50">
-      
       {/* 1. HERO SECTION - STARTSEITE LIGHT MODE STYLING */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
@@ -206,28 +97,28 @@ export default function ArtPageLight(): React.JSX.Element {
             transition={{ duration: 3, delay: 1 }}
           >
             {/* Minimale geometrische Formen */}
-            <motion.div 
+            <motion.div
               className="absolute top-20 left-20 w-32 h-32 border-2 border-gray-300"
               style={{ transform: 'rotate(45deg)' }}
               initial={{ rotate: 0, scale: 0 }}
               animate={{ rotate: 45, scale: 1 }}
               transition={{ duration: 2, delay: 1.5 }}
             />
-            
-            <motion.div 
+
+            <motion.div
               className="absolute bottom-32 right-32 w-24 h-24 bg-gray-200 rounded-full"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 1.5, delay: 2 }}
             />
-            
-            <motion.div 
+
+            <motion.div
               className="absolute top-32 right-20 w-40 h-1 bg-gray-200"
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 1.5, delay: 1.8 }}
             />
-            <motion.div 
+            <motion.div
               className="absolute bottom-40 left-32 w-1 h-40 bg-gray-200"
               initial={{ scaleY: 0 }}
               animate={{ scaleY: 1 }}
@@ -245,7 +136,7 @@ export default function ArtPageLight(): React.JSX.Element {
             transition={{ duration: 1, delay: 0.8 }}
           >
             {/* Subtitle - matching startpage */}
-            <motion.p 
+            <motion.p
               className="text-base text-muted-foreground leading-7 mb-6"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -255,7 +146,7 @@ export default function ArtPageLight(): React.JSX.Element {
             </motion.p>
 
             {/* Main Title - startpage style */}
-            <motion.h1 
+            <motion.h1
               className="text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-4"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -266,13 +157,14 @@ export default function ArtPageLight(): React.JSX.Element {
             </motion.h1>
 
             {/* Description - startpage style */}
-            <motion.p 
+            <motion.p
               className="text-base text-muted-foreground leading-7 max-w-2xl mx-auto mb-16"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.6 }}
             >
-              Digitale Kunst trifft auf traditionelle Ästhetik.<br/>
+              Digitale Kunst trifft auf traditionelle Ästhetik.
+              <br />
               Eine Exploration der Grenzen zwischen Technologie und menschlicher Kreativität.
             </motion.p>
 
@@ -283,20 +175,17 @@ export default function ArtPageLight(): React.JSX.Element {
               transition={{ duration: 0.8, delay: 1.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <SpecialButton 
-                variant="secondary"
-                size="sm"
-              >
+              <SpecialButton variant="secondary" size="sm">
                 <Sparkles className="w-4 h-4 mr-2" />
                 Portfolio entdecken
               </SpecialButton>
 
-              <SpecialButton 
+              <SpecialButton
                 variant="primary"
                 size="sm"
-                onClick={() => { 
-                  const event = new CustomEvent('openContactModal');
-                  window.dispatchEvent(event);
+                onClick={() => {
+                  const event = new CustomEvent('openContactModal')
+                  window.dispatchEvent(event)
                 }}
               >
                 Zusammenarbeiten
@@ -321,21 +210,21 @@ export default function ArtPageLight(): React.JSX.Element {
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-3">
                 <span className="inline-block w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-                <span className="text-sm font-medium text-orange-600 uppercase tracking-wider">Aktuelle Ausstellung</span>
+                <span className="text-sm font-medium text-orange-600 uppercase tracking-wider">
+                  Aktuelle Ausstellung
+                </span>
               </div>
               <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-3">
                 Kunst im Schaufenster &amp; Entenjagd
               </h3>
               <p className="text-gray-600 mb-6 max-w-2xl leading-relaxed">
-                Noch bis 5. April 2026 in Holzkirchen: Fünf großformatige Acrylgemälde in der Raiffeisenbank 
-                und acht kleine Entenbüsten-Miniaturgemälde im Atrium Gesundheitszentrum — eine interaktive 
-                Entenjagd durch die Marktgemeinde.
+                Noch bis 5. April 2026 in Holzkirchen: Fünf großformatige Acrylgemälde in der
+                Raiffeisenbank und acht kleine Entenbüsten-Miniaturgemälde im Atrium Gesundheitszentrum —
+                eine interaktive Entenjagd durch die Marktgemeinde.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link href="/ausstellung-holzkirchen">
-                  <SpecialButton size="sm">
-                    Zur Ausstellung →
-                  </SpecialButton>
+                  <SpecialButton size="sm">Zur Ausstellung →</SpecialButton>
                 </Link>
                 <a
                   href="https://www.holzkirchen.de/kunst-im-schaufenster"
@@ -357,7 +246,8 @@ export default function ArtPageLight(): React.JSX.Element {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - Teilen Carousel */}
             <div className="relative">
-              <div className="relative w-full aspect-[3/4] overflow-hidden">
+              {/* ✅ rounded + border + bg am selben Element wie overflow-hidden */}
+              <div className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl bg-gray-100 border border-gray-200">
                 <AnimatePresence initial={false} mode="wait">
                   <motion.img
                     key={teilenIndex}
@@ -370,29 +260,59 @@ export default function ArtPageLight(): React.JSX.Element {
                     transition={{ duration: 0.4, ease: 'easeOut' }}
                   />
                 </AnimatePresence>
+
                 {/* Chevrons */}
                 <button
-                  onClick={() => setTeilenIndex(prev => (prev - 1 + teilenImages.length) % teilenImages.length)}
+                  onClick={() =>
+                    setTeilenIndex((prev) => (prev - 1 + teilenImages.length) % teilenImages.length)
+                  }
                   className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
                   aria-label="Vorheriges Bild"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
                 </button>
                 <button
-                  onClick={() => setTeilenIndex(prev => (prev + 1) % teilenImages.length)}
+                  onClick={() => setTeilenIndex((prev) => (prev + 1) % teilenImages.length)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
                   aria-label="Nächstes Bild"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
                 </button>
               </div>
+
               {/* Dots */}
               <div className="flex justify-center gap-2 mt-4">
                 {teilenImages.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setTeilenIndex(i)}
-                    className={`w-2 h-2 rounded-full transition-colors ${i === teilenIndex ? 'bg-gray-800' : 'bg-gray-400'}`}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      i === teilenIndex ? 'bg-gray-800' : 'bg-gray-400'
+                    }`}
                     aria-label={`Bild ${i + 1}`}
                   />
                 ))}
@@ -401,19 +321,14 @@ export default function ArtPageLight(): React.JSX.Element {
 
             {/* Right Side - Clean Content */}
             <div className="space-y-8">
-              {/* Title Section - startseite typography */}
               <div>
                 <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight mb-4 md:text-3xl">
                   {artwork.title}
                 </h2>
               </div>
 
-              {/* Description - startseite style */}
-              <p className="text-xl text-muted-foreground leading-7">
-                {artwork.description}
-              </p>
+              <p className="text-xl text-muted-foreground leading-7">{artwork.description}</p>
 
-              {/* Technical Specifications - clean grid */}
               <div className="grid grid-cols-2 gap-6 pt-6 border-t border-border">
                 <div>
                   <div className="text-muted-foreground mb-2 text-sm">Medium</div>
@@ -430,20 +345,21 @@ export default function ArtPageLight(): React.JSX.Element {
                 <div>
                   <div className="text-muted-foreground mb-2 text-sm">Status</div>
                   <div className="font-medium text-foreground text-sm flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2" />
                     Verfügbar
                   </div>
                 </div>
               </div>
+
+              {/* (optional) Prozess/Collab Inhalte bleiben wie gehabt — du nutzt sie aktuell nicht im Render */}
             </div>
           </div>
         </div>
       </section>
 
       {/* 3. PORTFOLIO SECTIONS - DUX, BEDROHTE TIERE, AUGMENTED & DIGITAL ART */}
-      
-      {/* Section 1: Dux - Text Links, Bilder Rechts */}
-      <ParallaxSection 
+
+      <ParallaxSection
         textPosition="left"
         title="DUX"
         description="Die Dux-Serie vereint digitale Ästhetik mit klassischer Formensprache. 
@@ -469,8 +385,7 @@ export default function ArtPageLight(): React.JSX.Element {
         imageLayout="grid-carousel"
       />
 
-      {/* Section 2: Bedrohte Tiere - Text Rechts, Bilder Links */}
-      <ParallaxSection 
+      <ParallaxSection
         textPosition="right"
         title="BEDROHTE TIERE"
         description="Großformatige Acrylgemälde, die bedrohte Tierarten in expressiver 
@@ -485,24 +400,24 @@ export default function ArtPageLight(): React.JSX.Element {
         imageLayout="carousel"
       />
 
-      {/* Section 3: Augmented & Digital Art - Text Links, Bilder Rechts */}
-      <ParallaxSection 
+      <ParallaxSection
         textPosition="left"
         title="AUGMENTED & DIGITAL ART"
         description="An der Schnittstelle von Technologie und Kunst entstehen immersive 
           Erlebnisse. Augmented Reality, generative Algorithmen und digitale Medien 
           verschmelzen zu einer neuen Form der kreativen Expression."
         images={[
-          artGroups.find(g => g.id === 'semantic-ducks')?.images[0] || '/gallery/art/76825CEC-4305-466A-B431-EFD7F61DA8AC_1_105_c.jpeg',
-          artGroups.find(g => g.id === 'semantic-ducks')?.images[1] || '/gallery/art/881F527F-9EB2-4F86-988A-CB7C0F2A2BB7_1_105_c.jpeg',
-          artGroups.find(g => g.id === 'semantic-ducks')?.images[2] || '/gallery/art/881F7165-B85A-474D-B816-AE4E2ED1222A_1_105_c.jpeg',
+          artGroups.find((g) => g.id === 'semantic-ducks')?.images[0] ||
+            '/gallery/art/76825CEC-4305-466A-B431-EFD7F61DA8AC_1_105_c.jpeg',
+          artGroups.find((g) => g.id === 'semantic-ducks')?.images[1] ||
+            '/gallery/art/881F527F-9EB2-4F86-988A-CB7C0F2A2BB7_1_105_c.jpeg',
+          artGroups.find((g) => g.id === 'semantic-ducks')?.images[2] ||
+            '/gallery/art/881F7165-B85A-474D-B816-AE4E2ED1222A_1_105_c.jpeg',
         ]}
         bgColor="bg-white"
       />
 
-      {/* FLOATING CONTACT BUTTON */}
       <FloatingContactButton />
-
       <Footer />
     </div>
   )
@@ -521,219 +436,298 @@ interface ParallaxSectionProps {
   imageLayout?: 'default' | 'landscape' | 'carousel' | 'grid-carousel'
 }
 
-const ParallaxSection: React.FC<ParallaxSectionProps> = 
-  ({ textPosition, title, description, images, bgColor, imageLayout = 'default' }) => {
-    const sectionRef = useRef<HTMLElement>(null)
-    const [carouselIndex, setCarouselIndex] = useState(0)
-    const [direction, setDirection] = useState(0)
-    const pageSize = 2
-    const totalPages = Math.ceil(images.length / pageSize)
-    const [gridPage, setGridPage] = useState(0)
-    const { scrollYProgress } = useScroll({
-      target: sectionRef,
-      offset: ["start end", "end start"]
-    })
+const ParallaxSection: React.FC<ParallaxSectionProps> = ({
+  textPosition,
+  title,
+  description,
+  images,
+  bgColor,
+  imageLayout = 'default',
+}) => {
+  const sectionRef = useRef<HTMLElement>(null)
+  const [carouselIndex, setCarouselIndex] = useState(0)
+  const [direction, setDirection] = useState(0)
 
-    const imageY1 = useTransform(scrollYProgress, [0, 1], ['10%', '-10%'])
-    const imageY2 = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
-    const imageY3 = useTransform(scrollYProgress, [0, 1], ['12%', '-12%'])
+  // ✅ Grid pagination
+  const pageSize = 2 // so wie bei dir
+  const totalPages = Math.ceil(images.length / pageSize)
+  const [gridPage, setGridPage] = useState(0)
 
-    const handlePrev = () => {
-      setDirection(-1)
-      setCarouselIndex(prev => (prev - 1 + images.length) % images.length)
-    }
-    const handleNext = () => {
-      setDirection(1)
-      setCarouselIndex(prev => (prev + 1) % images.length)
-    }
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
 
-    const slideVariants = {
-      enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
-      center: { x: 0, opacity: 1 },
-      exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
-    }
+  const imageY1 = useTransform(scrollYProgress, [0, 1], ['10%', '-10%'])
+  const imageY2 = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
+  const imageY3 = useTransform(scrollYProgress, [0, 1], ['12%', '-12%'])
 
-    return (
-      <section 
-        ref={sectionRef}
-        className={`py-32 px-6 relative z-10 overflow-hidden ${bgColor}`}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: textPosition === 'left' ? -100 : 100 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-100px" }}
-              className={`space-y-6 ${textPosition === 'right' ? 'order-1 lg:order-2' : ''}`}
-            >
-              <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl">
-                {title}
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {description}
-              </p>
-            </motion.div>
+  const handlePrev = () => {
+    setDirection(-1)
+    setCarouselIndex((prev) => (prev - 1 + images.length) % images.length)
+  }
+  const handleNext = () => {
+    setDirection(1)
+    setCarouselIndex((prev) => (prev + 1) % images.length)
+  }
 
-            {/* Image Grid with Parallax */}
-            <motion.div
-              initial={{ opacity: 0, x: textPosition === 'left' ? 100 : -100 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-100px" }}
-              className={`${imageLayout === 'carousel' || imageLayout === 'grid-carousel' ? 'relative' : 'grid gap-4 grid-cols-2'} ${textPosition === 'right' ? 'order-2 lg:order-1' : ''}`}
-            >
-              {imageLayout === 'grid-carousel' ? (
-                <div className="relative">
-                  <div className="grid grid-cols-2 gap-3">
-                    <AnimatePresence initial={false} mode="wait">
+  const slideVariants = {
+    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
+  }
+
+  return (
+    <section ref={sectionRef} className={`py-32 px-6 relative z-10 overflow-hidden ${bgColor}`}>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: textPosition === 'left' ? -100 : 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            viewport={{ once: true, margin: '-100px' }}
+            className={`space-y-6 ${textPosition === 'right' ? 'order-1 lg:order-2' : ''}`}
+          >
+            <h2 className="text-4xl font-semibold text-foreground leading-tight tracking-tight md:text-3xl">
+              {title}
+            </h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">{description}</p>
+          </motion.div>
+
+          {/* Image Grid with Parallax */}
+          <motion.div
+            initial={{ opacity: 0, x: textPosition === 'left' ? 100 : -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            viewport={{ once: true, margin: '-100px' }}
+            className={`${
+              imageLayout === 'carousel' || imageLayout === 'grid-carousel'
+                ? 'relative'
+                : 'grid gap-4 grid-cols-2'
+            } ${textPosition === 'right' ? 'order-2 lg:order-1' : ''}`}
+          >
+            {imageLayout === 'grid-carousel' ? (
+              <div className="relative">
+                <div className="grid grid-cols-2 gap-3">
+                  {/* ✅ FIX: mode="wait" nur mit EINEM Child.
+                      Wir animieren die ganze "Page" als EIN motion.div */}
+                  <AnimatePresence initial={false} mode="wait">
+                    <motion.div
+                      key={gridPage}
+                      className="contents"
+                      initial={{ opacity: 0, x: 80 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -80 }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                    >
                       {images.slice(gridPage * pageSize, gridPage * pageSize + pageSize).map((src, i) => (
-                        <motion.div
+                        <div
                           key={`${gridPage}-${i}`}
-                          className="aspect-[3/4] bg-gray-100 border border-gray-200 overflow-hidden"
-                          initial={{ opacity: 0, x: 80 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -80 }}
-                          transition={{ duration: 0.4, delay: i * 0.3, ease: 'easeOut' }}
+                          className="aspect-[3/4] bg-gray-100 border border-gray-200 overflow-hidden rounded-2xl"
                         >
                           <img
                             src={src}
                             alt={`${title} ${gridPage * pageSize + i + 1}`}
                             className="w-full h-full object-cover"
                           />
-                        </motion.div>
+                        </div>
                       ))}
-                    </AnimatePresence>
-                  </div>
-                  {/* Chevrons */}
-                  <button
-                    onClick={() => { setDirection(-1); setGridPage(prev => (prev - 1 + totalPages) % totalPages) }}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
-                    aria-label="Vorherige Seite"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                  </button>
-                  <button
-                    onClick={() => { setDirection(1); setGridPage(prev => (prev + 1) % totalPages) }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
-                    aria-label="Nächste Seite"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                  </button>
-                  {/* Page dots */}
-                  <div className="flex justify-center gap-2 mt-4">
-                    {Array.from({ length: totalPages }).map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => { setDirection(i > gridPage ? 1 : -1); setGridPage(i) }}
-                        className={`w-2 h-2 rounded-full transition-colors ${i === gridPage ? 'bg-gray-800' : 'bg-gray-400'}`}
-                        aria-label={`Seite ${i + 1}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ) : imageLayout === 'carousel' ? (
-                <div className="relative aspect-[3/4] bg-gray-100 border border-gray-200 overflow-hidden">
-                  <AnimatePresence initial={false} custom={direction} mode="wait">
-                    <motion.img
-                      key={carouselIndex}
-                      src={images[carouselIndex]}
-                      alt={`${title} ${carouselIndex + 1}`}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      custom={direction}
-                      variants={slideVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{ duration: 0.4, ease: 'easeInOut' }}
-                    />
+                    </motion.div>
                   </AnimatePresence>
-                  {/* Chevrons */}
-                  <button
-                    onClick={handlePrev}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
-                    aria-label="Vorheriges Bild"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
-                    aria-label="Nächstes Bild"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                  </button>
-                  {/* Dots */}
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2">
-                    {images.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => { setDirection(i > carouselIndex ? 1 : -1); setCarouselIndex(i) }}
-                        className={`w-2 h-2 rounded-full transition-colors ${i === carouselIndex ? 'bg-gray-800' : 'bg-gray-400'}`}
-                        aria-label={`Bild ${i + 1}`}
-                      />
-                    ))}
-                  </div>
                 </div>
-              ) : imageLayout === 'landscape' ? (
-                <>
-                  <div className="col-span-2 aspect-video bg-gray-200 overflow-hidden">
-                    <motion.img 
-                      src={images[0]} 
-                      alt={`${title} 1`} 
-                      className="w-full h-full object-cover"
-                      style={{ y: imageY1, scale: 1.2 }}
+
+                {/* Chevrons */}
+                <button
+                  onClick={() => {
+                    setGridPage((prev) => (prev - 1 + totalPages) % totalPages)
+                  }}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
+                  aria-label="Vorherige Seite"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => {
+                    setGridPage((prev) => (prev + 1) % totalPages)
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
+                  aria-label="Nächste Seite"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+
+                {/* Page dots */}
+                <div className="flex justify-center gap-2 mt-4">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setGridPage(i)}
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        i === gridPage ? 'bg-gray-800' : 'bg-gray-400'
+                      }`}
+                      aria-label={`Seite ${i + 1}`}
                     />
-                  </div>
-                  <div className="aspect-square bg-gray-200 overflow-hidden">
-                    <motion.img 
-                      src={images[1]} 
-                      alt={`${title} 2`} 
-                      className="w-full h-full object-cover"
-                      style={{ y: imageY2, scale: 1.2 }}
+                  ))}
+                </div>
+              </div>
+            ) : imageLayout === 'carousel' ? (
+              // ✅ rounded + overflow-hidden zusammen
+              <div className="relative aspect-[3/4] bg-gray-100 border border-gray-200 overflow-hidden rounded-2xl">
+                <AnimatePresence initial={false} custom={direction} mode="wait">
+                  <motion.img
+                    key={carouselIndex}
+                    src={images[carouselIndex]}
+                    alt={`${title} ${carouselIndex + 1}`}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.4, ease: 'easeInOut' }}
+                  />
+                </AnimatePresence>
+
+                {/* Chevrons */}
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
+                  aria-label="Vorheriges Bild"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/80 transition-colors"
+                  aria-label="Nächstes Bild"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+
+                {/* Dots */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+                  {images.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setDirection(i > carouselIndex ? 1 : -1)
+                        setCarouselIndex(i)
+                      }}
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        i === carouselIndex ? 'bg-gray-800' : 'bg-gray-400'
+                      }`}
+                      aria-label={`Bild ${i + 1}`}
                     />
-                  </div>
-                  <div className="aspect-square bg-gray-200 overflow-hidden">
-                    <motion.img 
-                      src={images[2]} 
-                      alt={`${title} 3`} 
-                      className="w-full h-full object-cover"
-                      style={{ y: imageY3, scale: 1.2 }}
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="aspect-square bg-gray-200 overflow-hidden">
-                    <motion.img 
-                      src={images[0]} 
-                      alt={`${title} 1`} 
-                      className="w-full h-full object-cover"
-                      style={{ y: imageY1, scale: 1.2 }}
-                    />
-                  </div>
-                  <div className="aspect-square bg-gray-200 overflow-hidden">
-                    <motion.img 
-                      src={images[1]} 
-                      alt={`${title} 2`} 
-                      className="w-full h-full object-cover"
-                      style={{ y: imageY2, scale: 1.2 }}
-                    />
-                  </div>
-                  <div className="col-span-2 aspect-video bg-gray-200 overflow-hidden">
-                    <motion.img 
-                      src={images[2]} 
-                      alt={`${title} 3`} 
-                      className="w-full h-full object-cover"
-                      style={{ y: imageY3, scale: 1.2 }}
-                    />
-                  </div>
-                </>
-              )}
-            </motion.div>
-          </div>
+                  ))}
+                </div>
+              </div>
+            ) : imageLayout === 'landscape' ? (
+              <>
+                <div className="col-span-2 aspect-video bg-gray-100 border border-gray-200 overflow-hidden rounded-2xl">
+                  <motion.img
+                    src={images[0]}
+                    alt={`${title} 1`}
+                    className="w-full h-full object-cover"
+                    style={{ y: imageY1, scale: 1.2 }}
+                  />
+                </div>
+                <div className="aspect-square bg-gray-100 border border-gray-200 overflow-hidden rounded-2xl">
+                  <motion.img
+                    src={images[1]}
+                    alt={`${title} 2`}
+                    className="w-full h-full object-cover"
+                    style={{ y: imageY2, scale: 1.2 }}
+                  />
+                </div>
+                <div className="aspect-square bg-gray-100 border border-gray-200 overflow-hidden rounded-2xl">
+                  <motion.img
+                    src={images[2]}
+                    alt={`${title} 3`}
+                    className="w-full h-full object-cover"
+                    style={{ y: imageY3, scale: 1.2 }}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="aspect-square bg-gray-100 border border-gray-200 overflow-hidden rounded-2xl">
+                  <motion.img
+                    src={images[0]}
+                    alt={`${title} 1`}
+                    className="w-full h-full object-cover"
+                    style={{ y: imageY1, scale: 1.2 }}
+                  />
+                </div>
+                <div className="aspect-square bg-gray-100 border border-gray-200 overflow-hidden rounded-2xl">
+                  <motion.img
+                    src={images[1]}
+                    alt={`${title} 2`}
+                    className="w-full h-full object-cover"
+                    style={{ y: imageY2, scale: 1.2 }}
+                  />
+                </div>
+                <div className="col-span-2 aspect-video bg-gray-100 border border-gray-200 overflow-hidden rounded-2xl">
+                  <motion.img
+                    src={images[2]}
+                    alt={`${title} 3`}
+                    className="w-full h-full object-cover"
+                    style={{ y: imageY3, scale: 1.2 }}
+                  />
+                </div>
+              </>
+            )}
+          </motion.div>
         </div>
-      </section>
-    )
-  }
+      </div>
+    </section>
+  )
+}
