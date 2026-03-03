@@ -111,8 +111,6 @@ export default function GlobalContactForm({
         await onSubmit(formData)
       } else {
         // Standard E-Mail Versand (hier können Sie Ihre E-Mail-Service Integration einfügen)
-        console.log('Formular gesendet:', formData)
-        
         // Simuliere API Call
         await new Promise(resolve => setTimeout(resolve, 1000))
       }

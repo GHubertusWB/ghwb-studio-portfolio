@@ -101,8 +101,6 @@ export default function SkillsCircleChart({ onSegmentHover, hoveredSkill, hideLa
       const skillRadius = innerRadius + (skill.value / 10) * segmentHeight
       const maxSkillRadius = innerRadius + segmentHeight // Maximum radius for background
       const segmentColor = getSkillColor()
-      
-      console.log(`Segment ${segmentIndex}: ${skill.name}, value: ${skill.value}, radius: ${skillRadius}`)
 
       // Background segment (hellblau, 10% opacity, max radius)
       const backgroundArc = d3.arc<any>()
