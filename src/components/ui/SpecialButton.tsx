@@ -45,6 +45,10 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
 
     const [isHovered, setIsHovered] = React.useState(false);
     const [isPressed, setIsPressed] = React.useState(false);
+    const [isFocused, setIsFocused] = React.useState(false);
+
+    // Aktiviert Hover-Visuell auch bei Tastaturfokus
+    const isActive = isHovered || isFocused;
 
     const getBackgroundColor = () => {
       if (variant === 'primary') {
@@ -61,14 +65,14 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
       if (variant === 'primary') {
         const glassShadow = isPressed 
           ? '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5)'
-          : isHovered
+          : isActive
             ? '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 0 1px rgba(255, 174, 0, 0.3)'
             : '0 4px 16px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.5)';
         return glassShadow;
       } else if (variant === 'secondary' || variant === 'tertiary') {
         const glassShadow = isPressed
           ? '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6)'
-          : isHovered
+          : isActive
             ? '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7)'
             : '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)';
         return glassShadow;
@@ -77,10 +81,9 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
     };
 
     const getContainerShadow = () => {
-      // Extrem weicher Schatten hinter dem Button, sichtbar durch transparenten Button
       return isPressed
         ? '0 6px 80px rgba(60, 60, 60, 0.4)'
-        : isHovered
+        : isActive
           ? '0 16px 100px rgba(60, 60, 60, 0.5)'
           : '0 12px 90px rgba(60, 60, 60, 0.45)';
     };
@@ -88,7 +91,7 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
     const getTransform = () => {
       if (isPressed) {
         return 'translateY(2px) scale(0.98)';
-      } else if (isHovered) {
+      } else if (isActive) {
         return 'translateY(-2px) scale(1.02)';
       }
       return 'translateY(0px) scale(1)';
@@ -108,6 +111,19 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
       >
         <button
           className={cn('flex items-center justify-center', className)}
+          onMouseDown={() => setIsPressed(true)}
+          onMouseUp={() => setIsPressed(false)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => {
+            setIsFocused(false);
+            setIsPressed(false);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === ' ' || e.key === 'Enter') setIsPressed(true);
+          }}
+          onKeyUp={(e) => {
+            if (e.key === ' ' || e.key === 'Enter') setIsPressed(false);
+          }}
           style={{
             opacity: disabled ? 0.5 : 1,
             background: variant === 'primary' ? '#FFAE00' : '#f0f9ff',
@@ -119,13 +135,18 @@ const SpecialButton = forwardRef<HTMLButtonElement, SpecialButtonProps>(
             padding: currentSize.padding,
             fontSize: currentSize.fontSize,
             boxShadow: isHovered ? '0 4px 12px rgba(0, 0, 0, 0.15)' : '0 2px 4px rgba(0, 0, 0, 0.1)',
-            transform: isPressed ? 'scale(0.98)' : isHovered ? 'scale(1.02)' : 'scale(1)',
+            transform: isPressed ? 'scale(0.98)' : isActive ? 'scale(1.02)' : 'scale(1)',
             transition: 'all 0.2s ease-out',
             overflow: 'visible',
-            letterSpacing: '0.01em'
+            letterSpacing: '0.01em',
+            // WCAG 2.4.7: sichtbarer Fokus-Indikator
+            outline: isFocused
+              ? variant === 'primary'
+                ? '3px solid #1d4ed8'
+                : '3px solid #1d4ed8'
+              : 'none',
+            outlineOffset: '3px',
           }}
-          onMouseDown={() => setIsPressed(true)}
-          onMouseUp={() => setIsPressed(false)}
           ref={ref}
           disabled={disabled}
           {...props}

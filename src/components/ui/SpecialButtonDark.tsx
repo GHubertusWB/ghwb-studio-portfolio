@@ -1,5 +1,5 @@
 import React, { forwardRef, useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 // Loading Spinner für Dark Mode
@@ -57,10 +57,11 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
   }, ref) => {
     
     const [isHovered, setIsHovered] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
     
-    // Hover state tracking
-    // Removed cursor-following animation
+    // Hover oder Tastaturfokus aktivieren dieselbe Animation
+    const isActive = isHovered || isFocused;
 
     // Variant-spezifische Farben
     const variantConfig = {
@@ -158,13 +159,18 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
         }}
         className={cn(
           "relative inline-flex items-center justify-center",
-          config.fontWeight, // Variantenspezifisches Font-Weight
+          config.fontWeight,
           "tracking-wide transition-colors duration-300",
-          "font-[var(--font-poppins)]", // Explizit Poppins für Buttons
-          "focus:outline-none select-none bg-transparent",
+          "font-[var(--font-poppins)]",
+          // WCAG 2.4.7: focus:outline-none nur für mouse, focus-visible zeigt den Ring
+          "outline-none focus-visible:outline-none select-none bg-transparent",
+          // WCAG: sichtbarer Fokus-Ring passend zur Variante
+          variant === 'primary'
+            ? "focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            : "focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
           variant === 'primary' || variant === 'secondary' ? "border border-white/20" : "border-none",
-          rounded && variant === 'primary' ? "rounded-full" : "", // Maximal abgerundete Ecken für Primary
-          "transform-gpu overflow-visible", // overflow-visible für die Border-Effekte
+          rounded && variant === 'primary' ? "rounded-full" : "",
+          "transform-gpu overflow-visible",
           currentSize.padding,
           currentSize.text,
           config.textColor,
@@ -177,6 +183,8 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         whileHover={!isDisabledOrLoading ? { scale: 1.02 } : undefined}
         whileTap={!isDisabledOrLoading ? { scale: 0.98 } : undefined}
         transition={{ duration: 0.2 }}
@@ -193,7 +201,7 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
             background: config.bgHover,
           }}
           initial={{ opacity: 0 }}
-          animate={isHovered && !isDisabledOrLoading ? { 
+          animate={isActive && !isDisabledOrLoading ? { 
             opacity: 1
           } : { 
             opacity: 0
@@ -214,11 +222,11 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
                 top: '-4px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                backgroundColor: variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor,
+                backgroundColor: variant === 'tertiary' && !isActive ? 'transparent' : config.borderColor,
                 filter: `drop-shadow(0 0 6px ${config.glowColor})`,
               }}
               initial={{ width: '4px', height: '4px' }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: '8px',
                 height: '8px'
               } : {
@@ -235,11 +243,11 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
                 top: '50%',
                 right: '-4px',
                 transform: 'translateY(-50%)',
-                backgroundColor: variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor,
+                backgroundColor: variant === 'tertiary' && !isActive ? 'transparent' : config.secondaryColor,
                 filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
               }}
               initial={{ width: '4px', height: '4px' }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: '8px',
                 height: '8px'
               } : {
@@ -256,11 +264,11 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
                 bottom: '-4px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                backgroundColor: variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor,
+                backgroundColor: variant === 'tertiary' && !isActive ? 'transparent' : config.borderColor,
                 filter: `drop-shadow(0 0 6px ${config.glowColor})`,
               }}
               initial={{ width: '4px', height: '4px' }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: '8px',
                 height: '8px'
               } : {
@@ -277,11 +285,11 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
                 top: '50%',
                 left: '-4px',
                 transform: 'translateY(-50%)',
-                backgroundColor: variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor,
+                backgroundColor: variant === 'tertiary' && !isActive ? 'transparent' : config.secondaryColor,
                 filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
               }}
               initial={{ width: '4px', height: '4px' }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: '8px',
                 height: '8px'
               } : {
@@ -302,7 +310,7 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
                 filter: `drop-shadow(0 0 8px ${config.glowColor})`,
               }}
               initial={{ width: '0px', height: '0px', opacity: 0 }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: `${Math.max(currentSize.buttonWidth, currentSize.buttonHeight) + 8}px`,
                 height: `${Math.max(currentSize.buttonWidth, currentSize.buttonHeight) + 8}px`,
                 opacity: 0.6
@@ -323,12 +331,12 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
               style={{
                 top: '-2px',
                 left: '-2px',
-                borderTop: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
-                borderLeft: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
+                borderTop: `2px solid ${variant === 'tertiary' && !isActive ? 'transparent' : config.borderColor}`,
+                borderLeft: `2px solid ${variant === 'tertiary' && !isActive ? 'transparent' : config.borderColor}`,
                 filter: `drop-shadow(0 0 6px ${config.glowColor})`,
               }}
               initial={{ width: '8px', height: '8px' }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: '50%',
                 height: '50%'
               } : {
@@ -344,12 +352,12 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
               style={{
                 top: '-2px',
                 right: '-2px',
-                borderTop: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
-                borderRight: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
+                borderTop: `2px solid ${variant === 'tertiary' && !isActive ? 'transparent' : config.secondaryColor}`,
+                borderRight: `2px solid ${variant === 'tertiary' && !isActive ? 'transparent' : config.secondaryColor}`,
                 filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
               }}
               initial={{ width: '8px', height: '8px' }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: '50%',
                 height: '50%'
               } : {
@@ -365,12 +373,12 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
               style={{
                 bottom: '-2px',
                 left: '-2px',
-                borderBottom: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
-                borderLeft: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.borderColor}`,
+                borderBottom: `2px solid ${variant === 'tertiary' && !isActive ? 'transparent' : config.borderColor}`,
+                borderLeft: `2px solid ${variant === 'tertiary' && !isActive ? 'transparent' : config.borderColor}`,
                 filter: `drop-shadow(0 0 6px ${config.glowColor})`,
               }}
               initial={{ width: '8px', height: '8px' }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: '50%',
                 height: '50%'
               } : {
@@ -386,12 +394,12 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
               style={{
                 bottom: '-2px',
                 right: '-2px',
-                borderBottom: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
-                borderRight: `2px solid ${variant === 'tertiary' && !isHovered ? 'transparent' : config.secondaryColor}`,
+                borderBottom: `2px solid ${variant === 'tertiary' && !isActive ? 'transparent' : config.secondaryColor}`,
+                borderRight: `2px solid ${variant === 'tertiary' && !isActive ? 'transparent' : config.secondaryColor}`,
                 filter: `drop-shadow(0 0 6px ${config.secondaryGlow})`,
               }}
               initial={{ width: '8px', height: '8px' }}
-              animate={isHovered && !isDisabledOrLoading ? {
+              animate={isActive && !isDisabledOrLoading ? {
                 width: '50%',
                 height: '50%'
               } : {
@@ -417,7 +425,7 @@ const SpecialButtonDark = forwardRef<HTMLButtonElement, SpecialButtonDarkProps>(
             mixBlendMode: 'screen',
           }}
           initial={{ width: '0px', height: '0px', opacity: 0 }}
-          animate={isHovered && !isDisabledOrLoading ? {
+          animate={isActive && !isDisabledOrLoading ? {
             width: `${currentSize.buttonWidth * 0.6}px`,
             height: `${currentSize.buttonHeight * 0.6}px`,
             opacity: 0.3
