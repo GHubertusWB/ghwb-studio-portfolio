@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { Sparkles } from 'lucide-react'
 import Link from 'next/link'
@@ -55,10 +55,13 @@ interface CollaborationCard {
 
 export default function ArtPageDark(): React.JSX.Element {
   const [currentTime, setCurrentTime] = useState('')
+  const [teilenIndex, setTeilenIndex] = useState(0)
 
-
-  
-  // Refs for scroll animations
+  const teilenImages = [
+    '/gallery/art/Teilen-Fischfang.jpeg',
+    '/gallery/art/Teilen-Depressionen.jpeg',
+    '/gallery/art/Teilen-Religionen.jpeg',
+  ]
   const portfolioRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
 
@@ -641,9 +644,8 @@ export default function ArtPageDark(): React.JSX.Element {
             viewport={{ once: true }}
             className="grid lg:grid-cols-2 gap-16 items-center"
           >
-            {/* Left Side - Enhanced Image Display */}
+            {/* Left Side - Teilen Carousel */}
             <div className="relative">
-              {/* Simple Image Display */}
               <motion.div 
                 className="relative h-full"
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -651,12 +653,45 @@ export default function ArtPageDark(): React.JSX.Element {
                 transition={{ duration: 1, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                <div className="relative w-full h-full overflow-hidden">
-                  <img 
-                    src="/gallery/art/0C0FF1CB-BB55-4087-B418-A7D493B5EC7F_1_105_c.jpeg"
-                    alt={artwork.title}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative w-full aspect-[3/4] overflow-hidden">
+                  <AnimatePresence initial={false} mode="wait">
+                    <motion.img
+                      key={teilenIndex}
+                      src={teilenImages[teilenIndex]}
+                      alt={`${artwork.title} ${teilenIndex + 1}`}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      initial={{ opacity: 0, x: 80 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -80 }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                    />
+                  </AnimatePresence>
+                  {/* Chevrons */}
+                  <button
+                    onClick={() => setTeilenIndex(prev => (prev - 1 + teilenImages.length) % teilenImages.length)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white hover:bg-black/60 transition-colors"
+                    aria-label="Vorheriges Bild"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                  </button>
+                  <button
+                    onClick={() => setTeilenIndex(prev => (prev + 1) % teilenImages.length)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white hover:bg-black/60 transition-colors"
+                    aria-label="Nächstes Bild"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                </div>
+                {/* Dots */}
+                <div className="flex justify-center gap-2 mt-4">
+                  {teilenImages.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setTeilenIndex(i)}
+                      className={`w-2 h-2 rounded-full transition-colors ${i === teilenIndex ? 'bg-white' : 'bg-white/40'}`}
+                      aria-label={`Bild ${i + 1}`}
+                    />
+                  ))}
                 </div>
               </motion.div>
             </div>
@@ -732,11 +767,23 @@ export default function ArtPageDark(): React.JSX.Element {
           Jedes Werk interpretiert das Motiv der Ente als kulturelles Symbol neu — 
           zwischen Pop Art, Street Art und zeitgenössischer Malerei."
         images={[
-          artGroups.find(g => g.id === 'digiducks')?.images[0] || '/gallery/art/0C0FF1CB-BB55-4087-B418-A7D493B5EC7F_1_105_c.jpeg',
-          artGroups.find(g => g.id === 'digiducks')?.images[1] || '/gallery/art/0E4EC7D6-556E-4732-B9BB-6C2861557E36_1_105_c.jpeg',
-          artGroups.find(g => g.id === 'digiducks')?.images[2] || '/gallery/art/1A01DAE4-D2AA-4133-B425-238B102646DA_1_105_c.jpeg',
+          '/gallery/art/Dux1.jpg',
+          '/gallery/art/Dux2.jpg',
+          '/gallery/art/Dux3.jpg',
+          '/gallery/art/Dux4.jpg',
+          '/gallery/art/Dux5.jpg',
+          '/gallery/art/Dux6.jpg',
+          '/gallery/art/Dux7.jpg',
+          '/gallery/art/Dux8.jpg',
+          '/gallery/art/Dux9.jpg',
+          '/gallery/art/Dux10.jpg',
+          '/gallery/art/Dux11.jpg',
+          '/gallery/art/Dux13.jpg',
+          '/gallery/art/Dux14.jpg',
+          '/gallery/art/Dux-Red.jpg',
         ]}
         bgColor=""
+        imageLayout="grid-carousel"
       />
 
       {/* Section 2: Bedrohte Tiere - Text Rechts, Bilder Links */}
@@ -747,12 +794,12 @@ export default function ArtPageDark(): React.JSX.Element {
           Farbgebung porträtieren. Die Serie schafft Bewusstsein für den Artenschutz 
           und verbindet emotionale Kraft mit künstlerischer Ausdrucksstärke."
         images={[
-          artGroups.find(g => g.id === 'leinwaende')?.images[0] || '/gallery/art/276978157_2151325001689082_4554386259994847710_n.jpg',
-          artGroups.find(g => g.id === 'leinwaende')?.images[1] || '/gallery/art/277112623_365261895528667_8618673296825249071_n.jpg',
-          artGroups.find(g => g.id === 'leinwaende')?.images[2] || '/gallery/art/277115346_365186875527721_6944956018215836686_n.jpg',
+          '/gallery/art/Kraniche%20im%20D%C3%A4mmerlicht%20am%20Wasser.png',
+          '/gallery/art/purpurkranich.jpg',
+          '/gallery/art/uferschnepfe.jpg',
         ]}
         bgColor=""
-        imageLayout="landscape"
+        imageLayout="carousel"
       />
 
       {/* Section 3: Augmented & Digital Art - Text Links, Bilder Rechts */}
@@ -788,12 +835,17 @@ interface ParallaxSectionDarkProps {
   description: string
   images: string[]
   bgColor: string
-  imageLayout?: 'default' | 'landscape'
+  imageLayout?: 'default' | 'landscape' | 'carousel' | 'grid-carousel'
 }
 
 const ParallaxSectionDark: React.FC<ParallaxSectionDarkProps> = 
   ({ textPosition, title, description, images, bgColor, imageLayout = 'default' }) => {
     const sectionRef = useRef<HTMLElement>(null)
+    const [carouselIndex, setCarouselIndex] = useState(0)
+    const [direction, setDirection] = useState(0)
+    const pageSize = 2
+    const totalPages = Math.ceil(images.length / pageSize)
+    const [gridPage, setGridPage] = useState(0)
     const { scrollYProgress } = useScroll({
       target: sectionRef,
       offset: ["start end", "end start"]
@@ -802,6 +854,21 @@ const ParallaxSectionDark: React.FC<ParallaxSectionDarkProps> =
     const imageY1 = useTransform(scrollYProgress, [0, 1], ['10%', '-10%'])
     const imageY2 = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
     const imageY3 = useTransform(scrollYProgress, [0, 1], ['12%', '-12%'])
+
+    const handlePrev = () => {
+      setDirection(-1)
+      setCarouselIndex(prev => (prev - 1 + images.length) % images.length)
+    }
+    const handleNext = () => {
+      setDirection(1)
+      setCarouselIndex(prev => (prev + 1) % images.length)
+    }
+
+    const slideVariants = {
+      enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
+      center: { x: 0, opacity: 1 },
+      exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
+    }
 
     return (
       <section 
@@ -836,9 +903,101 @@ const ParallaxSectionDark: React.FC<ParallaxSectionDarkProps> =
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               viewport={{ once: true, margin: "-100px" }}
-              className={`grid grid-cols-2 gap-4 ${textPosition === 'right' ? 'order-2 lg:order-1' : ''}`}
+              className={`${imageLayout === 'carousel' || imageLayout === 'grid-carousel' ? 'relative' : 'grid gap-4 grid-cols-2'} ${textPosition === 'right' ? 'order-2 lg:order-1' : ''}`}
             >
-              {imageLayout === 'landscape' ? (
+              {imageLayout === 'grid-carousel' ? (
+                <div className="relative">
+                  <div className="grid grid-cols-2 gap-3">
+                    <AnimatePresence initial={false} mode="wait">
+                      {images.slice(gridPage * pageSize, gridPage * pageSize + pageSize).map((src, i) => (
+                        <motion.div
+                          key={`${gridPage}-${i}`}
+                          className="aspect-[3/4] bg-white/5 border border-white/10 overflow-hidden"
+                          initial={{ opacity: 0, x: 80 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -80 }}
+                          transition={{ duration: 0.4, delay: i * 0.3, ease: 'easeOut' }}
+                        >
+                          <img
+                            src={src}
+                            alt={`${title} ${gridPage * pageSize + i + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                  {/* Chevrons */}
+                  <button
+                    onClick={() => { setDirection(-1); setGridPage(prev => (prev - 1 + totalPages) % totalPages) }}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white hover:bg-black/60 transition-colors"
+                    aria-label="Vorherige Seite"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                  </button>
+                  <button
+                    onClick={() => { setDirection(1); setGridPage(prev => (prev + 1) % totalPages) }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white hover:bg-black/60 transition-colors"
+                    aria-label="Nächste Seite"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                  {/* Page dots */}
+                  <div className="flex justify-center gap-2 mt-4">
+                    {Array.from({ length: totalPages }).map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setDirection(i > gridPage ? 1 : -1); setGridPage(i) }}
+                        className={`w-2 h-2 rounded-full transition-colors ${i === gridPage ? 'bg-white' : 'bg-white/40'}`}
+                        aria-label={`Seite ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : imageLayout === 'carousel' ? (
+                <div className="relative aspect-[3/4] bg-white/5 border border-white/10 overflow-hidden">
+                  <AnimatePresence initial={false} custom={direction} mode="wait">
+                    <motion.img
+                      key={carouselIndex}
+                      src={images[carouselIndex]}
+                      alt={`${title} ${carouselIndex + 1}`}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      custom={direction}
+                      variants={slideVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{ duration: 0.4, ease: 'easeInOut' }}
+                    />
+                  </AnimatePresence>
+                  {/* Chevrons */}
+                  <button
+                    onClick={handlePrev}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white hover:bg-black/60 transition-colors"
+                    aria-label="Vorheriges Bild"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white hover:bg-black/60 transition-colors"
+                    aria-label="Nächstes Bild"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                  {/* Dots */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+                    {images.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setDirection(i > carouselIndex ? 1 : -1); setCarouselIndex(i) }}
+                        className={`w-2 h-2 rounded-full transition-colors ${i === carouselIndex ? 'bg-white' : 'bg-white/40'}`}
+                        aria-label={`Bild ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : imageLayout === 'landscape' ? (
                 <>
                   <div className="col-span-2 aspect-video bg-white/5 border border-white/10 overflow-hidden">
                     <motion.img 
