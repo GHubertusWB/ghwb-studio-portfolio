@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import Link from 'next/link'
@@ -27,40 +27,6 @@ export default function ArtPageLight(): React.JSX.Element {
     '/gallery/art/Teilen-Depressionen.jpeg',
     '/gallery/art/Teilen-Religionen.jpeg',
   ]
-
-  const portfolioRef = useRef<HTMLElement>(null)
-  const contactRef = useRef<HTMLElement>(null)
-
-  // Intersection Observer for performance-optimized animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view')
-          }
-        })
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px',
-      }
-    )
-
-    // Observe sections
-    const sections = [portfolioRef, contactRef]
-    sections.forEach((ref) => {
-      if (ref.current) {
-        observer.observe(ref.current)
-
-        // Also observe child elements
-        const children = ref.current.querySelectorAll('.bauhaus-animate, .bauhaus-portfolio-item')
-        children.forEach((child: Element) => observer.observe(child))
-      }
-    })
-
-    return () => observer.disconnect()
-  }, [])
 
   // Same content as dark version
   const artwork: Artwork = {

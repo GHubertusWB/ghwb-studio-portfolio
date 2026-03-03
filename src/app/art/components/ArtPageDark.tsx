@@ -1,8 +1,7 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
 import { Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import FloatingContactButton from '@/components/FloatingContactButton'
@@ -161,25 +160,7 @@ const PORTFOLIO_SECTIONS: Omit<ParallaxSectionDarkProps, 'bgColor'>[] = [
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function ArtPageDark(): React.JSX.Element {
-  const [currentTime, setCurrentTime] = useState('')
   const [teilenIndex, setTeilenIndex] = useState(0)
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date()
-      setCurrentTime(
-        now.toLocaleTimeString('de-DE', {
-          hour12: false,
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        })
-      )
-    }
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   const openContactModal = () => window.dispatchEvent(new CustomEvent('openContactModal'))
 
