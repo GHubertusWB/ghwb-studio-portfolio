@@ -3,13 +3,14 @@
 import { motion } from 'framer-motion'
 import { Linkedin, Mail, ArrowUp } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/Button'
+import { useRouter } from 'next/navigation'
 import { SpecialButton } from '@/components/ui/SpecialButton'
 import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 import { useTheme } from '@/contexts/ThemeContext'
 
 const Footer = () => {
   const { theme } = useTheme()
+  const router = useRouter()
   
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -101,30 +102,33 @@ const Footer = () => {
           <div className="flex justify-center space-x-6 mb-12">
             {socialLinks.map((social) => {
               const Icon = social.icon
-              return (
-                <motion.a
+              const handleSocialClick = () => {
+                if (social.href.startsWith('http')) {
+                  window.open(social.href, '_blank', 'noopener,noreferrer')
+                } else {
+                  window.location.href = social.href
+                }
+              }
+              return theme === 'dark' ? (
+                <SpecialButtonDark
                   key={social.label}
-                  href={social.href}
-                  target={social.href.startsWith('http') ? '_blank' : undefined}
-                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  variant="tertiary"
+                  size="base"
                   aria-label={social.label}
+                  onClick={handleSocialClick}
+                  icon="only"
+                  iconElement={<Icon className="w-5 h-5" />}
+                />
+              ) : (
+                <SpecialButton
+                  key={social.label}
+                  variant="tertiary"
+                  size="medium"
+                  aria-label={social.label}
+                  onClick={handleSocialClick}
                 >
-                  {theme === 'dark' ? (
-                    <SpecialButtonDark
-                      variant="tertiary"
-                      size="base"
-                      icon="only"
-                      iconElement={<Icon className="w-5 h-5" />}
-                    />
-                  ) : (
-                    <SpecialButton
-                      variant="tertiary"
-                      size="medium"
-                    >
-                      <Icon className="w-5 h-5" />
-                    </SpecialButton>
-                  )}
-                </motion.a>
+                  <Icon className="w-5 h-5" />
+                </SpecialButton>
               )
             })}
           </div>
@@ -136,40 +140,24 @@ const Footer = () => {
           </p>
           
           <div className="flex space-x-4">
-            <Link href="/impressum">
-              {theme === 'dark' ? (
-                <SpecialButtonDark
-                  variant="tertiary"
-                  size="sm"
-                >
-                  Impressum
-                </SpecialButtonDark>
-              ) : (
-                <SpecialButton
-                  variant="tertiary"
-                  size="sm"
-                >
-                  Impressum
-                </SpecialButton>
-              )}
-            </Link>
-            <Link href="/datenschutz">
-              {theme === 'dark' ? (
-                <SpecialButtonDark
-                  variant="tertiary"
-                  size="sm"
-                >
-                  Datenschutz
-                </SpecialButtonDark>
-              ) : (
-                <SpecialButton
-                  variant="tertiary"
-                  size="sm"
-                >
-                  Datenschutz
-                </SpecialButton>
-              )}
-            </Link>
+            {theme === 'dark' ? (
+              <SpecialButtonDark variant="tertiary" size="sm" onClick={() => router.push('/impressum')}>
+                Impressum
+              </SpecialButtonDark>
+            ) : (
+              <SpecialButton variant="tertiary" size="sm" onClick={() => router.push('/impressum')}>
+                Impressum
+              </SpecialButton>
+            )}
+            {theme === 'dark' ? (
+              <SpecialButtonDark variant="tertiary" size="sm" onClick={() => router.push('/datenschutz')}>
+                Datenschutz
+              </SpecialButtonDark>
+            ) : (
+              <SpecialButton variant="tertiary" size="sm" onClick={() => router.push('/datenschutz')}>
+                Datenschutz
+              </SpecialButton>
+            )}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useTheme } from '@/contexts/ThemeContext'
 import { SpecialButton } from '@/components/ui/SpecialButton'
 import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
@@ -9,6 +9,7 @@ import { ArrowRight } from 'lucide-react'
 
 const Introduction = () => {
   const { theme } = useTheme()
+  const router = useRouter()
 
   return (
     <section className="py-24 md:py-32 lg:py-40 transition-colors duration-300">
@@ -81,25 +82,25 @@ const Introduction = () => {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="flex items-start lg:justify-end"
             >
-              <Link href="/about">
-                {theme === 'dark' ? (
-                  <SpecialButtonDark
-                    variant="secondary"
-                    size="base"
-                  >
-                    Erfahre mehr über mich
-                    <ArrowRight className="w-4 h-4" />
-                  </SpecialButtonDark>
-                ) : (
-                  <SpecialButton
-                    variant="secondary"
-                    size="medium"
-                  >
-                    Erfahre mehr über mich
-                    <ArrowRight className="w-4 h-4" />
-                  </SpecialButton>
-                )}
-              </Link>
+              {theme === 'dark' ? (
+                <SpecialButtonDark
+                  variant="secondary"
+                  size="base"
+                  onClick={() => router.push('/about')}
+                >
+                  Erfahre mehr über mich
+                  <ArrowRight className="w-4 h-4" />
+                </SpecialButtonDark>
+              ) : (
+                <SpecialButton
+                  variant="secondary"
+                  size="medium"
+                  onClick={() => router.push('/about')}
+                >
+                  Erfahre mehr über mich
+                  <ArrowRight className="w-4 h-4" />
+                </SpecialButton>
+              )}
             </motion.div>
           </div>
         </div>
