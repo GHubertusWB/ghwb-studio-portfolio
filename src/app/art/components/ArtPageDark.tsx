@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import Footer from '@/components/Footer'
 import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
@@ -160,6 +160,7 @@ const PORTFOLIO_SECTIONS: Omit<ParallaxSectionDarkProps, 'bgColor'>[] = [
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function ArtPageDark(): React.JSX.Element {
+  const router = useRouter()
   const [teilenIndex, setTeilenIndex] = useState(0)
 
   const openContactModal = () => window.dispatchEvent(new CustomEvent('openContactModal'))
@@ -457,9 +458,7 @@ export default function ArtPageDark(): React.JSX.Element {
               </p>
 
               <div className="flex flex-wrap gap-4">
-                <Link href="/ausstellung-holzkirchen">
-                  <SpecialButtonDark size="sm">Zur Ausstellung →</SpecialButtonDark>
-                </Link>
+                <SpecialButtonDark size="sm" onClick={() => router.push('/ausstellung-holzkirchen')}>Zur Ausstellung →</SpecialButtonDark>
 
                 <a
                   href="https://www.holzkirchen.de/kunst-im-schaufenster"

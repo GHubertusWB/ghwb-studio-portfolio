@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import FloatingContactButton from '@/components/FloatingContactButton'
 import FloatingCloudsArt from './FloatingCloudsArt'
 import Footer from '@/components/Footer'
@@ -20,6 +20,7 @@ interface Artwork {
 }
 
 export default function ArtPageLight(): React.JSX.Element {
+  const router = useRouter()
   const [teilenIndex, setTeilenIndex] = useState(0)
 
   const teilenImages = [
@@ -189,9 +190,7 @@ export default function ArtPageLight(): React.JSX.Element {
                 eine interaktive Entenjagd durch die Marktgemeinde.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href="/ausstellung-holzkirchen">
-                  <SpecialButton size="sm">Zur Ausstellung →</SpecialButton>
-                </Link>
+                <SpecialButton size="sm" onClick={() => router.push('/ausstellung-holzkirchen')}>Zur Ausstellung →</SpecialButton>
                 <a
                   href="https://www.holzkirchen.de/kunst-im-schaufenster"
                   target="_blank"
