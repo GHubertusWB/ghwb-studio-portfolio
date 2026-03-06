@@ -60,11 +60,21 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
+          {/* WCAG 2.4.1: Skip to main content */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-white focus:text-gray-900 focus:font-semibold focus:rounded focus:shadow-lg focus:outline-2 focus:outline-blue-600"
+          >
+            Zum Hauptinhalt springen
+          </a>
           <NavigationLoader />
-          <CursorFollower />
-          <StarField />
+          {/* Dekorative Elemente für Screenreader ausblenden */}
+          <div aria-hidden="true">
+            <CursorFollower />
+            <StarField />
+          </div>
           <Navigation />
-          <main className="min-h-screen">
+          <main id="main-content" className="min-h-screen">
             {children}
           </main>
         </ThemeProvider>

@@ -5,7 +5,6 @@ import { ArrowDown, Sparkles, Mouse } from 'lucide-react'
 import MainLogo from './MainLogo'
 import { useTheme } from '@/contexts/ThemeContext'
 import SpaceshipHUD from './SpaceshipHUD'
-import { Button } from './ui/Button'
 import { SpecialButton } from './ui/SpecialButton'
 import { SpecialButtonDark } from './ui/SpecialButtonDark'
 
@@ -33,7 +32,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
       }`} />
 
       {/* Spaceship HUD - behind the logo */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0" aria-hidden="true">
         <SpaceshipHUD />
       </div>
 
@@ -137,6 +136,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
               variant="tertiary"
               size="base"
               onClick={scrollToNext}
+              aria-label="Zur nächsten Sektion scrollen"
               className="p-4"
             >
               <motion.div
@@ -153,6 +153,7 @@ const Hero = ({ onContactClick }: HeroProps) => {
               variant="tertiary"
               size="sm"
               onClick={scrollToNext}
+              aria-label="Zur nächsten Sektion scrollen"
               className="p-4"
             >
               <motion.div

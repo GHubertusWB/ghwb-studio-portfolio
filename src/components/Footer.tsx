@@ -174,6 +174,7 @@ const Footer = () => {
             variant="tertiary"
             size="base"
             onClick={scrollToTop}
+            aria-label="Zum Seitenanfang scrollen"
             icon="only"
             iconElement={<ArrowUp className="w-5 h-5" />}
           />
@@ -182,6 +183,7 @@ const Footer = () => {
             variant="tertiary"
             size="medium"
             onClick={scrollToTop}
+            aria-label="Zum Seitenanfang scrollen"
           >
             <ArrowUp className="w-5 h-5" />
           </SpecialButton>

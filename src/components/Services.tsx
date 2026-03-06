@@ -2,14 +2,108 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Palette, Camera, Layers, ArrowRight, Brain } from 'lucide-react'
+import { Palette, Camera, Layers, ArrowRight, Brain, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useTheme } from '@/contexts/ThemeContext'
 
+interface ServiceItem {
+  icon: LucideIcon
+  title: string
+  description: string
+  href: string
+}
+
+// Eigene Komponente, damit useState nicht in .map() aufgerufen wird (React Hooks-Regel)
+const ServiceCardDark = ({ service }: { service: ServiceItem }) => {
+  const [isActive, setIsActive] = useState(false)
+  const Icon = service.icon
+
+  return (
+    <div className="group relative">
+      <Link
+        href={service.href}
+        onMouseEnter={() => setIsActive(true)}
+        onMouseLeave={() => setIsActive(false)}
+        onFocus={() => setIsActive(true)}
+        onBlur={() => setIsActive(false)}
+        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+        aria-label={`${service.title} – ${service.description}`}
+      >
+        <motion.div
+          className="relative p-8 h-full border border-white/20 backdrop-blur-md flex flex-col overflow-visible"
+          style={{ borderRadius: '0px' }}
+          transition={{ type: "spring", stiffness: 180, damping: 28, mass: 1.3 }}
+        >
+          {/* Hover Background */}
+          <motion.div
+            className="absolute inset-0 -z-10"
+            style={{ background: 'linear-gradient(135deg, rgba(156, 163, 175, 0.1) 0%, rgba(107, 114, 128, 0.1) 100%)' }}
+            initial={{ opacity: 0 }}
+            animate={isActive ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+          {/* Top-Left Corner */}
+          <motion.div
+            className="absolute pointer-events-none"
+            style={{ top: '-2px', left: '-2px', borderTop: '2px solid #ffffff', borderLeft: '2px solid #ffffff', filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))' }}
+            initial={{ width: '8px', height: '8px' }}
+            animate={isActive ? { width: '50%', height: '50%' } : { width: '8px', height: '8px' }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          />
+          {/* Top-Right Corner */}
+          <motion.div
+            className="absolute pointer-events-none"
+            style={{ top: '-2px', right: '-2px', borderTop: '2px solid #ffffff', borderRight: '2px solid #ffffff', filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))' }}
+            initial={{ width: '8px', height: '8px' }}
+            animate={isActive ? { width: '50%', height: '50%' } : { width: '8px', height: '8px' }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          />
+          {/* Bottom-Left Corner */}
+          <motion.div
+            className="absolute pointer-events-none"
+            style={{ bottom: '-2px', left: '-2px', borderBottom: '2px solid #ffffff', borderLeft: '2px solid #ffffff', filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))' }}
+            initial={{ width: '8px', height: '8px' }}
+            animate={isActive ? { width: '50%', height: '50%' } : { width: '8px', height: '8px' }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          />
+          {/* Bottom-Right Corner */}
+          <motion.div
+            className="absolute pointer-events-none"
+            style={{ bottom: '-2px', right: '-2px', borderBottom: '2px solid #ffffff', borderRight: '2px solid #ffffff', filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))' }}
+            initial={{ width: '8px', height: '8px' }}
+            animate={isActive ? { width: '50%', height: '50%' } : { width: '8px', height: '8px' }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          />
+          {/* Content */}
+          <div className="relative z-10 flex flex-col flex-1">
+            <div className="hidden md:flex items-center justify-center w-16 h-16 rounded-full bg-gray-700/30 mb-6" aria-hidden="true">
+              <Icon className="w-8 h-8 text-white group-hover:text-orange-500 transition-colors" />
+            </div>
+            <h3 className="text-xl font-semibold text-white group-hover:text-orange-500 transition-colors mb-3">
+              {service.title}
+            </h3>
+            <p className="text-gray-300 text-sm leading-relaxed flex-1">
+              {service.description}
+            </p>
+          </div>
+          {/* Arrow */}
+          <motion.div
+            className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity"
+            aria-hidden="true"
+            animate={isActive ? { x: 6 } : { x: 0 }}
+          >
+            <ArrowRight className="w-5 h-5 text-white" />
+          </motion.div>
+        </motion.div>
+      </Link>
+    </div>
+  )
+}
+
 const Services = () => {
   const { theme } = useTheme()
-  
-  const services = [
+
+  const services: ServiceItem[] = [
     {
       icon: Layers,
       title: 'UX/UI Design',
@@ -54,176 +148,37 @@ const Services = () => {
             style={{ gap: 'calc(var(--spacing) * 4)' }}
           >
             {services.map((service) => {
-              const Icon = service.icon
-              const [isHovered, setIsHovered] = useState(false)
-              
               if (theme === 'dark') {
-                return (
-                  <div
-                    key={service.title}
-                    className="group relative"
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                  >
-                    <Link href={service.href}>
-                      <motion.div
-                        className="relative p-8 h-full border border-white/20 backdrop-blur-md flex flex-col overflow-visible"
-                        style={{
-                          borderRadius: '0px',
-                        }}
-                        transition={{ 
-                          type: "spring", 
-                          stiffness: 180, 
-                          damping: 28,
-                          mass: 1.3
-                        }}
-                      >
-                        {/* Hover Background für Dark Mode */}
-                        <motion.div
-                          className="absolute inset-0 -z-10"
-                          style={{
-                            background: 'linear-gradient(135deg, rgba(156, 163, 175, 0.1) 0%, rgba(107, 114, 128, 0.1) 100%)',
-                          }}
-                          initial={{ opacity: 0 }}
-                          animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        />
-
-                        {/* Top-Left Corner */}
-                        <motion.div
-                          className="absolute pointer-events-none"
-                          style={{
-                            top: '-2px',
-                            left: '-2px',
-                            borderTop: '2px solid #ffffff',
-                            borderLeft: '2px solid #ffffff',
-                            filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
-                          }}
-                          initial={{ width: '8px', height: '8px' }}
-                          animate={isHovered ? {
-                            width: '50%',
-                            height: '50%'
-                          } : {
-                            width: '8px',
-                            height: '8px'
-                          }}
-                          transition={{ duration: 1, ease: "easeInOut" }}
-                        />
-
-                        {/* Top-Right Corner */}
-                        <motion.div
-                          className="absolute pointer-events-none"
-                          style={{
-                            top: '-2px',
-                            right: '-2px',
-                            borderTop: '2px solid #ffffff',
-                            borderRight: '2px solid #ffffff',
-                            filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
-                          }}
-                          initial={{ width: '8px', height: '8px' }}
-                          animate={isHovered ? {
-                            width: '50%',
-                            height: '50%'
-                          } : {
-                            width: '8px',
-                            height: '8px'
-                          }}
-                          transition={{ duration: 1, ease: "easeInOut" }}
-                        />
-
-                        {/* Bottom-Left Corner */}
-                        <motion.div
-                          className="absolute pointer-events-none"
-                          style={{
-                            bottom: '-2px',
-                            left: '-2px',
-                            borderBottom: '2px solid #ffffff',
-                            borderLeft: '2px solid #ffffff',
-                            filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
-                          }}
-                          initial={{ width: '8px', height: '8px' }}
-                          animate={isHovered ? {
-                            width: '50%',
-                            height: '50%'
-                          } : {
-                            width: '8px',
-                            height: '8px'
-                          }}
-                          transition={{ duration: 1, ease: "easeInOut" }}
-                        />
-
-                        {/* Bottom-Right Corner */}
-                        <motion.div
-                          className="absolute pointer-events-none"
-                          style={{
-                            bottom: '-2px',
-                            right: '-2px',
-                            borderBottom: '2px solid #ffffff',
-                            borderRight: '2px solid #ffffff',
-                            filter: 'drop-shadow(0 0 6px rgba(63, 223, 255, 0.63))',
-                          }}
-                          initial={{ width: '8px', height: '8px' }}
-                          animate={isHovered ? {
-                            width: '50%',
-                            height: '50%'
-                          } : {
-                            width: '8px',
-                            height: '8px'
-                          }}
-                          transition={{ duration: 1, ease: "easeInOut" }}
-                        />
-
-                        {/* Content */}
-                        <div className="relative z-10 flex flex-col flex-1">
-                          <div className="hidden md:flex items-center justify-center w-16 h-16 rounded-full bg-gray-700/30 mb-6">
-                            <Icon className="w-8 h-8 text-white group-hover:text-orange-500 transition-colors" />
-                          </div>
-
-                          <h3 className="text-xl font-semibold text-white group-hover:text-orange-500 transition-colors mb-3">
-                            {service.title}
-                          </h3>
-
-                          <p className="text-gray-300 text-sm leading-relaxed flex-1">
-                            {service.description}
-                          </p>
-                        </div>
-
-                        {/* Arrow */}
-                        <motion.div
-                          className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                          animate={isHovered ? { x: 6 } : { x: 0 }}
-                        >
-                          <ArrowRight className="w-5 h-5 text-white" />
-                        </motion.div>
-                      </motion.div>
-                    </Link>
-                  </div>
-                )
+                return <ServiceCardDark key={service.title} service={service} />
               }
 
-              // Light Mode - einfach
+              // Light Mode
+              const Icon = service.icon
               return (
-                <Link href={service.href} key={service.title}>
-                  <div className="group relative bg-white border border-gray-200 rounded-lg p-8 h-full hover:shadow-sm hover:-translate-y-1 transition-all duration-200 cursor-pointer">
-                    {/* Icon */}
-                    <div className="hidden md:flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-6">
-                      <Icon className="w-8 h-8 text-gray-700" />
-                    </div>
+                <Link
+                  key={service.title}
+                  href={service.href}
+                  aria-label={`${service.title} – ${service.description}`}
+                  className="group relative bg-white border border-gray-200 rounded-lg p-8 h-full hover:shadow-sm hover:-translate-y-1 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                >
+                  {/* Icon */}
+                  <div className="hidden md:flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-6" aria-hidden="true">
+                    <Icon className="w-8 h-8 text-gray-700" />
+                  </div>
 
-                    {/* Title */}
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                      {service.title}
-                    </h3>
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    {service.title}
+                  </h3>
 
-                    {/* Description */}
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      {service.description}
-                    </p>
+                  {/* Description */}
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {service.description}
+                  </p>
 
-                    {/* Arrow */}
-                    <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ArrowRight className="w-5 h-5 text-gray-700" />
-                    </div>
+                  {/* Arrow */}
+                  <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true">
+                    <ArrowRight className="w-5 h-5 text-gray-700" />
                   </div>
                 </Link>
               )
@@ -236,3 +191,4 @@ const Services = () => {
 }
 
 export default Services
+
