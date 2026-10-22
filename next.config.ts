@@ -31,6 +31,15 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: false,
   },
   outputFileTracingRoot: __dirname,
+  async redirects() {
+    return [
+      {
+        source: '/ausstellung-holzkirchen',
+        destination: '/kunstwerke',
+        permanent: true,
+      },
+    ]
+  },
   // Security Headers
   async headers() {
     return [

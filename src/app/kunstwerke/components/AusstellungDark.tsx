@@ -2,12 +2,11 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { MapPin, Calendar, Image as ImageIcon, Sparkles, X, Send, Check, AlertCircle, ShoppingBag } from 'lucide-react'
+import { Image as ImageIcon, Sparkles, X, Send, Check, AlertCircle, ShoppingBag } from 'lucide-react'
 import { useEffect, useState, useCallback } from 'react'
 import Footer from '@/components/Footer'
-import FloatingClouds from '@/components/FloatingClouds'
 import FloatingContactButton from '@/components/FloatingContactButton'
-import { SpecialButton } from '@/components/ui/SpecialButton'
+import { SpecialButtonDark } from '@/components/ui/SpecialButtonDark'
 import { artworks, Artwork } from '../data/artworks'
 
 interface ReservationForm {
@@ -19,7 +18,7 @@ interface ReservationForm {
   message: string
 }
 
-export default function AusstellungLight() {
+export default function AusstellungDark() {
   const [reservedIds, setReservedIds] = useState<Set<string>>(new Set())
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null)
   const [formData, setFormData] = useState<ReservationForm>({
@@ -55,39 +54,10 @@ export default function AusstellungLight() {
     const schemas = [
       {
         '@context': 'https://schema.org',
-        '@type': 'ExhibitionEvent',
-        'name': 'Kunst im Schaufenster – GHWB Studio',
-        'description': 'Ausstellung von GHWB Studio bei „Kunst im Schaufenster" – 5 Werke in der Raiffeisenbank Holzkirchen und 8 Entenbüsten-Miniaturen im Atrium Gesundheitszentrum Holzkirchen.',
-        'startDate': '2026-02-27',
-        'endDate': '2026-04-05',
-        'eventStatus': 'https://schema.org/EventScheduled',
-        'eventAttendanceMode': 'https://schema.org/OfflineEventAttendanceMode',
-        'location': {
-          '@type': 'Place',
-          'name': 'Raiffeisenbank Holzkirchen',
-          'address': {
-            '@type': 'PostalAddress',
-            'streetAddress': 'Marktplatz 11',
-            'addressLocality': 'Holzkirchen',
-            'postalCode': '83607',
-            'addressRegion': 'Bayern',
-            'addressCountry': 'DE',
-          },
-        },
-        'organizer': {
-          '@type': 'Person',
-          'name': 'GHWB Studio',
-          'url': 'https://ghwbstudio.de',
-        },
-        'image': 'https://ghwbstudio.de/images/logo.png',
-        'url': 'https://ghwbstudio.de/ausstellung-holzkirchen',
-        'offers': {
-          '@type': 'AggregateOffer',
-          'priceCurrency': 'EUR',
-          'lowPrice': '50',
-          'highPrice': '650',
-          'offerCount': '13',
-        },
+        '@type': 'ItemList',
+        'name': 'Verfügbare Kunstwerke – GHWB Studio',
+        'description': 'Originalwerke von GHWB Studio – Acrylgemälde und Miniaturen, jedes ein Unikat. Direkt online reservierbar.',
+        'url': 'https://ghwbstudio.de/kunstwerke',
       },
       {
         '@context': 'https://schema.org',
@@ -95,34 +65,34 @@ export default function AusstellungLight() {
         'mainEntity': [
           {
             '@type': 'Question',
-            'name': 'Wann findet die Ausstellung statt?',
+            'name': 'Wie reserviere ich ein Werk?',
             'acceptedAnswer': {
               '@type': 'Answer',
-              'text': 'Die Ausstellung „Kunst im Schaufenster" läuft vom 27. Februar bis 5. April 2026 in der Raiffeisenbank Holzkirchen, Marktplatz 11.',
+              'text': 'Klicken Sie auf „Reservieren" beim gewünschten Werk und füllen Sie das kurze Kontaktformular aus. Sie erhalten zeitnah eine persönliche Rückmeldung.',
             },
           },
           {
             '@type': 'Question',
-            'name': 'Wie kann ich ein Werk reservieren?',
+            'name': 'Sind die Preise verhandelbar?',
             'acceptedAnswer': {
               '@type': 'Answer',
-              'text': 'Klicken Sie auf „Reservieren" beim gewünschten Werk und füllen Sie das kurze Kontaktformular aus. Sie werden zeitnah kontaktiert.',
+              'text': 'Im Reservierungsformular können Sie einen Preisvorschlag abgeben. Der angezeigte Preis ist der Richtpreis des Künstlers.',
             },
           },
           {
             '@type': 'Question',
-            'name': 'Wo sind die Werke ausgestellt?',
+            'name': 'Wie erfolgt die Übergabe?',
             'acceptedAnswer': {
               '@type': 'Answer',
-              'text': 'Fünf Werke befinden sich im Schaufenster der Raiffeisenbank am Marktplatz 11 in Holzkirchen. Acht kleine Entenbüsten-Miniaturen sind im Atrium Gesundheitszentrum Holzkirchen verteilt.',
+              'text': 'Nach Ihrer Reservierung melden wir uns persönlich bei Ihnen und klären die Details zur Übergabe individuell.',
             },
           },
           {
             '@type': 'Question',
-            'name': 'Kann ich die Werke auch vor Ort kaufen?',
+            'name': 'Sind die Werke Originale?',
             'acceptedAnswer': {
               '@type': 'Answer',
-              'text': 'Die Werke können über diese Seite reserviert werden. Die Übergabe erfolgt nach individueller Absprache.',
+              'text': 'Ja, alle Werke sind handgemalte Originale – keine Drucke oder Reproduktionen. Jedes Stück ist ein Unikat.',
             },
           },
         ],
@@ -221,60 +191,51 @@ export default function AusstellungLight() {
     }
   }
 
-  const schaufensterWerke = artworks.filter(a => a.location === 'schaufenster')
-  const atriumWerke = artworks.filter(a => a.location === 'atrium')
+  const gemälde = artworks.filter(a => a.location === 'schaufenster')
+  const miniaturen = artworks.filter(a => a.location === 'atrium')
 
   return (
-    <div className="min-h-screen text-gray-900 relative overflow-hidden bg-white">
-      {/* HERO SECTION - EXACTLY LIKE OTHER LIGHT PAGES */}
-      <motion.section 
+    <div className="min-h-screen text-gray-100 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--background), var(--background), rgba(42, 47, 54, 0.2))' }}>
+      {/* HERO SECTION */}
+      <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
         className="min-h-screen flex items-center justify-center relative overflow-hidden"
         style={{ zIndex: 20 }}
       >
-        {/* Floating Clouds */}
-        <FloatingClouds />
-        {/* Background gradient - matching other pages */}
-        <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-white" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20" />
 
-        {/* Subtle geometric background elements */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
+        {/* HUD Overlay */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 15 }}>
           <motion.div
             className="relative w-full h-full"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.06, scale: 1 }}
-            transition={{ duration: 3, delay: 1 }}
+            animate={{ opacity: 0.4, scale: 1 }}
+            transition={{ duration: 2, delay: 1 }}
           >
-            {/* Minimale geometrische Formen */}
-            <motion.div 
-              className="absolute top-20 left-20 w-32 h-32 border-2 border-gray-300"
-              style={{ transform: 'rotate(45deg)' }}
-              initial={{ rotate: 0, scale: 0 }}
-              animate={{ rotate: 45, scale: 1 }}
-              transition={{ duration: 2, delay: 1.5 }}
-            />
-            
-            <motion.div 
-              className="absolute bottom-32 right-32 w-24 h-24 bg-gray-200 rounded-full"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.5, delay: 2 }}
-            />
-            
-            <motion.div 
-              className="absolute top-32 right-20 w-40 h-1 bg-gray-200"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1.5, delay: 1.8 }}
-            />
-            <motion.div 
-              className="absolute bottom-40 left-32 w-1 h-40 bg-gray-200"
-              initial={{ scaleY: 0 }}
-              animate={{ scaleY: 1 }}
-              transition={{ duration: 1.5, delay: 2.2 }}
-            />
+            <svg width="100vw" height="100vh" viewBox="0 0 1920 1080" className="drop-shadow-lg" style={{ filter: `drop-shadow(0 0 20px white)` }}>
+              <motion.path
+                d="M 520 540 A 440 440 0 1 1 1400 540"
+                fill="none"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeDasharray="5,10"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 3, delay: 1.5 }}
+              />
+              <motion.path
+                d="M 560 540 A 400 400 0 1 1 1360 540"
+                fill="none"
+                stroke="white"
+                strokeWidth="1"
+                strokeOpacity="0.6"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 2.5, delay: 2 }}
+              />
+            </svg>
           </motion.div>
         </div>
 
@@ -285,83 +246,69 @@ export default function AusstellungLight() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
           >
-            {/* Subtitle */}
-            <motion.p 
-              className="text-base text-muted-foreground leading-7 mb-2"
+            <motion.p
+              className="text-base text-cyan-400/80 leading-7 mb-2 tracking-widest font-mono"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
             >
-              <Calendar className="w-4 h-4 inline mr-2" />
-              27. Februar – 5. April 2026
+              GHWB.STUDIO.KUNSTWERKE:
             </motion.p>
 
-            <motion.p 
-              className="text-base text-muted-foreground leading-7 mb-6"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.3 }}
-            >
-              <MapPin className="w-4 h-4 inline mr-2" />
-              Raiffeisenbank Holzkirchen · Marktplatz 11
-            </motion.p>
-
-            {/* Main Title */}
-            <motion.h1 
-              className="text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-4"
+            <motion.h1
+              className="text-5xl md:text-7xl font-extrabold text-white leading-tight tracking-tight mb-6"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 1.4 }}
+              style={{ textShadow: '0 0 30px rgba(255, 255, 255, 0.4)' }}
             >
-              Kunst im Schaufenster
+              Verfügbare Werke
             </motion.h1>
 
-            {/* Description */}
-            <motion.p 
-              className="text-base text-muted-foreground leading-7 max-w-2xl mx-auto mb-16"
+            <motion.p
+              className="text-base text-gray-400 leading-7 max-w-2xl mx-auto mb-8"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.6 }}
             >
-              Fünf Originalwerke im Schaufenster der Raiffeisenbank und acht versteckte Entenbüsten-Miniaturen im Atrium Gesundheitszentrum – entdecken Sie Kunst von GHWB Studio in Holzkirchen. Reservieren Sie Ihr Lieblingsstück direkt hier.
+              Originalwerke von GHWB Studio – Acrylgemälde und Miniaturen, handgemalt, jedes ein Unikat. Reservieren Sie Ihr Lieblingsstück direkt hier.
             </motion.p>
 
-            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 1.8 }}
+              transition={{ duration: 0.8, delay: 2 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <SpecialButton 
-                variant="secondary"
-                size="sm"
-                onClick={() => {
-                  const galerie = document.getElementById('galerie-section')
-                  if (galerie) galerie.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                }}
-              >
-                <Sparkles className="w-4 h-4 mr-2" />
-                Werke ansehen
-              </SpecialButton>
-
-              <SpecialButton 
+              <SpecialButtonDark 
                 variant="primary"
-                size="sm"
+                size="base"
                 onClick={() => {
                   const galerie = document.getElementById('galerie-section')
                   if (galerie) galerie.scrollIntoView({ behavior: 'smooth', block: 'start' })
                 }}
               >
+                <Sparkles className="w-4 h-4" />
                 Jetzt reservieren
-              </SpecialButton>
+              </SpecialButtonDark>
+
+              <SpecialButtonDark 
+                variant="secondary"
+                size="base"
+                onClick={() => {
+                  const galerie = document.getElementById('galerie-section')
+                  if (galerie) galerie.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }}
+              >
+                Werke ansehen
+              </SpecialButtonDark>
             </motion.div>
           </motion.div>
         </div>
       </motion.section>
 
       {/* GALERIE / WERKE SECTION */}
-      <section id="galerie-section" className="relative py-32 px-4 bg-white">
+      <section id="galerie-section" className="relative py-32 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -370,15 +317,15 @@ export default function AusstellungLight() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-semibold text-gray-900 leading-tight tracking-tight mb-6">
-              Die Werke
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight mb-6">
+              Aktuelle Auswahl
             </h2>
-            <p className="text-xl text-gray-600 leading-7 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-400 leading-7 max-w-2xl mx-auto">
               Wählen Sie Ihr Lieblingsstück und reservieren Sie es mit einem Klick.
             </p>
           </motion.div>
 
-          {/* Schaufenster Werke */}
+          {/* Gemälde */}
           <div className="mb-12">
             <motion.h3
               className="text-lg font-semibold text-gray-500 uppercase tracking-wider mb-8 text-center"
@@ -386,25 +333,24 @@ export default function AusstellungLight() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
             >
-              <MapPin className="w-4 h-4 inline mr-2" />
-              Schaufenster · Marktplatz 11
+              Gemälde
             </motion.h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {schaufensterWerke.map((artwork, index) => (
+              {gemälde.map((artwork, index) => (
                 <ArtworkCard
                   key={artwork.id}
                   artwork={artwork}
                   index={index}
                   isReserved={reservedIds.has(artwork.id)}
                   onReserve={handleReserve}
-                  variant="light"
+                  variant="dark"
                 />
               ))}
             </div>
           </div>
 
-          {/* Atrium: Entenjagd */}
+          {/* Miniaturen */}
           <div>
             <motion.h3
               className="text-lg font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center"
@@ -412,28 +358,27 @@ export default function AusstellungLight() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
             >
-              <MapPin className="w-4 h-4 inline mr-2" />
-              Entenjagd · Atrium Gesundheitszentrum
+              Miniaturen
             </motion.h3>
 
             <motion.p
-              className="text-center text-gray-600 mb-8 max-w-xl mx-auto"
+              className="text-center text-gray-400 mb-8 max-w-xl mx-auto"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              Acht kleine Entenbüsten (10 × 10 cm, Acryl auf Holz) sind im Atrium verteilt. Finden Sie alle acht! Neben jedem Bild führt ein QR-Code hierher.
+              Kleine Entenbüsten (10 × 10 cm, Acryl auf Holz) – kompakt, farbintensiv, ideal als Geschenk.
             </motion.p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
-              {atriumWerke.map((artwork, index) => (
+              {miniaturen.map((artwork, index) => (
                 <ArtworkCard
                   key={artwork.id}
                   artwork={artwork}
                   index={index}
                   isReserved={reservedIds.has(artwork.id)}
                   onReserve={handleReserve}
-                  variant="light"
+                  variant="dark"
                 />
               ))}
             </div>
@@ -442,7 +387,7 @@ export default function AusstellungLight() {
       </section>
 
       {/* ÜBER DIE AUSSTELLUNG */}
-      <section className="relative py-32 px-4 bg-white">
+      <section className="relative py-32 px-4">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -451,11 +396,11 @@ export default function AusstellungLight() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-semibold text-gray-900 leading-tight tracking-tight mb-6">
-              Fünf Werke. Acht Enten. Ihre Wahl.
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight mb-6">
+              Originale. Keine Reproduktionen.
             </h2>
-            <p className="text-xl text-gray-600 leading-7 max-w-2xl mx-auto">
-              Im Rahmen der Aktion „Kunst im Schaufenster" zeigt GHWB Studio Werke an zwei Standorten in Holzkirchen – und eine interaktive Entenjagd im Atrium.
+            <p className="text-xl text-gray-400 leading-7 max-w-2xl mx-auto">
+              Jedes Werk ist handgemalt und einmalig – kein Druck, kein Scan. Was Sie hier sehen, existiert genau einmal.
             </p>
           </motion.div>
 
@@ -464,29 +409,23 @@ export default function AusstellungLight() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
+            className="prose prose-lg prose-invert max-w-none text-gray-300 leading-relaxed"
           >
             <p className="text-base mb-6">
-              Fünf Werke erwarten Sie im <strong>Schaufenster der Raiffeisenbank</strong> am Marktplatz 11 – sichtbar rund um die Uhr, auch außerhalb der Öffnungszeiten.
+              Die Arbeiten bewegen sich zwischen <strong className="text-white">naturalistischer Tiermalerei</strong> und expressiver Farbgebung. Acryl auf Papier trifft auf Acryl mit Blattgold – jedes Werk ein Original, jedes ein Unikat.
             </p>
             <p className="text-base mb-6">
-              Im <strong>Atrium Gesundheitszentrum Holzkirchen</strong> sind acht kleine Entenbüsten-Miniaturen (10 × 10 cm, Acryl auf Holz) im Gebäude verteilt. Finden Sie alle acht! Neben jedem Bild führt ein QR-Code direkt auf diese Seite.
-            </p>
-            <p className="text-base mb-6">
-              Die Arbeiten bewegen sich zwischen <strong>naturalistischer Tiermalerei</strong> und expressiver Farbgebung. Acryl auf Papier trifft auf Acryl mit Blattgold – jedes Werk ein Original, jedes ein Unikat.
-            </p>
-            <p className="text-base mb-6">
-              Wenn Ihnen ein Werk gefällt, können Sie es direkt auf dieser Seite reservieren. Sie erhalten umgehend eine Bestätigung und wir klären die Details persönlich.
+              Neben großformatigen Gemälden (bis 50 × 70 cm) sind auch <strong className="text-white">kleine Miniaturen</strong> (10 × 10 cm, Acryl auf Holz) erhältlich – kompakt und farbintensiv, ideal als persönliches Geschenk.
             </p>
             <p className="text-base">
-              Mehr über die Aktion und die weiteren teilnehmenden Künstler erfahren Sie auf der <a href="https://www.holzkirchen.de/kunst-im-schaufenster" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline underline-offset-2 transition-colors">offiziellen Seite der Marktgemeinde Holzkirchen</a>.
+              Wenn Ihnen ein Werk gefällt, reservieren Sie es direkt hier. Sie erhalten zeitnah eine persönliche Rückmeldung und wir klären die Details zur Übergabe individuell.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* FAQ SECTION */}
-      <section className="relative py-32 px-4 bg-white">
+      <section className="relative py-32 px-4">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -495,7 +434,7 @@ export default function AusstellungLight() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-semibold text-gray-900 leading-tight tracking-tight mb-6">
+            <h2 className="text-4xl font-semibold text-white leading-tight tracking-tight mb-6">
               Häufige Fragen
             </h2>
           </motion.div>
@@ -508,27 +447,27 @@ export default function AusstellungLight() {
             viewport={{ once: true }}
           >
             {[
-              { q: 'Wann findet die Ausstellung statt?', a: 'Die Ausstellung „Kunst im Schaufenster" läuft vom 27. Februar bis 5. April 2026. Die Werke im Schaufenster sind rund um die Uhr sichtbar.' },
-              { q: 'Wo genau sind die Werke ausgestellt?', a: 'Fünf Werke befinden sich im Schaufenster der Raiffeisenbank am Marktplatz 11. Acht kleine Entenbüsten-Miniaturen sind im Atrium Gesundheitszentrum Holzkirchen verteilt – finden Sie alle acht!' },
               { q: 'Wie reserviere ich ein Werk?', a: 'Scrollen Sie zum gewünschten Werk, klicken Sie auf „Reservieren" und füllen Sie das kurze Formular aus. Sie erhalten zeitnah eine persönliche Rückmeldung.' },
               { q: 'Sind die Preise verhandelbar?', a: 'Im Reservierungsformular können Sie einen Preisvorschlag abgeben. Der angezeigte Preis ist der Richtpreis des Künstlers.' },
+              { q: 'Wie erfolgt die Übergabe?', a: 'Nach Ihrer Reservierung melden wir uns persönlich bei Ihnen und klären Ort und Zeitpunkt der Übergabe individuell.' },
+              { q: 'Sind die Werke wirklich Originale?', a: 'Ja, alle Werke sind handgemalte Originale – keine Drucke oder Reproduktionen. Jedes Stück ist ein Unikat.' },
             ].map((faq, idx) => (
               <details
                 key={idx}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.15)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(20px) saturate(180%)',
                   WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                  border: '1px solid rgba(255, 255, 255, 0.8)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
                   borderRadius: '24px',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
                 }}
               >
-                <summary className="text-lg font-semibold text-gray-900 cursor-pointer flex justify-between items-center w-full p-6">
+                <summary className="text-lg font-semibold text-white cursor-pointer flex justify-between items-center w-full p-6">
                   <span>{faq.q}</span>
                   <svg className="w-5 h-5 flex-shrink-0 ml-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                 </summary>
-                <p className="px-6 pb-6 pt-0 text-gray-700 leading-relaxed">{faq.a}</p>
+                <p className="px-6 pb-6 pt-0 text-gray-400 leading-relaxed">{faq.a}</p>
               </details>
             ))}
           </motion.div>
@@ -536,7 +475,7 @@ export default function AusstellungLight() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="relative py-32 px-4 bg-white">
+      <section className="relative py-32 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -544,9 +483,9 @@ export default function AusstellungLight() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl font-bold mb-6 text-gray-900">Ihr Lieblingsstück wartet.</h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Besuchen Sie die Ausstellung vor Ort oder reservieren Sie Ihr Wunschwerk direkt hier – bevor es jemand anderes tut.
+            <h2 className="text-5xl font-bold mb-6 text-white">Ihr Lieblingsstück wartet.</h2>
+            <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+              Reservieren Sie Ihr Wunschwerk direkt hier – bevor es jemand anderes tut.
             </p>
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -554,7 +493,7 @@ export default function AusstellungLight() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <SpecialButton
+              <SpecialButtonDark
                 variant="primary"
                 size="sm"
                 onClick={() => {
@@ -564,14 +503,14 @@ export default function AusstellungLight() {
               >
                 <Sparkles className="w-4 h-4 mr-2" />
                 Zu den Werken
-              </SpecialButton>
+              </SpecialButtonDark>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* Footer mit internen Links */}
-      <section className="relative py-16 px-4 bg-white border-t border-gray-200">
+      <section className="relative py-16 px-4 border-t border-gray-800">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -580,19 +519,16 @@ export default function AusstellungLight() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Mehr entdecken</h3>
+            <h3 className="text-2xl font-semibold text-white mb-6">Mehr entdecken</h3>
             <div className="flex flex-wrap justify-center gap-4">
-              <a href="/art" className="px-6 py-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-colors">
-                Alle Kunstwerke
+              <a href="/art" className="px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-full text-gray-300 hover:border-blue-500 hover:text-blue-400 transition-colors">
+                Galerie
               </a>
-              <a href="/photography" className="px-6 py-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-colors">
+              <a href="/photography" className="px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-full text-gray-300 hover:border-blue-500 hover:text-blue-400 transition-colors">
                 Fotografie
               </a>
-              <a href="/about" className="px-6 py-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-colors">
+              <a href="/about" className="px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-full text-gray-300 hover:border-blue-500 hover:text-blue-400 transition-colors">
                 Über GHWB Studio
-              </a>
-              <a href="https://www.holzkirchen.de/kunst-im-schaufenster" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-white border border-gray-300 rounded-full text-gray-700 hover:border-blue-400 hover:text-blue-600 transition-colors">
-                Kunst im Schaufenster ↗
               </a>
             </div>
           </motion.div>
@@ -610,7 +546,7 @@ export default function AusstellungLight() {
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -618,7 +554,7 @@ export default function AusstellungLight() {
             />
 
             <motion.div
-              className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-white/95 border border-gray-200/50 shadow-2xl shadow-black/25 backdrop-blur-xl"
+              className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-gray-900/95 border border-gray-700/50 shadow-2xl shadow-black/50 backdrop-blur-xl"
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -630,12 +566,12 @@ export default function AusstellungLight() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: 'spring' }}
-                    className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center"
+                    className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-900/30 flex items-center justify-center"
                   >
-                    <Check className="w-8 h-8 text-green-600" />
+                    <Check className="w-8 h-8 text-green-400" />
                   </motion.div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900">Reservierung eingegangen!</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-xl font-semibold mb-2 text-white">Reservierung eingegangen!</h3>
+                  <p className="text-gray-400">
                     Vielen Dank für Ihr Interesse an „{selectedArtwork.title}". Sie erhalten in Kürze eine persönliche Rückmeldung.
                   </p>
                 </div>
@@ -643,17 +579,17 @@ export default function AusstellungLight() {
                 <>
                   <div className="flex items-center justify-between p-6 pb-0">
                     <div>
-                      <h2 className="text-2xl font-semibold leading-tight tracking-tight text-gray-900">
+                      <h2 className="text-2xl font-semibold leading-tight tracking-tight text-white">
                         „{selectedArtwork.title}" reservieren
                       </h2>
-                      <p className="text-sm mt-1 text-gray-600">
+                      <p className="text-sm mt-1 text-gray-400">
                         {selectedArtwork.technique} · {selectedArtwork.dimensions}
                         {selectedArtwork.price > 0 && ` · Richtpreis: ${selectedArtwork.price.toLocaleString('de-DE')} €`}
                       </p>
                     </div>
                     <button
                       onClick={handleCloseModal}
-                      className="flex-shrink-0 ml-4 p-2 rounded-lg transition-all duration-200 hover:bg-gray-100/80 text-gray-500 hover:text-gray-900 hover:scale-110"
+                      className="flex-shrink-0 ml-4 p-2 rounded-lg transition-all duration-200 hover:bg-gray-800/80 text-gray-400 hover:text-white hover:scale-110"
                     >
                       <X className="w-5 h-5" />
                     </button>
@@ -664,17 +600,17 @@ export default function AusstellungLight() {
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="p-4 rounded-lg flex items-center gap-3 bg-red-50 border border-red-200"
+                        className="p-4 rounded-lg flex items-center gap-3 bg-red-900/30 border border-red-800"
                       >
-                        <AlertCircle className="w-5 h-5 text-red-500" />
-                        <span className="text-red-600 text-sm">{submitError}</span>
+                        <AlertCircle className="w-5 h-5 text-red-400" />
+                        <span className="text-red-300 text-sm">{submitError}</span>
                       </motion.div>
                     )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="res-name" className="block text-sm font-medium mb-1 text-gray-700">
-                          Name <span className="text-red-500">*</span>
+                        <label htmlFor="res-name" className="block text-sm font-medium mb-1 text-gray-300">
+                          Name <span className="text-red-400">*</span>
                         </label>
                         <input
                           type="text"
@@ -684,12 +620,12 @@ export default function AusstellungLight() {
                           value={formData.name}
                           onChange={handleInputChange}
                           placeholder="Ihr Name"
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
+                          className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
                         />
                       </div>
                       <div>
-                        <label htmlFor="res-email" className="block text-sm font-medium mb-1 text-gray-700">
-                          E-Mail <span className="text-red-500">*</span>
+                        <label htmlFor="res-email" className="block text-sm font-medium mb-1 text-gray-300">
+                          E-Mail <span className="text-red-400">*</span>
                         </label>
                         <input
                           type="email"
@@ -699,14 +635,14 @@ export default function AusstellungLight() {
                           value={formData.email}
                           onChange={handleInputChange}
                           placeholder="ihre@email.de"
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
+                          className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="res-phone" className="block text-sm font-medium mb-1 text-gray-700">
+                        <label htmlFor="res-phone" className="block text-sm font-medium mb-1 text-gray-300">
                           Telefon
                         </label>
                         <input
@@ -716,11 +652,11 @@ export default function AusstellungLight() {
                           value={formData.phone}
                           onChange={handleInputChange}
                           placeholder="+49 ..."
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
+                          className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
                         />
                       </div>
                       <div>
-                        <label htmlFor="res-price" className="block text-sm font-medium mb-1 text-gray-700">
+                        <label htmlFor="res-price" className="block text-sm font-medium mb-1 text-gray-300">
                           Preisvorschlag (€)
                         </label>
                         <input
@@ -730,13 +666,13 @@ export default function AusstellungLight() {
                           value={formData.priceOffer}
                           onChange={handleInputChange}
                           placeholder={selectedArtwork.price > 0 ? `Richtpreis: ${selectedArtwork.price} €` : 'Ihr Vorschlag'}
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
+                          className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label htmlFor="res-address" className="block text-sm font-medium mb-1 text-gray-700">
+                      <label htmlFor="res-address" className="block text-sm font-medium mb-1 text-gray-300">
                         Adresse
                       </label>
                       <input
@@ -746,12 +682,12 @@ export default function AusstellungLight() {
                         value={formData.address}
                         onChange={handleInputChange}
                         placeholder="Straße, PLZ, Ort"
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="res-message" className="block text-sm font-medium mb-1 text-gray-700">
+                      <label htmlFor="res-message" className="block text-sm font-medium mb-1 text-gray-300">
                         Nachricht (optional)
                       </label>
                       <textarea
@@ -761,11 +697,11 @@ export default function AusstellungLight() {
                         value={formData.message}
                         onChange={handleInputChange}
                         placeholder="Ihre Nachricht..."
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors resize-vertical"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-800/50 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-colors resize-vertical"
                       />
                     </div>
 
-                    <SpecialButton
+                    <SpecialButtonDark
                       variant="primary"
                       size="sm"
                       disabled={isSubmitting}
@@ -778,7 +714,7 @@ export default function AusstellungLight() {
                           Verbindlich reservieren
                         </>
                       )}
-                    </SpecialButton>
+                    </SpecialButtonDark>
 
                     <p className="text-xs text-gray-500">
                       Ihre Daten werden vertraulich behandelt und ausschließlich für diese Reservierung verwendet.
@@ -899,15 +835,15 @@ function ArtworkCard({
               Wird noch bekannt gegeben
             </div>
           ) : (
-            <SpecialButton
+            <SpecialButtonDark
               variant="primary"
-              size="xs"
+              size="sm"
               onClick={() => onReserve(artwork)}
               className="w-full"
             >
               <ShoppingBag className="w-4 h-4 mr-2" />
               Reservieren
-            </SpecialButton>
+            </SpecialButtonDark>
           )}
         </div>
       </div>

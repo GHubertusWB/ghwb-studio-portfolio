@@ -36,7 +36,7 @@ const Footer = () => {
       ]
     },
     { href: '/art', label: 'Kunst', subLinks: [
-        { href: '/ausstellung-holzkirchen', label: 'Ausstellung Holzkirchen' }
+        { href: '/kunstwerke', label: 'Verfügbare Werke' }
       ]
     },
     { href: '/about', label: 'Über mich', subLinks: [] }

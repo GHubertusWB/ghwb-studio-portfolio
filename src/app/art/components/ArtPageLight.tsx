@@ -182,23 +182,14 @@ export default function ArtPageLight(): React.JSX.Element {
                 </span>
               </div>
               <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-3">
-                Kunst im Schaufenster &amp; Entenjagd
+                Verfügbare Werke
               </h3>
               <p className="text-gray-600 mb-6 max-w-2xl leading-relaxed">
-                Noch bis 5. April 2026 in Holzkirchen: Fünf großformatige Acrylgemälde in der
-                Raiffeisenbank und acht kleine Entenbüsten-Miniaturgemälde im Atrium Gesundheitszentrum —
-                eine interaktive Entenjagd durch die Marktgemeinde.
+                Originalwerke von GHWB Studio – Acrylgemälde und Miniaturen, handgemalt, jedes ein Unikat.
+                Direkt online reservierbar.
               </p>
               <div className="flex flex-wrap gap-4">
-                <SpecialButton size="sm" onClick={() => router.push('/ausstellung-holzkirchen')}>Zur Ausstellung →</SpecialButton>
-                <a
-                  href="https://www.holzkirchen.de/kunst-im-schaufenster"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-full hover:bg-gray-100 transition-colors"
-                >
-                  holzkirchen.de ↗
-                </a>
+                <SpecialButton size="sm" onClick={() => router.push('/kunstwerke')}>Zur Galerie →</SpecialButton>
               </div>
             </div>
           </motion.div>
