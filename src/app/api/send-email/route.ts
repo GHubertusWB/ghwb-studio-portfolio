@@ -73,18 +73,11 @@ export async function POST(request: NextRequest) {
       auth: {
         user: process.env.SMTP_USER || '',
         pass: process.env.SMTP_PASSWORD || '',
-      }
+      },
+      connectionTimeout: 8000,
+      greetingTimeout: 8000,
+      socketTimeout: 8000,
     })
-
-    // Verbindung testen
-    try {
-      await transporter.verify()
-    } catch (verifyError) {
-      return NextResponse.json(
-        { error: 'SMTP-Verbindung fehlgeschlagen. Bitte prüfen Sie die Konfiguration.' },
-        { status: 500 }
-      )
-    }
 
     // Betreff basierend auf Variante und ausgewählten Themen erstellen
     let subjectPrefix = ''
@@ -178,7 +171,13 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
     )
 
   } catch (error) {
-    console.error('E-Mail-Fehler:', error)
+    const err = error as Error & { code?: string; response?: string; responseCode?: number }
+    console.error('E-Mail-Fehler:', {
+      message: err.message,
+      code: err.code,
+      response: err.response,
+      responseCode: err.responseCode,
+    })
     return NextResponse.json(
       { error: 'Fehler beim Senden der E-Mail. Bitte versuchen Sie es später erneut.' },
       { status: 500 }
