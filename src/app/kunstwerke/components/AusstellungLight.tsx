@@ -193,7 +193,6 @@ export default function AusstellungLight() {
   }
 
   const gemälde = artworks.filter(a => a.location === 'schaufenster')
-  const miniaturen = artworks.filter(a => a.location === 'atrium')
 
   return (
     <div className="min-h-screen text-gray-900 relative overflow-hidden bg-white">
@@ -353,39 +352,6 @@ export default function AusstellungLight() {
             </div>
           </div>
 
-          {/* Miniaturen */}
-          <div>
-            <motion.h3
-              className="text-lg font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              Miniaturen
-            </motion.h3>
-
-            <motion.p
-              className="text-center text-gray-600 mb-8 max-w-xl mx-auto"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              Kleine Entenbüsten (10 × 10 cm, Acryl auf Holz) – kompakt, farbintensiv, ideal als Geschenk.
-            </motion.p>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
-              {miniaturen.map((artwork, index) => (
-                <ArtworkCard
-                  key={artwork.id}
-                  artwork={artwork}
-                  index={index}
-                  isReserved={reservedIds.has(artwork.id)}
-                  onReserve={handleReserve}
-                  variant="light"
-                />
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -416,9 +382,6 @@ export default function AusstellungLight() {
           >
             <p className="text-base mb-6">
               Die Arbeiten bewegen sich zwischen <strong>naturalistischer Tiermalerei</strong> und expressiver Farbgebung. Acryl auf Papier trifft auf Acryl mit Blattgold – jedes Werk ein Original, jedes ein Unikat.
-            </p>
-            <p className="text-base mb-6">
-              Neben großformatigen Gemälden (bis 50 × 70 cm) sind auch <strong>kleine Miniaturen</strong> (10 × 10 cm, Acryl auf Holz) erhältlich – kompakt und farbintensiv, ideal als persönliches Geschenk.
             </p>
             <p className="text-base">
               Wenn Ihnen ein Werk gefällt, reservieren Sie es direkt hier. Sie erhalten zeitnah eine persönliche Rückmeldung und wir klären die Details zur Übergabe individuell.
