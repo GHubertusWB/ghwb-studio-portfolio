@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
 // --- Rate Limiting ---
 const rateLimitMap = new Map<string, { count: number; firstRequest: number }>()
@@ -65,19 +65,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-        // E-Mail-Transporter konfigurieren
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER || '',
-        pass: process.env.SMTP_PASSWORD || '',
-      },
-      connectionTimeout: 8000,
-      greetingTimeout: 8000,
-      socketTimeout: 8000,
-    })
+        const resend = new Resend(process.env.RESEND_API_KEY)
 
     // Betreff basierend auf Variante und ausgewählten Themen erstellen
     let subjectPrefix = ''
@@ -123,8 +111,8 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
     const safeSubjects = selectedSubjects?.map((s: string) => escapeHtml(s))
 
     // E-Mail senden
-    const mailOptions = {
-      from: `"Kontaktformular" <${process.env.SMTP_USER}>`,
+    const { error } = await resend.emails.send({
+      from: 'Kontaktformular <onboarding@resend.dev>',
       to: 'office@ghwbstudio.de',
       replyTo: email,
       subject: subject,
@@ -134,11 +122,11 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
           <h2 style="color: #333; border-bottom: 2px solid #06b6d4; padding-bottom: 10px;">
             Neue Kontaktanfrage über das Portfolio
           </h2>
-          
+
           <div style="background-color: #f8f9fa; padding: 15px; margin: 20px 0; border-left: 4px solid #06b6d4;">
             <strong>Variante:</strong> ${escapeHtml(subjectPrefix)}<br>
-            ${safeSubjects && safeSubjects.length > 0 
-              ? `<strong>Ausgewählte Themen:</strong> ${safeSubjects.join(', ')}<br>` 
+            ${safeSubjects && safeSubjects.length > 0
+              ? `<strong>Ausgewählte Themen:</strong> ${safeSubjects.join(', ')}<br>`
               : ''
             }
           </div>
@@ -161,9 +149,15 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
           </p>
         </div>
       `
-    }
+    })
 
-    await transporter.sendMail(mailOptions)
+    if (error) {
+      console.error('Resend Fehler:', error)
+      return NextResponse.json(
+        { error: 'Fehler beim Senden der E-Mail. Bitte versuchen Sie es später erneut.' },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json(
       { message: 'E-Mail erfolgreich gesendet' },
@@ -171,13 +165,7 @@ Diese E-Mail wurde automatisch über das Kontaktformular auf ghwbstudio.de gesen
     )
 
   } catch (error) {
-    const err = error as Error & { code?: string; response?: string; responseCode?: number }
-    console.error('E-Mail-Fehler:', {
-      message: err.message,
-      code: err.code,
-      response: err.response,
-      responseCode: err.responseCode,
-    })
+    console.error('E-Mail-Fehler:', error)
     return NextResponse.json(
       { error: 'Fehler beim Senden der E-Mail. Bitte versuchen Sie es später erneut.' },
       { status: 500 }
